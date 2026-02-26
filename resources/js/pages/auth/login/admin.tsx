@@ -1,3 +1,5 @@
+import { Head } from "@inertiajs/react";
+
 /**
  * Admin Login
  * 
@@ -10,17 +12,20 @@
  */
 export default function AdminLogin() {
     return (
-        <div className="login-form-container">
-            <div>
-                <center> <img src="aguanacasa_logo_blue.png" width="200px"></img></center>
-                <header>Admin Login</header>
-                <form id="admin-login-form">
-                    <input type="text" id="email" placeholder="Email"></input>
-                    <input type="password" id="password" placeholder="Password"></input>
-                    <input type="button" className="button" value="Login"></input>
-                </form>
+        <>
+            <Head title="Admin Login | Agua Na Casa"></Head>
+            <div className="login-form-container">
+                <div>
+                    <center> <img src="aguanacasa_logo_blue.png" width="200px"></img></center>
+                    <header>Admin Login</header>
+                    <form id="admin-login-form">
+                        <input type="text" id="email" placeholder="Email"></input>
+                        <input type="password" id="password" placeholder="Password"></input>
+                        <input type="button" className="button" value="Login"></input>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 
