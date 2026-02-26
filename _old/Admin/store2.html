@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Photo Gallery</title>
+  <link rel="stylesheet" href="test2.css">
+</head>
+<body>
+  <h1>Photo Gallery</h1>
+
+  <!-- Table to display the photos and descriptions -->
+  <table id="photoTable">
+    <thead>
+      <tr>
+        <th>Photo</th>
+        <th>Description</th>
+        <th>Replace Photo</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- Include necessary libraries, e.g., jQuery and Firebase SDK -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+  <script>
+    // Replace the following with your own Firebase project credentials
+    var firebaseConfig = {
+        apiKey: "AIzaSyAzStYODU-4-Vp1leWyKN9GmNhPu8219Xg",
+            authDomain: "aguanacasa-74ba1.firebaseapp.com",
+            databaseURL: "https://aguanacasa-74ba1-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "aguanacasa-74ba1",
+            storageBucket: "aguanacasa-74ba1.appspot.com",
+            messagingSenderId: "994613822213",
+            appId: "1:994613822213:web:cce7bb901241d564b36d6c",
+            measurementId: "G-3HYBS92MND"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Reference to the Firebase storage and database
+    var storage = firebase.storage();
+    var storageRef = storage.ref();
+    var database = firebase.database();
+
+    // Fetch data from Firebase and populate the photo table
+    var photoTableBody = document.querySelector('#photoTable tbody');
+    database.ref('photos').on('value', function(snapshot) {
+      photoTableBody.innerHTML = ''; // Clear the previous content
+
+      snapshot.forEach(function(childSnapshot) {
+        var photoData = childSnapshot.val();
+        var photoURL = photoData.url;
+        var photoDesc = photoData.description;
+        var photoKey = childSnapshot.key;
+
+        // Create a row for each photo in the table
+        var row = document.createElement('tr');
+
+        // Column for the photo
+        var photoCell = document.createElement('td');
+        var photoElement = document.createElement('img');
+        photoElement.src = photoURL;
+        photoElement.alt = photoDesc;
+        photoCell.appendChild(photoElement);
+        row.appendChild(photoCell);
+
+        // Column for the description
+        var descriptionCell = document.createElement('td');
+        descriptionCell.textContent = photoDesc;
+        row.appendChild(descriptionCell);
+
+        // Column for replacing the photo
+        var replaceCell = document.createElement('td');
+        var replaceInput = document.createElement('input');
+        replaceInput.type = 'file';
+        replaceInput.accept = 'image/*';
+        replaceCell.appendChild(replaceInput);
+        row.appendChild(replaceCell);
+
+        // Column for the actions
+        var actionsCell = document.createElement('td');
+
+        // Edit button
+        var editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.addEventListener('click', function() {
+          editPhoto(photoKey, photoDesc);
+        });
+        actionsCell.appendChild(editButton);
+
+        // Replace button
+        var replaceButton = document.createElement('button');
+        replaceButton.textContent = 'Replace';
+        replaceButton.addEventListener('click', function() {
+          replacePhoto(photoKey, replaceInput);
+        });
+        actionsCell.appendChild(replaceButton);
+
+        row.appendChild(actionsCell);
+
+        photoTableBody.appendChild(row);
+      });
+    });
+
+    // Function to handle photo editing
+    function editPhoto(key, currentDescription) {
+      var newDescription = prompt('Edit the description:', currentDescription);
+
+      if (newDescription !== null) {
+        // Update the description in the Firebase database
+        database.ref('photos/' + key).update({
+          description: newDescription
+        });
+      }
+    }
+
+    // Function to handle photo replacement
+    function replacePhoto(key, replaceInput) {
+      var file = replaceInput.files[0];
+
+      if (file) {
+        var fileRef = storageRef.child('photos/' + key + '_' + file.name);
+        fileRef.put(file).then(function(snapshot) {
+          // Get the download URL of the uploaded photo
+          snapshot.ref.getDownloadURL().then(function(downloadURL) {
+            // Update the photo URL in the Firebase database
+            database.ref('photos/' + key).update({
+              url: downloadURL
+            });
+
+            console.log('Photo replaced successfully!');
+          });
+        }).catch(function(error) {
+          console.error('Error replacing photo:', error);
+        });
+      }
+    }
+  </script>
+</body>
+</html>

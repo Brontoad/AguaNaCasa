@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Supplier Side</title>
+    <style>
+        h1{
+            margin-left: 10%;
+        }
+        #ordersdiv, #ordershisdiv{
+            background-color: #19A7CE;
+            width: 80%;
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 2%;
+        }
+        #orderstable, #ordershistable{
+            width: 100%;
+        }
+        #orderstable, #ordershistable th{
+            color: aliceblue;
+        }
+        header{
+            width: 80%;
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 40px;
+        }
+        header button{
+            float: right; 
+            width: 130px;
+            height: 40px;
+            margin-top: 40px;
+            background-color: #19A7CE;
+            border: #19A7CE;
+            color: aliceblue;
+            font-size: 20px;
+            border-radius: 10px;
+        }
+        header button:hover{
+            font-weight: bold;
+            transition: 0.3s ease-in;
+        }
+         /* The switch - the box around the slider */
+        .switch {
+        margin-left: 10%;
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        }
+
+        /* The slider */
+        .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+        }
+
+        .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+        }
+
+        input:checked + .slider {
+        background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+        border-radius: 34px;
+        }
+
+        .slider.round:before {
+        border-radius: 50%;
+        }
+        .swit{
+            display: flex;
+        }
+        .swit p{
+            margin-left: 10px;
+        }
+        .sorter{
+            display: flex;
+            width: 900px;
+            margin-left: 10%;
+        }
+        .sorter button{
+            width: 70px;
+            background-color: #19A7CE;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-left: 5px;
+            padding-right: 5px;
+            color: aliceblue;
+            border-radius: 5px;
+            border: #19A7CE;
+            margin-left: 10px;
+        }
+        .sorter select{
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="aguanacasa_logo_blue.png" width="100px"><button>Logout</button>
+    </header>
+    <div class="swit">
+        <label class="switch">
+            <input type="checkbox">
+            <span class="slider round"></span>
+          </label>
+          <p>Your account is currently ""</p>
+    </div>
+    <H1>Active Orders</H1>
+    <div id="ordersdiv">
+        <table border="0" id="orderstable">
+            <th>OrderID</th>
+            <th>Customer</th>
+            <th>Quantity</th>
+            <th>Location</th>
+            <th>Type</th>
+            <th>Total Price</th>
+            <th>Sub Or Instant</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </table>
+    </div>
+    <H1>Orders History</H1>
+    <div class="sorter">Sort by month :
+        <select>
+            <option>Select month</option>
+            <option>Station 1</option>
+            <option>Station 2</option>
+            <option>Station 3</option>
+            <option>Station 4</option>
+        </select>  
+        Sort by date : <input type="date">
+        <button>sort</button>
+    </div>
+    <div id="ordershisdiv">
+        <table border="0" id="ordershistable">
+            <th>OrderID</th>
+            <th>Customer</th>
+            <th>Quantity</th>
+            <th>Location</th>
+            <th>Type</th>
+            <th>Total Price</th>
+            <th>Sub Or Instant</th>
+            <th>Status</th>
+        </table>
+    </div>
+    
+</body>
+</html>

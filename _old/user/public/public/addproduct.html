@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Add Product</title>
+</head>
+<body>
+    <div class="container">
+        <!-- Add New Unit Button -->
+        <button id="GoBack">Go back to Admin Page</button>
+  
+        <h1>Add New Unit</h1>
+        
+        <div class="form-container"> <!-- Add wrapper div for the form -->
+        <form id="photoForm">
+          <label for="photoFile">Photo:</label>
+          <input type="file" id="photoFile" accept="image/*" required>
+  
+          <label for="photoDesc">Description:</label>
+          <textarea id="photoDesc" required></textarea>
+  
+          <label for="additionalDesc">Additional Description:</label>
+          <textarea id="additionalDesc" required></textarea>
+  
+          <label for="price">Price:</label>
+          
+          <input type="number" id="price" required>
+  
+          <label for="profit">Profit:</label>
+          <input type="number" id="profit" required> <!-- Added profit input field -->
+  
+          <input type="submit" value="Save">
+        </form>
+  
+  
+        <script>
+          document.getElementById('GoBack').addEventListener('click', function () {
+            window.location.href = 'AdminDashBoard.html'; // Replace 'admin.html' with the correct URL of the Admin Page
+          });
+  
+          document.getElementById('profitp').addEventListener('click', function () {
+            window.location.href = 'profit.html';
+          });
+          document.getElementById('useraccount').addEventListener('click', function () {
+            window.location.href = 'useraccount.html';
+          });
+          document.getElementById('cartorderstable').addEventListener('click', function () {
+            window.location.href = 'cartorderstable.html';
+          });
+        </script>
+  
+        <!-- Include necessary libraries, e.g., jQuery and Firebase SDK -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+        <script>
+          // Replace the following with your own Firebase project credentials
+          var firebaseConfig = {
+            apiKey: "AIzaSyAzStYODU-4-Vp1leWyKN9GmNhPu8219Xg",
+            authDomain: "aguanacasa-74ba1.firebaseapp.com",
+            databaseURL: "https://aguanacasa-74ba1-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "aguanacasa-74ba1",
+            storageBucket: "aguanacasa-74ba1.appspot.com",
+            messagingSenderId: "994613822213",
+            appId: "1:994613822213:web:cce7bb901241d564b36d6c",
+            measurementId: "G-3HYBS92MND"
+          };
+  
+          // Initialize Firebase
+          firebase.initializeApp(firebaseConfig);
+  
+          // Reference to the Firebase storage and database
+          var storage = firebase.storage();
+          var storageRef = storage.ref();
+          var database = firebase.database();
+  
+          // Handle form submission
+          $('#photoForm').submit(function(e) {
+            e.preventDefault(); // Prevent default form submission
+  
+            // Get the file, descriptions, and price
+            var file = $('#photoFile')[0].files[0];
+            var description = $('#photoDesc').val();
+            var additionalDesc = $('#additionalDesc').val();
+            var price = $('#price').val();
+            var profit = parseInt($('#profit').val()); // Parse profit as an integer
+  
+            // Create a unique filename for the photo (optional)
+            var filename = Date.now() + '_' + file.name;
+  
+            // Upload the photo to Firebase Storage
+            var uploadTask = storageRef.child('productsphotos/' + filename).put(file);
+  
+            // Listen for upload completion
+            uploadTask.on('state_changed',
+              null,
+              function(error) {
+                console.error('Error uploading photo:', error);
+              },
+              function() {
+                // Get the download URL of the uploaded photo
+                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                  // Save the photo URL, descriptions, price, and profit to the Firebase database
+                  var newPhotoRef = database.ref('productsphotos').push();
+                  newPhotoRef.set({
+                    url: downloadURL,
+                    description: description,
+                    additionalDesc: additionalDesc,
+                    price: price,
+                    profit: profit // Save profit to the database
+                  });
+  
+                  // Clear the form after successful submission
+                  $('#photoForm')[0].reset();
+  
+                  console.log('Photo uploaded and descriptions saved successfully!');
+                });
+              }
+            );
+          });
+        </script>
+      </div>
+    </body>
+</body>
+</html>

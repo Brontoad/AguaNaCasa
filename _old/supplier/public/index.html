@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap" rel="stylesheet">
+  <title>AguaNaCasa - Supplier Login & Registration Form</title>
+  <!-- Custom CSS File -->
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<style>
+  /* Reset some default styles */
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+  }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #91C8E4, #19A7CE);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container {
+    margin-bottom: 100px;
+    margin-top: 100px;
+    max-width: 430px;
+    width: 100%;
+    background: #fff;
+    border-radius: 7px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+  }
+
+  .form {
+    padding: 2rem;
+  }
+
+  header {
+    font-size: 2rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input {
+    height: 60px;
+    padding: 0 15px;
+    font-size: 17px;
+    margin-bottom: 1.3rem;
+    font-family: 'Nunito Sans', sans-serif;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+  }
+
+  input:focus {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .signup {
+    font-size: 17px;
+    text-align: center;
+  }
+
+  label {
+    color: #19A7CE;
+    cursor: pointer;
+  }
+
+  label:hover {
+    text-decoration: underline;
+  }
+
+  .button {
+    color: #fff;
+    background: #91C8E4;
+    font-size: 1.2rem;
+    font-weight: 500;
+    font-family: 'Nunito Sans', sans-serif;
+    letter-spacing: 1px;
+    margin-top: 1.7rem;
+    cursor: pointer;
+    transition: 0.4s;
+  }
+
+  .button:hover {
+    background: #19A7CE;
+  }
+  #asklog{
+    padding: 10px 10px;
+  }
+  .registration.form {
+    display: none; /* Hide the registration form by default */
+    padding: 30px 30px;
+  }
+
+  /* Additional CSS for the signup form */
+  .registration.form form {
+    margin-top: 20px;
+  }
+
+  .registration.form .input-field label {
+    color: #19A7CE;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+
+  .registration.form input[type="text"],
+  .registration.form input[type="password"],
+  .registration.form input[type="date"],
+  .registration.form input[type="number"],
+  .registration.form input[type="file"] {
+    height: 40px;
+    padding: 0 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+    width: 93%;}
+  .registration.form input[type="tel"]{
+      height: 50px;
+    font-size: 16px;
+      width: 90%;
+    }
+    .registration.form select{
+      width: 100%;
+      height: 30px;
+      font-size: 16px;
+      padding: 0 10px;
+    }
+</style>
+
+<body>
+  <div class="container">
+    
+    <div class="login form">
+      <center> <img src="aguanacasa_logo_blue.png" width="200px"></center>
+      <header>Supplier Login</header>
+      <form id="loginForm">
+        <input type="text" id="email" placeholder="Enter your email">
+        <input type="password" id="password" placeholder="Enter your password">
+        <input type="button" class="button" value="Login" onclick="login()">
+      </form>
+    </div>
+    
+  </div>
+  <!-- Your Firebase configuration here -->
+<script>
+  // Initialize Firebase with your own configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCl_4TZUZIn-wAyyDtGTofeQ6N_CI0zI3g",
+
+  authDomain: "aguasupplier.firebaseapp.com",
+
+  projectId: "aguasupplier",
+
+  storageBucket: "aguasupplier.appspot.com",
+
+  messagingSenderId: "12481906354",
+
+  appId: "1:12481906354:web:f1450149babf26472c6bab",
+
+  measurementId: "G-RL4Y58GXLH"
+
+
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const database = firebase.database();
+
+  const loginForm = document.querySelector(".login.form");
+  const signupForm = document.querySelector(".registration.form");
+  const loginLabel = document.getElementById("loginLabel");
+  const signupLabel = document.getElementById("signupLabel");
+
+  loginLabel.addEventListener("click", () => {
+    loginForm.style.display = "block";
+    signupForm.style.display = "none";
+  });
+
+  signupLabel.addEventListener("click", () => {
+    loginForm.style.display = "none";
+    signupForm.style.display = "block";
+  });
+
+  function signup() {
+  const signupEmail = document.getElementById("signupEmail").value;
+  const signupPassword = document.getElementById("signupPass").value;
+  const fullName = document.getElementById("fullName").value;
+  const dateOfBirth = document.getElementById("dateOfBirth").value;
+  const mobileNumber = document.getElementById("mobileNumber").value;
+  const gender = document.getElementById("gender").value;
+  const occupation = document.getElementById("occupation").value;
+  const idType = document.getElementById("idType").value;
+  const idNumber = document.getElementById("idNumber").value;
+  const issuedAuthority = document.getElementById("issuedAuthority").value;
+  const issuedState = document.getElementById("issuedState").value;
+  const issuedDate = document.getElementById("issuedDate").value;
+  const expiryDate = document.getElementById("expiryDate").value;
+  const homeAddress = document.getElementById("homeAddress").value;
+  const locationPhotoInput = document.getElementById("locationPhoto");
+  const homeContactNumber = document.getElementById("homeContactNumber").value;
+
+  // Get the selected file from the input field
+  const locationPhotoFile = locationPhotoInput.files[0];
+
+  // Perform Firebase authentication
+  auth.createUserWithEmailAndPassword(signupEmail, signupPassword)
+    .then((userCredential) => {
+      const userId = userCredential.user.uid;
+
+      // Save all the user data to the Realtime Database
+      const userData = {
+        fullName: fullName,
+        dateOfBirth: dateOfBirth,
+        mobileNumber: mobileNumber,
+        gender: gender,
+        occupation: occupation,
+        idType: idType,
+        idNumber: idNumber,
+        issuedAuthority: issuedAuthority,
+        issuedState: issuedState,
+        issuedDate: issuedDate,
+        expiryDate: expiryDate,
+        homeAddress: homeAddress,
+        homeContactNumber: homeContactNumber,
+      };
+
+      // Upload the location photo to Firebase Storage
+      const storageRef = firebase.storage().ref();
+      const locationPhotoRef = storageRef.child(`location_photos/${userId}_${Date.now()}_${locationPhotoFile.name}`);
+      
+      locationPhotoRef.put(locationPhotoFile)
+        .then((snapshot) => {
+          // Get the download URL of the uploaded photo
+          return snapshot.ref.getDownloadURL();
+        })
+        .then((downloadURL) => {
+          // Add the location photo URL to the user data
+          userData.locationPhoto = downloadURL;
+
+          // Save the data under the user's ID
+          return database.ref("users/" + userId).set(userData);
+        })
+        .then(() => {
+          // Registration successful, do something with userCredential.user
+          alert("Registration successful");
+          console.log("Registration successful");
+          
+          // Clear the form
+          const signupFormElement = document.getElementById("signupForm");
+          signupFormElement.reset(); // This will reset all form fields
+        })
+        .catch((error) => {
+          // Handle errors that may occur during photo upload or database operations
+          alert("Error: " + error.message);
+          console.error("Error: " + error.message);
+          
+        });
+    })
+    .catch((error) => {
+      // Handle registration or authentication errors
+      alert("Registration error: " + error.message);
+      console.error("Registration error: " + error.message);
+      
+    });
+}
+function login() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                console.log('Login successful');
+                window.location.href = 'supplihome.html?name=' + email;
+            })
+            .catch((error) => {
+                alert(`Login failed: ${error.message}`);
+            });
+    }
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,568 @@
+<html>
+<html>
+<head>
+    <title>Agua na Casa</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* #welcome{ */
+            /* width: 20px; */
+            /* margin-top: 80px; */
+            /* margin-left: 60px; */
+            /* font-size: 500%; */
+            /* color: aqua; */
+        /* } */
+        #sitedescription{
+            width: 100px;
+            margin-left: 100px;
+            margin-right: 100px;
+            margin-top: 10px;
+        }
+        #icon1,#icon2,#icon3,#icon4{
+            width: 200px;
+            height: 200px;
+            
+        }
+        #menutablelanding{
+            width: 100%;
+            height: 30%;
+            margin-top: 150px;
+            margin-left: 0%;
+            margin-right: 0%;
+            align-items: center;
+            background-image: url(testbg.png);
+            
+          
+        }
+        a{
+            text-decoration: none;
+            color: #F6F1F1;
+        }
+        #chip1,#chip2,#chip3,#chip4,#chip5{
+            font-size: 150%;
+            color: #F6F1F1;
+           
+        }
+        #profilelogo{
+            /* margin-top: 30px; */
+            width: 100%;
+            /* margin-left: 40%; */
+            background-color: #19A7CE;
+            position:fixed;
+            z-index: 1100;
+            /* height: 70px; */
+            padding: 0;
+            box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+            -webkit-box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+            -moz-box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+
+        }
+        #ProfileLogoTable{
+            width: 100%;
+          
+        }
+        #fbLogo,#instLogo,#gmLogo{
+            width: 40px;
+            height: 40px;
+        }
+        #ContactsTable{
+            width: 20%;
+            margin-left:40%;
+            margin-right: 40%;
+            margin-bottom: 10%;
+            color: #F6F1F1;
+            
+        }
+        #goalsdes{
+            font-size: 30px;
+        }
+        body{
+            
+            background-color: #F6F1F1;
+            font-family: 'Nunito Sans', sans-serif;
+            margin: 0; 
+        }
+        #menutableland{
+            margin-top: -100px;
+            padding-bottom: 100px;
+            height: 180px;
+            box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+            -webkit-box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+            -moz-box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+            
+        }
+        th{
+            font-family: 'Nunito Sans', sans-serif;
+            
+        }
+        #AguaLogo{
+            width: 500px;
+            height: 500px ;
+            margin-left: 200px;
+            margin-right: 100px;
+        }
+        #Contacts{
+        
+        background-color: #19A7CE;
+        margin-top: 200px;
+
+        }
+        #P1,#P2,#P3,#P4{
+            padding-bottom: 50px;
+            color: #0b667f;
+            font-weight: 600;
+        }
+        .menu, .drop-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-item {
+            display: inline-block;
+            background-color: #19A7CE;
+            position: relative;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            padding: 6px 10px;
+            color: #fff;
+            display: block;
+        }
+
+        .drop-menu {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            min-width: 100px;
+            box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+        }
+
+        .drop-menu-item {
+            width: 100%;
+        }
+
+        .drop-menu-item:hover {
+            background-color: #eee;
+            
+        }
+
+        .drop-menu-item a {
+            color: #555;
+        }
+
+        .menu-item:hover .drop-menu {
+            display: block;
+        }
+        #dp{
+            font-size: 15px;
+        }
+        #footdescription{
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 10%;
+            color: black;
+            
+        }
+        #footertable{
+            width: 30%;
+            margin-left: 35%;
+            margin-right: 35%;
+            margin-bottom: 25px;
+            margin-top: -100px;
+        }
+        #FooterSayHi{
+            font-size: 150%;
+        }
+        #sign {
+            display: block; /* Show "Sign In" by default */
+        }
+        #LogoTableLand{
+         margin-top: 100px;
+        }
+        h1{
+            color: #19A7CE;
+            margin-top: 3%;
+        }
+        #stationtable {
+    width: 60%;
+    margin-top: 2%;
+    margin-left: 20%;
+    border-collapse: collapse;
+}
+
+#stationtable th, #stationtable td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+#stationtable th {
+    background-color: #19A7CE;
+    color: #fff;
+}
+
+#stationtable tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#stationtable tbody tr:hover {
+    background-color: #ccc;
+}
+
+#stationtable button {
+    background-color: #19A7CE;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#stationtable button:hover {
+    background-color: #115a6e;
+}
+
+    </style>
+
+
+    
+    
+    
+    
+</head>
+<body>
+
+    <div id="profilelogo">
+        
+        <table id="ProfileLogoTable" border="0" >
+            <th><a href="index.html" class="forward-email"><img src="aguanacasa_logo_white.png"  id="AguaLogoWhite" style="width:60px; height: 60px;"></a></th>
+            <th id="chip1"><a href="AguanaCasaAbout.html" class="forward-email">About</a></th>
+            <th id="chip2">
+                <div class="menu-wrap">
+                <ul class="menu">
+                    <li class="menu-item">
+                        <a href="product.html" id="pp" class="forward-email">Products</a>    
+                    </li>
+                </ul>
+            </div>
+        </th>
+            <th id="chip5">
+                <div class="menu-wrap">
+                <ul class="menu">
+                    <li class="menu-item">
+                        <a href="#" id="pp">Services</a>
+                        <ul class="drop-menu">
+                            <li class="drop-menu-item">
+                                <a href="instant.html" id="dp" class="forward-email">Instant Delivery</a>
+                            </li>
+                            <li class="drop-menu-item">
+                                <a href="subs.html" id="dp" class="forward-email">Subscription</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            </th>
+            <th id="chip3">
+                <div class="menu-wrap">
+                    <ul class="menu">
+                        <li class="menu-item">
+                            <a href="#" id="pp">Career</a>
+                            <ul class="drop-menu">
+                                <li class="drop-menu-item">
+                                    <a href="AguaNaCasaOpportunities.html" id="dp" class="forward-email">Opportunities</a>
+                                </li>
+                                <li class="drop-menu-item">
+                                    <a href="AguanaCasaPartnership.html" id="dp" class="forward-email">Partnership</a>
+                                </li>
+                               
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </th>
+            <th id="chip5"><a id="myacc" class="forward-email" href="myaccount.html">My Account</a></th>
+            <th id="chip4"><a id="signInBtn" href="AguaNaCasaLogin.html">Sign In</a></th>
+            
+            <th id="logoutBtnContainer" style="display: none; font-size: 25px; padding: 20px 10px;" onclick="logout()"><a id="logoutBtn" ><a href="#">Logout</a></th>
+            <tr></tr>
+            
+        </table>
+    </div>
+    <br>
+    <div id="LogoTableLand">
+        <table >
+            <th><img src="landinglogo.png" id="AguaLogo"><th></th></th>
+            <td style= " width: 500px;">
+                <style>
+                    /* Slideshow container */
+                    .slideshow-container {
+                    width: 100%;
+                    position: relative;
+                    margin: auto;
+                    }
+    
+                    /* Caption text */
+                    .text {
+                    color: #f2f2f2;
+                    font-size: 15px;
+                    padding: 8px 12px;
+                    position: absolute;
+                    bottom: 8px;
+                    width: 100%;
+                    text-align: center;
+                    }
+    
+                    /* Number text (1/3 etc) */
+                    .numbertext {
+                    color: #f2f2f2;
+                    font-size: 12px;
+                    padding: 8px 12px;
+                    position: absolute;
+                    top: 0;
+                    }
+    
+                    /* The dots/bullets/indicators */
+                    .dot {
+                    height: 15px;
+                    width: 15px;
+                    margin: 0 2px;
+                    background-color: #bbb;
+                    border-radius: 50%;
+                    display: inline-block;
+                    transition: background-color 0.6s ease;
+                    }
+    
+                    .active {
+                    background-color: #717171;
+                    }
+    
+                    /* Fading animation */
+                    .fade {
+                    animation-name: fade;
+                    animation-duration: 1.5s;
+                    }
+    
+                    @keyframes fade {
+                    from {opacity: .4} 
+                    to {opacity: 1}
+                    }
+    
+                    /* On smaller screens, decrease text size */
+                    @media only screen and (max-width: 300px) {
+                    .text {font-size: 11px}
+                    }
+                </style>
+                <div class="slideshow-container" style="box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+                -webkit-box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+                -moz-box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);">
+                    <div class="mySlides fade">
+                    <div class="numbertext">1 / 4</div>
+                    <img src="slide1.png" style="width: 500px; height: 400px;">
+                  
+                    </div>
+    
+                    <div class="mySlides fade">
+                    <div class="numbertext">2 / 4</div>
+                    <img src="slide2.png" style="width: 500px; height: 400px;">
+                 
+                    </div>
+    
+                    <div class="mySlides fade">
+                    <div class="numbertext">3 / 4</div>
+                    <img src="slide3.png" style="width: 500px; height: 400px;">
+                
+                    </div>
+
+                    <div class="mySlides fade">
+                    <div class="numbertext">4 / 4</div>
+                    <img src="slide4.png" style="width: 500px; height: 400px;">
+                
+                    </div>
+                </div>
+                <br>
+    
+                <div style="text-align: center">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <script>
+                    let slideIndex = 0;
+                    showSlides();
+                    
+                    function showSlides() {
+                      let i;
+                      let slides = document.getElementsByClassName("mySlides");
+                      let dots = document.getElementsByClassName("dot");
+                      for (i = 0; i < slides.length; i++) {
+                        slides[i].style.display = "none";  
+                      }
+                      slideIndex++;
+                      if (slideIndex > slides.length) {slideIndex = 1}    
+                      for (i = 0; i < dots.length; i++) {
+                        dots[i].className = dots[i].className.replace(" active", "");
+                      }
+                      slides[slideIndex-1].style.display = "block";  
+                      dots[slideIndex-1].className += " active";
+                      setTimeout(showSlides, 4000); // Change image every 2 seconds
+                    }
+                    </script>
+                </td>
+    
+        </table>
+    </div>
+    <!-- <h1 id="welcome">Welcome!</h1><br> -->
+    
+    <div id="menutableland">
+    <table id="menutablelanding" border="0">
+        <th><img src="gallonwhite.png" id="icon1"></th>
+        <th><img src="storewhite.png"id="icon2"></th>
+        <th><img src="kidlatwhite.png" id="icon3"></th>
+        <th><img src="mapswhite.png" id="icon4"></th>
+        <tr></tr>
+        <th id="P1">Safe drinking water</th><th id="P2">Wide Selection of Water refilling stations</th><th id="P3">Fast Delivery</th><th id="P4">Easy access Locations</th>
+        <tr></tr>
+    </table>
+</div>
+<div>
+    <center><h1>Station Directory</h1></center>
+    <table id="stationtable">
+        <tr>
+            <th>Station Name</th>
+            <th>Address</th>
+            <th>Contact</th>
+        </tr>
+        <tr>
+            <td>Station 1</td>
+            <td>Guiwan, Sunrise</td>
+            <td>(555) 123-4567</td>
+        </tr>
+        <tr>
+            <td>Station 2</td>
+            <td>Guiwan, Daisy Road</td>
+            <td>(555) 987-6543</td>
+        </tr>
+        <tr>
+            <td>Station 3</td>
+            <td>Guiwan, Palmeras</td>
+            <td>(555) 321-6789</td>
+        </tr>
+        <tr>
+            <td>Station 4</td>
+            <td>Guiwan, Aurora</td>
+            <td>(555) 555-5555</td>
+        </tr>
+    </table>
+    <center><p>More Stations in the future! Stay tuned.</p></center>
+    
+</div>
+<div id="Contacts">
+
+    <table id="ContactsTable" border="0">
+
+        <th id="LaundryFooter" colspan="6">Laundry</th><tr></tr>
+        <th colspan="6" id="FooterSayHi">Say Hi! Get In Touch</th><tr></tr>
+        <th colspan="2"><a href="https://www.facebook.com/profile.php?id=61553275585756&mibextid=ZbWKwL"><img src="fblogowhite.png" id="fbLogo"></a></th><th colspan="2"><a  href="aguanacasa@gmail.com"><img src="Gmail_Logo_512px.png" id="gmLogo"></a></th><tr></tr>
+        
+
+    </table>
+
+
+</div>
+    <div id="footerdes">
+        <table id="footertable" border="0">
+            <th id="footerdescription">&#169 2023, Agua na Casa, All right reserved</th>
+        </table>
+
+    </div>
+    
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyAzStYODU-4-Vp1leWyKN9GmNhPu8219Xg",
+            authDomain: "aguanacasa-74ba1.firebaseapp.com",
+            databaseURL: "https://aguanacasa-74ba1-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "aguanacasa-74ba1",
+            storageBucket: "aguanacasa-74ba1.appspot.com",
+            messagingSenderId: "994613822213",
+            appId: "1:994613822213:web:cce7bb901241d564b36d6c",
+            measurementId: "G-3HYBS92MND"
+        };
+        firebase.initializeApp(firebaseConfig);
+        // Function to hide or show the Sign In and Logout buttons
+        function toggleButtons(isLoggedIn) {
+            const signInBtn = document.getElementById('signInBtn');
+            const logoutBtnContainer = document.getElementById('logoutBtnContainer');
+    
+            if (isLoggedIn) {
+                signInBtn.style.display = 'none'; // Hide Sign In
+                logoutBtnContainer.style.display = 'block'; // Show Logout
+            } else {
+                signInBtn.style.display = 'block'; // Show Sign In
+                logoutBtnContainer.style.display = 'none'; // Hide Logout
+            }
+        }
+    
+        // Example Firebase code for logging out
+        function logout() {
+            firebase.auth().signOut().then(function() {
+                // Sign-out successful, you can redirect the user to the login page
+                window.location.href = "AguaNaCasaLogin.html";
+            }).catch(function(error) {
+                // An error happened.
+                console.error("Logout error: " + error);
+            });
+        }
+    
+        document.addEventListener("DOMContentLoaded", function() {
+            const emailParam = getParameterByName('name');
+    
+            // Check if the 'name' parameter is present
+            if (emailParam) {
+                toggleButtons(true); // User is logged in, so hide Sign In and show Logout
+                modifyLinks(emailParam);
+            } else {
+                toggleButtons(false); // User is not logged in, so show Sign In and hide Logout
+            }
+        });
+    
+        // Function to get the value of a URL parameter by its name
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            var results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+    
+        // Function to modify links to forward the email parameter
+        function modifyLinks(email) {
+            const links = document.querySelectorAll('.forward-email');
+    
+            links.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const href = link.getAttribute('href');
+                    if (email) {
+                        window.location.href = `${href}?name=${email}`;
+                    } else {
+                        window.location.href = href;
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
