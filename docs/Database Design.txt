@@ -1,0 +1,48 @@
+user
+-username
+-email
+-location
+-contact number
+-user type (client, station, rider, admin)
+
+station
+-name
+-email
+-location
+-contact number
+-owner
+-riders
+-orders
+-products
+-subscribers
+ 
+rider
+-plate_number
+-vehicle
+-station
+-orders
+
+order
+-order_items
+-order_histories
+-station
+-client
+-status (waiting for confirmation, to pick-up, refilling, on-delivery, completed, cancelled)
+
+order_item
+-product
+-quantity
+-price
+
+order_history
+-description
+-datetime
+
+subscription
+-estimated time for pickup
+-station
+-user (subscriber)
+-orders
+
+product
+-name
