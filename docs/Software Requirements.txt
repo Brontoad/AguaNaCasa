@@ -1,0 +1,50 @@
+User
+-create order
+-track order status
+-cancel order
+-view all orders
+-manage subscriptions
+    -delete subscriptions
+    -create subscription
+    -update subscription
+-select station to subscribe
+-edit user information
+
+Station Owner
+-manage station
+    -edit station information
+-manage orders
+    -confirm order
+    -cancel order
+    -refill order
+    -pick up order
+    -deliver order
+    -complete order
+-manage riders
+    -CRUD riders
+    -assign rider for delivery
+-manage subscriptions
+    -confirm subscription
+    -cancel subscription
+    -delete subscription
+    -update subscription
+-track delivery
+-edit product availability
+
+Rider
+-view all orders assigned to them
+-track user location
+-deliver order
+
+Admin
+-manage stations
+-manage orders
+-manage riders
+-manage users
+-manage product
+-manage subscriptions
+
+Subscriptions
+-billing
+-2 months to pay
+-suspend account, or report

@@ -1,0 +1,44 @@
+Instant Ordering
+-user select station
+-user select product
+-user create order
+-station accept user's order
+-rider pickup
+-rider deliver refilled water
+-station finish order
+
+Cancel Ordering
+-user/station cancel order in the pending order
+
+Cancel Subscription
+-user cancel subscription in the pending subscription
+
+Subscribing
+-user select station
+-user create subscription
+-station accept user's subscription
+-rider pickup
+-rider create order from subscription (with status already in confirmed, picked up, and status alredy in refilling status)
+-rider deliver refilled water
+-station finish order
+-process would repeat for the remainder of subscription
+
+**Station Management
+Edit Products
+-edit what products are available or not
+-edit the price of the product
+
+Update Subscription of the Station
+-station pay for the subscription of the application
+-if not paid, disable the account
+
+Frontend:
+Dashboard
+
+
+Station Management
+Ordering
+Subscribing
+Delivery
+Sales
+Report
