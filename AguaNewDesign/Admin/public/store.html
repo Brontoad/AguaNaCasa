@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<style>
+    body {
+        font-family: 'Nunito Sans', sans-serif;
+        margin: 0;
+    }
+
+    h2, h1 {
+        color: #055871;
+        margin-top: 10%;
+        margin-left: 10%;
+    }
+
+    #table-wrapper {
+        height: 500px;
+        width: 80%;
+        padding: 0;
+        margin: 10px auto 10px auto;
+        margin-left: 10%;
+        overflow: auto;
+    }
+    /* #header{
+        position: sticky;
+        width: 80%;
+        z-index: 1100;
+        
+    } */
+
+    table {
+        width: 80%;
+        margin-left: 10%;
+        border-collapse: collapse;
+        margin-bottom: 100px;
+        
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    table th,
+    table td {
+        padding: 12px 15px;
+        border: 1px solid #e0e0e0;
+    }
+
+    table th {
+        background-color: #19A7CE;
+        color: #fff;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    table tr:nth-child(odd) {
+        background-color: #f2f2f2;
+    }
+
+    table tr:hover {
+        background-color: #e0e0e0;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: center;
+        position: sticky;
+        z-index: 1100;
+        width: 100%;
+        height: 70px;
+    }
+
+    ul.navbar {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #19A7CE;
+    }
+
+    li.nav-item {
+        float: left;
+    }
+
+    li.nav-item a {
+        font-size: 30px;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+    li.nav-item a:hover {
+        background-color: #055871;
+    }
+
+    button {
+        background-color: #19A7CE;
+        color: #fff;
+        border: none;
+        padding: 6px 12px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #147592;
+    }
+    #addgroup{
+        margin-left: 10%;
+    }
+</style>
+<body>
+    <ul class="navbar">
+        <ul class="navbar">
+            <li class="nav-item"><a href="home.html">Home</a></li>
+            <li class="nav-item"><a href="logs.html">Logs</a></li>
+            <li class="nav-item"><a href="users.html">Users</a></li>
+            <li class="nav-item"><a href="store.html">Store</a></li>
+            <li class="nav-item"><a href="index.html">Logout</a></li>
+            
+        </ul>
+    </ul>
+    <h1>Product Management</h1>
+    <table id="products">
+        <tr>    
+            <th>Product</th>
+            <th>Photo</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+        <!-- Table rows will be added here dynamically -->
+        <div id="addgroup">
+            <input type="file" id="photoUpload" accept="image/*">
+            <input type="text" id="productNameInput" placeholder="Enter product name">
+            <input type="text" id="priceInput" placeholder="Enter new price">
+            <button onclick="uploadPhotoAndPrice()">Upload Photo and Update Price</button>
+        </div>
+    </table>
+
+    <!-- File input for uploading photos -->
+    <!-- Input field for product name -->
+    
+    
+    <!-- File input for uploading photos -->
+    
+
+    
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAzStYODU-4-Vp1leWyKN9GmNhPu8219Xg",
+            authDomain: "aguanacasa-74ba1.firebaseapp.com",
+            databaseURL: "https://aguanacasa-74ba1-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "aguanacasa-74ba1",
+            storageBucket: "aguanacasa-74ba1.appspot.com",
+            messagingSenderId: "994613822213",
+            appId: "1:994613822213:web:cce7bb901241d564b36d6c",
+            measurementId: "G-3HYBS92MND"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Get a reference to the products table in the database
+        const productsRef = firebase.database().ref('products');
+
+        // Function to upload photo, price, and product name
+        function uploadPhotoAndPrice() {
+            const file = document.getElementById('photoUpload').files[0];
+            const price = document.getElementById('priceInput').value;
+            const productName = document.getElementById('productNameInput').value; // Prompt user for product name
+
+            // Check if product name is entered
+            if (productName && productName.trim() !== "") {
+                // Upload photo to Firebase Storage
+                const storageRef = firebase.storage().ref('product_photos/' + file.name);
+                storageRef.put(file).then(function (snapshot) {
+                    console.log('Photo uploaded successfully!');
+
+                    // Get the download URL of the uploaded photo
+                    storageRef.getDownloadURL().then(function (photoUrl) {
+                        // Add product data (product name, photo URL, and price) to the database
+                        productsRef.push({
+                            productName: productName,
+                            photo: photoUrl,
+                            price: price
+                        });
+                    }).catch(function (error) {
+                        console.error('Error getting download URL: ', error);
+                    });
+                }).catch(function (error) {
+                    console.error('Error uploading photo: ', error);
+                });
+            } else {
+                console.error('Product name is required!');
+            }
+        }
+
+        // Listen for changes in the products data and update the table dynamically
+        productsRef.on('value', function (snapshot) {
+            const productsTable = document.getElementById('products');
+            productsTable.innerHTML = '<tr><th>Product</th><th>Photo</th><th>Price</th><th>Actions</th></tr>';
+
+            snapshot.forEach(function (childSnapshot) {
+                const productData = childSnapshot.val();
+                const productName = productData.productName;
+                const productPhoto = productData.photo;
+                const productPrice = productData.price;
+
+                const newRow = productsTable.insertRow();
+                newRow.innerHTML = `
+                    <td>${productName}</td>
+                    <td><img src="${productPhoto}" alt="${productName}" style="width: 100px;"></td>
+                    <td>${productPrice}</td>
+                    <td>
+                        <button onclick="editPrice('${productName}')">Edit Price</button>
+                        <button onclick="editProductName('${productName}')">Edit Product Name</button>
+                        <input type="file" id="newPhotoInput${productName}" accept="image/*">
+                        <button onclick="replacePhoto('${productName}')">Replace Photo</button>
+                    </td>
+                `;
+            });
+        });
+        // Function to edit product price
+        function editPrice(productName) {
+            const newPrice = prompt('Enter the new price:');
+            if (newPrice !== null) {
+                productsRef.child(productName).update({
+                    price: newPrice
+                });
+            }
+        }
+        function editProductName(productName) {
+            const newProductName = prompt('Enter the new product name:');
+            if (newProductName !== null) {
+                const productRef = productsRef.child(productName);
+                productRef.once('value').then(function(snapshot) {
+                    const productData = snapshot.val();
+                    const updates = {};
+                    updates[newProductName] = {
+                        photo: productData.photo,
+                        price: productData.price
+                    };
+                    productRef.remove().then(function() {
+                        productsRef.update(updates);
+                    }).catch(function(error) {
+                        console.error('Error removing product: ', error);
+                    });
+                }).catch(function(error) {
+                    console.error('Error getting product data: ', error);
+                });
+            }
+        }
+
+        function replacePhoto(productName) {
+            const fileInput = document.getElementById('newPhotoInput' + productName);
+            const file = fileInput.files[0];
+
+            console.log('Replacing photo for product:', productName);
+            console.log('Selected file:', file);
+
+            if (file) {
+                // Get the current product data
+                const productRef = productsRef.child(productName);
+                productRef.once('value').then(function(snapshot) {
+                    const productData = snapshot.val();
+                    console.log('Current product data:', productData);
+
+                    const previousPhotoUrl = productData.photo;
+
+                    // Delete the previous photo from Firebase Storage
+                    if (previousPhotoUrl) {
+                        const previousPhotoRef = firebase.storage().refFromURL(previousPhotoUrl);
+                        previousPhotoRef.delete().then(function() {
+                            console.log('Previous photo deleted successfully!');
+                        }).catch(function(error) {
+                            console.error('Error deleting previous photo: ', error);
+                        });
+                    }
+
+                    // Upload new photo to Firebase Storage
+                    const storageRef = firebase.storage().ref('product_photos/' + file.name);
+                    storageRef.put(file).then(function(snapshot) {
+                        console.log('New photo uploaded successfully!');
+
+                        // Get the download URL of the uploaded photo
+                        storageRef.getDownloadURL().then(function(photoUrl) {
+                            // Update product data (photo URL) in the database
+                            productRef.update({
+                                photo: photoUrl
+                            }).then(function() {
+                                console.log('Product photo updated successfully!');
+                            }).catch(function(error) {
+                                console.error('Error updating product photo: ', error);
+                            });
+                        }).catch(function(error) {
+                            console.error('Error getting download URL: ', error);
+                        });
+                    }).catch(function(error) {
+                        console.error('Error uploading new photo: ', error);
+                    });
+                }).catch(function(error) {
+                    console.error('Error fetching product data: ', error);
+                });
+            } else {
+                console.error('No file selected!');
+            }
+        }
+
+
+
+    </script>
+</body>
+
+</html>

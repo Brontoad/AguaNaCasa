@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Boy Account</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+
+                @media only screen and (max-width: 600px)
+    {
+
+        header {
+            width: 80%;
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 40px;
+        }
+        header button{
+            float: right; 
+            width: 130px;
+            height: 40px;
+            margin-top: 40px;
+            background-color: #19A7CE;
+            border: #19A7CE;
+            color: aliceblue;
+            font-size: 20px;
+            border-radius: 10px;
+            
+        header button:hover{
+            font-weight: bold;
+            transition: 0.3s ease-in;
+        }
+         /* The switch - the box around the slider */
+        .switch {
+        margin-left: 10%;
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        }
+
+        /* The slider */
+        .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+        }
+
+        .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+        }
+
+        input:checked + .slider {
+        background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+        border-radius: 34px;
+        }
+
+        .slider.round:before {
+        border-radius: 50%;
+        }
+        .swit{
+            display: flex;
+        }
+        .swit p{
+            margin-left: 10px;
+        }
+        .sorter{
+            display: flex;
+            width: 900px;
+            margin-left: 10%;
+        }
+        .sorter button{
+            width: 70px;
+            background-color: #19A7CE;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-left: 5px;
+            padding-right: 5px;
+            color: aliceblue;
+            border-radius: 5px;
+            border: #19A7CE;
+            margin-left: 10px;
+        }
+        .sorter select{
+            margin-right: 10px;
+        }
+        body {
+        font-family: 'Nunito Sans', sans-serif;
+        margin: 0;
+    }
+
+    h2, h1 {
+        color: #055871;
+        margin-top: 2%;
+        margin-left: 10%;
+    }
+
+    #table-wrapper {
+        height: 500px;
+        width: 80%;
+        padding: 0;
+        margin: 10px auto 10px auto;
+        margin-left: 10%;
+        overflow: auto;
+    }
+    /* #header{
+        position: sticky;
+        width: 80%;
+        z-index: 1100;
+        
+    } */
+
+    table {
+        width: 90%;
+        margin-left: 5%;
+        border-collapse: collapse;
+        margin-bottom: 100px;
+        margin-right: 5%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    table th,
+    table td {
+        padding: 12px 15px;
+        border: 1px solid #e0e0e0;
+    }
+
+    table th {
+        background-color: #19A7CE;
+        color: #fff;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    table tr:nth-child(odd) {
+        background-color: #f2f2f2;
+    }
+
+    table tr:hover {
+        background-color: #e0e0e0;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: center;
+        position: sticky;
+        z-index: 1100;
+        width: 100%;
+        height: 70px;
+    }
+
+    ul.navbar {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #19A7CE;
+    }
+
+    li.nav-item {
+        float: left;
+    }
+
+    li.nav-item a {
+        font-size: 30px;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+    li.nav-item a:hover {
+        background-color: #055871;
+    }
+
+    button {
+        background-color: #19A7CE;
+        color: #fff;
+        border: none;
+        padding: 6px 20px;
+        height: 50px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border-radius: 20px;
+    }
+
+    button:hover {
+        background-color: #147592;
+    }
+    #addgroup{
+        margin-left: 10%;
+    }
+    .reqdiv{
+        background-color: #def1f6;
+        padding: 20px 20px;
+        width: 60%;
+        margin-left: 20%;
+        margin-right: 20%;
+        border-radius: 20px;
+        display: flex;
+        justify-content: space-around;
+    }
+        
+        }
+
+    }
+
+        /* h1{
+            margin-left: 10%;
+        }
+        #ordersdiv, #ordershisdiv{
+            background-color: #19A7CE;
+            width: 80%;
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 2%;
+        }
+        #orderstable, #ordershistable{
+            width: 100%;
+        }
+        #orderstable, #ordershistable th{
+            color: aliceblue;
+        } */
+        header{
+            width: 80%;
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-top: 40px;
+        }
+        header button{
+            float: right; 
+            width: 130px;
+            height: 40px;
+            margin-top: 40px;
+            background-color: #19A7CE;
+            border: #19A7CE;
+            color: aliceblue;
+            font-size: 20px;
+            border-radius: 10px;
+        }
+        header button:hover{
+            font-weight: bold;
+            transition: 0.3s ease-in;
+        }
+         /* The switch - the box around the slider */
+        .switch {
+        margin-left: 10%;
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        }
+
+        /* The slider */
+        .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+        }
+
+        .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+        }
+
+        input:checked + .slider {
+        background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+        border-radius: 34px;
+        }
+
+        .slider.round:before {
+        border-radius: 50%;
+        }
+        .swit{
+            display: flex;
+        }
+        .swit p{
+            margin-left: 10px;
+        }
+        .sorter{
+            display: flex;
+            width: 900px;
+            margin-left: 10%;
+        }
+        .sorter button{
+            width: 70px;
+            background-color: #19A7CE;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-left: 5px;
+            padding-right: 5px;
+            color: aliceblue;
+            border-radius: 5px;
+            border: #19A7CE;
+            margin-left: 10px;
+        }
+        .sorter select{
+            margin-right: 10px;
+        }
+        body {
+        font-family: 'Nunito Sans', sans-serif;
+        margin: 0;
+    }
+    #ordersdiv{
+        overflow-x: auto;
+    }
+
+    h2, h1 {
+        color: #055871;
+        margin-top: 2%;
+        margin-left: 10%;
+    }
+
+    #table-wrapper {
+        height: 500px;
+        width: 80%;
+        padding: 0;
+        margin: 10px auto 10px auto;
+        margin-left: 10%;
+        overflow: auto;
+    }
+    /* #header{
+        position: sticky;
+        width: 80%;
+        z-index: 1100;
+        
+    } */
+
+    table {
+        width: 80%;
+        margin-left: 10%;
+        border-collapse: collapse;
+        margin-bottom: 100px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    table th,
+    table td {
+        padding: 12px 15px;
+        border: 1px solid #e0e0e0;
+    }
+
+    table th {
+        background-color: #19A7CE;
+        color: #fff;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    table tr:nth-child(odd) {
+        background-color: #f2f2f2;
+    }
+
+    table tr:hover {
+        background-color: #e0e0e0;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: center;
+        position: sticky;
+        z-index: 1100;
+        width: 100%;
+        height: 70px;
+    }
+
+    ul.navbar {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #19A7CE;
+    }
+
+    li.nav-item {
+        float: left;
+    }
+
+    li.nav-item a {
+        font-size: 30px;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+    li.nav-item a:hover {
+        background-color: #055871;
+    }
+
+    button {
+        background-color: #19A7CE;
+        color: #fff;
+        border: none;
+        padding: 6px 20px;
+        height: 50px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border-radius: 20px;
+    }
+
+    button:hover {
+        background-color: #147592;
+    }
+    #addgroup{
+        margin-left: 10%;
+    }
+    .reqdiv{
+        background-color: #def1f6;
+        padding: 20px 20px;
+        width: 60%;
+        margin-left: 20%;
+        margin-right: 20%;
+        border-radius: 20px;
+        display: flex;
+        justify-content: space-around;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="aguanacasa_logo_blue.png" width="100px"><button onclick="logoutt()">Logout</button>
+        <ul class="navbar">
+            <li class="nav-item"><a href="Rider.html">Instant Orders</a></li>
+            <li class="nav-item"><a href="subsrider.html">Subscriptions</a></li>
+        </ul>
+        <script>
+            function logoutt(){
+                window.location.href = 'index.html';
+            }
+        </script>
+    </header>
+    <!-- <div class="swit">
+        <label class="switch">
+            <input type="checkbox">
+            <span class="slider round"></span>
+          </label>
+    </div> -->
+    <!-- <div class="reqdiv">
+        <div><button id="reqoff">Request Offline Mode</button></div><div><p>You can request to go offline and stop receiving orders, after finishing pending orders on your account</p></div>
+    </div> -->
+    <h1>Water Boy Account</h1>
+    <h1 id="ridername">Water boy name</h1>
+    <h2>Ongoing Orders</h2>
+    <div id="ordersdiv">
+        
+        <table id="orderstable" >
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Branch</th>
+                    <th>Email</th>
+                    <th>Quantity</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be added here dynamically -->
+            </tbody>
+        </table>
+    </div>
+    
+
+
+    <h1>Today's Completed Order</h1>
+    <div id="ordersdiv">
+        
+        <table id="completeorderstable">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Branch</th>
+                    <th>Email</th>
+                    <th>Quantity</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be added here dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+    <h1>Order Logs</h1>
+    <div id="ordersdiv">
+        
+        <table id="orderlogstable">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Branch</th>
+                    <th>Email</th>
+                    <th>Quantity</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be added here dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <h1>Note: Please contact admin for any problem and concerns. Call 09271715761</h1>
+    </div>
+
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAzStYODU-4-Vp1leWyKN9GmNhPu8219Xg",
+            authDomain: "aguanacasa-74ba1.firebaseapp.com",
+            databaseURL: "https://aguanacasa-74ba1-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "aguanacasa-74ba1",
+            storageBucket: "aguanacasa-74ba1.appspot.com",
+            messagingSenderId: "994613822213",
+            appId: "1:994613822213:web:cce7bb901241d564b36d6c",
+            measurementId: "G-3HYBS92MND"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        const database = firebase.database();
+        const ordersTableBody = document.querySelector("#orderstable tbody");
+        const completeordersTableBody = document.querySelector("#completeorderstable tbody");
+        const orderlogstable = document.querySelector("#orderlogstable tbody");
+
+        function populateOrdersTable() {
+            const instantOrdersRef = database.ref("instantOrders");
+            instantOrdersRef.on("value", function(snapshot) {
+                ordersTableBody.innerHTML = ""; // Clear existing table rows
+
+                snapshot.forEach(function(childSnapshot) {
+                    const order = childSnapshot.val();
+                    const orderId = childSnapshot.key;
+
+                    // Check if the order status is "processed"
+                    if (order.status === "processed") {
+                        const row = ordersTableBody.insertRow();
+                        row.insertCell().textContent = orderId;
+                        row.insertCell().textContent = order.branch;
+                        row.insertCell().textContent = order.email;
+                        row.insertCell().textContent = order.qty;
+                        row.insertCell().textContent = order.type;
+                        row.insertCell().textContent = order.date;
+                        row.insertCell().textContent = order.location;
+                        row.insertCell().textContent = order.totalPrice;
+                        row.insertCell().textContent = order.status;
+                        // Add "Complete" button
+                        const completeButtonCell = row.insertCell();
+                        const completeButton = document.createElement("button");
+                        completeButton.textContent = "Complete";
+                        completeButton.addEventListener("click", function() {
+                            // Update the order status to "completed" in the database
+                            database.ref("instantOrders/" + orderId).update({ status: "completed" });
+                        });
+                        completeButtonCell.appendChild(completeButton);
+                    }
+                });
+            });
+        }
+// Call the function to populate the orders table
+populateOrdersTable();
+    function populatecompleteorderstable() {
+                const instantOrdersRef = database.ref("instantOrders");
+                instantOrdersRef.on("value", function(snapshot) {
+                    completeordersTableBody.innerHTML = ""; // Clear existing table rows
+
+                    snapshot.forEach(function(childSnapshot) {
+                        const order = childSnapshot.val();
+                        const orderId = childSnapshot.key;
+
+                        // Check if the order status is "processed"
+                        if (order.status === "completed") {
+                            const row = completeordersTableBody.insertRow();
+                            row.insertCell().textContent = orderId;
+                            row.insertCell().textContent = order.branch;
+                            row.insertCell().textContent = order.email;
+                            row.insertCell().textContent = order.qty;
+                            row.insertCell().textContent = order.type;
+                            row.insertCell().textContent = order.date;
+                            row.insertCell().textContent = order.location;
+                            row.insertCell().textContent = order.totalPrice;
+                            row.insertCell().textContent = order.status;
+                        }
+                    });
+                });
+            }
+            populatecompleteorderstable();
+
+            function populateorderlogstable() {
+                const instantOrdersRef = database.ref("instantOrders");
+                instantOrdersRef.on("value", function(snapshot) {
+                    orderlogstable.innerHTML = ""; // Clear existing table rows
+
+                    snapshot.forEach(function(childSnapshot) {
+                        const order = childSnapshot.val();
+                        const orderId = childSnapshot.key;
+
+                        // Check if the order status is "processed"
+                        if (order.status === "completed") {
+                            const row = orderlogstable.insertRow();
+                            row.insertCell().textContent = orderId;
+                            row.insertCell().textContent = order.branch;
+                            row.insertCell().textContent = order.email;
+                            row.insertCell().textContent = order.qty;
+                            row.insertCell().textContent = order.type;
+                            row.insertCell().textContent = order.date;
+                            row.insertCell().textContent = order.location;
+                            row.insertCell().textContent = order.totalPrice;
+                            row.insertCell().textContent = order.status;
+                        }
+                    });
+                });
+            }
+            populateorderlogstable();
+            // Function to get the email parameter from the URL
+            function getEmailFromURL() {
+                // Get the current URL
+                const url = window.location.href;
+
+                // Use the URLSearchParams API to extract the "name" parameter
+                const searchParams = new URLSearchParams(new URL(url).search);
+                const email = searchParams.get("name"); // Use "name" parameter to get the email
+                console.log(email);
+                return email;
+            }
+            const email = getEmailFromURL();
+            const usersRef = database.ref("users");
+            usersRef.orderByChild("email").equalTo(email).once("value")
+                .then(snapshot => {
+                    if (snapshot.exists()) {
+                        // User with the provided email found
+                        const userData = snapshot.val();
+                        const userId = Object.keys(userData)[0]; // Get the first (and only) key
+                        const user = userData[userId];
+                        console.log(user);
+                        const fullName = user.fullName;
+                        console.log("Full Name:", fullName);
+                        document.getElementById("ridername").innerHTML = fullName;
+                    } else {
+                        console.log("User not found");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching user:", error);
+                });
+
+
+                </script>
+
+</body>
+</html>

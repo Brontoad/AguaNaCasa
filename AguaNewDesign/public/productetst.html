@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Product - Agua Na Casa</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <style>
+    #dp{
+            font-size: 15px;
+    }
+        body{
+            margin: 0;
+        }
+        a{
+            text-decoration: none;
+            color: #F6F1F1;
+        }
+        #profilelogo{
+            /* margin-top: 30px; */
+            width: 100%;
+            /* margin-left: 40%; */
+            background-color: #19A7CE;
+            position:fixed;
+            z-index: 1100;
+            /* height: 70px; */
+            padding: 0;
+            box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+            -webkit-box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+            -moz-box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+
+        }
+        #ProfileLogoTable{
+            width: 100%;
+          
+        }
+        #fbLogo,#instLogo,#gmLogo{
+            width: 40px;
+            height: 40px;
+        }
+        #ContactsTable{
+            width: 20%;
+            margin-left:40%;
+            margin-right: 40%;
+            margin-top: 10%;
+            margin-bottom: 10%;
+            color: #F6F1F1;
+            
+        }
+        #goalsdes{
+            font-size: 30px;
+        }
+        body{
+        
+            font-family: 'Nunito Sans', sans-serif;
+            margin: 0; 
+        }
+        #menutableland{
+            padding-bottom: 100px;
+            
+        }
+        th{
+            font-family: 'Nunito Sans', sans-serif; 
+        }
+        #AguaLogo{
+            width: 400px;
+            height: 400px ;
+            margin-top: 60px;
+            margin-left: 200px;
+        }
+        #Contacts{
+        
+        background-color: #19A7CE;
+
+        }
+        #P1,#P2,#P3,#P4{
+            padding-bottom: 50px;
+        }
+        .menu, .drop-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-item {
+    display: inline-block;
+    background-color: #19A7CE;
+    position: relative;
+}
+
+.menu-item a {
+    text-decoration: none;
+    padding: 6px 10px;
+    color: #fff;
+    display: block;
+}
+
+.drop-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 100px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+}
+
+.drop-menu-item {
+    width: 100%;
+}
+
+.drop-menu-item:hover {
+    background-color: #eee;
+    
+}
+
+.drop-menu-item a {
+    color: #555;
+}
+
+.menu-item:hover .drop-menu {
+    display: block;
+}
+        .waterops,.waterops3{
+            display: flex;
+            justify-content: space-around;
+            /* background-color: blue; */
+            width: 60%;
+            margin-left: 20%;
+            margin-right: 20%;
+            margin-top: 50px;
+        }
+        .waterops img, .waterops3 img{
+            width: 297px;
+        
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            /* border: 5px #113d49 solid; */
+        
+        }
+        .productforms, .productforms3{
+            display: flex;
+            justify-content: space-around;
+            /* background-color: blue; */
+            width: 100%;
+            /* margin-left: 5%;
+            margin-right: 5%; */
+            
+        }
+        #mineralform, #purifiedform, #alkalineform, #mineralform2, #purifiedform2, #alkalineform2, #mineralform3, #purifiedform3, #alkalineform3{
+            background-color: #317f95;
+            color: aliceblue;
+            height: 150px;
+            width: 300px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            padding-top: 20px;
+            
+
+        }
+        #mineral, #purified, #alkaline, #mineral2, #purified2, #alkaline2, #mineral3, #purified3, #alkaline3{
+  
+            color: aliceblue;
+            /* background-color: #113d49; */
+            margin-left: 5px;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+        }
+        #chip1,#chip2,#chip3,#chip4,#chip5{
+            font-size: 150%;
+            color: #F6F1F1;
+        }
+        #footdescription{
+            font-family: 'Nunito Sans', sans-serif;
+    font-size: 10%;
+    color: black;
+    
+}
+    #footertable{
+        width: 30%;
+        margin-left: 35%;
+        margin-right: 35%;
+        margin-bottom: 25px;
+        margin-top: -100px;
+    }
+#FooterSayHi{
+    font-size: 150%;
+}
+#Contacts{
+        
+        background-color: #19A7CE;
+
+        }
+        #fbLogo,#instLogo,#gmLogo{
+            width: 40px;
+            height: 40px;
+        }
+        #chip1,#chip2,#chip3,#chip4,#chip5{
+            font-size: 150%;
+            color: #F6F1F1;
+        }
+        input[type="number"]{
+            width: 50px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        .productforms button, .productforms2 button,.productforms3 button{
+            width: 150px;
+            height: 40px;
+            background-color: aliceblue;
+            color: #115a6e;
+            border: aliceblue;
+            font-size: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .productforms button:hover{
+            width: 130px;
+            background-color: #19A7CE;
+            color: aliceblue;
+            border: #19A7CE;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .productforms3 button:hover{
+            width: 130px;
+            background-color: #19A7CE;
+            color: aliceblue;
+            border: #19A7CE;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        #cartTable {
+            width: 60%;
+            margin-left: 20%;
+            border-collapse: collapse;
+        }
+
+        #cartTable th, #cartTable td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        #cartTable th {
+            background-color: #19A7CE;
+            color: #fff;
+        }
+
+        #cartTable th, #cartTable td {
+            border: 1px solid #ddd;
+        }
+
+        #cartTable tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #cartTable tbody tr:hover {
+            background-color: #ccc;
+        }
+
+        #cartTable button {
+            background-color: #19A7CE;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        #cartTable button:hover {
+            background-color: #115a6e;
+        }
+        #contain{
+            padding-top: 20px;
+            padding-bottom: 40px;
+            border-radius: 20px;
+            margin-left: 20%;
+            margin-right: 20%;
+
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="profilelogo">
+        
+        <table id="ProfileLogoTable" border="0" >
+            <th><a href="index.html" class="forward-email"><img src="aguanacasa_logo_white.png"  id="AguaLogoWhite" style="width:60px; height: 60px;"></a></th>
+            <th id="chip1"><a href="AguanaCasaAbout.html" class="forward-email">About</a></th>
+            <th id="chip2">
+                <div class="menu-wrap">
+                <ul class="menu">
+                    <li class="menu-item">
+                        <a href="product.html" id="pp" class="forward-email">Products</a>    
+                    </li>
+                </ul>
+            </div>
+        </th>
+        <th id="chip5">
+            <div class="menu-wrap">
+            <ul class="menu">
+                <li class="menu-item">
+                    <a href="#" id="pp">Services</a>
+                    <ul class="drop-menu">
+                        <li class="drop-menu-item">
+                            <a href="instant.html" id="dp" class="forward-email">Instant Delivery</a>
+                        </li>
+                        <li class="drop-menu-item">
+                            <a href="subs.html" id="dp" class="forward-email">Subscription</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </th>
+            <th id="chip3">
+                <div class="menu-wrap">
+                    <ul class="menu">
+                        <li class="menu-item">
+                            <a href="#" id="pp">Career</a>
+                            <ul class="drop-menu">
+                                <li class="drop-menu-item">
+                                    <a href="AguaNaCasaOpportunities.html" id="dp" class="forward-email">Opportunities</a>
+                                </li>
+                                <li class="drop-menu-item">
+                                    <a href="AguanaCasaPartnership.html" id="dp" class="forward-email">Partnership</a>
+                                </li>
+                               
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </th>
+            
+            <th id="chip4"><a id="signInBtn" href="AguaNaCasaLogin.html">Sign In</a></th>
+            <th id="logoutBtnContainer" style="display: none; font-size: 25px; padding: 20px 10px;" onclick="logout()"><a id="logoutBtn" >Logout</a></th>
+            <tr></tr>
+            
+        </table>
+    </div>
+    <br><br><br><br><br><br><br><br><br>
+    <div id="contain">
+        <table id="productsTable" border="1">
+            <thead>
+                <tr>
+                    <th>Product Photo</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows for products will be added here -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function calculateTotalPrice(inputId, totalId) {
+        const qtyInput = document.getElementById(inputId);
+        const totalLabel = document.getElementById(totalId);
+
+        if (qtyInput && totalLabel) {
+            const qty = parseFloat(qtyInput.value);
+            let price = 0;
+
+            if (inputId === "slim5qty") {
+                price = 200; // You can set the price here
+            } else if (inputId === "slim25qty") {
+                price = 150; // You can set the price here
+            } else if (inputId === "round5qty") {
+                price = 175; // You can set the price here
+            } else if (inputId === "holdrqty") {
+                price = 60; // You can set the price here
+            } else if (inputId === "racqty") {
+                price = 1000; // You can set the price here
+            }else if (inputId === "trollqty") {
+                price = 500; // You can set the price here
+            }
+
+            const total = price * qty;
+
+            // Display the calculated total in the label
+            totalLabel.textContent = total;
+        }
+    }
+
+        
+    </script>
+    <h1 style="color: #19A7CE; margin-left: 20%; margin-top: 100px;">Shopping Cart</h1>
+
+    <table id="cartTable" border="1">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Cart items will be added here -->
+        </tbody>
+    </table>
+    
+    <div id="Contacts">
+
+        <table id="ContactsTable" border="0">
+    
+            <th id="LaundryFooter" colspan="6">Laundry</th><tr></tr>
+            <th colspan="6" id="FooterSayHi">Say Hi! Get In Touch</th><tr></tr>
+            <th colspan="2"><a href="https://www.facebook.com/profile.php?id=61553275585756&mibextid=ZbWKwL"><img src="fblogowhite.png" id="fbLogo"></a></th><th colspan="2"><a  href="aguanacasa@gmail.com"><img src="Gmail_Logo_512px.png" id="gmLogo"></a></th><tr></tr>
+            
+    
+        </table>
+    
+    
+    </div>
+    <div id="footerdes">
+        <table id="footertable" border="0">
+            <th id="footerdescription">&#169 2023, Agua na Casa, All right reserved</th>
+        </table>
+
+    </div>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyAzStYODU-4-Vp1leWyKN9GmNhPu8219Xg",
+            authDomain: "aguanacasa-74ba1.firebaseapp.com",
+            databaseURL: "https://aguanacasa-74ba1-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "aguanacasa-74ba1",
+            storageBucket: "aguanacasa-74ba1.appspot.com",
+            messagingSenderId: "994613822213",
+            appId: "1:994613822213:web:cce7bb901241d564b36d6c",
+            measurementId: "G-3HYBS92MND"
+        };
+        firebase.initializeApp(firebaseConfig);
+        // Initialize Firebase and retrieve product data from the Firebase Realtime Database
+        const database = firebase.database();
+const productsRef = database.ref('products');
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Get the table body where products will be displayed
+    const productsTableBody = document.getElementById('productsTable').getElementsByTagName('tbody')[0];
+
+    // Listen for changes in the products node and update the table when data changes
+    productsRef.on('value', function (snapshot) {
+        // Clear existing table rows
+        productsTableBody.innerHTML = '';
+
+        // Iterate through the products and populate the table
+        snapshot.forEach(function (childSnapshot) {
+            // Get product data from the snapshot
+            const product = childSnapshot.val();
+            const productId = childSnapshot.key;
+            const productName = product.productName;
+            const price = product.price;
+            const productPhotoUrl = product.photo;
+
+            // Create a new table row and cells
+            const row = document.createElement('tr');
+            const productPhotoCell = document.createElement('td');
+            const productNameCell = document.createElement('td');
+            const priceCell = document.createElement('td');
+
+            // Set the product name and price in the cells
+            productNameCell.textContent = productName;
+            priceCell.textContent = price;
+
+            // Create an image element for the product photo
+            const productPhoto = document.createElement('img');
+            productPhoto.src = productPhotoUrl; // Set the image source to the product photo URL
+            productPhoto.alt = productName;
+
+            // Set a default width and height for the product photo
+            productPhoto.style.width = '100px';
+            productPhoto.style.height = '100px';
+
+            // Append cells to the row
+            productPhotoCell.appendChild(productPhoto);
+            row.appendChild(productPhotoCell);
+            row.appendChild(productNameCell);
+            row.appendChild(priceCell);
+
+            // Append the row to the table body
+            productsTableBody.appendChild(row);
+        });
+    });
+});
+
+
+        function saveOrder(product, quantity, total, userEmail) {
+            // Get a reference to the "productorders" node and create a new order entry
+            const database = firebase.database();
+            var ordersRef = database.ref("productorders");
+            var newOrderRef = ordersRef.push();
+
+            // Create an order object
+            var orderData = {
+                product: product,
+                quantity: quantity,
+                total: total,
+                userEmail: userEmail, // Include the user's email in the order
+                status: "pending" // Add the status field
+            };
+
+            if( quantity !== 0){
+                // Set the order data in the database
+                newOrderRef.set(orderData)
+                    .then(function () {
+                        console.log("Order successfully saved to the Firebase Realtime Database!");
+                        // You can add code here to update the UI or provide a success message to the user.
+                        // Reset the form after saving the order
+                    resetMineralForm();
+                    resetAlkalineForm();
+                    resetPurifiedForm();
+                    resetAlkalineForm3();
+                    resetMineralForm3();
+                    resetPurifiedForm3();
+                    })
+                    .catch(function (error) {
+                        console.error("Error saving order: ", error);
+                        // Handle the error, e.g., show an error message to the user.
+                    });
+                }
+                else{
+                    alert("Enter Valid Quantity");
+                }
+            }
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get the user's email from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const userEmail = urlParams.get("name");
+            
+            if (userEmail) {
+                    
+                    // Mineral Form
+                document.querySelector("#mineralform button").addEventListener("click", function(event) {
+                    event.preventDefault();
+                    var product = "Slim 5 gallon"; // Replace with the product name
+                    var quantity = parseInt(document.querySelector("#mineralform input").value) || 0;
+                    var total = quantity * 200; // Calculate the total price (replace 'price' with the actual price)
+                    saveOrder(product, quantity, total, userEmail);
+                });
+
+                // Purified Form
+                document.querySelector("#purifiedform button").addEventListener("click", function(event) {
+                    event.preventDefault();
+                    var product = "Slim 2.5 gallon"; // Replace with the product name
+                    var quantity = parseInt(document.querySelector("#purifiedform input").value) || 0;
+                    var total = quantity * 150; // Calculate the total price (replace 'price' with the actual price)
+                    saveOrder(product, quantity, total, userEmail);
+                });
+
+                // Alkaline Form
+                document.querySelector("#alkalineform button").addEventListener("click", function(event) {
+                    event.preventDefault();
+                    var product = "Round 5 gallon"; // Replace with the product name
+                    var quantity = parseInt(document.querySelector("#alkalineform input").value) || 0;
+                    var total = quantity * 175; // Calculate the total price (replace 'price' with the actual price)
+                    saveOrder(product, quantity, total, userEmail);
+                });
+                }
+            else{
+            }
+            // Repeat the above block for the other product forms as well.
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get the user's email from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const userEmail = urlParams.get("name");
+            if (userEmail) {
+                    
+                    // Mineral Form 3
+                document.querySelector("#mineralform3 button").addEventListener("click", function(event) {
+                    event.preventDefault();
+                    var product = "Holder"; // Replace with the product name
+                    var quantity = parseInt(document.querySelector("#mineralform3 input").value) || 0;
+                    var total = quantity * 60; // Calculate the total price (replace 'price' with the actual price)
+                    saveOrder(product, quantity, total, userEmail);
+                });
+
+                // Purified Form 3
+                document.querySelector("#purifiedform3 button").addEventListener("click", function(event) {
+                    event.preventDefault();
+                    var product = "Rack"; // Replace with the product name
+                    var quantity = parseInt(document.querySelector("#purifiedform3 input").value) || 0;
+                    var total = quantity * 1000; // Calculate the total price (replace 'price' with the actual price)
+                    saveOrder(product, quantity, total, userEmail);
+                });
+
+                // Alkaline Form 3
+                document.querySelector("#alkalineform3 button").addEventListener("click", function(event) {
+                    event.preventDefault();
+                    var product = "Trolley"; // Replace with the product name
+                    var quantity = parseInt(document.querySelector("#alkalineform3 input").value) || 0;
+                    var total = quantity * 500; // Calculate the total price (replace 'price' with the actual price)
+                    saveOrder(product, quantity, total, userEmail);
+                });
+                }
+            else{    
+            }
+// Repeat the above block for the other product forms in productforms3.
+        });
+        // Function to hide or show the Sign In and Logout buttons
+        function toggleButtons(isLoggedIn) {
+            const signInBtn = document.getElementById('signInBtn');
+            const logoutBtnContainer = document.getElementById('logoutBtnContainer');
+    
+            if (isLoggedIn) {
+                signInBtn.style.display = 'none'; // Hide Sign In
+                logoutBtnContainer.style.display = 'block'; // Show Logout
+            } else {
+                signInBtn.style.display = 'block'; // Show Sign In
+                logoutBtnContainer.style.display = 'none'; // Hide Logout
+            }
+        }
+        // Example Firebase code for logging out
+        function logout() {
+            firebase.auth().signOut().then(function() {
+                // Sign-out successful, you can redirect the user to the login page
+                window.location.href = "AguaNaCasaLogin.html";
+            }).catch(function(error) {
+                // An error happened.
+                console.error("Logout error: " + error);
+            });
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            const emailParam = getParameterByName('name');
+    
+            // Check if the 'name' parameter is present
+            if (emailParam) {
+                toggleButtons(true); // User is logged in, so hide Sign In and show Logout
+                modifyLinks(emailParam);
+            } else {
+                toggleButtons(false); // User is not logged in, so show Sign In and hide Logout
+            }
+        });
+        // Function to get the value of a URL parameter by its name
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            var results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+        // Function to modify links to forward the email parameter
+        function modifyLinks(email) {
+            const links = document.querySelectorAll('.forward-email');
+    
+            links.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const href = link.getAttribute('href');
+                    if (email) {
+                        window.location.href = `${href}?name=${email}`;
+                    } else {
+                        window.location.href = href;
+                    }
+                });
+            });
+        }
+        // Function to process an order
+        function processOrder(orderId) {
+            // Get a reference to the specific order in the database
+            const database = firebase.database();
+            const orderRef = database.ref('productorders/' + orderId);
+
+            // Update the status to "Processed"
+            orderRef.update({ status: 'Processed' })
+                .then(function () {
+                    console.log("Order processed successfully!");
+                })
+                .catch(function (error) {
+                    console.error("Error processing order: ", error);
+                });
+        }
+        // Function to cancel an order
+        function cancelOrder(orderId) {
+            // Get a reference to the specific order in the database
+            const database = firebase.database();
+            const orderRef = database.ref('productorders/' + orderId);
+
+            // Check if the status is "pending" before deleting the order
+            orderRef.once('value')
+                .then(function (snapshot) {
+                    const order = snapshot.val();
+                    if (order.status === 'pending') {
+                        // Delete the order
+                        orderRef.remove()
+                            .then(function () {
+                                console.log("Order canceled and removed successfully!");
+                                location.reload();
+                            })
+                            .catch(function (error) {
+                                console.error("Error canceling order: ", error);
+                            });
+                    } else {
+                        console.log("Order cannot be canceled because it's not pending.");
+                    }
+                })
+                .catch(function (error) {
+                    console.error("Error checking order status: ", error);
+                });
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the user's email from the URL
+            const userEmail = getParameterByName('name');
+
+            if (userEmail) {
+                // Query the Firebase database for user's orders
+                const database = firebase.database();
+                const ordersRef = database.ref('productorders');
+
+                ordersRef.orderByChild('userEmail').equalTo(userEmail).on('value', (snapshot) => {
+                    // Clear the existing table rows
+                    const cartTableBody = document.querySelector('#cartTable tbody');
+                    cartTableBody.innerHTML = '';
+
+                    snapshot.forEach((childSnapshot) => {
+                        const order = childSnapshot.val();
+                        const orderId = childSnapshot.key; // Get the unique order ID
+
+                        // Create a table row for each order with Process and Cancel buttons
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${order.product}</td>
+                            <td>${order.quantity}</td>
+                            <td>${order.total}</td>
+                            <td>${order.status}</td>
+                            <td>
+                                <button onclick="processOrder('${orderId}')">Process</button>
+                                <button onclick="cancelOrder('${orderId}')">Cancel</button>
+                            </td>
+                        `;
+                        cartTableBody.appendChild(row);
+                    });
+                });
+            }
+        });
+        function resetMineralForm() {
+            var form = document.getElementById('slim5');
+            form.reset();
+        }
+
+        function resetPurifiedForm() {
+            var form = document.getElementById('slim25');
+            form.reset();
+        }
+
+        function resetAlkalineForm() {
+            var form = document.getElementById('round5');
+            form.reset();
+        }
+
+        function resetMineralForm3() {
+            var form = document.getElementById('holdr');
+            form.reset();
+        }
+
+        function resetPurifiedForm3() {
+            var form = document.getElementById('rac');
+            form.reset();
+        }
+
+        function resetAlkalineForm3() {
+            var form = document.getElementById('troll');
+            form.reset();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Instant Order - Agua Na Casa</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <style>
+    #dp{
+            font-size: 15px;
+    }
+        body{
+            margin: 0;
+            background-color: white;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+        a{
+            text-decoration: none;
+            color: aliceblue;
+        }
+        #profilelogo{
+            /* margin-top: 30px; */
+            width: 100%;
+            /* margin-left: 40%; */
+            background-color: #19A7CE;
+            position:fixed;
+            z-index: 1100;
+            /* height: 70px; */
+            padding: 0;
+            box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+            -webkit-box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+            -moz-box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+
+        }
+        #ProfileLogoTable{
+            width: 100%;
+          
+        }
+        #fbLogo,#instLogo,#gmLogo{
+            width: 40px;
+            height: 40px;
+        }
+        #ContactsTable{
+            width: 20%;
+            margin-left:40%;
+            margin-right: 40%;
+            margin-top: 10%;
+            margin-bottom: 10%;
+            color: #F6F1F1;
+            
+        }
+        #goalsdes{
+            font-size: 30px;
+        }
+  
+        #menutableland{
+            padding-bottom: 100px;
+            
+        }
+        th{
+            font-family: 'Nunito Sans', sans-serif; 
+        }
+        #AguaLogo{
+            width: 400px;
+            height: 400px ;
+            margin-top: 60px;
+            margin-left: 200px;
+        }
+        #Contacts{
+        
+        background-color: #19A7CE;
+
+        }
+        #P1,#P2,#P3,#P4{
+            padding-bottom: 50px;
+        }
+        .menu, .drop-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-item {
+            display: inline-block;
+            background-color: #19A7CE;
+            position: relative;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            padding: 6px 10px;
+            color: #fff;
+            display: block;
+        }
+
+        .drop-menu {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            min-width: 100px;
+            box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+        }
+
+        .drop-menu-item {
+            width: 100%;
+        }
+
+        .drop-menu-item:hover {
+            background-color: #eee;
+            
+        }
+
+        .drop-menu-item a {
+            color: #555;
+        }
+
+        .menu-item:hover .drop-menu {
+            display: block;
+        }
+        .waterops{
+            display: flex;
+            justify-content: space-around;
+            /* background-color: blue; */
+            width: 80%;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+        .waterops h1{
+            margin-top: 120px;
+        }
+        #mineral, #purified, #alkaline{
+            background-color: #19A7CE;
+            color: aliceblue;
+            height: 300px;
+            width: 300px;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+        }
+        .waterforms{
+            display: flex;
+            justify-content: space-around;
+            /* background-color: blue; */
+            width: 80%;
+            margin-top: -20px;
+            margin-left: 10%;
+            margin-right: 10%;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        #mineralform, #purifiedform, #alkalineform{
+            background-color: #1c96b7;
+            color: aliceblue;
+            height: 220px;
+            width: 300px;
+            padding-top: 30px;
+            border-bottom-right-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        
+        .waterforms button{
+            background-color: aliceblue;
+            width: 190px;
+            height: 40px;
+            border: aliceblue;
+            border-radius: 10px;
+            color: #113d49;
+            font-size: 15px;
+            margin-top: 10px;
+        }
+        .waterforms button:hover{
+            background-color: #19A7CE;
+            width: 200px;
+            height: 40px;
+            border: aliceblue;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            transition: 70ms ease-in;
+        }
+        .waterforms input[type="number"]{
+            width: 50px;
+        }
+        #subsbanner{
+            background-color: #1c96b7;
+            color: aliceblue;
+            width: 70%;
+            margin-left: 15%;
+            margin-right: 15%;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-radius: 10px;
+        }
+        #subsbanner button{
+            background-color: aliceblue;
+            width: 200px;
+            height: 40px;
+            border: aliceblue;
+            border-radius: 10px;
+            color: #113d49;
+            font-size: 15px;
+        }
+        #subsbanner button:hover{
+            background-color: #19A7CE;
+            width: 230px;
+            height: 40px;
+            border: aliceblue;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            transition: 70ms ease-in;
+        }
+        #cartdiv #orderstable {
+            width: 70%;
+            margin-left: 15%;
+            border-collapse: collapse;
+        }
+
+        #cartdiv #orderstable th, #cartdiv #orderstable td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        #cartdiv #orderstable th {
+            background-color: #19A7CE;
+            color: #fff;
+        }
+
+        #cartdiv #orderstable th, #cartdiv #orderstable td {
+            border: 1px solid #ddd;
+        }
+
+        #cartdiv #orderstable tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #cartdiv #orderstable tbody tr:hover {
+            background-color: #ccc;
+        }
+
+        #cartdiv #orderstable button {
+            background-color: #19A7CE;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        #cartdiv #orderstable button:hover {
+            background-color: #115a6e;
+        }
+
+        #chip1,#chip2,#chip3,#chip4,#chip5{
+            font-size: 150%;
+            color: #F6F1F1;
+        }
+        #footdescription{
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: 10%;
+            color: black;
+            
+        }
+        #footertable{
+                width: 30%;
+                margin-left: 35%;
+                margin-right: 35%;
+                margin-bottom: 25px;
+                margin-top: -100px;
+            }
+        #FooterSayHi{
+            font-size: 150%;
+        }
+        #Contacts{    
+            background-color: #19A7CE;
+        }
+        #fbLogo,#instLogo,#gmLogo{
+            width: 40px;
+            height: 40px;
+        }
+        #chip1,#chip2,#chip3,#chip4,#chip5{
+            font-size: 150%;
+            color: #F6F1F1;
+        }
+            /* Modal styling */
+            #receiptModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        #modalContent {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Close button styling */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="profilelogo">
+        
+        <table id="ProfileLogoTable" >
+            <th><a href="index.html" class="forward-email"><img src="aguanacasa_logo_white.png"  id="AguaLogoWhite" style="width:60px; height: 60px;"></a></th>
+            <th id="chip1"><a href="AguanaCasaAbout.html" class="forward-email">About</a></th>
+            <th id="chip2">
+                <div class="menu-wrap">
+                <ul class="menu">
+                    <li class="menu-item">
+                        <a href="product.html" id="pp" class="forward-email">Products</a>    
+                    </li>
+                </ul>
+            </div>
+        </th>
+        <th id="chip5">
+            <div class="menu-wrap">
+            <ul class="menu">
+                <li class="menu-item">
+                    <a href="#" id="pp">Services</a>
+                    <ul class="drop-menu">
+                        <li class="drop-menu-item">
+                            <a href="instant.html" id="dp" class="forward-email">Instant Delivery</a>
+                        </li>
+                        <li class="drop-menu-item">
+                            <a href="subs.html" id="dp" class="forward-email">Subscription</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </th>
+            <th id="chip3">
+                <div class="menu-wrap">
+                    <ul class="menu">
+                        <li class="menu-item">
+                            <a href="#" id="pp">Career</a>
+                            <ul class="drop-menu">
+                                <li class="drop-menu-item">
+                                    <a href="AguaNaCasaOpportunities.html" id="dp" class="forward-email">Opportunities</a>
+                                </li>
+                                <li class="drop-menu-item">
+                                    <a href="AguanaCasaPartnership.html" id="dp" class="forward-email">Partnership</a>
+                                </li>
+                               
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </th>
+            <th id="chip5"><a id="myacc" class="forward-email" href="myaccount.html">My Account</a></th>
+            <th id="chip4"><a id="signInBtn" href="AguaNaCasaLogin.html">Sign In</a></th>
+        <th id="logoutBtnContainer" style="display: none; font-size: 25px; padding: 20px 10px;" onclick="logout()"><a id="logoutBtn" >Logout</a></th>
+            <tr></tr>
+            
+        </table>
+    </div>
+    <br><br><br><br><br><br><br><br><br>
+    <center><h1 style="font-size: 50px; color:#113d49;">Instant Order</h1></center>
+    <div class="waterops">
+        <div id="mineral">
+            <center><h1>Mineral</h1></center>
+            <center><h2>P15</h2></center>
+        </div>
+        <div id="purified">
+            <center><h1>Purified</h1></center>
+            <center><h2>P20</h2></center>
+        </div>
+        <div id="alkaline">
+            <center><h1>Alkaline</h1></center>
+            <center><h2>P25</h2></center>
+        </div>
+    </div>
+    <div class="waterforms">
+        <div id="mineralform">
+            <center>
+                <form id="myForm1">
+                    QTY :<input id="quantitymin" type="number" min="1" oninput="calculateTotalPrice('quantitymin', 'totsmin')" style="margin-bottom: 10px;" required><br>
+                    Select Branch : <br>
+                    <select style="margin-bottom: 10px;"  oninput="branch( 'form1', 1)" required>
+                        <option>Select Station</option>
+                        <option>Station 1</option>
+                        <option>Station 2</option>
+                        <option>Station 3</option>
+                        <option>Station 4</option>
+                    </select>
+                    <br>    
+                    My location : <label >Loc</label>
+                    <br>
+                    <label>Delivery fee per gallon:</label><label id="delfeemin">0</label><br>
+                    <label>Total Price: </label><label id="totsmin">0</label><br>
+                    <button id="minbutton">Order Now</button>
+                </form>
+            </center>
+        </div>
+        <div id="purifiedform">
+            <center>
+                <form id="myForm2">
+                    QTY :<input id="quantitypur" type="number" min="1" oninput="calculateTotalPrice('quantitypur', 'totspur')" style="margin-bottom: 10px;"><br>
+                    Select Branch : <br>
+                    <select style="margin-bottom: 10px;" oninput="branch('form2', 2)">
+                        <option>Select Station</option>
+                        <option>Station 1</option>
+                        <option>Station 2</option>
+                        <option>Station 3</option>
+                        <option>Station 4</option>
+                    </select>
+                    <br>    
+                    My location : <label>Loc</label>
+                    <br>
+                    <label>Delivery fee per gallon:</label><label id="delfeepur">0</label><br>
+                    <label>Total Price: </label><label id="totspur">0</label><br>
+                    <button id="purbutton">Order Now</button>
+                </form>
+            </center>
+        </div>
+        <div id="alkalineform">
+            <center>
+                <form id="myForm3">
+                    QTY :<input id="quantityalk" type="number" min="1" oninput="calculateTotalPrice('quantityalk', 'totsalk')" style="margin-bottom: 10px;"><br>
+                    Select Branch : <br>
+                    <select style="margin-bottom: 10px;" oninput="branch('form3', 3)">
+                        <option>Select Station</option>
+                        <option>Station 1</option>
+                        <option>Station 2</option>
+                        <option>Station 3</option>
+                        <option>Station 4</option>
+                    </select>
+                    <br>    
+                    My location : <label>Loc</label>
+                    <br>
+                    <label>Delivery fee per gallon:</label><label id="delfeealk">0</label><br>
+                    <label>Total Price: </label><label id="totsalk">0</label><br>
+                    <button id="alkbutton">Order Now</button>
+                </form>
+            </center>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div id="receiptModal">
+        <div id="modalContent">
+            <center><img src="aguanacasa_logo_blue.png" width="100px"></center>
+            <!-- <button onclick="closeReceiptModal()">x</button> -->
+
+            <div id="orderDetails">
+                <!-- Order details will be appended here -->
+            </div>
+        </div>
+    </div>
+    <div id="subsbanner">
+        <center>
+            <h1>want to subscribe?</h1>
+        <p>We have a selection of subscription promos </p><br><button onclick="sub()">Go to Subscription Promos</button>
+        
+        </center>
+        
+    </div>
+    <h1 style="color: #19A7CE; margin-left: 15%; margin-top: 100px;">Instant Orders Cart</h1>
+    <div id="cartdiv">
+        <table border="0" id="orderstable">
+            <th>OrderID</th>
+            <th>Customer</th>
+            <th>Quantity</th>
+            <th>Type</th>
+            <th>Location</th>
+            <th>Branch</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th colspan="2">Actions</th>
+        </table>
+    </div>
+    <div id="Contacts">
+
+        <table id="ContactsTable" border="0">
+    
+            <th id="LaundryFooter" colspan="6">Laundry</th><tr></tr>
+            <th colspan="6" id="FooterSayHi">Say Hi! Get In Touch</th><tr></tr>
+            <th colspan="2"><a href="https://www.facebook.com/profile.php?id=61553275585756&mibextid=ZbWKwL"><img src="fblogowhite.png" id="fbLogo"></a></th><th colspan="2"><a  href="aguanacasa@gmail.com"><img src="Gmail_Logo_512px.png" id="gmLogo"></a></th><tr></tr>
+            
+    
+        </table>
+    
+    
+    </div>
+    <div id="footerdes">
+        <table id="footertable" border="0">
+            <th id="footerdescription">&#169 2023, Agua na Casa, All right reserved</th>
+        </table>
+
+    </div>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyAzStYODU-4-Vp1leWyKN9GmNhPu8219Xg",
+            authDomain: "aguanacasa-74ba1.firebaseapp.com",
+            databaseURL: "https://aguanacasa-74ba1-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "aguanacasa-74ba1",
+            storageBucket: "aguanacasa-74ba1.appspot.com",
+            messagingSenderId: "994613822213",
+            appId: "1:994613822213:web:cce7bb901241d564b36d6c",
+            measurementId: "G-3HYBS92MND"
+        };
+        firebase.initializeApp(firebaseConfig);
+       // Function to hide or show the Sign In and Logout buttons
+        function branch(form, formIndex) {
+            const email2 = getParameterByName('name');
+            var forms;
+            switch (form) {
+                case "form1":
+                    forms = document.getElementById('myForm1');
+                    break;
+                case "form2":
+                    forms = document.getElementById('myForm2');
+                    break;
+                case "form3":
+                    forms = document.getElementById('myForm3');
+                    break;
+                // Add more cases if needed for additional stations
+                default:
+                    break;
+            }
+            const branch = forms.querySelector('select').value;
+
+            // Reference to the "users" node in the Firebase database
+            const usersRef = firebase.database().ref("users");
+
+            // Query to find the user with the given email
+            const userQuery = usersRef.orderByChild("email").equalTo(email2);
+            console.log(email2);
+
+            // Execute the query
+            userQuery.once("value")
+                .then(function (snapshot) {
+                    // Check if the user exists
+                    if (snapshot.exists()) {
+                        // Get the user data
+                        const userData = snapshot.val();
+                        const userId = Object.keys(userData)[0]; // Assuming there's only one user with the given email
+
+                        // Dynamically get the station fee based on the selected value
+                        let stationFee = 0;
+                        switch (branch) {
+                            case "Station 1":
+                                stationFee = parseFloat(userData[userId].station1fee);
+                                break;
+                            case "Station 2":
+                                stationFee = parseFloat(userData[userId].station2fee);
+                                break;
+                            case "Station 3":
+                                stationFee = parseFloat(userData[userId].station3fee);
+                                break;
+                            case "Station 4":
+                                stationFee = parseFloat(userData[userId].station4fee);
+                                break;
+                            // Add more cases if needed for additional stations
+                            default:
+                                break;
+                        }
+
+                        console.log("Station Fee: " + stationFee);
+
+                        if (formIndex === 1 || formIndex === 2 || formIndex === 3) {
+                            // Update the UI based on the selected station
+                            const type = (formIndex === 1) ? "min" : (formIndex === 2) ? "pur" : "alk";
+                            updateUI(branch, stationFee, formIndex, type);
+                        }
+                    } else {
+                        // User not found
+                        console.error("User not found");
+                    }
+                })
+                .catch(function (error) {
+                    // Handle errors
+                    console.error("Error fetching user data: " + error);
+                });
+        }
+
+// Function to update UI based on the selected station and station fee
+function updateUI(branch, stationFee, formIndex, type) {
+    // Adjust this based on your form
+    console.log(branch, stationFee, formIndex, type);
+
+    // Assuming a default price of 15, you can adjust this based on your logic
+    let qtyInput, totalLabel, delFeeLabel;
+
+    switch (formIndex) {
+        case 1:
+            qtyInput = document.getElementById('quantitymin');
+            totalLabel = document.getElementById('totsmin');
+            delFeeLabel = document.getElementById('delfeemin');
+            break;
+        case 2:
+            qtyInput = document.getElementById('quantitypur');
+            totalLabel = document.getElementById('totspur');
+            delFeeLabel = document.getElementById('delfeepur');
+            break;
+        case 3:
+            qtyInput = document.getElementById('quantityalk');
+            totalLabel = document.getElementById('totsalk');
+            delFeeLabel = document.getElementById('delfeealk');
+            break;
+        // Add more cases if needed
+        default:
+            // Handle the default case if formIndex doesn't match any expected values
+            break;
+    }
+
+    if (qtyInput && totalLabel) {
+        const qty = parseFloat(qtyInput.value);
+        let gal;
+
+        switch (formIndex) {
+            case 1:
+                gal = qty * 15;
+                break;
+            case 2:
+                gal = qty * 20;
+                break;
+            case 3:
+                gal = qty * 25;
+                break;
+            // Add more cases if needed
+            default:
+                // Handle the default case if formIndex doesn't match any expected values
+                break;
+        }
+        console.log(qty + ", " + gal);
+        // Update delivery fee label
+        delFeeLabel.innerHTML = stationFee;
+
+        const total = stationFee * qty + gal;
+        // Adjust this based on your form
+        // Display the calculated total in the label
+        totalLabel.textContent = total;
+    }
+}
+
+
+
+// Example usage in HTML (for form index 1)
+// <select onchange="branch(1)">
+// Example usage in HTML (for form index 2)
+// <select onchange="branch(2)">
+// Add more examples for additional forms as needed
+
+                        function calculateTotalPrice(inputId, totalId) {
+                        const qtyInput = document.getElementById(inputId);
+                        const totalLabel = document.getElementById(totalId);
+
+                        if (qtyInput && totalLabel) {
+                            const qty = parseFloat(qtyInput.value);
+                            let price = 0;
+
+                            if (inputId === "quantitymin") {
+                                price = 15; // You can set the price here
+                            } else if (inputId === "quantitypur") {
+                                price = 20; // You can set the price here
+                            } else if (inputId === "quantityalk") {
+                                price = 25; // You can set the price here
+                            }
+
+                            const total = price * qty;
+
+                            // Display the calculated total in the label
+                            //totalLabel.textContent = total;
+                        }
+                    }
+        function toggleButtons(isLoggedIn) {
+            const signInBtn = document.getElementById('signInBtn');
+            const logoutBtnContainer = document.getElementById('logoutBtnContainer');
+    
+            if (isLoggedIn) {
+                signInBtn.style.display = 'none'; // Hide Sign In
+                logoutBtnContainer.style.display = 'block'; // Show Logout
+            } else {
+                signInBtn.style.display = 'block'; // Show Sign In
+                logoutBtnContainer.style.display = 'none'; // Hide Logout
+            }
+        }
+        
+        // Example Firebase code for logging out
+        function logout() {
+            firebase.auth().signOut().then(function() {
+                // Sign-out successful, you can redirect the user to the login page
+                window.location.href = "AguaNaCasaLogin.html";
+            }).catch(function(error) {
+                // An error happened.
+                console.error("Logout error: " + error);
+            });
+        }
+    
+        document.addEventListener("DOMContentLoaded", function() {
+            const emailParam = getParameterByName('name');
+    
+            // Check if the 'name' parameter is present
+            if (emailParam) {
+                toggleButtons(true); // User is logged in, so hide Sign In and show Logout
+                modifyLinks(emailParam);
+            } else {
+                toggleButtons(false); // User is not logged in, so show Sign In and hide Logout
+            }
+        });
+    
+        // Function to get the value of a URL parameter by its name
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            var results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+        function sub() {
+            const email = getEmailFromURL();
+            const href = "subs.html"; // Update the URL to where you want to go
+            if (email) {
+                window.location.href = `${href}?name=${email}`;
+            } else {
+                window.location.href = href;
+            }
+        }
+        // Function to modify links to forward the email parameter
+        function modifyLinks(email) {
+            const links = document.querySelectorAll('.forward-email');
+    
+            links.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const href = link.getAttribute('href');
+                    if (email) {
+                        window.location.href = `${href}?name=${email}`;
+                    } else {
+                        window.location.href = href;
+                    }
+                });
+            });
+        }
+        // Function to get the email parameter from the URL
+function getEmailFromURL() {
+    // Get the current URL
+    const url = window.location.href;
+
+    // Use the URLSearchParams API to extract the "name" parameter
+    const searchParams = new URLSearchParams(new URL(url).search);
+    const email = searchParams.get("name"); // Use "name" parameter to get the email
+
+    return email;
+}
+function clearForm(formId) {
+    const form = document.getElementById(formId);
+    if (form) {
+        form.reset();
+    }
+}
+document.addEventListener("DOMContentLoaded", function () {
+    const email = getEmailFromURL();
+    const orderTable = document.getElementById('orderstable');
+    // Function to clear the form fields
+
+    // Function to check if an order should be displayed
+    function shouldDisplayOrder(orderStatus) {
+        return orderStatus === "pending" || orderStatus === "processed";
+    }
+    // Attach a click event listener to all "Order Now" buttons
+    const orderButtons = document.querySelectorAll('button');
+
+    orderButtons.forEach(button => {
+    button.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent the form submission
+
+        // Get the form elements and their values
+        const form = button.closest('form');
+        const qty = form.querySelector('input[type="number"]').value;
+        const branch = form.querySelector('select').value;
+        // Determine the type based on the clicked button's ID
+        let type;
+            if (button.id === "minbutton") {
+                type = "min";
+            } else if (button.id === "purbutton") {
+                type = "pur";
+            } else if (button.id === "alkbutton") {
+                type = "alk";
+            } else {
+                // Default type if the button ID doesn't match any of the specified IDs
+                type = "default";
+            }
+        const location = form.querySelector('label').textContent; // You should add an ID to this label
+        const totalPrice = form.querySelector('label:last-of-type').textContent; // You should add an ID to this label
+        const currentDate = new Date().toLocaleString(); // Get the current date and time
+
+        // Check if there's a valid email
+        if (email) {
+            // Add a condition to check qty and branch before saving
+            if (qty !== "" && branch !== "Select Station") {
+                // Construct the data object
+                const orderData = {
+                    email: email, // Use the email obtained from the URL
+                    qty: qty,
+                    branch: branch,
+                    type: type,
+                    location: location,
+                    totalPrice: totalPrice,
+                    date: currentDate,
+                    status: "pending" // Add the "status" field with the value "pending"
+                };
+
+                // Save the order data to the Firebase Realtime Database
+                const database = firebase.database();
+                const ordersRef = database.ref('instantOrders');
+                const newOrderRef = ordersRef.push();
+                newOrderRef.set(orderData)
+                    .then(function () {
+                        // Data saved successfully
+                        // Reload the page to reflect the updated orders
+
+                        console.log("Order saved successfully");
+                        // Clear the form fields after saving the order
+                        // Function to clear the form fields
+
+                        clearForm('myForm1');
+                        clearForm('myForm2');
+                        clearForm('myForm3'); // Replace 'myForm' with your actual form's ID
+                        rel();
+                    })
+                    .catch(function (error) {
+                        // An error occurred
+                        console.error("Error saving order: " + error.message);
+                    });
+            } else {
+                console.log("Please select a valid quantity and branch before saving the order.");
+                // You can display an error message or take appropriate action here.
+            }
+        } else {
+            console.log("No valid email found in the URL. Cannot proceed with the order.");
+            // You can display an error message or take appropriate action here.
+        }
+    });
+
+
+    });
+
+    function rel(){
+        location.reload();
+    }
+    
+  // Function to populate the order table
+function populateOrderTable() {
+    const database = firebase.database();
+    const ordersRef = database.ref('instantOrders');
+
+    ordersRef.on('value', function (snapshot) {
+        // Get the table body where you want to add rows
+        const tableBody = orderTable.getElementsByTagName('tbody')[0];
+
+        snapshot.forEach(function (childSnapshot) {
+            const orderData = childSnapshot.val();
+            const orderKey = childSnapshot.key;
+            const orderStatus = orderData.status;
+            const orderEmail = orderData.email;
+
+            if (orderEmail === email && shouldDisplayOrder(orderStatus)) {
+                // Create a new row for the order in the table
+                const newRow = tableBody.insertRow();
+                newRow.insertCell(0).textContent = orderKey;
+                newRow.insertCell(1).textContent = orderData.email;
+                newRow.insertCell(2).textContent = orderData.qty;
+                newRow.insertCell(3).textContent = orderData.type;
+                newRow.insertCell(4).textContent = orderData.location;
+                newRow.insertCell(5).textContent = orderData.branch;
+                newRow.insertCell(6).textContent = orderData.totalPrice;
+                newRow.insertCell(7).textContent = orderStatus;
+
+                const processCell = newRow.insertCell(8);
+                const deleteCell = newRow.insertCell(9);
+                const receiptCell = newRow.insertCell(10);
+
+                const processButton = document.createElement('button');
+                processButton.textContent = 'Process';
+                processButton.addEventListener('click', function () {
+                    processOrder(orderKey);
+                    location.reload();
+                });
+
+                processCell.appendChild(processButton);
+
+                // Always display the delete and receipt buttons, regardless of the order status
+                const deleteButton = document.createElement('button');
+                const receiptButton = document.createElement('button');
+                deleteButton.textContent = 'Cancel';
+                receiptButton.textContent = 'Receipt';
+
+                deleteButton.addEventListener('click', function () {
+                    deleteOrder(orderKey);
+                    location.reload();
+                });
+
+                receiptButton.addEventListener('click', function () {
+                    displayReceiptModal(orderData, orderKey); // Call the function to display the modal
+                });
+
+                deleteCell.appendChild(deleteButton);
+                receiptCell.appendChild(receiptButton);
+            }
+        });
+        ordersRef.on("child_changed", function(snapshot) {
+            location.reload();
+          
+        });
+    });
+}
+
+// Function to display the receipt modal
+function displayReceiptModal(orderData, orderKey) {
+        const modal = document.getElementById('receiptModal');
+        const orderDetailsContainer = document.getElementById('orderDetails');
+
+        // Clear previous content
+        orderDetailsContainer.innerHTML = '';
+
+        // Create elements to display order details in the modal
+        const orderDetails = document.createElement('div');
+        orderDetails.innerHTML = `
+            
+            <p><strong>OrderID:</strong> ${orderKey}</p>
+            <p><strong>Email:</strong> ${orderData.email}</p>
+            <p><strong>Quantity:</strong> ${orderData.qty}</p>
+            <p><strong>Location:</strong> ${orderData.location}</p>
+            <p><strong>Branch:</strong> ${orderData.branch}</p>
+            <p><strong>Total Price:</strong> ${orderData.totalPrice}</p>
+            <p><strong>Status:</strong> ${orderData.status}</p>
+            <center><p>Note:</p></center>
+            <center><p><i>You can screenshot this and show it to the WATER BOY for order verification and please prepare exact amount if POSSIBLE</i></p></center>
+        `;
+
+        // Append order details to modal content
+        orderDetailsContainer.appendChild(orderDetails);
+
+        // Display the modal
+        modal.style.display = 'block';
+    }
+    /// Function to close the receipt modal
+    function closeReceiptModal() {
+        const modal = document.getElementById('receiptModal');
+        modal.style.display = 'none';
+    }
+
+    // Close the modal when the user clicks outside of it
+    window.onclick = function (event) {
+        const modal = document.getElementById('receiptModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+
+
+    
+
+
+
+
+    // Call the function to populate the order table
+    
+    populateOrderTable();
+    
+    
+});                     
+function processOrder(orderKey) {
+    const database = firebase.database();
+    const orderRef = database.ref('instantOrders/' + orderKey);
+
+    // Get the current order status
+    orderRef.once('value').then(function(snapshot) {
+        const orderData = snapshot.val();
+
+        // Check if the status is already "processed"
+        if (orderData.status === 'processed') {
+            // Status is already "processed," so do nothing
+            console.log("Order is already processed.");
+        } else {
+            // Update the status to "processed"
+            orderRef.update({ status: 'processed' }).then(function () {
+                // Order status updated successfully
+                console.log("Order processed successfully");
+            }).catch(function (error) {
+                // An error occurred
+                console.error("Error processing order: " + error.message);
+            });
+        }
+    }).catch(function (error) {
+        // An error occurred while getting order data
+        console.error("Error retrieving order data: " + error.message);
+    });
+}
+
+// Function to delete an order
+function deleteOrder(orderKey) {
+    const database = firebase.database();
+    const orderRef = database.ref('instantOrders/' + orderKey);
+
+    // Remove the order from the database
+    orderRef.remove().then(function () {
+        // Order deleted successfully
+        console.log("Order deleted successfully");
+    }).catch(function (error) {
+        // An error occurred
+        console.error("Error deleting order, it's been processed already: " + error.message);
+    });
+}
+
+
+    // Function to get the value of a URL parameter by its name
+    function getParameterByName(name, url) {
+        if (!url) {
+            url = window.location.href;
+        }
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+        var results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+    function displayUserDataInTable(email) {
+            const email2 = getParameterByName('name')
+            // Reference to the "users" node in the Firebase database
+            const usersRef = firebase.database().ref("users");
+
+            // Query to find the user with the given email
+            const userQuery = usersRef.orderByChild("email").equalTo(email2);
+            console.log(email2);
+            // Execute the query
+            userQuery.once("value")
+                .then(function(snapshot) {
+                    // Check if the user exists
+                    if (snapshot.exists()) {
+                        // Get the user data
+                        const userData = snapshot.val();
+                        const userId = Object.keys(userData)[0]; // Assuming there's only one user with the given email
+                        console.log(userData[userId].station1fee);
+                        const station1fee = userData[userId].station2fee;
+                        document.getElementById('delfee').innerHTML = station1fee;
+                    } else {
+                        // User not found
+                        console.error("User not found");
+                    }
+                })
+                .catch(function(error) {
+                    // Handle errors
+                    console.error("Error fetching user data: " + error);
+                });
+                
+        }
+       // displayUserDataInTable();
+    </script>
+</body>
+</html>
