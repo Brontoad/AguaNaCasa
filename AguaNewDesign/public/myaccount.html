@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agua Na Casa - My Account</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body{
+
+        }
+        a{
+            text-decoration: none;
+            color: #19A7CE;
+        }
+        #userinfo{
+            border-radius: 20px;
+            padding: 2%;
+            width: 80%;
+            margin-left: 10%;
+            box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+            -webkit-box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+            -moz-box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+        }
+        h1 {
+    color: #19A7CE;
+    margin-left: 20%;
+    margin-top: 100px;
+}
+
+#cartdiv,
+#completedOrdersDiv {
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 20px;
+    margin-bottom: 100px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #ffffff;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+thead {
+    background-color: #19A7CE;
+    color: #ffffff;
+}
+
+#orderstable-body,
+#completedOrderstable-body {
+    background-color: #f9f9f9;
+}
+#terms{
+    margin-top: 500px;
+}
+    </style>
+</head>
+<body>
+    <a href="#"><h3 id="goBack" onclick="goBack()">back</h3></a>
+    <h1 style="color: #19A7CE; margin-left: 12%; margin-top: 100px;">User Information</h1>
+    <div id="userinfo">
+        <table id="userdata">
+            <tbody id="userDataBody"> <!-- Add this tbody with id userDataBody -->
+                <!-- The user data will be inserted here dynamically -->
+            </tbody>
+        </table>
+    </div>
+    <h1 style="color: #19A7CE; margin-left: 12%; margin-top: 100px;">Subscriptions Status</h1>
+    <div id="cartdiv">
+        <table border="1" id="orderstable">
+            <thead>
+                <tr>
+                    <th>OrderID</th>
+                    <th>Customer</th>
+                    <th>Quantity</th>
+                    <th>Location</th>
+                    <th>Type</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+
+                </tr>
+            </thead>
+            <tbody id="orderstable-body">
+                <!-- Rows for orders will be appended here -->
+            </tbody>
+        </table>
+    </div>
+    <h1 style="color: #19A7CE; margin-left: 12%; margin-top: 100px;">Completed Subscriptions</h1>
+    <div id="completedOrdersDiv">
+        <table border="1" id="completedOrderstable">
+            <thead>
+                <tr>
+                    <th>OrderID</th>
+                    <th>Customer</th>
+                    <th>Quantity</th>
+                    <th>Location</th>
+                    <th>Type</th>
+                    <th>Total Price</th>
+                    <th>Orders Left</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="completedOrderstable-body">
+                <!-- Rows for completed orders will be appended here -->
+            </tbody>
+        </table>
+    </div>
+    
+    <center><a href="terms.html" id="terms" target="_blank">Terms and Conditions</a></center>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyAzStYODU-4-Vp1leWyKN9GmNhPu8219Xg",
+            authDomain: "aguanacasa-74ba1.firebaseapp.com",
+            databaseURL: "https://aguanacasa-74ba1-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "aguanacasa-74ba1",
+            storageBucket: "aguanacasa-74ba1.appspot.com",
+            messagingSenderId: "994613822213",
+            appId: "1:994613822213:web:cce7bb901241d564b36d6c",
+            measurementId: "G-3HYBS92MND"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const userEmail = getParameterByName('name');
+        const subscriptionsRef = database.ref('subscriptions');
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            const emailParam = getParameterByName('name');
+
+            // Check if the 'name' parameter is present
+            if (emailParam) {
+                modifyLinks(emailParam);
+                displayUserDataInTable(emailParam); // Fetch and display user data in the table
+            } else {
+                
+            }
+        });
+        
+        // Example Firebase code for logging out
+        function logout() {
+            firebase.auth().signOut().then(function() {
+                // Sign-out successful, you can redirect the user to the login page
+                window.location.href = "AguaNaCasaLogin.html";
+            }).catch(function(error) {
+                // An error happened.
+                console.error("Logout error: " + error);
+            });
+        }
+        function displayUserDataInTable(email) {
+            // Reference to the "users" node in the Firebase database
+            const usersRef = firebase.database().ref("users");
+
+            // Query to find the user with the given email
+            const userQuery = usersRef.orderByChild("email").equalTo(email);
+
+            // Execute the query
+            userQuery.once("value")
+                .then(function(snapshot) {
+                    // Check if the user exists
+                    if (snapshot.exists()) {
+                        // Get the user data
+                        const userData = snapshot.val();
+                        const userId = Object.keys(userData)[0]; // Assuming there's only one user with the given email
+
+                        // Display user data in the table
+                        const userDataBody = document.getElementById('userDataBody');
+                        userDataBody.innerHTML = `
+                            <tr>
+                                <tr>
+                                <td>Full Name</td><td>${userData[userId].fullName}</td>
+                                </tr>
+                                <tr>
+                                <td>Email</td><td>${userData[userId].email}</td>
+                                </tr>
+                                <tr>
+                                <td>Birthday</td><td>${userData[userId].dateOfBirth}</td>
+                                </tr>
+                                <tr>
+                                <td>Gender</td><td>${userData[userId].gender}</td>
+                            </tr>
+                                <tr>
+                                <td>Homde Address</td><td>${userData[userId].homeAddress}</td>
+                            </tr>
+                                <tr>
+                                <td>Home Contact</td><td>${userData[userId].homeContactNumber}</td>
+                            </tr>
+                                <tr>
+                                <td>ID</td><td>${userData[userId].idType}</td>
+                            </tr>
+                                <tr>
+                                <td>Home location Photo</td><td><a href="${userData[userId].locationPhoto}">link</a></td>
+                            </tr>
+                                <tr>
+                                <td>Mobile Number</td><td>${userData[userId].mobileNumber}</td>
+                            </tr>
+                                <tr>
+                                <td>Occupation</td><td>${userData[userId].occupation}</td>
+                            </tr>
+                                <tr>
+                                <td>Status</td><td>${userData[userId].status}</td>
+                            </tr>
+                        `;
+                    } else {
+                        // User not found
+                        console.error("User not found");
+                    }
+                })
+                .catch(function(error) {
+                    // Handle errors
+                    console.error("Error fetching user data: " + error);
+                });
+        }
+        
+        document.addEventListener("DOMContentLoaded", function () {
+    
+    if (userEmail) {
+        
+        const orderstableBody = document.getElementById('orderstable-body');
+
+        subscriptionsRef.orderByChild('email').equalTo(userEmail).on('value', function (snapshot) {
+            const orders = snapshot.val();
+            
+            if (orders.status !== 'completed') {
+                orderstableBody.innerHTML = ''; // Clear the table body
+
+                for (const orderID in orders) {
+                    const order = orders[orderID];
+                    const row = orderstableBody.insertRow();
+
+                        // Create cells and populate data
+                        const cellOrderID = row.insertCell(0);
+                        const cellCustomer = row.insertCell(1);
+                        const cellQuantity = row.insertCell(2);
+                        const cellLocation = row.insertCell(3);
+                        const cellType = row.insertCell(4);
+                        const cellTotalPrice = row.insertCell(5);
+           
+                        const cellStatus = row.insertCell(6);
+ 
+
+                        cellOrderID.innerHTML = orderID;
+                        cellCustomer.innerHTML = order.email;
+                        cellQuantity.innerHTML = order.qty;
+                        cellLocation.innerHTML = order.location;
+                        cellType.innerHTML = order.type;
+                        cellTotalPrice.innerHTML = order.totalPrice;
+                      
+                        cellStatus.innerHTML = order.status;
+
+                    // if (order.status === "pending") {
+                        
+                    // }
+                }
+            } else {
+                // Handle the case when there are no pending orders for this user
+                orderstableBody.innerHTML = 'No pending orders found.';
+            }
+        });
+    }
+});
+// Fetch and display completed orders
+const completedOrdersBody = document.getElementById('completedOrderstable-body');
+
+        subscriptionsRef.orderByChild('email').equalTo(userEmail).on('value', function (snapshot) {
+            const orders = snapshot.val();
+            const userEmail = getParameterByName('name');
+
+            if (orders) {
+                for (const orderID in orders) {
+                    const order = orders[orderID];
+                    // Check if the order is completed (you need to define this logic)
+                    if (order.status === 'completed') {
+                        const row = completedOrdersBody.insertRow();
+
+                        // Create cells and populate data similar to your existing code
+                        const cellOrderID = row.insertCell(0);
+                        const cellCustomer = row.insertCell(1);
+                        const cellQuantity = row.insertCell(2);
+                        const cellLocation = row.insertCell(3);
+                        const cellType = row.insertCell(4);
+                        const cellTotalPrice = row.insertCell(5);
+
+                        const cellStatus = row.insertCell(7);
+                
+
+                        cellOrderID.innerHTML = orderID;
+                        cellCustomer.innerHTML = order.email;
+                        cellQuantity.innerHTML = order.qty;
+                        cellLocation.innerHTML = order.location;
+                        cellType.innerHTML = order.type;
+                        cellTotalPrice.innerHTML = order.totalPrice;
+    
+                        cellStatus.innerHTML = order.status;
+                    }
+                }
+            } else {
+                // Handle the case when there are no completed orders for this user
+                completedOrdersBody.innerHTML = 'No completed orders found.';
+            }
+        });
+    
+    
+        // Function to get the value of a URL parameter by its name
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            var results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+    
+        // Function to modify links to forward the email parameter
+        function modifyLinks(email) {
+            const links = document.querySelectorAll('.forward-email');
+    
+            links.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const href = link.getAttribute('href');
+                    if (email) {
+                        window.location.href = `${href}?name=${email}`;
+                    } else {
+                        window.location.href = href;
+                    }
+                });
+            });
+        }
+        function goBack() {
+            // Use the window.history object to go back
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

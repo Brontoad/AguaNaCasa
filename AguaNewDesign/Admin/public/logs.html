@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logs</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            margin: 0;
+        }
+
+        h2, h1 {
+            color: #055871;
+            margin-left: 10%;
+        }
+
+        #table-wrapper {
+            height: 500px;
+            width: 80%;
+            padding: 0;
+            margin: 10px auto 10px auto;
+            margin-left: 10%;
+            overflow: auto;
+        }
+        /* #header{
+            position: sticky;
+            width: 80%;
+            z-index: 1100;
+            
+        } */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 100px;
+            
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table th,
+        table td {
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        table th {
+            background-color: #19A7CE;
+            color: #fff;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        table tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            position: sticky;
+            z-index: 1100;
+            width: 100%;
+            height: 70px;
+        }
+
+        ul.navbar {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #19A7CE;
+        }
+
+        li.nav-item {
+            float: left;
+        }
+
+        li.nav-item a {
+            font-size: 30px;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li.nav-item a:hover {
+            background-color: #055871;
+        }
+
+        button {
+            background-color: #19A7CE;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #147592;
+        }
+        #searchdiv{
+            margin-left: 10%;
+        }
+    </style>
+</head>
+<body>
+    <ul class="navbar">
+        <ul class="navbar">
+            <li class="nav-item"><a href="home.html">Home</a></li>
+            <li class="nav-item"><a href="logs.html">Logs</a></li>
+            <li class="nav-item"><a href="users.html">Users</a></li>
+            <li class="nav-item"><a href="store.html">Store</a></li>
+            <li class="nav-item"><a href="index.html">Logout</a></li>
+            
+        </ul>
+    </ul>
+    <h1>Logs</h1>
+
+    <h2>Instant Sales</h2>
+    <div id="searchdiv">
+        <label for="search">Search by Email:</label>
+        <input type="text" id="search" oninput="searchemail()">
+        <button onclick="clearSearch()">Clear</button>
+        <label for="search">Search by Branch:</label>
+        <input type="text" id="searchbranch" oninput="searchbranch()">
+        <button onclick="clearSearch()">Clear</button>
+    </div>
+    <div id="table-wrapper">
+        <table border="1" id="instantSalesTable">
+            <thead>
+                <tr id="header">
+                    <th>OrderID</th>
+                    <th>Email</th>
+                    <th>Branch</th>
+                    <th>Qty</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            
+        </table>
+    </div>
+
+    <h2>Subscription Sales</h2>
+    <div id="searchdiv">
+        <label for="search">Search by Email:</label>
+        <input type="text" id="search" oninput="searchemail()">
+        <button onclick="clearSearch()">Clear</button>
+        <label for="search">Search by Branch:</label>
+        <input type="text" id="searchbranch" oninput="searchbranch()">
+        <button onclick="clearSearch()">Clear</button>
+    </div>
+    <div id="table-wrapper">
+        <table border="1" id="subscriptionSalesTable">
+            <tr>
+                <th>OrderID</th>
+                <th>Email</th>
+                <th>Water Type</th>
+                <th>Subscription Type</th>
+                <th>Quantity</th>
+                <th>Months</th>
+                <th>Location</th>
+                <th>date</th>
+                <th>Total Price</th>
+                <th>Status</th>
+            </tr>
+        </table>
+    </div>
+    <h2>Product Sales</h2>
+    <div id="table-wrapper">
+    <table border="1" id="productSalesTable">
+        <tr>
+            <th>OrderID</th>
+            <th>Email</th>
+            <th>Product Name</th>
+            <th>Quantity Sold</th>
+            <th>Total Price</th>
+            <th>Status</th>
+        </tr>
+    </table>
+    </div>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAzStYODU-4-Vp1leWyKN9GmNhPu8219Xg",
+            authDomain: "aguanacasa-74ba1.firebaseapp.com",
+            databaseURL: "https://aguanacasa-74ba1-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "aguanacasa-74ba1",
+            storageBucket: "aguanacasa-74ba1.appspot.com",
+            messagingSenderId: "994613822213",
+            appId: "1:994613822213:web:cce7bb901241d564b36d6c",
+            measurementId: "G-3HYBS92MND"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        const database = firebase.database();
+
+      // Function to populate the Instant Sales table with Completed orders
+function populateInstantSales() {
+    const table = document.getElementById("instantSalesTable");
+    const tableBody = table.createTBody();
+
+    database.ref("instantOrders").orderByChild("date").once('value', (snapshot) => {
+        const completedOrders = [];
+
+        snapshot.forEach((childSnapshot) => {
+            const data = childSnapshot.val();
+            if (data.status === "completed") {
+                // Fix the syntax error here - use parentheses for split instead of square brackets
+                const dateParts = data.date.split(',');
+                const formattedDate = dateParts[0];
+
+                completedOrders.push({
+                    key: childSnapshot.key,
+                    branch: data.branch,
+                    email: data.email,
+                    qty: data.qty,
+                    type: data.type,
+                    date: data.date,
+                    location: data.location,
+                    totalPrice: data.totalPrice,
+                    status: data.status
+                });
+            }
+        });
+
+        // Sort the completedOrders array by date (oldest to latest)
+        completedOrders.sort((a, b) => {
+            const dateA = new Date(a.date);
+            const dateB = new Date(b.date);
+            return dateB - dateA;
+        });
+
+        // Populate the table with the sorted data
+        completedOrders.forEach((order) => {
+            const row = tableBody.insertRow(-1);
+            row.insertCell(0).textContent = order.key;
+            row.insertCell(1).textContent = order.email;
+            row.insertCell(2).textContent = order.branch;
+            row.insertCell(3).textContent = order.qty;
+            row.insertCell(4).textContent = order.type;
+            row.insertCell(5).textContent = order.date;
+            row.insertCell(6).textContent = order.location;
+            row.insertCell(7).textContent = order.totalPrice;
+            row.insertCell(8).textContent = order.status;
+        });
+    });
+}
+database.ref("instantOrders").orderByChild("date").on("child_changed", function(snapshot) {
+            var orderId = snapshot.key;
+            var order = snapshot.val();
+            if (order.status === "completed") {
+                populateInstantSales(orderId, order);
+            }
+        });
+
+
+
+        // Function to populate the Subscription Sales table with Completed orders
+        function populateSubscriptionSales() {
+            const table = document.getElementById("subscriptionSalesTable");
+            const tableBody = table.createTBody();
+
+            database.ref("subscriptions").once('value', (snapshot) => {
+                snapshot.forEach((childSnapshot) => {
+                    const data = childSnapshot.val();
+                    if (data.status === "Complete") {
+                        const row = tableBody.insertRow(-1);
+                        // Add cells and populate the data as needed
+
+                        row.insertCell(0).textContent = childSnapshot.key;
+                        row.insertCell(1).textContent = data.email;
+                        row.insertCell(2).textContent = data.type;
+                        row.insertCell(3).textContent = data.formIndex;
+                        row.insertCell(4).textContent = data.qty;
+                        row.insertCell(5).textContent = data.months;
+                        row.insertCell(6).textContent = data.location;
+                        row.insertCell(7).textContent = data.date;
+                        row.insertCell(8).textContent = data.totalPrice;
+                        row.insertCell(9).textContent = data.status;
+                        // row.insertCell(3).textContent = data.totalPrice;
+                        // row.insertCell(3).textContent = data.totalPrice;
+                        // row.insertCell(3).textContent = data.totalPrice;
+                    }
+                });
+            });
+        }
+        
+
+        // Function to populate the Product Sales table with Complete orders
+        function populateProductSales() {
+            const table = document.getElementById("productSalesTable");
+            const tableBody = table.createTBody();
+
+            database.ref("productorders").once('value', (snapshot) => {
+                snapshot.forEach((childSnapshot) => {
+                    const data = childSnapshot.val();
+                    if (data.status === "Complete") {
+                        const row = tableBody.insertRow(-1);
+                        // Add cells and populate the data as needed
+                        row.insertCell(0).textContent = childSnapshot.key;
+                        row.insertCell(1).textContent = data.name;
+                        row.insertCell(2).textContent = data.photoDesc;
+                        row.insertCell(3).textContent = data.qty;
+                        row.insertCell(4).textContent = data.total;
+                        row.insertCell(5).textContent = data.status;
+                    }
+                });
+            });
+        }
+        const instantSalesTableBody = document.getElementById("instantSalesTableBody");
+
+        // // Function to filter and populate the Instant Sales table based on selected month
+        // function filterInstantSalesByMonth() {
+        //     const selectedMonth = document.getElementById("monthSelector").value;
+
+        //     database.ref("instantOrders").orderByChild("date").once('value', (snapshot) => {
+        //         const filteredOrders = [];
+
+        //         snapshot.forEach((childSnapshot) => {
+        //             const data = childSnapshot.val();
+        //             // Check if the order's date matches the selected month
+        //             if (data.status === "Completed" && data.date.startsWith(selectedMonth)) {
+        //                 filteredOrders.push({
+        //                     key: childSnapshot.key,
+        //                     branch: data.branch,
+        //                     qty: data.qty,
+        //                     date: data.date,
+        //                     location: data.location,
+        //                     totalPrice: data.totalPrice,
+        //                     status: data.status
+        //                 });
+        //             }
+        //         });
+
+        //         // Sort the filteredOrders array by date (oldest to latest)
+        //         filteredOrders.sort((a, b) => {
+        //             const dateA = new Date(a.date);
+        //             const dateB = new Date(b.date);
+        //             return dateB - dateA;
+        //         });
+
+        //         // Clear existing rows in the table
+        //         instantSalesTableBody.innerHTML = "";
+
+        //         // Populate the table with the sorted data
+        //         filteredOrders.forEach((order) => {
+        //             const row = instantSalesTableBody.insertRow(-1);
+        //             row.insertCell(0).textContent = order.key;
+                    
+        //             row.insertCell(1).textContent = order.branch;
+        //             row.insertCell(2).textContent = order.qty;
+        //             row.insertCell(3).textContent = order.date;
+        //             row.insertCell(4).textContent = order.location;
+        //             row.insertCell(5).textContent = order.totalPrice;
+        //             row.insertCell(6).textContent = order.status;
+        //         });
+        //     });
+        // }
+
+
+        // Populate the tables
+        populateInstantSales();
+        populateSubscriptionSales();
+        populateProductSales();
+        // Corrected function name to match the ID in HTML
+function searchemail() {
+    const searchInput = document.getElementById('search').value.toUpperCase();
+    const usersTable = document.getElementById('instantSalesTable').getElementsByTagName('tbody')[0];
+    const rows = usersTable.getElementsByTagName('tr');
+
+    for (let i = 0; i < rows.length; i++) {
+        const email = rows[i].getElementsByTagName('td')[1].innerText.toUpperCase();
+
+        if (email.includes(searchInput)) {
+            rows[i].style.display = '';
+        } else {
+            rows[i].style.display = 'none';
+        }
+    }
+}
+
+// Corrected function name to match the ID in HTML
+function searchbranch() {
+    const searchInput = document.getElementById('searchbranch').value.toUpperCase();
+    const usersTable = document.getElementById('instantSalesTable').getElementsByTagName('tbody')[0];
+    const rows = usersTable.getElementsByTagName('tr');
+
+    for (let i = 0; i < rows.length; i++) {
+        const branch = rows[i].getElementsByTagName('td')[2].innerText.toUpperCase();
+
+        if (branch.includes(searchInput)) {
+            rows[i].style.display = '';
+        } else {
+            rows[i].style.display = 'none';
+        }
+    }
+}
+
+
+    // Function to clear the search input and show all users
+    function clearSearch() {
+        document.getElementById('search').value = '';
+        const usersTable = document.getElementById('users-table').getElementsByTagName('tbody')[0];
+        const rows = usersTable.getElementsByTagName('tr');
+
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].style.display = '';
+        }
+    }
+
+       
+    </script>
+</body>
+</html>

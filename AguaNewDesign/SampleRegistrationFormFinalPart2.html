@@ -1,0 +1,382 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    <title>AguaNaCasa - Registration Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+
+    <style>
+        *{
+            margin: 0;
+            padding-left: 10px;
+            box-sizing: border-box;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+        body{
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #71b7e6, #19A7CE);
+        }
+        .container{
+            position: relative;
+            max-width: 900px;
+            width: 100%;
+            border-radius: 6px;
+            padding: 30px;
+            margin: 20px 20px;
+            background-color: #fff;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        .container header{
+            position: relative;
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+        .container header::before{
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            height: 3px;
+            width: 27px;
+            border-radius: 8px;
+            background-color: #4070f4;
+        }
+        .container form{
+            position: relative;
+            margin-top: 16px;
+            min-height: 490px;
+            background-color: #fff;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .container form .form{
+            flex-grow: 1;
+            background-color: #fff;
+            transition: 0.3s ease;
+        }
+        .container form .form.second{
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(100%);
+        }
+        form.secActive .form.second{
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0);
+        }
+        form.secActive .form.first{
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-100%);
+        }
+        .container form .title{
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            margin: 6px 0;
+            color: #333;
+        }
+        .container form .fields{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        form .fields .input-field{
+            display: flex;
+            width: calc(100% / 3 - 15px);
+            flex-direction: column;
+            margin: 4px 0;
+        }
+        .input-field label{
+            font-size: 12px;
+            font-weight: 500;
+            color: #2e2e2e;
+        }
+        .input-field input, select{
+            outline: none;
+            font-size: 14px;
+            font-weight: 400;
+            color: #333;
+            border-radius: 5px;
+            border: 1px solid #aaa;
+            padding: 10px 15px;
+            height: 42px;
+            margin: 8px 10px;
+        }
+        .input-field input:focus,
+        .input-field select:focus{
+            box-shadow: 0 3px 6px rgba(0,0,0,0.13);
+        }
+        .input-field select,
+        .input-field input[type="date"]{
+            color: #707070;
+        }
+        .input-field input[type="date"]:valid{
+            color: #333;
+        }
+        .container form .buttons{
+            display: flex;
+            justify-content: flex-end; /* Align the button to the right */
+            margin-top: 16px; /* Adjust margin as needed */
+        }
+        .container form button, .backBtn{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 45px;
+            max-width: 200px;
+            width: 100%;
+            border: none;
+            outline: none;
+            color: #fff;
+            border-radius: 5px;
+            margin: 0;
+            background-color: #4070f4;
+            transition: all 0.3s linear;
+            cursor: pointer;
+        }
+        .container form .btnText{
+            font-size: 14px;
+            font-weight: 400;
+        }
+        form button:hover{
+            background-color: #265df2;
+        }
+        form button i,
+        form .backBtn i{
+            margin: 0 6px;
+        }
+        form .backBtn i{
+            transform: rotate(180deg);
+        }
+        @media (max-width: 750px) {
+            .container form{
+                overflow-y: scroll;
+            }
+            .container form::-webkit-scrollbar{
+                display: none;
+            }
+            form .fields .input-field{
+                width: calc(100% / 2 - 15px);
+            }
+        }
+        @media (max-width: 550px) {
+            form .fields .input-field{
+                width: 100%;
+            }
+        }</style>
+    </head>
+    <body>
+        <div class="container">
+            <header>Registration</header>
+            <form id="registration-form">
+                <div class="form">
+                    <div class="details personal">
+                        <span class="title">Personal Details</span>
+                        <div class="fields">
+                            <div class="input-field">
+                                <label>Full Name</label>
+                                <input type="text" id="fullName" placeholder="Enter your name" required>
+                            </div>
+                            <div class="input-field">
+                                <label>Date of Birth</label>
+                                <input type="date" id="dateOfBirth" placeholder="Enter birth date" required>
+                            </div>
+                            <div class="input-field">
+                                <label>Email</label>
+                                <input type="text" id="email" placeholder="Enter your email" required>
+                            </div>
+                            <div class="input-field">
+                                <label>Mobile Number</label>
+                                <input type="number" id="mobileNumber" placeholder="Enter mobile number" required>
+                            </div>
+                            <div class="input-field">
+                                <label>Gender</label>
+                                <select id="gender" required>
+                                    <option disabled selected>Select gender</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Others</option>
+                                </select>
+                            </div>
+                            <div class="input-field">
+                                <label>Occupation</label>
+                                <input type="text" id="occupation" placeholder="Enter your occupation" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details ID">
+                        <span class="title">Identity Details</span>
+                        <div class="fields">
+                            <div class="input-field">
+                                <label>ID Type</label>
+                                <input type="text" id="idType" placeholder="Enter ID type" required>
+                            </div>
+                            <div class="input-field">
+                                <label>ID Number</label>
+                                <input type="number" id="idNumber" placeholder="Enter ID number" required>
+                            </div>
+                            <div class="input-field">
+                                <label>Issued Authority</label>
+                                <input type="text" id="issuedAuthority" placeholder="Enter issued authority" required>
+                            </div>
+                            <div class="input-field">
+                                <label>Issued State</label>
+                                <input type="text" id="issuedState" placeholder="Enter issued state" required>
+                            </div>
+                            <div class="input-field">
+                                <label>Issued Date</label>
+                                <input type="date" id="issuedDate" placeholder="Enter your issued date" required>
+                            </div>
+                            <div class="input-field">
+                                <label>Expiry Date</label>
+                                <input type="date" id="expiryDate" placeholder="Enter expiry date" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details business">
+                        <span class="title">Business Information</span>
+                        <div class="fields">
+                            <div class="input-field">
+                                <label>Business Name</label>
+                                <input type="text" id="businessName" placeholder="Enter business name" required>
+                            </div>
+                            <div class="input-field">
+                                <label>Business Address</label>
+                                <input type="text" id="businessAddress" placeholder="Enter business address" required>
+                            </div>
+                            <div class="input-field">
+                                <label>Location Photo</label>
+                                <input type="file" id="locationPhoto" accept="image/*" required>
+                            </div>
+                            <div class="input-field">
+                                <label>Business Contact Number</label>
+                                <input type="tel" id="businessContactNumber" placeholder="Enter business contact number" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button class="submit">
+                            <span class="btnText">Sign up</span>
+                            <i class="uil uil-navigator"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script>
+            // Initialize Firebase
+            const firebaseConfig = {
+                apiKey: "AIzaSyAzStYODU-4-Vp1leWyKN9GmNhPu8219Xg",
+                authDomain: "aguanacasa-74ba1.firebaseapp.com",
+                databaseURL: "https://aguanacasa-74ba1-default-rtdb.asia-southeast1.firebasedatabase.app",
+                projectId: "aguanacasa-74ba1",
+                storageBucket: "aguanacasa-74ba1.appspot.com",
+                messagingSenderId: "994613822213",
+                appId: "1:994613822213:web:cce7bb901241d564b36d6c",
+                measurementId: "G-3HYBS92MND"
+            };
+
+            firebase.initializeApp(firebaseConfig);
+
+            // Create a reference to Firebase Storage
+            // Create a reference to Firebase Realtime Database
+            const database = firebase.database();
+            const dataRef = database.ref("RegSupp");
+            const storage = firebase.storage();
+            const storageRef = storage.ref();
+
+            document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("form");
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                // Retrieve personal details
+                const personalDetails = {
+                    fullName: form.elements.fullName.value,
+                    dateOfBirth: form.elements.dateOfBirth.value,
+                    email: form.elements.email.value,
+                    mobileNumber: form.elements.mobileNumber.value,
+                    gender: form.elements.gender.value,
+                    occupation: form.elements.occupation.value,
+                };
+
+                // Retrieve identity details
+                const identityDetails = {
+                    idType: form.elements.idType.value,
+                    idNumber: form.elements.idNumber.value,
+                    issuedAuthority: form.elements.issuedAuthority.value,
+                    issuedState: form.elements.issuedState.value,
+                    issuedDate: form.elements.issuedDate.value,
+                    expiryDate: form.elements.expiryDate.value,
+                };
+
+                // Retrieve business information
+                const businessInformation = {
+                    businessName: form.elements.businessName.value,
+                    businessAddress: form.elements.businessAddress.value,
+                    businessContactNumber: form.elements.businessContactNumber.value,
+                };
+
+                
+
+                // Get the location photo input field
+                const locationPhotoInput = form.elements.locationPhoto;
+
+                // Check if a file was selected
+                if (locationPhotoInput.files.length > 0) {
+                    const locationPhoto = locationPhotoInput.files[0];
+
+                    // Create a reference to store the photo in Firebase Storage
+                    const photoRef = storageRef.child(`photos/${locationPhoto.name}`);
+
+                    // Upload the photo
+                    photoRef.put(locationPhoto).then(function (snapshot) {
+                        console.log("Location photo uploaded to Firebase Storage!");
+
+                        // Get the download URL of the uploaded photo
+                        snapshot.ref.getDownloadURL().then(function (downloadURL) {
+                            // Include the downloadURL in the data you save to the Realtime Database
+                            const newData = {
+                                personalDetails,
+                                identityDetails,
+                                businessInformation,
+                                locationPhoto: downloadURL, // Save the photo download URL
+                            };
+
+                            // Create a reference to Firebase Realtime Database
+                            const database = firebase.database();
+                            const dataRef = database.ref("RegSupp");
+
+                            // Push the data to the Realtime Database
+                            dataRef.push(newData).then(function () {
+                                alert("Registration done, wait for our team to contact you. Thank you.");
+                                console.log("Data saved to Firebase Realtime Database!");
+                                
+                                document.getElementById("registration-form").reset();
+                                // Optionally, you can redirect to a success page or perform other actions here.
+                            });
+                        });
+                    });
+                } else {
+                    console.log("No location photo selected");
+                }
+            });
+        });
+
+
+        </script>
+    </body>
+    </html>

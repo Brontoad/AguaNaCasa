@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Home - Agua Na Casa</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body{
+            font-family: 'Nunito Sans', sans-serif;
+            margin: 0;
+        }
+        h2{
+            color: #055871;
+            margin-left: 10%;
+            margin-top: 100px;
+        }
+        h3{
+            color: #055871;
+            
+        }
+        #table-wrapper {
+            height: 500px;
+            width: 90%;
+            padding: 0px;
+            margin-left: 10%;
+            margin: 10px auto 100px auto;
+            overflow: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 100px;
+            
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        table th {
+            background-color: #19A7CE;
+            color: #fff;
+            font-weight: bold;
+            text-align: left;
+            position: sticky;
+            z-index: 1100;
+            top: 0;
+        }
+
+        table tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            position:sticky;
+            z-index: 1100;
+            width: 100%;
+            height: 70px;
+        }
+
+        ul.navbar {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #19A7CE;
+        }
+
+        li.nav-item {
+            float: left;
+        }
+
+        li.nav-item a {
+            font-size: 30px;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            
+        }
+
+        li.nav-item a:hover {
+            background-color: #055871;
+        }
+
+        button {
+            background-color: #19A7CE;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #147592;
+        }
+        #mineralform{
+            width: 20%;
+            height: 330px;
+            padding: 20px 20px;
+            border-radius: 10px;
+            margin-top: 4%;
+            margin-left: 39%;
+            margin-bottom: 20px;
+        }
+        #mineralform th{
+            background-color: white;
+        }
+        #mineralform  button{
+            width: 80%;
+        }
+
+    </style>
+</head>
+<body>
+    <ul class="navbar">
+        <li class="nav-item"><a href="home.html">Home</a></li>
+        <li class="nav-item"><a href="logs.html">Logs</a></li>
+        <li class="nav-item"><a href="users.html">Users</a></li>
+        <li class="nav-item"><a href="store.html">Store</a></li>
+        <li class="nav-item"><a href="index.html">Logout</a></li>
+    </ul>
+    <div id="mineralform">
+        <center>
+            <h3>Add Order</h3>
+            <form id="myForm1">
+                <table>
+                    <td>OrderID:</td><td><input type="text" name="orderId"></td>
+                    <tr></tr>
+                    <td>Email:</td><td><input type="email" name="email"></td>
+                    <tr></tr>
+                    <td>Type:</td><td><input type="text" name="type"></td>
+                    <tr></tr>
+                    <td>Qty:</td><td><input type="number" name="qty"></td>
+                    <tr></tr>
+                    <td colspan="2">
+                        <center><select style="margin-bottom: 10px; width: 80%;" id="station" oninput="branch( 'form1', 1)" required>
+                            <option>Select Station</option>
+                            <option>Station 1</option>
+                            <option>Station 2</option>
+                            <option>Station 3</option>
+                            <option>Station 4</option>
+                        </select></center>
+                    </td>
+                    <tr></tr>
+                    <td>Location:</td><td><input type="text" name="loc"></td>
+                    <tr></tr>
+                    <td>Date:</th><td><input type="date" name="date"></td>
+                    <tr></tr>
+                    <td colspan="2"><center><button type="submit">Order Now</button></center></td>
+                </table>
+            </form>
+        </center>
+    </div>
+    <h2>Instant Orders Table</h2>
+    <div id="table-wrapper">
+        <div>
+            
+            <table id="instant-orders-table">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Name</th>
+                    <th>Branch</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Total Price</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="table-wrapper">
+        <div>
+            <h2>Pending Subscription Orders Table</h2>
+            <table id="subscription-orders-table">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Expiry Date</th>
+                    <th>Email</th>
+                    <th>Sub Type</th>
+                    <th>Location</th>
+                    <th>Months</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Total Price</th>
+                    <th>Type</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="table-wrapper">
+        <div>
+            <h2>Ongoing Subscription Orders Table</h2>
+            <table id="subscription-ongoing-orders-table">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Expiry Date</th>
+                    <th>Email</th>
+                    <th>Sub Type</th>
+                    <th>Location</th>
+                    <th>Months</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Total Price</th>
+                    <th>Type</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="table-wrapper">
+        <div>
+            <h2>Pending Product Orders Table</h2>
+            <table id="product-pending-orders-table">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Email</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Total Price</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="table-wrapper">
+        <div id="tables-wrappers">
+            <h2>Generated Sub Orders Table</h2>
+            <table id="generated-sub-orders-table">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Quantity</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+        
+        // Your Firebase configuration goes here
+        var firebaseConfig = {
+            apiKey: "AIzaSyAzStYODU-4-Vp1leWyKN9GmNhPu8219Xg",
+            authDomain: "aguanacasa-74ba1.firebaseapp.com",
+            databaseURL: "https://aguanacasa-74ba1-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "aguanacasa-74ba1",
+            storageBucket: "aguanacasa-74ba1.appspot.com",
+            messagingSenderId: "994613822213",
+            appId: "1:994613822213:web:cce7bb901241d564b36d6c",
+            measurementId: "G-3HYBS92MND"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Reference to the Firebase Realtime Database
+        var database = firebase.database();
+        var instantOrdersRef = database.ref("instantOrders");
+        var subscriptionsRef = database.ref("subscriptions");
+        var generatedsubscriptionsRef = database.ref("generatedsuborders"); // Define subscriptionsRef
+        var productordersRef = database.ref("productorders"); // Define productordersRef
+        instantOrdersRef.orderByChild("date").on("child_changed", function(snapshot) {
+            var orderId = snapshot.key;
+            var order = snapshot.val();
+            if (order.status === "processed") {
+                addInstantOrderRow(orderId, order);
+            }
+        });
+        instantOrdersRef.orderByChild("date").on("child_added", function(snapshot) {
+            var orderId = snapshot.key;
+            var order = snapshot.val();
+            if (order.status === "processed") {
+                addInstantOrderRow(orderId, order);
+            }
+        });
+        instantOrdersRef.orderByChild("date").on("child_changed", function(snapshot) {
+            var orderId = snapshot.key;
+            var order = snapshot.val();
+            if (order.status === "completed") {
+                location.reload();
+            }
+        });
+        // Handle form submission
+        document.getElementById("myForm1").addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Get form values
+                var orderId = this.elements["orderId"].value;
+                var email = this.elements["email"].value;
+                var type = this.elements["type"].value;
+                var qty = this.elements["qty"].value;
+                var loc = this.elements["loc"].value;
+                // Get the date from the form
+                var date = this.elements["date"].value;
+                var station = this.elements["station"].value;
+                
+
+                // Save the order to the "instantOrders" section
+                var orderData = {
+                    orderId: orderId,
+                    branch: station,
+                    email: email,
+                    type: type,
+                    qty: qty,
+                    date: date,
+                    location: loc,
+                    status: "processed",
+                    totalPrice: "paid"
+                    // Add other form fields as needed
+                };
+
+                // Push the order data to the database
+                instantOrdersRef.push(orderData);
+
+                // Clear the form fields
+                this.reset();
+
+                alert("Order placed successfully!");
+            });
+
+        // Function to generate PDF from the table
+        function generatePDF() {
+        // Create a new jsPDF instance
+        const pdf = new jsPDF();
+
+        // Set the font size
+        pdf.setFontSize(8);
+
+        // Add a title to the PDF
+        pdf.text("Generated Sub Orders Table", 20, 10);
+
+        // Get the table element
+        const table = document.getElementById("generated-sub-orders-table");
+
+        // Get all rows in the table
+        const rows = table.querySelectorAll("tr");
+
+        // Set initial y position for the PDF content
+        let y = 20;
+
+        // Loop through each row and add it to the PDF
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i].querySelectorAll("td, th");
+
+            // Set initial x position for the PDF content
+            let x = 5;
+
+            for (let j = 0; j < row.length; j++) {
+                // Add each cell content to the PDF
+                pdf.text(row[j].innerText, x, y);
+
+                // Increase x position for the next cell
+                x += 35; // You can adjust the spacing as needed
+            }
+
+            // Increase y position for the next row
+            y += 14; // You can adjust the spacing as needed for the font size
+        }
+
+        // Save the PDF with a specific name
+        const pdfFileName = "generated_sub_orders.pdf";
+        pdf.save(pdfFileName);
+
+        // Automatically download the PDF
+        const blob = pdf.output("blob");
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = pdfFileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        var generatedsubscriptionsRef = database.ref("generatedsuborders");
+//     // Clear existing data in generatedsuborders
+         generatedsubscriptionsRef.remove();
+    }
+
+
+
+            // Add an event listener to the "Generate PDF" button
+            const generatePDFButton = document.createElement("button");
+            generatePDFButton.innerHTML = "Generate PDF";
+            generatePDFButton.addEventListener("click", generatePDF);
+
+            // Append the button to the table-wrapper
+            const tableWrapper = document.getElementById("tables-wrappers");
+            tableWrapper.appendChild(generatePDFButton);
+
+            var genereatedSubOrdersTable = document.getElementById("generated-sub-orders-table");
+            // Function to add rows to the Instant Orders Table
+function addGeneratedSubOrderRow(orderId, order) {
+    var newRow = genereatedSubOrdersTable.insertRow(-1);
+
+    var orderIdCell = newRow.insertCell(0);
+    var emailCell = newRow.insertCell(1);
+    var typeCell = newRow.insertCell(2);
+    var dateCell = newRow.insertCell(3);
+    var locationCell = newRow.insertCell(4);
+    var qtyCell = newRow.insertCell(5);
+
+    orderIdCell.innerHTML = orderId;
+    emailCell.innerHTML = order.email;
+    typeCell.innerHTML = order.type;
+
+    // Split the date at the "T" character
+    var dateAndTime = order.intervalDate.split("T");
+
+    // dateAndTime[0] contains the date (YYYY-MM-DD)
+    var date = dateAndTime[0];
+
+    // dateAndTime[1] contains the time (HH:mm:ss.sssZ)
+    var time = dateAndTime[1];
+
+    // Display the separated date and time
+    console.log("Date: " + date);
+    console.log("Time: " + time);
+
+    dateCell.innerHTML = date; // Display only the date part
+    locationCell.innerHTML = order.location;
+    qtyCell.innerHTML = order.qty;
+}
+
+generatedsubscriptionsRef.orderByChild("date").on("child_changed", function(snapshot) {
+    var orderId = snapshot.key;
+    var order = snapshot.val();
+
+    addGeneratedSubOrderRow(orderId, order);
+});
+
+generatedsubscriptionsRef.orderByChild("date").on("child_added", function(snapshot) {
+    var orderId = snapshot.key;
+    var order = snapshot.val();
+
+    addGeneratedSubOrderRow(orderId, order);
+});
+
+
+        var instantOrdersTable = document.getElementById("instant-orders-table");
+        // Function to add rows to the Instant Orders Table
+        function addInstantOrderRow(orderId, order) {
+            var newRow = instantOrdersTable.insertRow(-1);
+
+            var orderIdCell = newRow.insertCell(0);
+            var emailCell = newRow.insertCell(1);
+            var branchCell = newRow.insertCell(2);
+            var typeCell = newRow.insertCell(3);
+            var dateCell = newRow.insertCell(4);
+            var locationCell = newRow.insertCell(5);
+            var qtyCell = newRow.insertCell(6);
+            var statusCell = newRow.insertCell(7);
+            var totalPriceCell = newRow.insertCell(8);
+            var actionCell = newRow.insertCell(9);
+
+            orderIdCell.innerHTML = orderId;
+            emailCell.innerHTML = order.email;
+            branchCell.innerHTML = order.branch;
+            typeCell.innerHTML = order.type;
+            dateCell.innerHTML = order.date;
+            locationCell.innerHTML = order.location;
+            qtyCell.innerHTML = order.qty;
+            statusCell.innerHTML = order.status;
+            totalPriceCell.innerHTML = order.totalPrice;
+
+            // Create a button to mark the order as complete
+            var completeButton = document.createElement("button");
+            completeButton.innerHTML = "Complete order";
+            completeButton.addEventListener("click", function() {
+                // Update the status to "Completed" in the database
+                instantOrdersRef.child(orderId).update({ status: "Completed" }, function(error) {
+                    if (error) {
+                        alert("Error updating order status: " + error.message);
+                    }else{
+                        location.reload();
+                    }
+                });
+            });
+
+            actionCell.appendChild(completeButton);
+        }
+
+        
+        // Function to add rows to the Ongoing Subscription Orders Table
+        var subscriptionOrdersTable = document.getElementById("subscription-orders-table");
+        function addSubscriptionOrderRow(orderId, order) {
+            var newRow = subscriptionOrdersTable.insertRow(-1);
+
+            var orderIdCell = newRow.insertCell(0);
+            var dateCell = newRow.insertCell(1);
+            var expdateCell = newRow.insertCell(2);
+            var emailCell = newRow.insertCell(3);
+            var formIndexCell = newRow.insertCell(4);
+            var locationCell = newRow.insertCell(5);
+            var monthsCell = newRow.insertCell(6);
+            var qtyCell = newRow.insertCell(7);
+            var statusCell = newRow.insertCell(8);
+            var totalPriceCell = newRow.insertCell(9);
+            var typeCell = newRow.insertCell(10);
+            var actionCell = newRow.insertCell(11);
+
+            orderIdCell.innerHTML = orderId;
+            dateCell.innerHTML = order.date;
+            expdateCell.innerHTML=order.expirymonth;
+            emailCell.innerHTML = order.email;
+            formIndexCell.innerHTML = order.formIndex;
+            locationCell.innerHTML = order.location;
+            monthsCell.innerHTML = order.months;
+            qtyCell.innerHTML = order.qty;
+            statusCell.innerHTML = order.status;
+            totalPriceCell.innerHTML = order.totalPrice;
+            typeCell.innerHTML = order.type;
+
+            // Create an action button to change status to "Complete"
+            var actionButton = document.createElement("button");
+            actionButton.innerHTML = "Proceed";
+            actionButton.addEventListener("click", function() {
+                // Update the status to "Ongoing" in the database
+                subscriptionsRef.child(orderId).update({ status: "Ongoing" }, function(error) {
+                    if (error) {
+                        alert("Error updating order status: " + error.message);
+                    } else {
+                        // Generate orders based on the specified conditions
+                        generateOrders(order, orderId, order.email, order.location, order.qty, order.type);
+                        location.reload();
+                    }
+                });
+            });
+            actionCell.appendChild(actionButton);
+        }
+        // Function to generate orders based on formIndex
+        function generateOrders(order, orderId, email, location, qty, type) {
+            const startDate = new Date(order.date);
+            const expiryDate = new Date(order.expirymonth);
+            const intervalDays = getIntervalDays(order.formIndex);
+
+            let currentDate = new Date(startDate);
+            let orderCount = 0; // Initialize order count
+
+            while (currentDate <= expiryDate) {
+                // Generate order for the current date
+                const generatedOrder = {
+                    orderId: orderId, // Copy orderId
+                    email: email, // Copy email
+                    location: location, // Copy location
+                    qty: qty, // Copy qty
+                    type: type, // Copy type
+                    intervalDate: currentDate.toISOString(), // Save the interval date
+                    // Add other properties as needed
+                };
+
+                // Save the generated order to the database
+                const generatedOrderRef = generatedsubscriptionsRef.push(); // Create a new child node with a unique key
+                generatedOrderRef.set(generatedOrder); // Set the data for the generated order
+
+                // Increment the order count
+                orderCount++;
+
+                // Log the generated order to the console
+                console.log("Generated Order:", generatedOrder);
+
+                // Move to the next date based on the interval
+                currentDate.setDate(currentDate.getDate() + intervalDays);
+            }
+
+            // Update the subscription data with the total order count
+            subscriptionsRef.child(orderId).update({ totalOrders: orderCount }, function(error) {
+                if (error) {
+                    alert("Error updating total order count: " + error.message);
+                }
+            });
+        }
+//         function generateOrders(order, orderId, email, location, qty, type) {
+//             var generatedsubscriptionsRef = database.ref("generatedsuborders");
+//     // Clear existing data in generatedsuborders
+//     generatedsubscriptionsRef.remove()
+//         .then(function() {
+//             // The existing data is cleared, now proceed with generating new orders
+//             const startDate = new Date(order.date);
+//             const expiryDate = new Date(order.expirymonth);
+//             const intervalDays = getIntervalDays(order.formIndex);
+
+//             let currentDate = new Date(startDate);
+//             let orderCount = 0; // Initialize order count
+
+//             while (currentDate <= expiryDate) {
+//                 // Generate order for the current date
+//                 const generatedOrder = {
+//                     orderId: orderId, // Copy orderId
+//                     email: email, // Copy email
+//                     location: location, // Copy location
+//                     qty: qty, // Copy qty
+//                     type: type, // Copy type
+//                     intervalDate: currentDate.toISOString(), // Save the interval date
+//                     // Add other properties as needed
+//                 };
+
+//                 // Save the generated order to the database
+//                 const generatedOrderRef = generatedsubordersRef.push(); // Create a new child node with a unique key
+//                 generatedOrderRef.set(generatedOrder); // Set the data for the generated order
+
+//                 // Increment the order count
+//                 orderCount++;
+
+//                 // Log the generated order to the console
+//                 console.log("Generated Order:", generatedOrder);
+
+//                 // Move to the next date based on the interval
+//                 currentDate.setDate(currentDate.getDate() + intervalDays);
+//             }
+
+//             // Update the subscription data with the total order count
+//             subscriptionsRef.child(orderId).update({ totalOrders: orderCount }, function(error) {
+//                 if (error) {
+//                     alert("Error updating total order count: " + error.message);
+//                 }
+//             });
+//         })
+//         .catch(function(error) {
+//             console.error("Error clearing existing data:", error);
+//         });
+// }
+
+
+
+
+        // Function to get interval days based on formIndex
+        function getIntervalDays(formIndex) {
+            switch (formIndex) {
+                case 1:
+                    return 3; // Generate orders every 3 days
+                case 2:
+                    return 5; // Generate orders every 5 days
+                case 3:
+                    return 7; // Generate orders every week
+                default:
+                    return 1; // Default to daily orders
+            }
+        }
+
+
+        subscriptionsRef.orderByChild("date").on("child_added", function(snapshot) {
+            var orderId = snapshot.key;
+            var order = snapshot.val();
+            if (order.status === "pending") {
+                addSubscriptionOrderRow(orderId, order);
+            }
+        });
+        var subscriptionOngoingOrdersTable = document.getElementById("subscription-orders-table");
+        // Function to add rows to the Ongoing Subscription Orders Table
+        function addOngoingSubscriptionOrderRow(orderId, order) {
+            var newRow = subscriptionOngoingOrdersTable.insertRow(-1);
+
+            var orderIdCell = newRow.insertCell(0);
+            var dateCell = newRow.insertCell(1);
+            var expdateCell = newRow.insertCell(2);
+            var emailCell = newRow.insertCell(3);
+            var formIndexCell = newRow.insertCell(4);
+            var locationCell = newRow.insertCell(5);
+            var monthsCell = newRow.insertCell(6);
+            var qtyCell = newRow.insertCell(7);
+            var statusCell = newRow.insertCell(8);
+            var totalPriceCell = newRow.insertCell(9);
+            var typeCell = newRow.insertCell(10);
+            var actionCell = newRow.insertCell(11);
+
+            orderIdCell.innerHTML = orderId;
+            dateCell.innerHTML = order.date;
+            expdateCell.innerHTML = order.expirymonth;
+            emailCell.innerHTML = order.email;
+            formIndexCell.innerHTML = order.formIndex;
+            locationCell.innerHTML = order.location;
+            monthsCell.innerHTML = order.months;
+            qtyCell.innerHTML = order.qty;
+            statusCell.innerHTML = order.status;
+            totalPriceCell.innerHTML = order.totalPrice;
+            typeCell.innerHTML = order.type;
+
+            // Create an action button to change status to "Complete"
+            var actionButton = document.createElement("button");
+            actionButton.innerHTML = "Proceed";
+            actionButton.addEventListener("click", function() {
+                // Update the status to "Complete" in the database
+                subscriptionsRef.child(orderId).update({ status: "Complete" }, function(error) {
+                    if (error) {
+                        alert("Error updating order status: " + error.message);
+                    }
+                    else{
+                        location.reload();
+                    }
+                });
+            });
+
+            actionCell.appendChild(actionButton);
+        }
+
+        var subscriptionOngoingOrdersTable = document.getElementById("subscription-ongoing-orders-table");
+
+        subscriptionsRef.orderByChild("date").on("child_added", function(snapshot) {
+            var orderId = snapshot.key;
+            var order = snapshot.val();
+            if (order.status === "Ongoing") {
+                addOngoingSubscriptionOrderRow(orderId, order);
+            }
+        });
+        // Function to add rows to the Product Orders Table
+        function addProductOrderRow(orderId, order) {
+            var newRow = productPendingOrdersTable.insertRow(-1);
+
+            var orderIdCell = newRow.insertCell(0);
+            var emailCell = newRow.insertCell(1);
+            var itemCell = newRow.insertCell(2);
+            var qtyCell = newRow.insertCell(3);
+            var statusCell = newRow.insertCell(4);
+            var totalPriceCell = newRow.insertCell(5);
+            var actionCell = newRow.insertCell(6);
+
+            orderIdCell.innerHTML = orderId;
+            emailCell.innerHTML = order.name;
+            itemCell.innerHTML = order.photoDesc;
+            qtyCell.innerHTML = order.qty;
+            statusCell.innerHTML = order.status;
+            totalPriceCell.innerHTML = order.total;
+
+            // Create a button to mark the order as complete
+            var completeButton = document.createElement("button");
+            completeButton.innerHTML = "Complete";
+            completeButton.addEventListener("click", function() {
+                // Update the status to "Complete" in the database
+                productordersRef.child(orderId).update({ status: "Complete" }, function(error) {
+                    if (error) {
+                        alert("Error updating order status: " + error.message);
+                    }else{
+                        location.reload();
+                    }
+                });
+            });
+
+            actionCell.appendChild(completeButton);
+        }
+
+        var productPendingOrdersTable = document.getElementById("product-pending-orders-table");
+
+        productordersRef.orderByChild("date").on("child_changed", function(snapshot) {
+            var orderId = snapshot.key;
+            var order = snapshot.val();
+            if (order.status === "Processed") {
+                addProductOrderRow(orderId, order);
+            }
+        });
+        productordersRef.orderByChild("date").on("child_added", function(snapshot) {
+            var orderId = snapshot.key;
+            var order = snapshot.val();
+            if (order.status === "Processed") {
+                addProductOrderRow(orderId, order);
+            }
+        });
+
+    </script>
+</body>
+</html>

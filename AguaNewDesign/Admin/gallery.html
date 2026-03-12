@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Photo Gallery</title>
+</head>
+<body>
+  <h1>Photo Gallery</h1>
+  <div id="photoGallery"></div>
+
+  <!-- Include necessary libraries, e.g., jQuery and Firebase SDK -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+  <script>
+    // Replace the following with your own Firebase project credentials
+    var firebaseConfig = {
+      apiKey: "AIzaSyAzStYODU-4-Vp1leWyKN9GmNhPu8219Xg",
+            authDomain: "aguanacasa-74ba1.firebaseapp.com",
+            databaseURL: "https://aguanacasa-74ba1-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "aguanacasa-74ba1",
+            storageBucket: "aguanacasa-74ba1.appspot.com",
+            messagingSenderId: "994613822213",
+            appId: "1:994613822213:web:cce7bb901241d564b36d6c",
+            measurementId: "G-3HYBS92MND"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Reference to the Firebase database
+    var database = firebase.database();
+
+    // Fetch data from Firebase and populate the photo gallery
+    var photoGallery = document.getElementById('photoGallery');
+    database.ref('photos').on('value', function(snapshot) {
+      photoGallery.innerHTML = ''; // Clear the previous content
+
+      snapshot.forEach(function(childSnapshot) {
+        var photoData = childSnapshot.val();
+        var photoURL = photoData.url;
+        var photoDesc = photoData.description;
+
+        // Create elements to display the photo and its description
+        var photoElement = document.createElement('img');
+        photoElement.src = photoURL;
+        photoElement.alt = photoDesc;
+        photoGallery.appendChild(photoElement);
+
+        var descriptionElement = document.createElement('p');
+        descriptionElement.textContent = photoDesc;
+        photoGallery.appendChild(descriptionElement);
+      });
+    });
+  </script>
+</body>
+</html>

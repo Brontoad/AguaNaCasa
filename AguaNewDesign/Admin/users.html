@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Accounts</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            margin: 0;
+        }
+
+        h2, h1 {
+            color: #055871;
+            margin-left: 10%;
+        }
+
+        #table-wrapper {
+            height: 500px;
+            width: 80%;
+            padding: 0;
+            margin: 10px auto 10px auto;
+            margin-left: 10%;
+            overflow: auto;
+        }
+        /* #header{
+            position: sticky;
+            width: 80%;
+            z-index: 1100;
+            
+        } */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 100px;
+            
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table th,
+        table td {
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        table th {
+            background-color: #19A7CE;
+            color: #fff;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        table tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            position: sticky;
+            z-index: 1100;
+            width: 100%;
+            height: 70px;
+        }
+
+        ul.navbar {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #19A7CE;
+        }
+
+        li.nav-item {
+            float: left;
+        }
+
+        li.nav-item a {
+            font-size: 30px;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li.nav-item a:hover {
+            background-color: #055871;
+        }
+
+        button {
+            background-color: #19A7CE;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #147592;
+        }
+        #searchdiv{
+            margin-left: 10%;
+        }
+    </style>
+</head>
+<body>
+    <ul class="navbar">
+        <ul class="navbar">
+            <li class="nav-item"><a href="home.html">Home</a></li>
+            <li class="nav-item"><a href="logs.html">Logs</a></li>
+            <li class="nav-item"><a href="users.html">Users</a></li>
+            <li class="nav-item"><a href="store.html">Store</a></li>
+            <li class="nav-item"><a href="index.html">Logout</a></li>
+            
+        </ul>
+    </ul>
+    <h1>User Accounts</h1>
+    <div id="searchdiv">
+        <label for="search">Search by Full Name:</label>
+        <input type="text" id="search" oninput="searchUsers()">
+        <button onclick="clearSearch()">Clear</button>
+        <label for="search">Search by Address:</label>
+        <input type="text" id="searchadd" oninput="searchaddress()">
+        <button onclick="clearSearch()">Clear</button>
+    </div>
+    
+    <div id="table-wrapper">
+        <table id="users-table">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Home Address</th>
+                    <th>Mobile Number</th>
+                    <th>station1fee</th>
+                    <th>station2fee</th>
+                    <th>station3fee</th>
+                    <th>station4fee</th>
+                    <th>Address Photo</th>
+                    <th>Action</th>
+                    <!-- Add more table headers as needed for other user properties -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be added here dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAzStYODU-4-Vp1leWyKN9GmNhPu8219Xg",
+            authDomain: "aguanacasa-74ba1.firebaseapp.com",
+            databaseURL: "https://aguanacasa-74ba1-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "aguanacasa-74ba1",
+            storageBucket: "aguanacasa-74ba1.appspot.com",
+            messagingSenderId: "994613822213",
+            appId: "1:994613822213:web:cce7bb901241d564b36d6c",
+            measurementId: "G-3HYBS92MND"
+        };
+        firebase.initializeApp(firebaseConfig);
+        // Function to download and display the location photo
+        function displayLocationPhoto(photoUrl, cell) {
+            // Create a new image element
+            const img = document.createElement('img');
+            img.src = photoUrl;
+            img.alt = 'Location Photo';
+            img.style.width = '100px'; // Set the width of the image (adjust as needed)
+
+            // Append the image to the specified table cell
+            cell.appendChild(img);
+        }
+        // Event listener for save button click
+        document.addEventListener('click', function (event) {
+            const target = event.target;
+
+            // Check if the clicked element is a save button
+            if (target.tagName === 'BUTTON' && target.classList.contains('save-btn')) {
+                const row = target.closest('tr');
+                const station1fee = row.querySelector('.station1fee').textContent;
+                const station2fee = row.querySelector('.station2fee').textContent;
+                const station3fee = row.querySelector('.station3fee').textContent;
+                const station4fee = row.querySelector('.station4fee').textContent;
+
+                // Retrieve the user ID from the save button
+                const userId = target.getAttribute('data-user-id');
+
+                // Save the changes to the database (you need to implement this part)
+                const userRef = firebase.database().ref('users/' + userId);
+
+                userRef.update({
+                    station1fee: station1fee,
+                    station2fee: station2fee,
+                    station3fee: station3fee,
+                    station4fee: station4fee
+                    // Add other properties if needed
+                })
+                .then(() => {
+                    console.log('Changes saved successfully');
+                })
+                .catch(error => {
+                    console.error('Error saving changes:', error);
+                });
+
+                // After saving, remove the contenteditable attribute
+                row.querySelectorAll('[contenteditable="true"]').forEach(cell => {
+                    cell.removeAttribute('contenteditable');
+                });
+            }
+        });
+
+
+
+        // Get a reference to the users table in the database
+        const usersRef = firebase.database().ref('users');
+// Function to populate the users table
+function populateUsersTable() {
+        const usersTable = document.getElementById('users-table').getElementsByTagName('tbody')[0];
+
+        // Listen for changes in the users data and update the table dynamically
+        usersRef.on('value', function(snapshot) {
+            usersTable.innerHTML = ''; // Clear existing table rows
+
+            snapshot.forEach(function(childSnapshot) {
+                const userData = childSnapshot.val();
+                const fullName = userData.fullName;
+                const dateOfBirth = userData.dateOfBirth;
+                const gender = userData.gender;
+                const homeAddress = userData.homeAddress;
+                const mobileNumber = userData.mobileNumber;
+                const locationPhoto = userData.locationPhoto;
+                const station1fee = userData.station1fee;
+                const station2fee = userData.station2fee;
+                const station3fee = userData.station3fee;
+                const station4fee = userData.station4fee;
+
+
+                const newRow = usersTable.insertRow();
+                newRow.innerHTML = `
+                    <td>${fullName}</td>
+                    <td>${dateOfBirth}</td>
+                    <td>${gender}</td>
+                    <td>${homeAddress}</td>
+                    <td>${mobileNumber}</td>
+                    <td class="editable station1fee">${userData.station1fee}</td>
+                    <td class="editable station2fee">${userData.station2fee}</td>
+                    <td class="editable station3fee">${userData.station3fee}</td>
+                    <td class="editable station4fee">${userData.station4fee}</td>
+                    <td><a href="${locationPhoto}" download>Download Photo</a></td>
+                    <td><button class="save-btn" data-user-id="${childSnapshot.key}">Save</button></td>
+                    <!-- Add more table cells as needed for other user properties -->
+                `;
+            });
+        });
+    }
+
+    // Call the function to populate the users table
+    populateUsersTable();
+    // Function to make a table cell editable
+    function makeEditable(cell) {
+        cell.setAttribute('contenteditable', 'true');
+        cell.focus();
+    }
+    // Function to filter users based on the search input
+    function searchUsers() {
+        const searchInput = document.getElementById('search').value.toUpperCase();
+        const usersTable = document.getElementById('users-table').getElementsByTagName('tbody')[0];
+        const rows = usersTable.getElementsByTagName('tr');
+
+        for (let i = 0; i < rows.length; i++) {
+            const fullName = rows[i].getElementsByTagName('td')[0].innerText.toUpperCase();
+
+            if (fullName.includes(searchInput)) {
+                rows[i].style.display = '';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    }
+    // Function to filter users based on the search input
+    function searchaddress() {
+        const searchInput = document.getElementById('searchadd').value.toUpperCase();
+        const usersTable = document.getElementById('users-table').getElementsByTagName('tbody')[0];
+        const rows = usersTable.getElementsByTagName('tr');
+
+        for (let i = 0; i < rows.length; i++) {
+            const fullName = rows[i].getElementsByTagName('td')[3].innerText.toUpperCase();
+
+            if (fullName.includes(searchInput)) {
+                rows[i].style.display = '';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    }
+
+    // Function to clear the search input and show all users
+    function clearSearch() {
+        document.getElementById('search').value = '';
+        const usersTable = document.getElementById('users-table').getElementsByTagName('tbody')[0];
+        const rows = usersTable.getElementsByTagName('tr');
+
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].style.display = '';
+        }
+    }
+
+
+    // Event listener for double-click on station fee cells
+    document.addEventListener('dblclick', function (event) {
+        const target = event.target;
+
+        // Check if the double-clicked element is a station fee cell
+        if (target.tagName === 'TD' && target.classList.contains('editable')) {
+            makeEditable(target);
+        }
+    });
+
+    </script>
+</body>
+</html>
