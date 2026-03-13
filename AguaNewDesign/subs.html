@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Subscriptions - Agua Na Casa</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #dp{
+            font-size: 15px;
+        }
+        body{
+            margin: 0;
+            background-color: white;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+        a{
+            text-decoration: none;
+            color: aliceblue;
+        }
+        #profilelogo{
+            /* margin-top: 30px; */
+            width: 100%;
+            /* margin-left: 40%; */
+            background-color: #19A7CE;
+            position:fixed;
+            z-index: 1100;
+            /* height: 70px; */
+            padding: 0;
+            box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+            -webkit-box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+            -moz-box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+
+        }
+        #ProfileLogoTable{
+            width: 100%;
+            
+          
+        }
+        #fbLogo,#instLogo,#gmLogo{
+            width: 40px;
+            height: 40px;
+        }
+        #ContactsTable{
+            width: 20%;
+            margin-left:40%;
+            margin-right: 40%;
+            margin-top: 10%;
+            margin-bottom: 10%;
+            color: #F6F1F1;
+            
+        }
+        #goalsdes{
+            font-size: 30px;
+        }
+  
+        #menutableland{
+            padding-bottom: 100px;
+            
+        }
+        th{
+            font-family: 'Nunito Sans', sans-serif; 
+        }
+        #AguaLogo{
+            width: 400px;
+            height: 400px ;
+            margin-top: 60px;
+            margin-left: 200px;
+        }
+        #Contacts{
+        
+        background-color: #19A7CE;
+
+        }
+        #P1,#P2,#P3,#P4{
+            padding-bottom: 50px;
+        }
+        .menu, .drop-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-item {
+    display: inline-block;
+    background-color: #19A7CE;
+    position: relative;
+}
+
+.menu-item a {
+    text-decoration: none;
+    padding: 6px 10px;
+    color: #fff;
+    display: block;
+}
+
+.drop-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 100px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+}
+
+.drop-menu-item {
+    width: 100%;
+}
+
+.drop-menu-item:hover {
+    background-color: #eee;
+    
+}
+
+.drop-menu-item a {
+    color: #555;
+}
+
+.menu-item:hover .drop-menu {
+    display: block;
+}
+        .waterops{
+            display: flex;
+            justify-content: space-around;
+            /* background-color: blue; */
+            width: 80%;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+        .waterops h1{
+            margin-top: 50px;
+        }
+        #formindex{
+            font-size: 70px;
+        }
+        #mineral, #purified, #alkaline{
+            background-color: #19A7CE;
+            color: aliceblue;
+            height: 300px;
+            width: 300px;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+        }
+        .waterforms{
+            display: flex;
+            justify-content: space-around;
+            /* background-color: blue; */
+            width: 80%;
+            margin-top: -20px;
+            margin-left: 10%;
+            margin-right: 10%;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        #sub1, #sub2, #sub3{
+            background-color: #1c96b7;
+            color: aliceblue;
+            height: 220px;
+            width: 300px;
+            padding-top: 30px;
+            border-bottom-right-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        
+        .waterforms button{
+            background-color: aliceblue;
+            width: 190px;
+            height: 40px;
+            border: aliceblue;
+            border-radius: 10px;
+            color: #113d49;
+            font-size: 15px;
+        }
+        .waterforms button:hover{
+            background-color: #19A7CE;
+            width: 200px;
+            height: 40px;
+            border: aliceblue;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            transition: 70ms ease-in;
+        }
+        .waterforms input[type="number"]{
+            width: 50px;
+        }
+        #subsbanner{
+            background-color: #1c96b7;
+            color: aliceblue;
+            width: 70%;
+            margin-left: 15%;
+            margin-right: 15%;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-radius: 10px;
+        }
+        #subsbanner button{
+            background-color: aliceblue;
+            width: 200px;
+            height: 40px;
+            border: aliceblue;
+            border-radius: 10px;
+            color: #113d49;
+            font-size: 15px;
+        }
+        #subsbanner button:hover{
+            background-color: #19A7CE;
+            width: 230px;
+            height: 40px;
+            border: aliceblue;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            transition: 70ms ease-in;
+        }
+        #orderstable {
+            
+            width: 60%;
+            margin-left: 20%;
+            border-collapse: collapse;
+        }
+
+        #orderstable th, #orderstable td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        #orderstable th {
+            background-color: #19A7CE;
+            color: #fff;
+        }
+
+        #orderstable th, #orderstable td {
+            border: 1px solid #ddd;
+        }
+
+        #orderstable tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #orderstable tbody tr:hover {
+            background-color: #ccc;
+        }
+
+        #orderstable button {
+            background-color: #19A7CE;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        #orderstable button:hover {
+            background-color: #115a6e;
+        }
+
+        
+        #chip1,#chip2,#chip3,#chip4,#chip5{
+            font-size: 150%;
+            color: #F6F1F1;
+        }
+        #footdescription{
+            font-family: 'Nunito Sans', sans-serif;
+    font-size: 10%;
+    color: black;
+    
+}
+#footertable{
+        width: 30%;
+        margin-left: 35%;
+        margin-right: 35%;
+        margin-bottom: 25px;
+        margin-top: -100px;
+    }
+#FooterSayHi{
+    font-size: 150%;
+}
+#Contacts{
+        
+        background-color: #19A7CE;
+
+        }
+        #fbLogo,#instLogo,#gmLogo{
+            width: 40px;
+            height: 40px;
+        }
+        #chip1,#chip2,#chip3,#chip4,#chip5{
+            font-size: 150%;
+            color: #F6F1F1;
+        }
+        
+  /* Style for the modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  /* Style for the modal */
+.modals {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.7);
+}
+
+/* Style for the modal content */
+.modal-contents {
+    position: relative;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the close button */
+.closes {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Add some styling for the modal content */
+#orderDetailsContent {
+    color: #333;
+    font-size: 16px;
+}
+
+/* You can customize the styles further based on your preferences */
+
+</style>
+
+    </style>
+</head>
+<body>
+    <div id="profilelogo">
+        
+        <table id="ProfileLogoTable" border="0" >
+            <th><a href="index.html" class="forward-email"><img src="aguanacasa_logo_white.png"  id="AguaLogoWhite" style="width:60px; height: 60px;"></a></th>
+            <th id="chip1"><a href="AguanaCasaAbout.html" class="forward-email">About</a></th>
+            <th id="chip2">
+                <div class="menu-wrap">
+                <ul class="menu">
+                    <li class="menu-item">
+                        <a href="product.html" id="pp" class="forward-email">Products</a>    
+                    </li>
+                </ul>
+            </div>
+        </th>
+        <th id="chip5">
+            <div class="menu-wrap">
+            <ul class="menu">
+                <li class="menu-item">
+                    <a href="#" id="pp">Services</a>
+                    <ul class="drop-menu">
+                        <li class="drop-menu-item">
+                            <a href="instant.html" id="dp" class="forward-email">Instant Delivery</a>
+                        </li>
+                        <li class="drop-menu-item">
+                            <a href="subs.html" id="dp" class="forward-email">Subscription</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </th>
+            <th id="chip3">
+                <div class="menu-wrap">
+                    <ul class="menu">
+                        <li class="menu-item">
+                            <a href="#" id="pp">Career</a>
+                            <ul class="drop-menu">
+                                <li class="drop-menu-item">
+                                    <a href="AguaNaCasaOpportunities.html" id="dp" class="forward-email">Opportunities</a>
+                                </li>
+                                <li class="drop-menu-item">
+                                    <a href="AguanaCasaPartnership.html" id="dp" class="forward-email">Partnership</a>
+                                </li>
+                               
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </th>
+            <th id="chip5"><a id="myacc" class="forward-email" href="myaccount.html">My Account</a></th>
+            <th id="chip4"><a id="signInBtn" href="AguaNaCasaLogin.html">Sign In</a></th>
+            <th id="logoutBtnContainer" style="display: none; font-size: 25px; padding: 20px 10px;" onclick="logout()"><a id="logoutBtn" >Logout</a></th>
+            <tr></tr>
+            
+        </table>
+    </div>
+    <br><br><br><br><br><br><br><br><br>
+    <center><h1 style="font-size: 50px; color:#113d49;">Subscriptions</h1></center>
+    <div class="waterops">
+        <div id="mineral">
+            <center><h1 id="formindex">1</h1></center>
+            <center><h1>Every 3-days</h1></center>
+        </div>
+        <div id="purified">
+            <center><h1 id="formindex">2</h1></center>
+            <center><h1>Every 5-days</h1></center>
+        </div>
+        <div id="alkaline">
+            <center><h1 id="formindex">3</h1></center>
+            <center><h1>Weekly</h1></center>
+        </div>
+    </div>
+    <div class="waterforms">
+        <div id="sub1">
+            <center>
+                <form id="sub1form">
+                    <table>
+                        <tr>
+                            <td><label for="subscriptionDate1">Starting date :</label></td>
+                            <td><input type="date" id="subscriptionDate1" required></td>
+                        </tr>
+                        <tr>
+                            <td>No. Of Months</td>
+                            <td><input type="number" id="subscriptionMonths1" min="1" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="subsType1">Type:</label></td>
+                            <td>
+                                <select id="subsType1" required>
+                                    <option>Select Water</option>
+                                    <option>Mineral</option>
+                                    <option>Purified</option>
+                                    <option>Alkaline</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>QTY:</td>
+                            <td><input type="number" id="subscriptionQty1" min="1" oninput="calculateTotalPrice('subscriptionQty1', 'subscriptionTotalPrice1', 'subscriptionMonths1', 'subscriptionDate1', 1)" required></td>
+                        </tr>
+                        <tr>
+                            <td>My location:</td>
+                            <td><label id="subscriptionLocation1">Loc</label></td>
+                        </tr>
+                        <tr>
+                            <td><label for="subscriptionTotalPrice1">Total Price:</label></td>
+                            <td><label id="subscriptionTotalPrice1">0</label></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                    </table>
+                    <button id="subscribeButton1">Subscribe Now</button>
+                </form>
+                
+            </center>
+        </div>
+        <div id="sub2">
+            <center>
+                <form id="sub2form">
+                    <table>
+                        <tr>
+                            <td><label for="subscriptionDate2">Starting date :</label></td>
+                            <td><input type="date" id="subscriptionDate2" required></td>
+                        </tr>
+                        <tr>
+                            <td>No. Of Months</td>
+                            <td><input type="number" id="subscriptionMonths2" min="1" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="subsType2">Type:</label></td>
+                            <td>
+                                <select id="subsType2" required>
+                                    <option>Select Water</option>
+                                    <option>Mineral</option>
+                                    <option>Purified</option>
+                                    <option>Alkaline</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>QTY:</td>
+                            <td><input type="number" id="subscriptionQty2" min="1" oninput="calculateTotalPrice('subscriptionQty2', 'subscriptionTotalPrice2', 'subscriptionMonths2', 'subscriptionDate2', 2)" required></td>
+                        </tr>
+                        <tr>
+                            <td>My location:</td>
+                            <td><label id="subscriptionLocation2">Loc</label></td>
+                        </tr>
+                        <tr>
+                            <td><label for="subscriptionTotalPrice2">Total Price:</label></td>
+                            <td><label id="subscriptionTotalPrice2">0</label></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                    </table>
+                    <button id="subscribeButton2">Subscribe Now</button>
+                </form>
+                
+            </center>
+        </div>
+        <div id="sub3">
+            <center>
+                <form id="sub3form">
+                    <table>
+                        <tr>
+                            <td><label for="subscriptionDate3">Starting date :</label></td>
+                            <td><input type="date" id="subscriptionDate3" min="1" required></td>
+                        </tr>
+                        <tr>
+                            <td>No. Of Months</td>
+                            <td><input type="number" id="subscriptionMonths3" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="subsType3">Type:</label></td>
+                            <td>
+                                <select id="subsType3" required>
+                                    <option>Select Water</option>
+                                    <option>Mineral</option>
+                                    <option>Purified</option>
+                                    <option>Alkaline</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>QTY:</td>
+                            <td><input type="number" id="subscriptionQty3" min="1" oninput="calculateTotalPrice('subscriptionQty3', 'subscriptionTotalPrice3', 'subscriptionMonths3', 'subscriptionDate3', 3)" required></td>
+                        </tr>
+                        <tr>
+                            <td>My location:</td>
+                            <td><label id="subscriptionLocation3">Loc</label></td>
+                        </tr>
+                        <tr>
+                            <td><label for="subscriptionTotalPrice3">Total Price:</label></td>
+                            <td><label id="subscriptionTotalPrice3">0</label></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                        
+                    </table>
+                    <button id="subscribeButton3">Subscribe Now</button>
+                </form>
+                
+            </center>
+        </div>
+        
+    </div>
+    <script>
+        function calculateTotalPrice(inputId, totalId, monthsId, dateId, formin) {
+            const qtyInput = document.getElementById(inputId);
+            const totalLabel = document.getElementById(totalId);
+            const monthsElement = document.getElementById(monthsId);
+            const startDateInput = document.getElementById(dateId);
+            const formiin = formin;
+            console.log(formiin);
+            
+            if (!qtyInput || !totalLabel || !monthsElement || !startDateInput) {
+                console.error("Some elements are missing");
+                return;
+            }
+
+            const startDate = new Date(startDateInput.value);
+            const expirationDate = new Date(startDate.getFullYear(), startDate.getMonth() + parseInt(monthsElement.value), startDate.getDate());
+
+            const qty = parseFloat(qtyInput.value);
+            let price = 0;
+
+            switch (inputId) {
+                case "subscriptionQty1":
+                    price = 15; // Price for subscription 1
+                    break;
+                case "subscriptionQty2":
+                    price = 20; // Price for subscription 2
+                    break;
+                case "subscriptionQty3":
+                    price = 25; // Price for subscription 3
+                    break;
+                default:
+                    // Handle the default case if none of the above matches
+                    break;
+            }
+
+
+            const orderCount = generateOrders(startDate, expirationDate, formiin);
+            const total = price * qty * orderCount;
+            console.log(qty + " x " + price + " x " + orderCount);
+            // Display the calculated total in the label
+            totalLabel.textContent = total;
+        }
+
+
+    // Function to generate orders based on formIndex
+    function generateOrders(startDate, expirationDate, formiin) {
+        const intervalDays = getIntervalDays(formiin);
+
+        let currentDate = new Date(startDate);
+        let orderCount = 0; // Initialize order count
+
+        while (currentDate <= expirationDate) {
+            // Increment the order count
+            orderCount++;
+
+            // Move to the next date based on the interval
+            currentDate.setDate(currentDate.getDate() + intervalDays);
+        }
+
+        // Return the orderCount
+        return orderCount;
+    }
+
+    function getIntervalDays(formiin) {
+        switch (formiin) {
+            case 1:
+                return 3; // Generate orders every 3 days
+            case 2:
+                return 5; // Generate orders every 5 days
+            case 3:
+                return 7; // Generate orders every week
+            default:
+                return 1; // Default to daily orders
+        }
+    }
+    </script>
+    <div id="subsbanner">
+        <center>
+            <h1>Want to order instantly?</h1>
+        <p>We have a selection of instant delivery promos </p><br><button onclick="sub()">Go to Instant Promos</button>
+        </center>
+        
+    </div>
+</div>
+<!-- Add this modal element at the end of your <body> -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal()">&times;</span>
+          <p id="successMessage"></p>
+        </div>
+      </div>
+<h1 style="color: #19A7CE; margin-left: 20%; margin-top: 100px;">Subscriptions Cart</h1>
+<div id="cartdiv">
+    <table border="1" id="orderstable">
+        <thead>
+            <tr>
+                <th>OrderID</th>
+                <th>Customer</th>
+                <th>Quantity</th>
+                <th>Location</th>
+                <th>Water</th>
+                <th>Sub Type</th>
+                <th>Expiry</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="orderstable-body">
+            <!-- Rows for orders will be appended here -->
+        </tbody>
+    </table>
+</div>
+<!-- Add this modal element at the end of your <body> -->
+    <div id="orderDetailsModal" class="modals">
+        <div class="modal-contents">
+            <span class="closes" onclick="closeOrderDetailsModal()">&times;</span>
+            <div id="orderDetailsContent"></div>
+        </div>
+    </div>
+<div id="Contacts">
+
+    <table id="ContactsTable" border="0">
+
+        <th id="LaundryFooter" colspan="6">Laundry</th><tr></tr>
+        <th colspan="6" id="FooterSayHi">Say Hi! Get In Touch</th><tr></tr>
+        <th colspan="2"><a href="https://www.facebook.com/profile.php?id=61553275585756&mibextid=ZbWKwL"><img src="fblogowhite.png" id="fbLogo"></a></th><th colspan="2"><a  href="aguanacasa@gmail.com"><img src="Gmail_Logo_512px.png" id="gmLogo"></a></th><tr></tr>
+        
+
+    </table>
+
+
+</div>
+<div id="footerdes">
+    <table id="footertable" border="0">
+        <th id="footerdescription">&#169 2023, Agua na Casa, All right reserved</th>
+    </table>
+
+</div>
+
+      
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyAzStYODU-4-Vp1leWyKN9GmNhPu8219Xg",
+        authDomain: "aguanacasa-74ba1.firebaseapp.com",
+        databaseURL: "https://aguanacasa-74ba1-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "aguanacasa-74ba1",
+        storageBucket: "aguanacasa-74ba1.appspot.com",
+        messagingSenderId: "994613822213",
+        appId: "1:994613822213:web:cce7bb901241d564b36d6c",
+        measurementId: "G-3HYBS92MND"
+    };
+    firebase.initializeApp(firebaseConfig);
+    // Function to hide or show the Sign In and Logout buttons
+    function toggleButtons(isLoggedIn) {
+        const signInBtn = document.getElementById('signInBtn');
+        const logoutBtnContainer = document.getElementById('logoutBtnContainer');
+
+        if (isLoggedIn) {
+            signInBtn.style.display = 'none'; // Hide Sign In
+            logoutBtnContainer.style.display = 'block'; // Show Logout
+        } else {
+            signInBtn.style.display = 'block'; // Show Sign In
+            logoutBtnContainer.style.display = 'none'; // Hide Logout
+        }
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+            // Event listener for the "Subscribe Now" buttons
+            for (let i = 1; i <= 3; i++) {
+                const subscribeButton = document.getElementById(`subscribeButton${i}`);
+                subscribeButton.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    handleSubscriptionForm(i);
+                });
+            }
+            const database = firebase.database();
+            // Common function to handle subscription form submission
+            function handleSubscriptionForm(formIndex) {
+                const subscriptionDateElement = document.getElementById(`subscriptionDate${formIndex}`);
+                const subscriptionMonthsElement = document.getElementById(`subscriptionMonths${formIndex}`);
+                const subscriptionTypeElement = document.getElementById(`subsType${formIndex}`);
+                const subscriptionQtyElement = document.getElementById(`subscriptionQty${formIndex}`);
+                const subscriptionLocationElement = document.getElementById(`subscriptionLocation${formIndex}`);
+                const subscriptionTotalPriceElement = document.getElementById(`subscriptionTotalPrice${formIndex}`);
+                
+                if (!subscriptionDateElement.value) {
+                    alert('Please select a date.');
+                    return;
+                }
+                
+                if (!subscriptionMonthsElement.value || subscriptionMonthsElement.value < 1) {
+                    alert('Please enter a valid number of months (at least 1).');
+                    return;
+                }
+
+                if (!subscriptionTypeElement.value === 'Select Water') {
+                    alert('Please select a water type.');
+                    subsTypeElement.focus();
+                    return;
+                }
+                
+                if (!subscriptionQtyElement.value || subscriptionQtyElement.value < 1) {
+                    alert('Please enter a valid quantity (at least 1).');
+                    return;
+                }
+                // Capture user email from the URL
+                    const usereEmail = getParameterByName('name');
+
+                if (!usereEmail) {
+                    alert('User email not found in the URL. Cannot save the order.');
+                    return;
+                }
+
+                const subscriptionDate = subscriptionDateElement.value;
+                const subscriptionMonths = parseInt(subscriptionMonthsElement.value);
+                const selectedSubscriptionType = subscriptionTypeElement.options[subscriptionTypeElement.selectedIndex].value;
+                const subscriptionQty = subscriptionQtyElement.value;
+                const subscriptionLocation = subscriptionLocationElement.innerText;
+                const subscriptionTotalPrice = subscriptionTotalPriceElement.innerText;
+                
+                // Calculate expiration date
+                const startDate = new Date(subscriptionDate);
+                const expirationDate = new Date(startDate.getFullYear(), startDate.getMonth() + subscriptionMonths, startDate.getDate());
+                // Capture user email from the URL
+                const userEmail = getParameterByName('name');
+                const orderCount = generateOrders(subscriptionDate, expirationDate, formIndex);
+                // Add status: "pending" to the subscription data
+                const subscriptionData = {
+                    email: userEmail,
+                    date: subscriptionDate,
+                    months: subscriptionMonths,
+                    type: selectedSubscriptionType,
+                    qty: subscriptionQty,
+                    location: subscriptionLocation,
+                    totalPrice: subscriptionTotalPrice,
+                    expirymonth: expirationDate.toISOString().split('T')[0],
+                    formIndex: formIndex,
+                    totalOrders: orderCount,
+                    status: "pending"
+                };
+                // Reference to the database node where you want to store subscription data
+                const subscriptionsRef = database.ref('subscriptions/');
+
+                // Push the subscription data to the database
+                subscriptionsRef.push(subscriptionData);
+                 
+                const expr = expirationDate.toISOString().split('T')[0];
+                generateOrders(subscriptionDate, expirationDate, formIndex );
+                //alert("Subscribed Succesfully: " + selectedSubscriptionType + ", QTY" + subscriptionQty + ", " + subscriptionLocation + ", P" + subscriptionTotalPrice );
+                showSuccessModal(selectedSubscriptionType, subscriptionQty, subscriptionLocation, subscriptionTotalPrice, expr);
+
+                // After handling the form data, optionally reset the form
+                resetSubscriptionForm(formIndex);
+
+                // Save subscription data to Firebase or your preferred method
+                // You can use Firebase or any other backend for this purpose
+                // After handling the form data, optionally reset the form
+                resetSubscriptionForm(formIndex);
+
+                // Function to reset the subscription form
+            function resetSubscriptionForm(formIndex) {
+                const subscriptionDateElement = document.getElementById(`subscriptionDate${formIndex}`);
+                const subscriptionMonthsElement = document.getElementById(`subscriptionMonths${formIndex}`);
+                const subscriptionTypeElement = document.getElementById(`subsType${formIndex}`);
+                const subscriptionQtyElement = document.getElementById(`subscriptionQty${formIndex}`);
+                const subscriptionTotalPriceElement = document.getElementById(`subscriptionTotalPrice${formIndex}`);
+
+                // Reset the form fields to their initial values
+                subscriptionDateElement.value = '';
+                subscriptionMonthsElement.value = '';
+                subscriptionTypeElement.selectedIndex = 0;
+                subscriptionQtyElement.value = '';
+                subscriptionTotalPriceElement.innerText = '0';
+            }
+            }
+
+            // Rest of your code...
+            // Function to generate orders based on formIndex
+        // Function to generate orders based on formIndex
+            function generateOrders(subscriptionDate, expirationDate, formIndex) {
+                const startDate = subscriptionDate;
+                const expiryDate = expirationDate;
+                const intervalDays = getIntervalDays(formIndex);
+
+                let currentDate = new Date(startDate);
+                let orderCount = 0; // Initialize order count
+
+                while (currentDate <= expiryDate) {
+                    // Increment the order count
+                    orderCount++;
+
+                    // Move to the next date based on the interval
+                    currentDate.setDate(currentDate.getDate() + intervalDays);
+                }
+
+                // Return the orderCount
+                return orderCount;
+            }
+
+
+
+        });
+        // Function to get interval days based on formIndex
+        function getIntervalDays(formIndex) {
+            switch (formIndex) {
+                case 1:
+                    return 3; // Generate orders every 3 days
+                case 2:
+                    return 5; // Generate orders every 5 days
+                case 3:
+                    return 7; // Generate orders every week
+                default:
+                    return 1; // Default to daily orders
+            }
+        }
+        // Function to show the success modal
+        function showSuccessModal(type, qty, location, totalPrice) {
+        const successModal = document.getElementById('successModal');
+        const successMessage = document.getElementById('successMessage');
+        successMessage.innerHTML = `Subscribed Successfully: ${type}, QTY ${qty}, ${location}, P${totalPrice}`;
+        successModal.style.display = 'block';
+        }
+
+        // Function to close the modal
+        function closeModal() {
+        const successModal = document.getElementById('successModal');
+        successModal.style.display = 'none';
+        }
+        
+        document.addEventListener("DOMContentLoaded", function () {
+    const userEmail = getParameterByName('name');
+    if (userEmail) {
+        const database = firebase.database();
+        const subscriptionsRef = database.ref('subscriptions');
+        const orderstableBody = document.getElementById('orderstable-body');
+
+        subscriptionsRef.orderByChild('email').equalTo(userEmail).on('value', function (snapshot) {
+            const orders = snapshot.val();
+            
+            if (orders) {
+                orderstableBody.innerHTML = ''; // Clear the table body
+
+                for (const orderID in orders) {
+                    const order = orders[orderID];
+                    const row = orderstableBody.insertRow();
+
+                        // Create cells and populate data
+                        const cellOrderID = row.insertCell(0);
+                        const cellCustomer = row.insertCell(1);
+                        const cellQuantity = row.insertCell(2);
+                        const cellLocation = row.insertCell(3);
+                        const cellWater = row.insertCell(4);
+                        const cellSubType = row.insertCell(5);
+                        const cellExpiry = row.insertCell(6);
+                        const cellTotalPrice = row.insertCell(7);
+                        const cellStatus = row.insertCell(8);
+                        const cellActions = row.insertCell(9);
+
+                        cellOrderID.innerHTML = orderID;
+                        cellCustomer.innerHTML = order.email;
+                        cellQuantity.innerHTML = order.qty;
+                        cellLocation.innerHTML = order.location;
+                        cellWater.innerHTML = order.type;
+                        cellSubType.innerHTML = order.formIndex;
+                        cellExpiry.innerHTML = order.expirymonth;
+                        
+                        cellTotalPrice.innerHTML = order.totalPrice;
+                        cellStatus.innerHTML = order.status;
+
+                        // Add a "Cancel" button in the "Actions" column
+                        const cancelBtn = document.createElement('button');
+                        cancelBtn.textContent = 'Cancel';
+                        cancelBtn.addEventListener('click', function () {
+                            // Handle cancellation logic here, e.g., remove the order from Firebase
+                            const rowId = row.rowIndex;
+                            cancelOrder(orderID, rowId);
+                        });
+                        // Add a "Receipt" button in the "Actions" column
+                        const receiptBtn = document.createElement('button');
+                        receiptBtn.textContent = 'Receipt';
+                        receiptBtn.addEventListener('click', function () {
+                            // Show the order details modal
+                            showOrderDetailsModal(order, orderID);
+                        });
+
+                        cellActions.appendChild(receiptBtn);
+
+                        cellActions.appendChild(cancelBtn);
+                    // if (order.status === "pending") {
+                        
+                    // }
+                }
+            } else {
+                // Handle the case when there are no pending orders for this user
+                orderstableBody.innerHTML = 'No pending orders found.';
+            }
+        });
+    }
+});
+
+// Function to cancel an order
+function cancelOrder(orderId, rowId) {
+        const database = firebase.database();
+        const subscriptionsRef = database.ref('subscriptions'); // Assuming subscriptions are stored in 'subscriptions' node
+
+        // Retrieve the order data to check the status
+        subscriptionsRef.child(orderId).once('value', function (snapshot) {
+            const orderData = snapshot.val();
+            if (orderData && orderData.status !== "pending") {
+                
+                alert("You cannot cancel processed orders.");
+            }
+            else{
+                // If the order status is "pending," remove the order from Firebase
+                subscriptionsRef.child(orderId).remove();
+
+                // Remove the row from the table
+                const orderstable = document.getElementById('orderstable');
+                orderstable.deleteRow(rowId);
+            }
+        });
+    }
+    // Function to show the order details modal
+function showOrderDetailsModal(order, orderID) {
+    const modal = document.getElementById('orderDetailsModal');
+    const orderDetailsContent = document.getElementById('orderDetailsContent');
+
+    // Populate the modal content with order details
+    orderDetailsContent.innerHTML = `
+        <p><strong>Order ID:</strong> ${orderID}</p>
+        <p><strong>Email:</strong> ${order.email}</p>
+        <p><strong>Quantity:</strong> ${order.qty}</p>
+        <p><strong>Location:</strong> ${order.location}</p>
+        <p><strong>Water Type:</strong> ${order.type}</p>
+        <p><strong>Subscription Index:</strong> ${order.formIndex}</p>
+        <p><strong>Expiration Date:</strong> ${order.expirymonth}</p>
+        <p><strong>Total Price:</strong> ${order.totalPrice}</p>
+        <p><strong>Status:</strong> ${order.status}</p>
+    `;
+
+    // Show the modal
+    modal.style.display = 'block';
+}
+// Function to close the order details modal
+function closeOrderDetailsModal() {
+        document.getElementById('orderDetailsModal').style.display = 'none';
+    }
+
+
+    function sub() {
+        const email = getEmailFromURL();
+        const href = "instant.html"; // Update the URL to where you want to go
+        if (email) {
+            window.location.href = `${href}?name=${email}`;
+        } else {
+            window.location.href = href;
+        }
+    }
+
+    function getEmailFromURL() {
+        const url = window.location.href;
+        const searchParams = new URLSearchParams(new URL(url).search);
+        const email = searchParams.get("name");
+        return email;
+    }
+    // Example Firebase code for logging out
+    function logout() {
+        firebase.auth().signOut().then(function() {
+            // Sign-out successful, you can redirect the user to the login page
+            window.location.href = "AguaNaCasaLogin.html";
+        }).catch(function(error) {
+            // An error happened.
+            console.error("Logout error: " + error);
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const emailParam = getParameterByName('name');
+
+        // Check if the 'name' parameter is present
+        if (emailParam) {
+            toggleButtons(true); // User is logged in, so hide Sign In and show Logout
+            modifyLinks(emailParam);
+        } else {
+            toggleButtons(false); // User is not logged in, so show Sign In and hide Logout
+        }
+    });
+
+    // Function to get the value of a URL parameter by its name
+    function getParameterByName(name, url) {
+        if (!url) {
+            url = window.location.href;
+        }
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+        var results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    // Function to modify links to forward the email parameter
+    function modifyLinks(email) {
+        const links = document.querySelectorAll('.forward-email');
+
+        links.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const href = link.getAttribute('href');
+                if (email) {
+                    window.location.href = `${href}?name=${email}`;
+                } else {
+                    window.location.href = href;
+                }
+            });
+        });
+    }
+</script>
+</body>
+</html>

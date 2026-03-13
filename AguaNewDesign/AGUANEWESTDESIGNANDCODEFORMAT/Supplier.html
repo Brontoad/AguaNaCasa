@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Agua na Casa - Supplier Dashboard">
+    <title>Agua na Casa - Supplier Dashboard</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="AguaStyle.css">
+    
+    <!-- Page Specific CSS -->
+    <style>
+        /* Supplier Dashboard Specific Styles */
+        .dashboard-wrapper {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0;
+        }
+        
+        /* All elements use the same left/right spacing as tables */
+        .supplier-header,
+        .status-toggle,
+        .section-title,
+        .sorter-section,
+        .table-container {
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+        }
+        
+        .supplier-header {
+            background-color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 24px -3px rgba(0,0,0,0.62);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        
+        .supplier-logo img {
+            width: 100px;
+            height: auto;
+        }
+        
+        .station-info {
+            text-align: center;
+        }
+        
+        .station-info h2 {
+            color: #19A7CE;
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        .station-info p {
+            color: #0f6780;
+            margin: 5px 0 0 0;
+            font-size: 16px;
+        }
+        
+        .logout-btn {
+            background-color: #19A7CE;
+            border: none;
+            color: white;
+            font-size: 18px;
+            padding: 10px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .logout-btn:hover {
+            background-color: #0b667f;
+            transform: scale(1.05);
+        }
+        
+        /* Toggle Switch */
+        .status-toggle {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 24px -3px rgba(0,0,0,0.62);
+            box-sizing: border-box;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+        
+        input:checked + .slider {
+            background-color: #19A7CE;
+        }
+        
+        input:focus + .slider {
+            box-shadow: 0 0 1px #19A7CE;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .slider.round {
+            border-radius: 34px;
+        }
+        
+        .slider.round:before {
+            border-radius: 50%;
+        }
+        
+        .status-text {
+            font-size: 18px;
+            color: #0f6780;
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .status-text span {
+            color: #19A7CE;
+            font-weight: 700;
+        }
+        
+        /* Section Titles */
+        .section-title {
+            color: #19A7CE;
+            font-size: 32px;
+            font-weight: 700;
+            margin: 40px 0 20px 0;
+            padding: 0 30px;
+            box-sizing: border-box;
+        }
+        
+        /* Tables Container - Modified for white background */
+        .table-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 0;
+            box-shadow: 0px 0px 24px -3px rgba(0,0,0,0.62);
+            overflow: auto;
+            max-height: 500px;
+            position: relative;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 30px;
+            box-sizing: border-box;
+        }
+        
+        .supplier-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            color: #0f6780;
+            background-color: white;
+            min-width: 1200px;
+        }
+        
+        .supplier-table thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: #19A7CE;
+        }
+        
+        .supplier-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 16px;
+            background-color: #19A7CE;
+            color: white;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            white-space: nowrap;
+        }
+        
+        .supplier-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+            background-color: white;
+            color: #0f6780;
+        }
+        
+        .supplier-table tbody tr:hover td {
+            background-color: #f0f9ff;
+            transition: 0.3s;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            background-color: #19A7CE;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 5px;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .action-btn:hover {
+            background-color: #0b667f;
+            transform: scale(1.05);
+        }
+        
+        .action-btn.accept {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .action-btn.accept:hover {
+            background-color: #218838;
+        }
+        
+        .action-btn.reject {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .action-btn.reject:hover {
+            background-color: #c82333;
+        }
+        
+        /* Sorter Section */
+        .sorter-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 24px -3px rgba(0,0,0,0.62);
+            margin: 20px 0 30px 0;
+            flex-wrap: wrap;
+            box-sizing: border-box;
+        }
+        
+        .sorter-label {
+            color: #0f6780;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+        
+        .sorter-select, .sorter-date {
+            padding: 8px 15px;
+            border: 1px solid #19A7CE;
+            border-radius: 5px;
+            color: #0f6780;
+            margin-right: 15px;
+            min-width: 150px;
+        }
+        
+        .sort-btn {
+            background-color: #19A7CE;
+            color: white;
+            border: none;
+            padding: 8px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .sort-btn:hover {
+            background-color: #0b667f;
+            transform: scale(1.05);
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+        
+        .status-badge.pending {
+            background-color: #ffc107;
+            color: #000;
+        }
+        
+        .status-badge.preparing {
+            background-color: #17a2b8;
+            color: white;
+        }
+        
+        .status-badge.delivering {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .status-badge.delivered {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .status-badge.cancelled {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-wrapper {
+                padding: 0;
+            }
+            
+            .supplier-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+                padding: 20px;
+            }
+            
+            .station-info h2 {
+                font-size: 24px;
+            }
+            
+            .status-toggle {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px 20px;
+            }
+            
+            .sorter-section {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 20px;
+            }
+            
+            .sorter-select, .sorter-date {
+                width: 100%;
+                margin-right: 0;
+            }
+            
+            .supplier-table {
+                font-size: 14px;
+                min-width: 1000px;
+            }
+            
+            .supplier-table th,
+            .supplier-table td {
+                padding: 10px 8px;
+            }
+            
+            .action-btn {
+                padding: 3px 8px;
+                font-size: 12px;
+                margin-bottom: 3px;
+            }
+            
+            .table-container {
+                max-height: 400px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+                padding: 0 20px;
+            }
+        }
+
+        /* For even smaller screens */
+        @media (max-width: 480px) {
+            .supplier-table th,
+            .supplier-table td {
+                padding: 8px 5px;
+                font-size: 12px;
+            }
+            
+            .status-badge {
+                padding: 3px 6px;
+                font-size: 11px;
+            }
+            
+            .station-info h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (Modified for Supplier - Removed Order Button) -->
+    <header class="header-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="supplier-dashboard.html" class="logo">
+                            <img src="aguanacasa_logo_white.png" alt="Agua na Casa">
+                        </a>
+                       
+                        <ul class="nav" id="navbar">
+                            <li><a href="supplier-dashboard.html">Dashboard</a></li>
+                            <li><a href="supplier-orders.html" class="active">Orders</a></li>
+                            <!-- <li><a href="supplier-inventory.html">Inventory</a></li> -->
+                            <!-- <li><a href="supplier-settings.html">Settings</a></li> -->
+                            
+                            <!-- Profile Button (shown when logged in) -->
+                            <li id="profileLi">
+                                <div class="profile-button" id="profileButton">
+                                    <a href="javascript:void(0);" onclick="toggleProfileDropdown()">
+                                        <img src="account-25.png" alt="Profile" class="profile-icon">
+                                        <span>Station 1</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px;"></i>
+                                    </a>
+                                    <!-- Profile Dropdown -->
+                                    <div class="profile-dropdown" id="profileDropdown">
+                                        <a href="supplier-profile.html"><i class="fas fa-user-circle"></i> Profile</a>
+                                        <a href="supplier-settings.html"><i class="fas fa-cog"></i> Settings</a>
+                                        <hr>
+                                        <a href="javascript:void(0);" onclick="logout()" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>        
+                        <a class="menu-trigger">
+                            <span><i class="fa fa-bars"></i></span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+  
+    <!-- MAIN CONTENT SECTION -->
+    <main class="page-content" style="min-height: 60vh; padding: 120px 0 60px;">
+        <div class="dashboard-wrapper">
+            <!-- ========================================= -->
+            <!-- ==== SUPPLIER DASHBOARD STARTS HERE ===== -->
+            <!-- ========================================= -->
+            
+            <!-- Supplier Header (now matches table width exactly) -->
+            <div class="supplier-header">
+                <div class="supplier-logo">
+                    <img src="aguanacasa_logo_blue.png" alt="Agua na Casa">
+                </div>
+                <div class="station-info">
+                    <h2>Water Station - Guiwan</h2>
+                    <p>Supplier Dashboard</p>
+                </div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+            
+            <!-- Status Toggle (now matches table width exactly) -->
+            <div class="status-toggle">
+                <label class="switch">
+                    <input type="checkbox" id="statusToggle" checked onchange="toggleStatus()">
+                    <span class="slider round"></span>
+                </label>
+                <p class="status-text">Your account is currently: <span id="statusDisplay">Active</span></p>
+            </div>
+            
+            <!-- Active Orders Section -->
+            <h2 class="section-title">Active Orders</h2>
+            <div class="table-container">
+                <table class="supplier-table" id="activeOrdersTable">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Quantity</th>
+                            <th>Location</th>
+                            <th>Type</th>
+                            <th>Total Price</th>
+                            <th>Delivery Type</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activeOrdersBody">
+                        <!-- Sample Active Orders -->
+                        <tr>
+                            <td>#ORD-001</td>
+                            <td>Juan Dela Cruz</td>
+                            <td>3 gallons</td>
+                            <td>Guiwan, Zamboanga</td>
+                            <td>Mineral Water</td>
+                            <td>-</td>
+                            <td>Instant</td>
+                            <td><span class="status-badge pending">Pending</span></td>
+                            <td>
+                                <button class="action-btn accept" onclick="updateOrderStatus(this, 'preparing')">Accept</button>
+                                <button class="action-btn reject" onclick="updateOrderStatus(this, 'cancelled')">Reject</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-002</td>
+                            <td>Maria Santos</td>
+                            <td>5 gallons</td>
+                            <td>Tetuan, Zamboanga</td>
+                            <td>Alkaline Water</td>
+                            <td>-</td>
+                            <td>Subscription</td>
+                            <td><span class="status-badge preparing">Preparing</span></td>
+                            <td>
+                                <button class="action-btn" onclick="updateOrderStatus(this, 'delivering')">Mark Delivering</button>
+                                <button class="action-btn reject" onclick="updateOrderStatus(this, 'cancelled')">Cancel</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-003</td>
+                            <td>Pedro Reyes</td>
+                            <td>2 gallons</td>
+                            <td>San Jose, Zamboanga</td>
+                            <td>Mineral Water</td>
+                            <td>-</td>
+                            <td>Instant</td>
+                            <td><span class="status-badge delivering">Out for Delivery</span></td>
+                            <td>
+                                <button class="action-btn accept" onclick="updateOrderStatus(this, 'delivered')">Mark Delivered</button>
+                            </td>
+                        </tr>
+                        <!-- Additional rows to demonstrate scrolling -->
+                        <tr>
+                            <td>#ORD-004</td>
+                            <td>Anna Flores</td>
+                            <td>4 gallons</td>
+                            <td>San Jose, Zamboanga</td>
+                            <td>Mineral Water</td>
+                            <td>-</td>
+                            <td>Instant</td>
+                            <td><span class="status-badge pending">Pending</span></td>
+                            <td>
+                                <button class="action-btn accept" onclick="updateOrderStatus(this, 'preparing')">Accept</button>
+                                <button class="action-btn reject" onclick="updateOrderStatus(this, 'cancelled')">Reject</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-005</td>
+                            <td>Ben Torres</td>
+                            <td>6 gallons</td>
+                            <td>Tetuan, Zamboanga</td>
+                            <td>Alkaline Water</td>
+                            <td>-</td>
+                            <td>Subscription</td>
+                            <td><span class="status-badge preparing">Preparing</span></td>
+                            <td>
+                                <button class="action-btn" onclick="updateOrderStatus(this, 'delivering')">Mark Delivering</button>
+                                <button class="action-btn reject" onclick="updateOrderStatus(this, 'cancelled')">Cancel</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-006</td>
+                            <td>Clara Gomez</td>
+                            <td>3 gallons</td>
+                            <td>Sta. Maria, Zamboanga</td>
+                            <td>Mineral Water</td>
+                            <td>-</td>
+                            <td>Instant</td>
+                            <td><span class="status-badge pending">Pending</span></td>
+                            <td>
+                                <button class="action-btn accept" onclick="updateOrderStatus(this, 'preparing')">Accept</button>
+                                <button class="action-btn reject" onclick="updateOrderStatus(this, 'cancelled')">Reject</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-007</td>
+                            <td>David Tan</td>
+                            <td>8 gallons</td>
+                            <td>Guiwan, Zamboanga</td>
+                            <td>Alkaline Water</td>
+                            <td>-</td>
+                            <td>Subscription</td>
+                            <td><span class="status-badge preparing">Preparing</span></td>
+                            <td>
+                                <button class="action-btn" onclick="updateOrderStatus(this, 'delivering')">Mark Delivering</button>
+                                <button class="action-btn reject" onclick="updateOrderStatus(this, 'cancelled')">Cancel</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-008</td>
+                            <td>Elena Rodriguez</td>
+                            <td>2 gallons</td>
+                            <td>Tetuan, Zamboanga</td>
+                            <td>Mineral Water</td>
+                            <td>-</td>
+                            <td>Instant</td>
+                            <td><span class="status-badge delivering">Out for Delivery</span></td>
+                            <td>
+                                <button class="action-btn accept" onclick="updateOrderStatus(this, 'delivered')">Mark Delivered</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-009</td>
+                            <td>Francisco Javier</td>
+                            <td>5 gallons</td>
+                            <td>San Jose, Zamboanga</td>
+                            <td>Alkaline Water</td>
+                            <td>-</td>
+                            <td>Subscription</td>
+                            <td><span class="status-badge pending">Pending</span></td>
+                            <td>
+                                <button class="action-btn accept" onclick="updateOrderStatus(this, 'preparing')">Accept</button>
+                                <button class="action-btn reject" onclick="updateOrderStatus(this, 'cancelled')">Reject</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-010</td>
+                            <td>Gloria Santos</td>
+                            <td>4 gallons</td>
+                            <td>Guiwan, Zamboanga</td>
+                            <td>Mineral Water</td>
+                            <td>-</td>
+                            <td>Instant</td>
+                            <td><span class="status-badge preparing">Preparing</span></td>
+                            <td>
+                                <button class="action-btn" onclick="updateOrderStatus(this, 'delivering')">Mark Delivering</button>
+                                <button class="action-btn reject" onclick="updateOrderStatus(this, 'cancelled')">Cancel</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Orders History Section -->
+            <h2 class="section-title">Orders History</h2>
+            
+            <!-- Sorter Section (now matches table width exactly) -->
+            <div class="sorter-section">
+                <span class="sorter-label">Sort by month:</span>
+                <select class="sorter-select" id="monthFilter">
+                    <option value="">Select month</option>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+                
+                <span class="sorter-label">Sort by date:</span>
+                <input type="date" class="sorter-date" id="dateFilter">
+                
+                <button class="sort-btn" onclick="sortHistory()">Sort</button>
+            </div>
+            
+            <!-- History Table -->
+            <div class="table-container">
+                <table class="supplier-table" id="ordersHistoryTable">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Quantity</th>
+                            <th>Location</th>
+                            <th>Type</th>
+                            <th>Total Price</th>
+                            <th>Delivery Type</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersHistoryBody">
+                        <!-- Sample History Orders -->
+                        <tr>
+                            <td>#ORD-100</td>
+                            <td>Ana Lopez</td>
+                            <td>4 gallons</td>
+                            <td>Guiwan, Zamboanga</td>
+                            <td>Mineral Water</td>
+                            <td>-</td>
+                            <td>Instant</td>
+                            <td><span class="status-badge delivered">Delivered</span></td>
+                            <td>2024-02-15</td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-099</td>
+                            <td>Jose Garcia</td>
+                            <td>6 gallons</td>
+                            <td>Tumaga, Zamboanga</td>
+                            <td>Alkaline Water</td>
+                            <td>-</td>
+                            <td>Subscription</td>
+                            <td><span class="status-badge delivered">Delivered</span></td>
+                            <td>2024-02-14</td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-098</td>
+                            <td>Luisa Fernandez</td>
+                            <td>2 gallons</td>
+                            <td>Sta. Maria, Zamboanga</td>
+                            <td>Mineral Water</td>
+                            <td>-</td>
+                            <td>Instant</td>
+                            <td><span class="status-badge cancelled">Cancelled</span></td>
+                            <td>2024-02-13</td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-097</td>
+                            <td>Carlos Mendoza</td>
+                            <td>3 gallons</td>
+                            <td>San Roque, Zamboanga</td>
+                            <td>Mineral Water</td>
+                            <td>-</td>
+                            <td>Instant</td>
+                            <td><span class="status-badge delivered">Delivered</span></td>
+                            <td>2024-02-12</td>
+                        </tr>
+                        <!-- Additional history rows -->
+                        <tr>
+                            <td>#ORD-096</td>
+                            <td>Diana Cruz</td>
+                            <td>5 gallons</td>
+                            <td>Guiwan, Zamboanga</td>
+                            <td>Alkaline Water</td>
+                            <td>-</td>
+                            <td>Subscription</td>
+                            <td><span class="status-badge delivered">Delivered</span></td>
+                            <td>2024-02-11</td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-095</td>
+                            <td>Erik Santos</td>
+                            <td>2 gallons</td>
+                            <td>Tetuan, Zamboanga</td>
+                            <td>Mineral Water</td>
+                            <td>-</td>
+                            <td>Instant</td>
+                            <td><span class="status-badge delivered">Delivered</span></td>
+                            <td>2024-02-10</td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-094</td>
+                            <td>Felipe Cruz</td>
+                            <td>8 gallons</td>
+                            <td>San Jose, Zamboanga</td>
+                            <td>Alkaline Water</td>
+                            <td>-</td>
+                            <td>Subscription</td>
+                            <td><span class="status-badge delivered">Delivered</span></td>
+                            <td>2024-02-09</td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-093</td>
+                            <td>Gina Reyes</td>
+                            <td>3 gallons</td>
+                            <td>Guiwan, Zamboanga</td>
+                            <td>Mineral Water</td>
+                            <td>-</td>
+                            <td>Instant</td>
+                            <td><span class="status-badge delivered">Delivered</span></td>
+                            <td>2024-02-08</td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-092</td>
+                            <td>Henry Sy</td>
+                            <td>6 gallons</td>
+                            <td>Tetuan, Zamboanga</td>
+                            <td>Alkaline Water</td>
+                            <td>-</td>
+                            <td>Subscription</td>
+                            <td><span class="status-badge cancelled">Cancelled</span></td>
+                            <td>2024-02-07</td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-091</td>
+                            <td>Isabela Martinez</td>
+                            <td>4 gallons</td>
+                            <td>Sta. Maria, Zamboanga</td>
+                            <td>Mineral Water</td>
+                            <td>-</td>
+                            <td>Instant</td>
+                            <td><span class="status-badge delivered">Delivered</span></td>
+                            <td>2024-02-06</td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-090</td>
+                            <td>Jorge Lopez</td>
+                            <td>5 gallons</td>
+                            <td>San Roque, Zamboanga</td>
+                            <td>Alkaline Water</td>
+                            <td>-</td>
+                            <td>Subscription</td>
+                            <td><span class="status-badge delivered">Delivered</span></td>
+                            <td>2024-02-05</td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-089</td>
+                            <td>Karen Tan</td>
+                            <td>2 gallons</td>
+                            <td>Guiwan, Zamboanga</td>
+                            <td>Mineral Water</td>
+                            <td>-</td>
+                            <td>Instant</td>
+                            <td><span class="status-badge delivered">Delivered</span></td>
+                            <td>2024-02-04</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- ========================================= -->
+            <!-- ==== SUPPLIER DASHBOARD ENDS HERE ======= -->
+            <!-- ========================================= -->
+        </div>
+    </main>
+
+    <!-- Footer (Same as base design) -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>Contact Us</h4>
+                        <p>Zamboanga City, Philippines</p>
+                        <p><a href="tel:+63123456789">+63 123 456 789</a></p>
+                        <p><a href="mailto:aguanacasa@gmail.com">aguanacasa@gmail.com</a></p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>About Us</h4>
+                        <div class="footer-lists">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="services.html">Services</a></li>
+                                <li><a href="about.html">About</a></li>
+                                <li><a href="stations.html">Stations</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>Useful Links</h4>
+                        <div class="footer-lists">
+                            <ul>
+                                <li><a href="#">Find Stations</a></li>
+                                <li><a href="#">Delivery Areas</a></li>
+                                <li><a href="#">Support</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="careers.html">Careers</a></li>
+                                <li><a href="#">Partnerships</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>About Agua na Casa</h4>
+                        <div class="logo">
+                            <img src="aguanacasa_logo_white.png" alt="Agua na Casa">
+                        </div>
+                        <p>Bringing clean, safe drinking water to every Filipino home with fast and reliable delivery service.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-12">
+                    <div class="copyright-text">
+                        <p>Copyright © 2023 Agua na Casa. All Rights Reserved. 
+                        <br>Design: <a href="#">Agua na Casa Team</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+   
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Main JavaScript -->
+    <script src="AguaJavaScript.js"></script>
+    
+    <!-- Page Specific JavaScript -->
+    <script>
+        // Toggle profile dropdown
+        function toggleProfileDropdown() {
+            $('#profileDropdown').toggleClass('show');
+        }
+
+        // Close dropdown when clicking outside
+        $(document).click(function(event) {
+            if (!$(event.target).closest('.profile-button').length) {
+                $('#profileDropdown').removeClass('show');
+            }
+        });
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Toggle account status (Active/Inactive)
+        function toggleStatus() {
+            const toggle = document.getElementById('statusToggle');
+            const statusDisplay = document.getElementById('statusDisplay');
+            
+            if (toggle.checked) {
+                statusDisplay.textContent = 'Active';
+                statusDisplay.style.color = '#28a745';
+            } else {
+                statusDisplay.textContent = 'Inactive';
+                statusDisplay.style.color = '#dc3545';
+            }
+        }
+        
+        // Update order status
+        function updateOrderStatus(button, newStatus) {
+            const row = button.closest('tr');
+            const statusCell = row.querySelector('.status-badge');
+            
+            let statusText = '';
+            let statusClass = '';
+            
+            switch(newStatus) {
+                case 'preparing':
+                    statusText = 'Preparing';
+                    statusClass = 'preparing';
+                    break;
+                case 'delivering':
+                    statusText = 'Out for Delivery';
+                    statusClass = 'delivering';
+                    break;
+                case 'delivered':
+                    statusText = 'Delivered';
+                    statusClass = 'delivered';
+                    break;
+                case 'cancelled':
+                    statusText = 'Cancelled';
+                    statusClass = 'cancelled';
+                    break;
+                default:
+                    statusText = 'Pending';
+                    statusClass = 'pending';
+            }
+            
+            statusCell.textContent = statusText;
+            statusCell.className = `status-badge ${statusClass}`;
+            
+            // Remove action buttons if order is delivered or cancelled
+            if (newStatus === 'delivered' || newStatus === 'cancelled') {
+                const actionsCell = row.querySelector('td:last-child');
+                if (actionsCell) {
+                    actionsCell.innerHTML = '-';
+                }
+            } else if (newStatus === 'preparing') {
+                // Change buttons for preparing status
+                const actionsCell = row.querySelector('td:last-child');
+                actionsCell.innerHTML = `
+                    <button class="action-btn" onclick="updateOrderStatus(this, 'delivering')">Mark Delivering</button>
+                    <button class="action-btn reject" onclick="updateOrderStatus(this, 'cancelled')">Cancel</button>
+                `;
+            } else if (newStatus === 'delivering') {
+                // Change buttons for delivering status
+                const actionsCell = row.querySelector('td:last-child');
+                actionsCell.innerHTML = `
+                    <button class="action-btn accept" onclick="updateOrderStatus(this, 'delivered')">Mark Delivered</button>
+                `;
+            }
+            
+            // Show alert
+            alert(`Order status updated to: ${statusText}`);
+        }
+        
+        // Sort history function (mock functionality)
+        function sortHistory() {
+            const month = document.getElementById('monthFilter').value;
+            const date = document.getElementById('dateFilter').value;
+            
+            if (month) {
+                alert(`Sorting by month: ${month}`);
+                // In real implementation, you would filter the table here
+            } else if (date) {
+                alert(`Sorting by date: ${date}`);
+                // In real implementation, you would filter the table here
+            } else {
+                alert('Please select a month or date to sort');
+            }
+        }
+        
+        // Initialize status on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleStatus(); // Set initial status display
+        });
+    </script>
+</body>
+</html>

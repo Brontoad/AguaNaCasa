@@ -1,3 +1,33 @@
+**Authentication
+-login client
+-login rider
+-login station
+-login admin
+-create client
+    -client form (full name, email, password, confirm password, number)
+    -send email verification
+    -user click the email verification
+    -send phone number code (2 minutes timer)
+    -user enter the correct otp
+    -create account in backend
+-create rider
+    -rider form (plate number, vehicle type, vehicle model, license)
+    -verification of the license and the account
+    -create rider in the backend
+-create station
+    -station form (station name, contact number, business license)
+    -add station address
+    -send phone number code
+    -create station in the backend
+
+**Location
+-add client/station address
+    -client address form (barangay, city, province, house no, street)
+    -show location on map
+    -let user move the pin to determine location
+    -update the location
+    -save as new address of user to the backend
+
 Instant Ordering
 -user select station
 -user select product

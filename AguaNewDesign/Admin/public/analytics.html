@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Accounts</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            margin: 0;
+        }
+
+        h2, h1 {
+            color: #055871;
+            margin-top: 10%;
+        }
+
+        #table-wrapper {
+            height: 500px;
+            width: 80%;
+            padding: 0;
+            margin: 10px auto 10px auto;
+            margin-left: 10%;
+            overflow: auto;
+        }
+        /* #header{
+            position: sticky;
+            width: 80%;
+            z-index: 1100;
+            
+        } */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 100px;
+            
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table th,
+        table td {
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        table th {
+            background-color: #19A7CE;
+            color: #fff;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        table tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            position: sticky;
+            z-index: 1100;
+            width: 100%;
+            height: 70px;
+        }
+
+        ul.navbar {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #19A7CE;
+        }
+
+        li.nav-item {
+            float: left;
+        }
+
+        li.nav-item a {
+            font-size: 30px;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li.nav-item a:hover {
+            background-color: #055871;
+        }
+
+        button {
+            background-color: #19A7CE;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #147592;
+        }
+    </style>
+</head>
+<body>
+    <ul class="navbar">
+        <ul class="navbar">
+            <li class="nav-item"><a href="home.html">Home</a></li>
+            <li class="nav-item"><a href="logs.html">Logs</a></li>
+            <li class="nav-item"><a href="users.html">Users</a></li>
+            <li class="nav-item"><a href="store.html">Store</a></li>
+            <li class="nav-item"><a href="analytics.html">Analytics</a></li>
+            <li class="nav-item"><a href="index.html">Logout</a></li>
+            
+        </ul>
+    </ul>
+    <center><h1>Coming Soon! Stay tuned</h1></center>
+</body>
+</html>
