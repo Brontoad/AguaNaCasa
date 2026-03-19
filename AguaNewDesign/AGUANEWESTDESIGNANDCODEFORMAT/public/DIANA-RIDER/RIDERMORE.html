@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Information</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: #2ec8d4; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 16px; }
+  .dashboard { background: #2ec8d4; border-radius: 18px; width: 100%; max-width: 1480px; padding: 24px 28px 40px; }
+  .top-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .back-btn { background: rgba(255,255,255,0.25); border: none; border-radius: 10px; padding: 8px 16px; color: #fff; font-size: 13px; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.15s ease; }
+  .back-btn:hover { background: rgba(255,255,255,0.35); }
+  .back-btn svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .section-label { color: #fff; font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+
+  .order-header { background: rgba(255,255,255,0.2); border-radius: 14px; padding: 18px 24px; margin-bottom: 20px; display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+  .order-header-item { display: flex; flex-direction: column; gap: 2px; }
+  .order-header-item .lbl { color: rgba(255,255,255,0.75); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; }
+  .order-header-item .val { color: #fff; font-size: 14px; font-weight: 800; }
+
+  /* Current status pill */
+  .current-status-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .current-status-lbl { color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; }
+  .current-status-pill { display: inline-block; font-size: 12px; font-weight: 800; padding: 5px 16px; border-radius: 20px; }
+
+  .page-label { color: #fff; font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  .table-wrapper { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.10); }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: #2ec8d4; }
+  thead th { color: #fff; font-size: 12px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; padding: 14px 20px; text-align: left; white-space: nowrap; }
+  tbody tr { border-bottom: 1px solid #f0fafa; transition: background 0.15s ease; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #f4fefe; }
+  tbody tr.latest-row { background: #f0fbfc; }
+  tbody td { padding: 14px 20px; font-size: 13px; font-weight: 600; color: #444; vertical-align: middle; }
+  .datetime { white-space: nowrap; font-weight: 700; color: #555; }
+  .station-cell { display: flex; align-items: center; gap: 7px; }
+  .station-dot { width: 8px; height: 8px; border-radius: 50%; background: #2ec8d4; flex-shrink: 0; }
+  .items-list { display: flex; flex-direction: column; gap: 4px; }
+  .item-chip { display: inline-flex; align-items: center; gap: 5px; background: #f0fbfc; border: 1px solid #d0f0f3; border-radius: 6px; padding: 3px 10px; font-size: 12px; font-weight: 700; color: #2ec8d4; width: fit-content; }
+  .item-chip .qty { background: #2ec8d4; color: #fff; border-radius: 4px; padding: 1px 6px; font-size: 10.5px; font-weight: 800; }
+  .badge { display: inline-block; font-size: 11.5px; font-weight: 800; padding: 5px 14px; border-radius: 20px; white-space: nowrap; }
+  .badge-waiting   { background: #fff8e1; color: #f9a825; }
+  .badge-pickup    { background: #e8f4fd; color: #1e88e5; }
+  .badge-refilling { background: #f3e5f5; color: #8e24aa; }
+  .badge-delivery  { background: #e0f7f5; color: #00897b; }
+  .badge-completed { background: #e8f5e9; color: #43a047; }
+  .badge-cancelled { background: #ffebee; color: #ef5350; }
+</style>
+</head>
+<body>
+<div class="dashboard">
+
+  <div class="top-bar">
+    <button class="back-btn" onclick="window.location.href='RIDER.html'">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </button>
+    <span class="section-label">Order History</span>
+  </div>
+
+  <!-- Client + order info -->
+  <div class="order-header">
+    <div class="order-header-item">
+      <span class="lbl">Order ID</span>
+      <span class="val" id="info-orderid">—</span>
+    </div>
+    <div class="order-header-item">
+      <span class="lbl">Client</span>
+      <span class="val" id="info-client">—</span>
+    </div>
+    <div class="order-header-item">
+      <span class="lbl">Address</span>
+      <span class="val" id="info-address">—</span>
+    </div>
+    <div class="order-header-item">
+      <span class="lbl">Contact</span>
+      <span class="val" id="info-contact">—</span>
+    </div>
+    <div class="order-header-item">
+      <span class="lbl">Station</span>
+      <span class="val" id="info-station">—</span>
+    </div>
+  </div>
+
+  <!-- Current status -->
+  <div class="current-status-bar">
+    <span class="current-status-lbl">Current Status:</span>
+    <span class="current-status-pill badge" id="current-status-pill">—</span>
+  </div>
+
+  <p class="page-label">Delivery Timeline</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Date &amp; Time</th>
+          <th>Status</th>
+          <th>Station</th>
+          <th>Ordered Items</th>
+        </tr>
+      </thead>
+      <tbody id="timeline-body"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+  const STATUS_MAP = {
+    waiting:   { label: 'Waiting for Confirmation', cls: 'badge-waiting'   },
+    pickup:    { label: 'To Pick Up',               cls: 'badge-pickup'    },
+    refilling: { label: 'Refilling',                cls: 'badge-refilling' },
+    delivery:  { label: 'On Delivery',              cls: 'badge-delivery'  },
+    completed: { label: 'Completed',                cls: 'badge-completed' },
+    cancelled: { label: 'Cancelled',                cls: 'badge-cancelled' }
+  };
+
+  const params   = new URLSearchParams(window.location.search);
+  const orderId  = params.get('orderId') || '';
+  const client   = params.get('client')  || '—';
+  const address  = params.get('address') || '—';
+  const contact  = params.get('contact') || '—';
+  const station  = params.get('station') || '—';
+  const items    = JSON.parse(params.get('items')    || '[]');
+  const timeline = JSON.parse(params.get('timeline') || '[]');
+
+  // Populate header
+  document.getElementById('info-orderid').textContent = orderId ? '#' + orderId : '—';
+  document.getElementById('info-client').textContent  = client;
+  document.getElementById('info-address').textContent = address;
+  document.getElementById('info-contact').textContent = contact;
+  document.getElementById('info-station').textContent = station;
+
+  // Current status = last entry in timeline
+  if (timeline.length > 0) {
+    const last = timeline[timeline.length - 1];
+    const s = STATUS_MAP[last.status] || { label: last.status, cls: 'badge-waiting' };
+    const pill = document.getElementById('current-status-pill');
+    pill.textContent = s.label;
+    pill.classList.add(s.cls);
+  }
+
+  // Build items HTML
+  const itemsHTML = items.map(i =>
+    `<span class="item-chip"><span class="qty">x${i.qty}</span> ${i.name}</span>`
+  ).join('');
+
+  // Build timeline rows — highlight last row as most recent
+  const tbody = document.getElementById('timeline-body');
+  timeline.forEach((row, idx) => {
+    const s = STATUS_MAP[row.status] || { label: row.status, cls: 'badge-waiting' };
+    const isLatest = idx === timeline.length - 1;
+    tbody.innerHTML += `
+      <tr${isLatest ? ' class="latest-row"' : ''}>
+        <td class="datetime">${row.time}${isLatest ? ' <span style="font-size:10px;background:#2ec8d4;color:#fff;border-radius:4px;padding:1px 7px;margin-left:6px;font-weight:800;">LATEST</span>' : ''}</td>
+        <td><span class="badge ${s.cls}">${s.label}</span></td>
+        <td><div class="station-cell"><span class="station-dot"></span>${station}</div></td>
+        <td><div class="items-list">${itemsHTML}</div></td>
+      </tr>`;
+  });
+</script>
+</body>
+</html>
