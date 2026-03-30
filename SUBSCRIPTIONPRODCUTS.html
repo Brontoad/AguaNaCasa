@@ -24,10 +24,7 @@
     .card-divider { border: none; border-top: 1px solid rgba(255,255,255,0.35); margin-bottom: 10px; }
     .qty-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
     .qty-label { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 12.5px; color: #fff; margin-right: auto; }
-    .qty-stepper { display: flex; align-items: center; gap: 5px; }
-    .qty-stepper button { width: 24px; height: 24px; border: none; border-radius: 4px; background: rgba(255,255,255,0.3); color: #fff; font-size: 15px; font-weight: 900; font-family: 'Nunito', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; transition: background 0.15s; }
-    .qty-stepper button:hover { background: rgba(255,255,255,0.5); }
-    .qty-stepper .qty-num { min-width: 28px; height: 26px; background: #fff; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; font-family: 'Nunito', sans-serif; color: #333; }
+    .qty-input { width: 52px; height: 26px; border: none; border-radius: 4px; text-align: center; font-size: 13px; font-weight: 800; font-family: 'Nunito', sans-serif; color: #333; outline: none; }
     .qty-price { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 12.5px; color: #fff; }
     .fee-row, .total-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.9); font-weight: 600; margin-bottom: 4px; }
     .total-row { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 13px; color: #fff; margin-top: 2px; }
@@ -35,13 +32,11 @@
 </head>
 <body>
   <div class="top-bar">
-    <!-- Back discards any unsaved quantity changes -->
     <button class="back-btn" onclick="goBack()">
       <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       Back
     </button>
     <span class="page-title">Select Products</span>
-    <!-- Confirm is the only way to save quantities back to subscription -->
     <button class="confirm-btn" onclick="confirmOrders()">Confirm Orders</button>
   </div>
 
@@ -53,7 +48,7 @@
     { id: 'distilled', name: 'Distilled', price: 30, fee: 0 },
     { id: 'alkaline',  name: 'Alkaline',  price: 25, fee: 0 },
     { id: 'purified',  name: 'Purified',  price: 30, fee: 0 },
-    { id: 'tba',       name: 'Spring',    price: 0,  fee: 0 },
+    { id: 'tba',       name: 'Spring',       price: 0,  fee: 0 },
   ];
 
   const IMGS = {
@@ -64,21 +59,15 @@
     tba:       `<img src="tba9.png"       alt="TBA"       style="width:150px;height:170px;object-fit:contain;"/>`,
   };
 
+  // ── Read cart from URL ──
   const params = new URLSearchParams(window.location.search);
-
-  // ── confirmedCart: the cart as it was when this page was opened ──
-  // This is what Back restores — changes are DISCARDED unless Confirm is clicked.
-  let confirmedCart = [];
+  let cart = [];
   if (params.get('cart')) {
-    try { confirmedCart = JSON.parse(decodeURIComponent(params.get('cart'))); } catch(e) { confirmedCart = []; }
+    try { cart = JSON.parse(decodeURIComponent(params.get('cart'))); } catch(e) { cart = []; }
   }
 
-  // ── workingCart: local edits on this page, NOT yet saved ──
-  // Initialise from confirmedCart so existing picks are visible.
-  let workingCart = JSON.parse(JSON.stringify(confirmedCart));
-
-  function getWorkingQty(id) {
-    const item = workingCart.find(i => i.id === id);
+  function getCartQty(id) {
+    const item = cart.find(i => i.id === id);
     return item ? item.qty : 0;
   }
 
@@ -86,7 +75,7 @@
     const grid = document.getElementById('product-grid');
     grid.innerHTML = '';
     PRODUCTS.forEach(p => {
-      const qty = getWorkingQty(p.id);
+      const qty = getCartQty(p.id);
       const card = document.createElement('div');
       card.className = 'product-card';
       card.id = 'card-' + p.id;
@@ -99,11 +88,7 @@
         <hr class="card-divider"/>
         <div class="qty-row">
           <span class="qty-label">QTY</span>
-          <div class="qty-stepper">
-            <button class="btn-minus">−</button>
-            <span class="qty-num" id="qty-${p.id}">${qty}</span>
-            <button class="btn-plus">+</button>
-          </div>
+          <input class="qty-input" type="number" min="0" value="${qty}" id="qty-${p.id}" oninput="updateCard('${p.id}')"/>
           <span class="qty-price" id="qprice-${p.id}">₱${p.price * qty}</span>
         </div>
         <div class="fee-row">
@@ -114,46 +99,31 @@
           <span>Total Price</span>
           <span id="total-${p.id}">₱${p.price * qty + p.fee}</span>
         </div>`;
-
-      // Attach stable event listeners — no inline onclick, no re-render
-      card.querySelector('.btn-minus').addEventListener('click', () => stepQty(p.id, -1));
-      card.querySelector('.btn-plus').addEventListener('click',  () => stepQty(p.id,  1));
-
       grid.appendChild(card);
     });
   }
 
-  function stepQty(id, delta) {
+  function updateCard(id) {
     const p = PRODUCTS.find(p => p.id === id);
-    const idx = workingCart.findIndex(i => i.id === id);
-    let qty = idx >= 0 ? workingCart[idx].qty : 0;
-    qty = Math.max(0, qty + delta);
-
-    // Update workingCart
-    if (qty > 0) {
-      if (idx >= 0) workingCart[idx].qty = qty;
-      else workingCart.push({ id, name: p.name, price: p.price, qty });
-    } else {
-      if (idx >= 0) workingCart.splice(idx, 1);
-    }
-
-    // Update only the text nodes on this card — no rebuild
-    document.getElementById('qty-' + id).textContent    = qty;
+    const qty = Math.max(0, parseInt(document.getElementById('qty-' + id).value) || 0);
     document.getElementById('qprice-' + id).textContent = '₱' + (p.price * qty);
     document.getElementById('total-' + id).textContent  = '₱' + (p.price * qty + p.fee);
+    const idx = cart.findIndex(i => i.id === id);
+    if (qty > 0) {
+      if (idx >= 0) cart[idx].qty = qty;
+      else cart.push({ id, name: p.name, price: p.price, qty });
+    } else {
+      if (idx >= 0) cart.splice(idx, 1);
+    }
   }
 
-  // ── Back: returns confirmedCart (discards workingCart changes) ──
-  function goBack() {
-    const cartParam = encodeURIComponent(JSON.stringify(confirmedCart));
+  function goBackToSubscription() {
+    const cartParam = encodeURIComponent(JSON.stringify(cart));
     window.location.href = 'SUBSCRIPTION.html?cart=' + cartParam;
   }
 
-  // ── Confirm: saves workingCart as the new confirmed cart ──
-  function confirmOrders() {
-    const cartParam = encodeURIComponent(JSON.stringify(workingCart));
-    window.location.href = 'SUBSCRIPTION.html?cart=' + cartParam;
-  }
+  function confirmOrders() { goBackToSubscription(); }
+  function goBack()         { goBackToSubscription(); }
 
   buildCards();
 </script>

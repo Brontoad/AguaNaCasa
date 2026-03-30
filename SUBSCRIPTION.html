@@ -31,17 +31,9 @@
     .total-wrap span { font-size: 13px; color: #333; margin-right: 3px; }
     .total-wrap input { border: none; outline: none; flex: 1; font-size: 13px; font-family: 'Nunito Sans', sans-serif; color: #333; background: transparent; padding: 0; height: 100%; }
     .orders-row-ctrl { display: flex; align-items: center; gap: 6px; width: 200px; flex-shrink: 0; }
-
-    /* ── Orders button: always static label, never lists products ── */
-    .orders-btn {
-      flex: 1; height: 28px; border: none; border-radius: 4px;
-      background: #fff; color: #888; font-size: 13px;
-      font-family: 'Nunito Sans', sans-serif; cursor: pointer;
-      text-align: left; padding: 0 8px;
-      transition: background 0.15s ease;
-    }
+    .orders-btn { flex: 1; height: 28px; border: none; border-radius: 4px; background: #fff; color: #888; font-size: 13px; font-family: 'Nunito Sans', sans-serif; cursor: pointer; text-align: left; padding: 0 8px; transition: background 0.15s ease; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .orders-btn:hover { background: #f0fafa; }
-
+    .orders-btn.has-items { color: #2ec8d4; font-weight: 700; }
     .cart-btn { width: 28px; height: 28px; border: none; border-radius: 4px; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; transition: background 0.15s ease; flex-shrink: 0; }
     .cart-btn:hover { background: #f0fafa; }
     .cart-btn svg { width: 15px; height: 15px; stroke: #2ec8d4; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
@@ -106,7 +98,6 @@
         <div class="form-row">
           <span class="lbl">Orders</span>
           <div class="orders-row-ctrl">
-            <!-- Always shows "Select Products" — never lists chosen items -->
             <button class="orders-btn" id="orders-btn" onclick="goToProducts()">Select Products</button>
             <button class="cart-btn" onclick="openCart()" title="View cart">
               <svg viewBox="0 0 24 24">
@@ -151,11 +142,12 @@
   </div>
 
 <script>
+  // ── Read cart from URL (passed back from products page) ──
   let cart = [];
 
   const params = new URLSearchParams(window.location.search);
 
-  // Restore confirmed cart from URL
+  // Restore cart from URL
   if (params.get('cart')) {
     try { cart = JSON.parse(decodeURIComponent(params.get('cart'))); } catch(e) { cart = []; }
   }
@@ -176,7 +168,14 @@
     badge.textContent = totalQty;
     badge.classList.toggle('show', totalQty > 0);
 
-    // ── Total field updates based on cart, but button label stays fixed ──
+    const btn = document.getElementById('orders-btn');
+    if (totalQty > 0) {
+      btn.textContent = cart.map(i => `${i.qty}x ${i.name}`).join(', ');
+      btn.classList.add('has-items');
+    } else {
+      btn.textContent = 'Select Products';
+      btn.classList.remove('has-items');
+    }
     document.getElementById('total-input').value = calcTotal() || '';
   }
 
@@ -193,77 +192,44 @@
   function renderCartDrawer() {
     const body = document.getElementById('cart-body');
     const empty = document.getElementById('cart-empty');
-
-    // Remove rows for items no longer in cart
-    body.querySelectorAll('.cart-item[data-id]').forEach(row => {
-      if (!cart.find(i => i.id === row.dataset.id)) row.remove();
-    });
-
+    body.innerHTML = '';
     if (cart.length === 0) {
-      if (!body.contains(empty)) body.appendChild(empty);
+      body.appendChild(empty);
       empty.style.display = 'block';
       document.getElementById('cart-total-display').textContent = '₱0';
       return;
     }
     empty.style.display = 'none';
-
     cart.forEach((item, idx) => {
-      let row = body.querySelector(`.cart-item[data-id="${item.id}"]`);
-
-      if (!row) {
-        // Create row once — event listeners are attached once and never change
-        row = document.createElement('div');
-        row.className = 'cart-item';
-        row.dataset.id = item.id;
-        row.innerHTML = `
-          <div class="cart-item-left">
-            <span class="cart-item-name">${item.name}</span>
-            <span class="cart-item-price" data-price></span>
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `
+        <div class="cart-item-left">
+          <span class="cart-item-name">${item.name}</span>
+          <span class="cart-item-price">₱${item.price} each · ₱${item.price * item.qty} total</span>
+        </div>
+        <div class="cart-item-right">
+          <div class="qty-ctrl">
+            <button onclick="changeQty(${idx},-1)">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button onclick="changeQty(${idx},1)">+</button>
           </div>
-          <div class="cart-item-right">
-            <div class="qty-ctrl">
-              <button class="btn-minus">−</button>
-              <span class="qty-num" data-qty></span>
-              <button class="btn-plus">+</button>
-            </div>
-            <button class="remove-item-btn">✕</button>
-          </div>`;
-
-        row.querySelector('.btn-minus').addEventListener('click', () => changeQty(item.id, -1));
-        row.querySelector('.btn-plus').addEventListener('click',  () => changeQty(item.id,  1));
-        row.querySelector('.remove-item-btn').addEventListener('click', () => removeItem(item.id));
-
-        // Insert in correct order
-        const rows = body.querySelectorAll('.cart-item[data-id]');
-        if (rows.length === 0 || idx >= rows.length) {
-          body.appendChild(row);
-        } else {
-          body.insertBefore(row, rows[idx]);
-        }
-      }
-
-      // Always update just the text nodes — no DOM rebuild
-      row.querySelector('[data-qty]').textContent = item.qty;
-      row.querySelector('[data-price]').textContent =
-        `₱${item.price} each · ₱${item.price * item.qty} total`;
+          <button class="remove-item-btn" onclick="removeItem(${idx})">✕</button>
+        </div>`;
+      body.appendChild(div);
     });
-
     document.getElementById('cart-total-display').textContent = '₱' + calcTotal();
   }
 
-  function changeQty(id, delta) {
-    const item = cart.find(i => i.id === id);
-    if (!item) return;
-    item.qty += delta;
-    if (item.qty <= 0) {
-      cart.splice(cart.findIndex(i => i.id === id), 1);
-    }
+  function changeQty(idx, delta) {
+    cart[idx].qty += delta;
+    if (cart[idx].qty <= 0) cart.splice(idx, 1);
     updateUI();
     renderCartDrawer();
   }
 
-  function removeItem(id) {
-    cart.splice(cart.findIndex(i => i.id === id), 1);
+  function removeItem(idx) {
+    cart.splice(idx, 1);
     updateUI();
     renderCartDrawer();
   }
@@ -285,3 +251,7 @@
 </script>
 </body>
 </html>
+
+
+
+
