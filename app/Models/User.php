@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\UserType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,7 +23,17 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'contact_number',
         'password',
+        'user_type',
+        
+        'email_verified_at',
+        'contact_number_verified_at',
+
+        'reset_contact_number_token',
+        'reset_email_token',
+
+        'is_suspended'
     ];
 
     /**
@@ -47,6 +59,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
+            'user_type' => UserType::class
         ];
+    }
+
+    public function addresses() {
+        return $this->hasMany(Address::class, 'user_id');
     }
 }

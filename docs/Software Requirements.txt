@@ -38,6 +38,8 @@ Rider
 
 Admin
 -manage stations
+    -verify station license
+    -suspend account
 -manage orders
 -manage riders
 -manage users
@@ -47,4 +49,4 @@ Admin
 Subscriptions
 -billing
 -2 months to pay
--suspend account, or report
+-suspend account, or report 

@@ -1,3 +1,4 @@
+import AuthLayout from "@/layouts/auth-layout";
 import { Head } from "@inertiajs/react";
 
 /**
@@ -5,28 +6,23 @@ import { Head } from "@inertiajs/react";
  * 
  * Created by:  Calulut, Joshua Miguel C.
  *              Jamalul, Mohammad Hud A.
+ *              Sueño, Diana S.
  * Tested by:   N/A
  * 
  * Created at:      February 26, 2026
+ * Last Edited at:  March 14, 2026
  * Last Tested at:  N/A
  */
-export default function AdminLogin() {
+export default function Admin() {
     return (
-        <>
-            <Head title="Admin Login | Agua Na Casa"></Head>
-            <div className="login-form-container">
-                <div>
-                    <center> <img src="aguanacasa_logo_blue.png" width="200px"></img></center>
-                    <header>Admin Login</header>
-                    <form id="admin-login-form">
-                        <input type="text" id="email" placeholder="Email"></input>
-                        <input type="password" id="password" placeholder="Password"></input>
-                        <input type="button" className="button" value="Login"></input>
-                    </form>
-                </div>
-            </div>
-        </>
+        <form id="admin-login-form">
+            <input type="text" id="email" placeholder="Email"></input>
+            <input type="password" id="password" placeholder="Password"></input>
+            <input type="button" className="button" value="Login"></input>
+        </form>
     );
 }
+
+Admin.layout = (page: any) => <AuthLayout title="Admin Login | Agua Na Casa" page={page} header="Login"></AuthLayout>
 
 // Agua Na Casa(c), 2026.
