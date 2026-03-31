@@ -12,6 +12,7 @@
     -create account in backend
 -create rider
     -rider form (plate number, vehicle type, vehicle model, license)
+    -upload documents such as OR/CR, license, and plate number
     -verification of the license and the account
     -create rider in the backend
 -create station
