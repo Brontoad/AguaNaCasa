@@ -260,6 +260,53 @@
     margin-right: 5px;
   }
 
+  /* Login Toggle Switch Styles */
+  .login-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: #f8f9fa;
+    padding: 8px;
+    border-radius: 50px;
+    border: 1px solid #e0e0e0;
+  }
+
+  .toggle-option {
+    flex: 1;
+    text-align: center;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 40px;
+    transition: all 0.3s ease;
+    color: #666;
+  }
+
+  .toggle-option.active {
+    background: #19A7CE;
+    color: white;
+    box-shadow: 0 2px 8px rgba(25,167,206,0.3);
+  }
+
+  .toggle-option i {
+    margin-right: 6px;
+    font-size: 14px;
+  }
+
+  .login-field-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .login-field-wrapper input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0;
+  }
+
   /* Responsive */
   @media (max-width: 480px) {
     .container {
@@ -279,6 +326,11 @@
     
     .form {
       padding: 1.5rem;
+    }
+    
+    .toggle-option {
+      font-size: 12px;
+      padding: 6px 10px;
     }
   }
 </style>
@@ -309,11 +361,25 @@
       <center> <img src="aguanacasa_logo_blue.png" width="180px"></center>
       <header id="loginHeader">Customer Login</header>
       
+      <!-- Login Toggle Switch -->
+      <div class="login-toggle">
+        <div class="toggle-option active" id="emailToggle" onclick="switchLoginMethod('email')">
+          <i class="fas fa-envelope"></i> Email
+        </div>
+        <div class="toggle-option" id="mobileToggle" onclick="switchLoginMethod('mobile')">
+          <i class="fas fa-phone-alt"></i> Mobile
+        </div>
+      </div>
+      
       <!-- Hidden role field -->
       <input type="hidden" id="loginRole" value="customer">
+      <!-- Hidden login method field -->
+      <input type="hidden" id="loginMethod" value="email">
       
       <form id="loginFormElement">
-        <input type="text" id="email" placeholder="Enter your email">
+        <div class="login-field-wrapper">
+          <input type="text" id="loginIdentifier" placeholder="Enter your email">
+        </div>
         <input type="password" id="password" placeholder="Enter your password">
         <input type="button" class="button" value="Login" onclick="login()">
       </form>
@@ -343,16 +409,16 @@
           <input type="email" id="signupEmail" placeholder="Enter your email" required>
         </div>
         <div class="input-field">
+          <label>Mobile Number</label>
+          <input type="tel" id="signupMobile" placeholder="Enter your mobile number" required>
+        </div>
+        <div class="input-field">
           <label>Password</label>
           <input type="password" id="signupPass" placeholder="Enter your password" required>
         </div>
         <div class="input-field">
           <label>Full Name</label>
           <input type="text" id="fullName" placeholder="Enter your full name" required>
-        </div>
-        <div class="input-field">
-          <label>Mobile Number</label>
-          <input type="tel" id="mobileNumber" placeholder="Enter mobile number" required>
         </div>
         
         <!-- Customer-specific fields (shown only for customer) -->
@@ -467,6 +533,8 @@
 
     // Current role (customer, rider, station)
     let currentRole = 'customer';
+    // Current login method (email or mobile)
+    let currentLoginMethod = 'email';
 
     // DOM Elements
     const loginForm = document.querySelector(".login.form");
@@ -480,6 +548,10 @@
     const roleMessageText = document.getElementById("roleMessageText");
     const loginRole = document.getElementById("loginRole");
     const signupRole = document.getElementById("signupRole");
+    const loginIdentifier = document.getElementById("loginIdentifier");
+    const emailToggle = document.getElementById("emailToggle");
+    const mobileToggle = document.getElementById("mobileToggle");
+    const loginMethodInput = document.getElementById("loginMethod");
 
     // Role-specific field containers
     const customerFields = document.querySelector('.customer-fields');
@@ -490,6 +562,25 @@
     const customerTab = document.getElementById('customerTab');
     const riderTab = document.getElementById('riderTab');
     const stationTab = document.getElementById('stationTab');
+
+    // Switch login method between email and mobile
+    function switchLoginMethod(method) {
+      currentLoginMethod = method;
+      loginMethodInput.value = method;
+      
+      // Update toggle UI
+      if (method === 'email') {
+        emailToggle.classList.add('active');
+        mobileToggle.classList.remove('active');
+        loginIdentifier.placeholder = 'Enter your email';
+        loginIdentifier.type = 'email';
+      } else {
+        emailToggle.classList.remove('active');
+        mobileToggle.classList.add('active');
+        loginIdentifier.placeholder = 'Enter your mobile number (e.g., 09123456789)';
+        loginIdentifier.type = 'tel';
+      }
+    }
 
     // Switch role function
     function switchRole(role) {
@@ -568,12 +659,161 @@
       registrationForm.style.display = "block";
     });
 
+    // Function to get user by email or mobile number
+    function getUserByIdentifier(identifier, role, type) {
+      return new Promise((resolve, reject) => {
+        if (type === 'email') {
+          // If logging in with email, use Firebase auth
+          resolve({ type: 'email', value: identifier });
+        } else {
+          // If logging in with mobile, search in database by mobile number
+          database.ref("users").orderByChild("mobileNumber").equalTo(identifier).once("value")
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                let userId = null;
+                let userData = null;
+                snapshot.forEach((childSnapshot) => {
+                  userId = childSnapshot.key;
+                  userData = childSnapshot.val();
+                });
+                resolve({ type: 'mobile', value: identifier, userId: userId, userData: userData });
+              } else {
+                reject(new Error("No account found with this mobile number"));
+              }
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        }
+      });
+    }
+
+    // Login function
+    function login() {
+      const identifier = loginIdentifier.value.trim();
+      const password = document.getElementById('password').value;
+      const role = document.getElementById('loginRole').value;
+      const method = document.getElementById('loginMethod').value;
+
+      if (!identifier || !password) {
+        alert("Please enter your login details and password");
+        return;
+      }
+
+      if (method === 'email') {
+        // Login with email using Firebase Auth
+        firebase.auth().signInWithEmailAndPassword(identifier, password)
+          .then((userCredential) => {
+            const userId = userCredential.user.uid;
+            
+            // Check user role from database
+            database.ref("users/" + userId).once('value')
+              .then((snapshot) => {
+                const userData = snapshot.val();
+                
+                if (!userData) {
+                  alert("User data not found");
+                  return;
+                }
+                
+                // Verify role matches
+                if (userData.role !== role) {
+                  alert(`This account is registered as a ${userData.role}. Please use the correct login tab.`);
+                  auth.signOut();
+                  return;
+                }
+                
+                // Check if account is approved (for riders and stations)
+                if (userData.status === 'pending') {
+                  alert("Your account is pending approval. Please wait for admin verification.");
+                  auth.signOut();
+                  return;
+                }
+                
+                console.log('Login successful');
+                
+                // Redirect based on role
+                if (role === 'customer') {
+                  window.location.href = 'index.html';
+                } else if (role === 'rider') {
+                  window.location.href = 'rider-dashboard.html';
+                } else if (role === 'station') {
+                  window.location.href = 'station-dashboard.html';
+                }
+              });
+          })
+          .catch((error) => {
+            alert(`Login failed: ${error.message}`);
+          });
+      } else {
+        // Login with mobile number - find user by mobile number in database
+        database.ref("users").orderByChild("mobileNumber").equalTo(identifier).once("value")
+          .then((snapshot) => {
+            if (!snapshot.exists()) {
+              alert("No account found with this mobile number");
+              return;
+            }
+            
+            let userId = null;
+            let userData = null;
+            snapshot.forEach((childSnapshot) => {
+              userId = childSnapshot.key;
+              userData = childSnapshot.val();
+            });
+            
+            if (!userData) {
+              alert("User data not found");
+              return;
+            }
+            
+            // Verify role matches
+            if (userData.role !== role) {
+              alert(`This account is registered as a ${userData.role}. Please use the correct login tab.`);
+              return;
+            }
+            
+            // Check if account is approved (for riders and stations)
+            if (userData.status === 'pending') {
+              alert("Your account is pending approval. Please wait for admin verification.");
+              return;
+            }
+            
+            // Since Firebase Auth doesn't support mobile number login without phone auth,
+            // we need to verify password by checking against stored hash or using email login
+            // For now, we'll get the email from userData and attempt email login
+            if (userData.email) {
+              firebase.auth().signInWithEmailAndPassword(userData.email, password)
+                .then((userCredential) => {
+                  console.log('Login successful via mobile number');
+                  
+                  // Redirect based on role
+                  if (role === 'customer') {
+                    window.location.href = 'index.html';
+                  } else if (role === 'rider') {
+                    window.location.href = 'rider-dashboard.html';
+                  } else if (role === 'station') {
+                    window.location.href = 'station-dashboard.html';
+                  }
+                })
+                .catch((error) => {
+                  alert(`Login failed: Invalid password. ${error.message}`);
+                });
+            } else {
+              alert("Account email not found. Please login with email instead.");
+            }
+          })
+          .catch((error) => {
+            alert(`Login failed: ${error.message}`);
+          });
+      }
+    }
+
     // Signup function
     function signup() {
       const signupEmail = document.getElementById("signupEmail").value;
+      const signupMobile = document.getElementById("signupMobile").value;
       const signupPassword = document.getElementById("signupPass").value;
       const fullName = document.getElementById("fullName").value;
-      const mobileNumber = document.getElementById("mobileNumber").value;
       const role = document.getElementById("signupRole").value;
 
       // Check terms agreement
@@ -584,8 +824,15 @@
       }
 
       // Basic validation
-      if (!signupEmail || !signupPassword || !fullName || !mobileNumber) {
-        alert("Please fill in all required fields");
+      if (!signupEmail || !signupMobile || !signupPassword || !fullName) {
+        alert("Please fill in all required fields (Email, Mobile Number, Password, Full Name)");
+        return;
+      }
+
+      // Validate mobile number format (basic validation)
+      const mobileRegex = /^[\+]?[0-9]{10,15}$/;
+      if (!mobileRegex.test(signupMobile.replace(/\s/g, ''))) {
+        alert("Please enter a valid mobile number (10-15 digits, optional + prefix)");
         return;
       }
 
@@ -597,8 +844,8 @@
           // Base user data
           const userData = {
             email: signupEmail,
+            mobileNumber: signupMobile,
             fullName: fullName,
-            mobileNumber: mobileNumber,
             role: role, // 'customer', 'rider', or 'station'
             status: role === 'customer' ? 'verified' : 'pending', // Customers auto-verified, others need approval
             createdAt: new Date().toISOString(),
@@ -695,66 +942,12 @@
         });
     }
 
-    // Login function
-    function login() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const role = document.getElementById('loginRole').value;
-
-      if (!email || !password) {
-        alert("Please enter email and password");
-        return;
-      }
-
-      firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          const userId = userCredential.user.uid;
-          
-          // Check user role from database
-          database.ref("users/" + userId).once('value')
-            .then((snapshot) => {
-              const userData = snapshot.val();
-              
-              if (!userData) {
-                alert("User data not found");
-                return;
-              }
-              
-              // Verify role matches
-              if (userData.role !== role) {
-                alert(`This account is registered as a ${userData.role}. Please use the correct login tab.`);
-                auth.signOut();
-                return;
-              }
-              
-              // Check if account is approved (for riders and stations)
-              if (userData.status === 'pending') {
-                alert("Your account is pending approval. Please wait for admin verification.");
-                auth.signOut();
-                return;
-              }
-              
-              console.log('Login successful');
-              
-              // Redirect based on role
-              if (role === 'customer') {
-                window.location.href = 'index.html';
-              } else if (role === 'rider') {
-                window.location.href = 'rider-dashboard.html';
-              } else if (role === 'station') {
-                window.location.href = 'station-dashboard.html';
-              }
-            });
-        })
-        .catch((error) => {
-          alert(`Login failed: ${error.message}`);
-        });
-    }
-
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
       // Start with customer role
       switchRole('customer');
+      // Start with email login method
+      switchLoginMethod('email');
     });
   </script>
 </body>
