@@ -42,6 +42,8 @@
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.1);
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Profile Header - Solid color instead of gradient */
@@ -149,72 +151,127 @@
             opacity: 0.9;
         }
 
-        /* Tabs Navigation */
-        .profile-tabs {
+        /* Main Content Area with Sidebar */
+        .profile-main {
             display: flex;
+            min-height: 500px;
+        }
+
+        /* Left Sidebar Navigation */
+        .profile-sidebar {
+            width: 260px;
             background: white;
-            padding: 0 20px;
-            border-bottom: 2px solid #e0e0e0;
-            gap: 10px;
-            overflow-x: auto;
-            scrollbar-width: none;
+            border-right: 1px solid #e0e0e0;
+            padding: 20px 0;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .profile-tabs::-webkit-scrollbar {
-            display: none;
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
         }
 
-        .tab-btn {
-            padding: 15px 25px;
+        .sidebar-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 24px;
             background: none;
             border: none;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             color: #666;
             cursor: pointer;
-            position: relative;
             transition: all 0.3s;
-            white-space: nowrap;
+            text-align: left;
+            width: 100%;
+            border-left: 3px solid transparent;
         }
 
-        .tab-btn i {
-            margin-right: 8px;
+        .sidebar-btn i {
+            width: 22px;
             font-size: 18px;
+            color: #999;
+            transition: all 0.3s;
         }
 
-        .tab-btn:hover {
+        .sidebar-btn:hover {
+            background: #f0f9ff;
             color: var(--primary);
         }
 
-        .tab-btn.active {
+        .sidebar-btn:hover i {
             color: var(--primary);
         }
 
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--primary);
-            border-radius: 3px 3px 0 0;
-            animation: slideIn 0.3s ease;
+        .sidebar-btn.active {
+            background: #f0f9ff;
+            color: var(--primary);
+            border-left-color: var(--primary);
         }
 
-        @keyframes slideIn {
-            from {
-                transform: scaleX(0);
-            }
-            to {
-                transform: scaleX(1);
-            }
+        .sidebar-btn.active i {
+            color: var(--primary);
+        }
+
+        /* Logout Button in Sidebar */
+        .sidebar-logout {
+            margin: 20px;
+            margin-top: auto;
+        }
+
+        .logout-sidebar-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--danger);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            width: 100%;
+        }
+
+        .logout-sidebar-btn i {
+            width: 22px;
+            font-size: 18px;
+            color: var(--danger);
+        }
+
+        .logout-sidebar-btn:hover {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .logout-sidebar-btn:hover i {
+            color: white;
+        }
+
+        /* Right Content Area */
+        .profile-content {
+            flex: 1;
+            padding: 30px;
+            background: #fafafa;
+            overflow-y: auto;
         }
 
         /* Tab Content */
-        .tab-content {
-            padding: 30px;
-            animation: fadeIn 0.5s ease;
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-pane.active {
+            display: block;
         }
 
         @keyframes fadeIn {
@@ -228,21 +285,14 @@
             }
         }
 
-        .tab-pane {
-            display: none;
-        }
-
-        .tab-pane.active {
-            display: block;
-        }
-
         /* Cards */
         .info-card {
-            background: var(--gray-bg);
+            background: white;
             border-radius: 15px;
             padding: 25px;
             margin-bottom: 25px;
             border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .card-header {
@@ -250,6 +300,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         .card-header h3 {
@@ -306,6 +358,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            flex-wrap: wrap;
         }
 
         .verified-badge {
@@ -424,7 +477,7 @@
             font-weight: 600;
         }
 
-        /* Orders Table */
+        /* Orders Table (kept for ongoing orders in profile tab) */
         .orders-table {
             width: 100%;
             border-collapse: collapse;
@@ -451,6 +504,7 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
+            display: inline-block;
         }
 
         .status-delivered {
@@ -487,152 +541,6 @@
 
         .reorder-btn:hover {
             background: var(--primary-dark);
-        }
-
-        /* Verification Section */
-        .verification-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .verification-item {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .verification-icon {
-            width: 50px;
-            height: 50px;
-            background: #f0f9ff;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 24px;
-        }
-
-        .verification-info {
-            flex: 1;
-        }
-
-        .verification-info h4 {
-            font-size: 16px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .verification-info p {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .verification-status {
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .status-verified {
-            color: var(--success);
-        }
-
-        .status-pending {
-            color: #b45b0a;
-        }
-
-        .upload-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .upload-btn:hover {
-            background: var(--primary-dark);
-        }
-
-        /* Settings Section */
-        .settings-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .settings-item:last-child {
-            border-bottom: none;
-        }
-
-        .settings-info h4 {
-            font-size: 16px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .settings-info p {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .toggle-switch {
-            width: 50px;
-            height: 24px;
-            background: #e0e0e0;
-            border-radius: 12px;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .toggle-switch.active {
-            background: var(--primary);
-        }
-
-        .toggle-switch::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            top: 2px;
-            left: 2px;
-            transition: all 0.3s;
-        }
-
-        .toggle-switch.active::after {
-            left: 28px;
-        }
-
-        .danger-btn {
-            background: white;
-            color: var(--danger);
-            border: 1px solid var(--danger);
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .danger-btn:hover {
-            background: var(--danger);
-            color: white;
         }
 
         /* Address Modal Specific Styles */
@@ -957,27 +865,12 @@
             background: #f8f9fa;
         }
 
-        /* Logout Button */
-        .logout-section {
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .logout-btn {
-            background: white;
-            color: var(--danger);
-            border: 1px solid var(--danger);
-            padding: 12px 30px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: var(--danger);
-            color: white;
+        .form-select {
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Nunito Sans', sans-serif;
         }
 
         /* Responsive */
@@ -991,13 +884,47 @@
                 gap: 15px;
             }
 
-            .profile-tabs {
+            .profile-main {
+                flex-direction: column;
+            }
+
+            .profile-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+                overflow-x: auto;
+                padding: 10px 0;
+            }
+
+            .sidebar-nav {
+                flex-direction: row;
                 padding: 0 10px;
             }
 
-            .tab-btn {
-                padding: 12px 15px;
-                font-size: 14px;
+            .sidebar-btn {
+                flex-direction: column;
+                text-align: center;
+                padding: 10px;
+                min-width: 80px;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+
+            .sidebar-btn.active {
+                border-left-color: transparent;
+                border-bottom-color: var(--primary);
+            }
+
+            .sidebar-btn i {
+                width: auto;
+            }
+
+            .sidebar-logout {
+                display: none;
+            }
+
+            .profile-content {
+                padding: 20px;
             }
 
             .info-grid {
@@ -1005,10 +932,6 @@
             }
 
             .addresses-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .verification-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -1100,7 +1023,7 @@
                 <div class="col-12">
                     
                     <div class="profile-wrapper">
-                        <!-- Profile Header - Solid color now -->
+                        <!-- Profile Header -->
                         <div class="profile-header">
                             <div class="row align-items-center">
                                 <div class="col-md-8">
@@ -1143,409 +1066,235 @@
                             </div>
                         </div>
 
-                        <!-- Tabs Navigation -->
-                        <div class="profile-tabs">
-                            <button class="tab-btn active" onclick="switchTab('overview', event)">
-                                <i class="fas fa-chart-pie"></i> Overview
-                            </button>
-                            <button class="tab-btn" onclick="switchTab('orders', event)">
-                                <i class="fas fa-shopping-bag"></i> Orders
-                            </button>
-                            <button class="tab-btn" onclick="switchTab('addresses', event)">
-                                <i class="fas fa-map-marker-alt"></i> Addresses
-                            </button>
-                            <button class="tab-btn" onclick="switchTab('verification', event)">
-                                <i class="fas fa-id-card"></i> Verification
-                            </button>
-                            <button class="tab-btn" onclick="switchTab('settings', event)">
-                                <i class="fas fa-cog"></i> Settings
-                            </button>
-                        </div>
-
-                        <!-- Tab Content -->
-                        <div class="tab-content">
-                            <!-- Overview Tab -->
-                            <div class="tab-pane active" id="overview">
-                                <!-- Personal Information Card -->
-                                <div class="info-card">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-user"></i> Personal Information</h3>
-                                        <button class="edit-btn" onclick="openEditModal('personal')">
-                                            <i class="fas fa-edit"></i> Edit
-                                        </button>
-                                    </div>
+                        <!-- Main Content with Sidebar -->
+                        <div class="profile-main">
+                            <!-- Left Sidebar Navigation -->
+                            <div class="profile-sidebar">
+                                <div class="sidebar-nav">
+                                    <button class="sidebar-btn active" onclick="switchTab('profile', event)">
+                                        <i class="fas fa-user-circle"></i> Profile
+                                    </button>
+                                    <button class="sidebar-btn" onclick="switchTab('addresses', event)">
+                                        <i class="fas fa-map-marker-alt"></i> Addresses
+                                    </button>
                                     
-                                    <div class="info-grid">
-                                        <div class="info-item">
-                                            <span class="label">Full Name</span>
-                                            <span class="value">Juan Dela Cruz</span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="label">Email Address</span>
-                                            <span class="value">
-                                                juan.delacruz@email.com
-                                                <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>
-                                            </span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="label">Mobile Number</span>
-                                            <span class="value">
-                                                +63 912 345 6789
-                                                <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>
-                                            </span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="label">Date of Birth</span>
-                                            <span class="value">January 15, 1995</span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="label">Gender</span>
-                                            <span class="value">Male</span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="label">Occupation</span>
-                                            <span class="value">Software Developer</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Ongoing Orders Card -->
-                                <div class="info-card">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-spinner"></i> Ongoing Orders</h3>
-                                        <button class="edit-btn" onclick="switchTab('orders', event)">
-                                            View All <i class="fas fa-arrow-right"></i>
-                                        </button>
-                                    </div>
-                                    
-                                    <table class="orders-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Order ID</th>
-                                                <th>Date</th>
-                                                <th>Items</th>
-                                                <th>Total</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>#ORD-2024-002</td>
-                                                <td>Mar 10, 2024</td>
-                                                <td>5 Gallons</td>
-                                                <td>₱750</td>
-                                                <td><span class="order-status status-ongoing">Ongoing</span></td>
-                                                <td><button class="reorder-btn">Track</button></td>
-                                            </tr>
-                                            <tr>
-                                                <td>#ORD-2024-005</td>
-                                                <td>Mar 18, 2024</td>
-                                                <td>2 Gallons</td>
-                                                <td>₱300</td>
-                                                <td><span class="order-status status-ongoing">Ongoing</span></td>
-                                                <td><button class="reorder-btn">Track</button></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <!-- Recent Orders Card -->
-                                <div class="info-card">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-clock"></i> Recent Orders</h3>
-                                        <button class="edit-btn" onclick="switchTab('orders', event)">
-                                            View All <i class="fas fa-arrow-right"></i>
-                                        </button>
-                                    </div>
-                                    
-                                    <table class="orders-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Order ID</th>
-                                                <th>Date</th>
-                                                <th>Items</th>
-                                                <th>Total</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>#ORD-2024-001</td>
-                                                <td>Mar 15, 2024</td>
-                                                <td>3 Gallons</td>
-                                                <td>₱450</td>
-                                                <td><span class="order-status status-delivered">Delivered</span></td>
-                                                <td><button class="reorder-btn">Reorder</button></td>
-                                            </tr>
-                                            <tr>
-                                                <td>#ORD-2024-004</td>
-                                                <td>Feb 28, 2024</td>
-                                                <td>4 Gallons</td>
-                                                <td>₱600</td>
-                                                <td><span class="order-status status-cancelled">Cancelled</span></td>
-                                                <td><button class="reorder-btn">Reorder</button></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <!-- Orders Tab -->
-                            <div class="tab-pane" id="orders">
-                                <!-- Ongoing Orders Card -->
-                                <div class="info-card">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-spinner"></i> Ongoing Orders</h3>
-                                    </div>
-                                    
-                                    <table class="orders-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Order ID</th>
-                                                <th>Date</th>
-                                                <th>Items</th>
-                                                <th>Total</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>#ORD-2024-002</td>
-                                                <td>Mar 10, 2024</td>
-                                                <td>5 Gallons (Alkaline)</td>
-                                                <td>₱750</td>
-                                                <td><span class="order-status status-ongoing">Ongoing</span></td>
-                                                <td><button class="reorder-btn">Track</button></td>
-                                            </tr>
-                                            <tr>
-                                                <td>#ORD-2024-005</td>
-                                                <td>Mar 18, 2024</td>
-                                                <td>2 Gallons (Mineral)</td>
-                                                <td>₱300</td>
-                                                <td><span class="order-status status-ongoing">Ongoing</span></td>
-                                                <td><button class="reorder-btn">Track</button></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <!-- Order History Card -->
-                                <div class="info-card">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-history"></i> Order History</h3>
-                                    </div>
-                                    
-                                    <table class="orders-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Order ID</th>
-                                                <th>Date</th>
-                                                <th>Items</th>
-                                                <th>Total</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>#ORD-2024-001</td>
-                                                <td>Mar 15, 2024</td>
-                                                <td>3 Gallons (Mineral)</td>
-                                                <td>₱450</td>
-                                                <td><span class="order-status status-delivered">Delivered</span></td>
-                                                <td><button class="reorder-btn">Reorder</button></td>
-                                            </tr>
-                                            <tr>
-                                                <td>#ORD-2024-003</td>
-                                                <td>Mar 5, 2024</td>
-                                                <td>2 Gallons (Distilled)</td>
-                                                <td>₱300</td>
-                                                <td><span class="order-status status-delivered">Delivered</span></td>
-                                                <td><button class="reorder-btn">Reorder</button></td>
-                                            </tr>
-                                            <tr>
-                                                <td>#ORD-2024-004</td>
-                                                <td>Feb 28, 2024</td>
-                                                <td>4 Gallons (Purified)</td>
-                                                <td>₱600</td>
-                                                <td><span class="order-status status-cancelled">Cancelled</span></td>
-                                                <td><button class="reorder-btn">Reorder</button></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <!-- Addresses Tab -->
-                            <div class="tab-pane" id="addresses">
-                                <div class="info-card">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-map-marker-alt"></i> Saved Addresses</h3>
-                                        <button class="edit-btn" onclick="openAddressModal('add')">
-                                            <i class="fas fa-plus"></i> Add New
-                                        </button>
-                                    </div>
-                                    
-                                    <div class="addresses-grid">
-                                        <div class="address-card default">
-                                            <div class="address-label">
-                                                <h4>Home</h4>
-                                                <span class="default-badge">Default</span>
-                                            </div>
-                                            <div class="address-details">
-                                                123 Mabini Street, Barangay Guiwan,<br>
-                                                Zamboanga City, 7000
-                                            </div>
-                                            <div class="address-actions">
-                                                <button onclick="openAddressModal('edit', 'home')"><i class="fas fa-edit"></i> Edit</button>
-                                                <button class="delete" onclick="openDeleteModal('home')"><i class="fas fa-trash"></i> Delete</button>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="address-card">
-                                            <div class="address-label">
-                                                <h4>Work</h4>
-                                            </div>
-                                            <div class="address-details">
-                                                456 Rizal Avenue, Barangay Tetuan,<br>
-                                                Zamboanga City, 7000
-                                            </div>
-                                            <div class="address-actions">
-                                                <button onclick="openAddressModal('edit', 'work')"><i class="fas fa-edit"></i> Edit</button>
-                                                <button class="delete" onclick="openDeleteModal('work')"><i class="fas fa-trash"></i> Delete</button>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="add-address-card" onclick="openAddressModal('add')">
-                                            <i class="fas fa-plus-circle"></i>
-                                            <span>Add New Address</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Verification Tab -->
-                            <div class="tab-pane" id="verification">
-                                <div class="info-card">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-id-card"></i> Identity Verification</h3>
-                                    </div>
-                                    
-                                    <div class="verification-grid">
-                                        <div class="verification-item">
-                                            <div class="verification-icon">
-                                                <i class="fas fa-id-card"></i>
-                                            </div>
-                                            <div class="verification-info">
-                                                <h4>Government ID</h4>
-                                                <p>Upload a valid government ID</p>
-                                                <span class="verification-status status-pending">Not Uploaded</span>
-                                            </div>
-                                            <button class="upload-btn">Upload</button>
-                                        </div>
-                                        
-                                        <div class="verification-item">
-                                            <div class="verification-icon">
-                                                <i class="fas fa-selfie"></i>
-                                            </div>
-                                            <div class="verification-info">
-                                                <h4>Selfie with ID</h4>
-                                                <p>Take a selfie holding your ID</p>
-                                                <span class="verification-status status-pending">Not Uploaded</span>
-                                            </div>
-                                            <button class="upload-btn">Upload</button>
-                                        </div>
-                                        
-                                        <div class="verification-item">
-                                            <div class="verification-icon">
-                                                <i class="fas fa-file-signature"></i>
-                                            </div>
-                                            <div class="verification-info">
-                                                <h4>Proof of Address</h4>
-                                                <p>Utility bill or bank statement</p>
-                                                <span class="verification-status status-verified">Verified</span>
-                                            </div>
-                                            <button class="upload-btn" disabled style="opacity:0.5;">Uploaded</button>
-                                        </div>
-                                        
-                                        <div class="verification-item">
-                                            <div class="verification-icon">
-                                                <i class="fas fa-phone-alt"></i>
-                                            </div>
-                                            <div class="verification-info">
-                                                <h4>Phone Number</h4>
-                                                <p>+63 912 345 6789</p>
-                                                <span class="verification-status status-verified">Verified</span>
-                                            </div>
-                                            <button class="upload-btn" disabled style="opacity:0.5;">Verified</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Settings Tab -->
-                            <div class="tab-pane" id="settings">
-                                <div class="info-card">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-lock"></i> Security</h3>
-                                    </div>
-                                    
-                                    <div class="settings-item">
-                                        <div class="settings-info">
-                                            <h4>Change Password</h4>
-                                            <p>Update your password regularly</p>
-                                        </div>
-                                        <button class="edit-btn" onclick="openChangePasswordModal()">Change</button>
-                                    </div>
-                                    
-                                    <div class="settings-item">
-                                        <div class="settings-info">
-                                            <h4>Two-Factor Authentication</h4>
-                                            <p>Add extra security to your account</p>
-                                        </div>
-                                        <div class="toggle-switch" onclick="toggle2FA(this)"></div>
-                                    </div>
+                                    <!-- Hidden tabs for future use (commented out, can be enabled later) -->
+                                    <!--
+                                    <button class="sidebar-btn" onclick="switchTab('orders', event)">
+                                        <i class="fas fa-shopping-bag"></i> Orders
+                                    </button>
+                                    <button class="sidebar-btn" onclick="switchTab('verification', event)">
+                                        <i class="fas fa-id-card"></i> Verification
+                                    </button>
+                                    <button class="sidebar-btn" onclick="switchTab('settings', event)">
+                                        <i class="fas fa-cog"></i> Settings
+                                    </button>
+                                    -->
                                 </div>
                                 
-                                <div class="info-card">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-bell"></i> Notifications</h3>
-                                    </div>
-                                    
-                                    <div class="settings-item">
-                                        <div class="settings-info">
-                                            <h4>Order Updates</h4>
-                                            <p>Receive notifications about your orders</p>
-                                        </div>
-                                        <div class="toggle-switch active" onclick="toggleNotification(this)"></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="info-card">
-                                    <div class="card-header">
-                                        <h3><i class="fas fa-globe"></i> Preferences</h3>
-                                    </div>
-                                    
-                                    <div class="settings-item">
-                                        <div class="settings-info">
-                                            <h4>Language</h4>
-                                            <p>Choose your preferred language</p>
-                                        </div>
-                                        <select class="form-select" style="width: auto;">
-                                            <option>English</option>
-                                            <option>Filipino</option>
-                                            <option>Bisaya</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="logout-section">
-                                    <button class="logout-btn" onclick="logout()">
+                                <!-- Logout Button at bottom of sidebar -->
+                                <div class="sidebar-logout">
+                                    <button class="logout-sidebar-btn" onclick="logout()">
                                         <i class="fas fa-sign-out-alt"></i> Logout
                                     </button>
+                                </div>
+                            </div>
+
+                            <!-- Right Content Area -->
+                            <div class="profile-content">
+                                <!-- Profile Tab -->
+                                <div class="tab-pane active" id="profile">
+                                    <!-- Personal Information Card -->
+                                    <div class="info-card">
+                                        <div class="card-header">
+                                            <h3><i class="fas fa-user"></i> Personal Information</h3>
+                                            <button class="edit-btn" onclick="openEditModal('personal')">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="info-grid">
+                                            <div class="info-item">
+                                                <span class="label">Full Name</span>
+                                                <span class="value">Juan Dela Cruz</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Email Address</span>
+                                                <span class="value">
+                                                    juan.delacruz@email.com
+                                                    <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>
+                                                </span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Mobile Number</span>
+                                                <span class="value">
+                                                    +63 912 345 6789
+                                                    <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>
+                                                </span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Date of Birth</span>
+                                                <span class="value">January 15, 1995</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Gender</span>
+                                                <span class="value">Male</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Occupation</span>
+                                                <span class="value">Software Developer</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Account Statistics Card -->
+                                    <div class="info-card">
+                                        <div class="card-header">
+                                            <h3><i class="fas fa-chart-line"></i> Account Statistics</h3>
+                                        </div>
+                                        
+                                        <div class="info-grid">
+                                            <div class="info-item">
+                                                <span class="label">Total Orders</span>
+                                                <span class="value">24 Orders</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Total Spent</span>
+                                                <span class="value">₱12,500</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Completed Deliveries</span>
+                                                <span class="value">22 Deliveries</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Cancelled Orders</span>
+                                                <span class="value">2 Orders</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Ongoing Orders Summary Card -->
+                                    <div class="info-card">
+                                        <div class="card-header">
+                                            <h3><i class="fas fa-spinner"></i> Ongoing Orders</h3>
+                                            <button class="edit-btn" onclick="viewAllOrders()">
+                                                View All <i class="fas fa-arrow-right"></i>
+                                            </button>
+                                        </div>
+                                        
+                                        <table class="orders-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Order ID</th>
+                                                    <th>Date</th>
+                                                    <th>Items</th>
+                                                    <th>Total</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>#ORD-2024-002</td>
+                                                    <td>Mar 10, 2024</td>
+                                                    <td>5 Gallons</td>
+                                                    <td>₱750</td>
+                                                    <td><span class="order-status status-ongoing">Ongoing</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>#ORD-2024-005</td>
+                                                    <td>Mar 18, 2024</td>
+                                                    <td>2 Gallons</td>
+                                                    <td>₱300</td>
+                                                    <td><span class="order-status status-ongoing">Ongoing</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Addresses Tab -->
+                                <div class="tab-pane" id="addresses">
+                                    <div class="info-card">
+                                        <div class="card-header">
+                                            <h3><i class="fas fa-map-marker-alt"></i> Saved Addresses</h3>
+                                            <button class="edit-btn" onclick="openAddressModal('add')">
+                                                <i class="fas fa-plus"></i> Add New
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="addresses-grid">
+                                            <div class="address-card default">
+                                                <div class="address-label">
+                                                    <h4>Home</h4>
+                                                    <span class="default-badge">Default</span>
+                                                </div>
+                                                <div class="address-details">
+                                                    123 Mabini Street, Barangay Guiwan,<br>
+                                                    Zamboanga City, 7000
+                                                </div>
+                                                <div class="address-actions">
+                                                    <button onclick="openAddressModal('edit', 'home')"><i class="fas fa-edit"></i> Edit</button>
+                                                    <button class="delete" onclick="openDeleteModal('home')"><i class="fas fa-trash"></i> Delete</button>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="address-card">
+                                                <div class="address-label">
+                                                    <h4>Work</h4>
+                                                </div>
+                                                <div class="address-details">
+                                                    456 Rizal Avenue, Barangay Tetuan,<br>
+                                                    Zamboanga City, 7000
+                                                </div>
+                                                <div class="address-actions">
+                                                    <button onclick="openAddressModal('edit', 'work')"><i class="fas fa-edit"></i> Edit</button>
+                                                    <button class="delete" onclick="openDeleteModal('work')"><i class="fas fa-trash"></i> Delete</button>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="add-address-card" onclick="openAddressModal('add')">
+                                                <i class="fas fa-plus-circle"></i>
+                                                <span>Add New Address</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Hidden Tabs for Future Use (kept but hidden) -->
+                                <!-- Orders Tab (hidden - for future use) -->
+                                <div class="tab-pane" id="orders" style="display: none;">
+                                    <div class="info-card">
+                                        <div class="card-header">
+                                            <h3><i class="fas fa-spinner"></i> Ongoing Orders</h3>
+                                        </div>
+                                        <table class="orders-table">
+                                            <thead>
+                                                <tr><th>Order ID</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th>Action</th></tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr><td>#ORD-2024-002</td><td>Mar 10, 2024</td><td>5 Gallons (Alkaline)</td><td>₱750</td><td><span class="order-status status-ongoing">Ongoing</span></td><td><button class="reorder-btn">Track</button></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Verification Tab (hidden - for future use) -->
+                                <div class="tab-pane" id="verification" style="display: none;">
+                                    <div class="info-card">
+                                        <div class="card-header"><h3><i class="fas fa-id-card"></i> Identity Verification</h3></div>
+                                        <div class="verification-grid">
+                                            <div class="verification-item"><div class="verification-icon"><i class="fas fa-id-card"></i></div><div class="verification-info"><h4>Government ID</h4><p>Upload a valid government ID</p><span class="verification-status status-pending">Not Uploaded</span></div><button class="upload-btn">Upload</button></div>
+                                            <div class="verification-item"><div class="verification-icon"><i class="fas fa-selfie"></i></div><div class="verification-info"><h4>Selfie with ID</h4><p>Take a selfie holding your ID</p><span class="verification-status status-pending">Not Uploaded</span></div><button class="upload-btn">Upload</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Settings Tab (hidden - for future use) -->
+                                <div class="tab-pane" id="settings" style="display: none;">
+                                    <div class="info-card">
+                                        <div class="card-header"><h3><i class="fas fa-lock"></i> Security</h3></div>
+                                        <div class="settings-item"><div class="settings-info"><h4>Change Password</h4><p>Update your password regularly</p></div><button class="edit-btn" onclick="openChangePasswordModal()">Change</button></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1564,13 +1313,11 @@
                 <button class="close-modal" onclick="closeModal('addressModal')"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
-                <!-- Location Search -->
                 <div class="location-search">
                     <label>Search Location</label>
                     <input type="text" id="locationSearch" placeholder="Enter address or landmark...">
                 </div>
                 
-                <!-- Google Map Container -->
                 <div class="map-container">
                     <div id="map" class="map-placeholder">
                         <i class="fas fa-map-marked-alt"></i>
@@ -1579,7 +1326,6 @@
                     </div>
                 </div>
                 
-                <!-- Coordinates Info (for backend) -->
                 <div class="coordinates-info">
                     <span><i class="fas fa-map-pin"></i> Lat: <span id="latitude">6.9214</span></span>
                     <span><i class="fas fa-map-pin"></i> Lng: <span id="longitude">122.0790</span></span>
@@ -1606,7 +1352,6 @@
                     <textarea id="streetAddress" rows="2" placeholder="Enter complete address"></textarea>
                 </div>
                 
-                <!-- Sketch Upload -->
                 <div class="form-group">
                     <label>Location Sketch / Map (Optional)</label>
                     <div class="sketch-upload-area" id="sketchUploadArea">
@@ -1828,6 +1573,11 @@
             }
         }
 
+        // View all orders (for future use)
+        function viewAllOrders() {
+            alert('This feature will be available soon!');
+        }
+
         // Tab switching with animation
         function switchTab(tabId, event) {
             // Hide all tabs
@@ -1838,11 +1588,24 @@
             // Show selected tab
             document.getElementById(tabId).classList.add('active');
             
-            // Update active button
-            document.querySelectorAll('.tab-btn').forEach(btn => {
+            // Update active sidebar button
+            document.querySelectorAll('.sidebar-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.classList.add('active');
+            
+            if (event && event.target) {
+                if (event.target.classList.contains('sidebar-btn')) {
+                    event.target.classList.add('active');
+                } else if (event.target.closest('.sidebar-btn')) {
+                    event.target.closest('.sidebar-btn').classList.add('active');
+                }
+            } else {
+                document.querySelectorAll('.sidebar-btn').forEach(btn => {
+                    if (btn.textContent.trim().toLowerCase().includes(tabId)) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
         }
 
         // Address variables
@@ -1857,14 +1620,12 @@
             const title = document.getElementById('addressModalTitle');
             if (action === 'add') {
                 title.textContent = 'Add New Address';
-                // Reset form fields
                 document.getElementById('addressLabel').value = '';
                 document.getElementById('streetAddress').value = '';
                 document.getElementById('setDefaultAddress').checked = false;
                 document.getElementById('sketchPreview').classList.remove('active');
             } else {
                 title.textContent = 'Edit Address';
-                // Populate with existing data (simulated)
                 if (type === 'home') {
                     document.getElementById('addressLabel').value = 'Home';
                     document.getElementById('streetAddress').value = '123 Mabini Street, Barangay Guiwan, Zamboanga City, 7000';
@@ -1876,7 +1637,6 @@
             
             document.getElementById('addressModal').classList.add('active');
             
-            // Initialize Google Maps after modal is shown (simulated)
             setTimeout(() => {
                 initMap();
             }, 100);
@@ -1885,8 +1645,6 @@
         // Google Maps initialization (simulated)
         function initMap() {
             const mapContainer = document.getElementById('map');
-            // In production with actual API key, this would initialize a real map
-            // For now, we'll show a placeholder
             mapContainer.innerHTML = `
                 <div class="map-placeholder">
                     <i class="fas fa-map-marked-alt" style="font-size: 48px; color: #19A7CE;"></i>
@@ -1905,13 +1663,11 @@
             if (e.target.files && e.target.files[0]) {
                 const file = e.target.files[0];
                 
-                // Check file size (5MB limit)
                 if (file.size > 5 * 1024 * 1024) {
                     alert('File size must be less than 5MB');
                     return;
                 }
                 
-                // Update preview
                 const preview = document.getElementById('sketchPreview');
                 const fileName = document.getElementById('sketchFileName');
                 const previewImg = preview.querySelector('img');
@@ -1943,7 +1699,7 @@
                 return;
             }
             
-            alert(`Address ${currentAction === 'add' ? 'added' : 'updated'} successfully! (This would save to database in production)`);
+            alert(`Address ${currentAction === 'add' ? 'added' : 'updated'} successfully!`);
             closeModal('addressModal');
         }
 
@@ -1958,7 +1714,7 @@
         }
 
         function confirmDelete() {
-            alert(`${addressToDelete} address deleted successfully! (This would remove from database in production)`);
+            alert(`${addressToDelete} address deleted successfully!`);
             closeModal('deleteConfirmModal');
             addressToDelete = null;
         }
@@ -1977,19 +1733,8 @@
         }
 
         function savePersonalInfo() {
-            alert('Personal information saved! (This would update in production)');
+            alert('Personal information saved!');
             closeModal('editPersonalModal');
-        }
-
-        // Toggle switches
-        function toggle2FA(element) {
-            element.classList.toggle('active');
-            alert(`2FA ${element.classList.contains('active') ? 'enabled' : 'disabled'} (This would update in production)`);
-        }
-
-        function toggleNotification(element) {
-            element.classList.toggle('active');
-            alert(`Notification ${element.classList.contains('active') ? 'enabled' : 'disabled'} (This would update in production)`);
         }
 
         // Avatar upload
@@ -1998,7 +1743,7 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.querySelector('.profile-avatar img').src = e.target.result;
-                    alert('Profile picture updated! (This would upload to server in production)');
+                    alert('Profile picture updated!');
                 }
                 reader.readAsDataURL(e.target.files[0]);
             }
@@ -2013,7 +1758,6 @@
 
         // Location search simulation
         document.getElementById('locationSearch').addEventListener('input', function(e) {
-            // In production, this would use Google Places API
             console.log('Searching for:', e.target.value);
         });
     </script>
