@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Agua na Casa - Track and Manage Your Orders">
+    <title>Agua na Casa - Order Details</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="AguaStyle.css">
+    
+    <style>
+        /* Page-specific styles */
+        .page-content {
+            min-height: 60vh;
+            padding: 120px 0 60px;
+        }
+        
+        .orders-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .orders-header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #146C94;
+            position: relative;
+            display: inline-block;
+            letter-spacing: -0.3px;
+        }
+        
+        .orders-header h1:after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 4px;
+            background: #19A7CE;
+            border-radius: 4px;
+        }
+        
+        .orders-header p {
+            color: #5f7f9c;
+            margin-top: 16px;
+        }
+        
+        /* Sample Orders Table */
+        .orders-table-container {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            margin-top: 20px;
+        }
+        
+        .orders-table {
+            width: 100%;
+            background: white;
+        }
+        
+        .orders-table thead {
+            background: #19A7CE;
+            color: white;
+        }
+        
+        .orders-table th {
+            padding: 16px 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        .orders-table td {
+            padding: 14px 20px;
+            border-bottom: 1px solid #eef2f8;
+            color: #2e475c;
+            font-weight: 500;
+        }
+        
+        .orders-table tbody tr {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .orders-table tbody tr:hover {
+            background: #f0f9ff;
+        }
+        
+        .badge-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        
+        .badge-delivered { background: #e0f7e8; color: #1e7e34; }
+        .badge-ongoing { background: #e3f2fd; color: #146C94; }
+        .badge-processing { background: #fff3e0; color: #c95a0f; }
+        .badge-cancelled { background: #ffe8e6; color: #c7362b; }
+        .badge-pending { background: #fff0db; color: #b45b0a; }
+        
+        /* Modal Styles - Centered Popup */
+        .order-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .order-modal.active {
+            display: flex;
+        }
+        
+        .order-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+        
+        .order-modal-container {
+            position: relative;
+            width: 90%;
+            max-width: 750px;
+            max-height: 85vh;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+            animation: modalPopIn 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        @keyframes modalPopIn {
+            from {
+                opacity: 0;
+                transform: scale(0.96) translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        .order-modal-header {
+            background: #19A7CE;
+            padding: 18px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .order-modal-title {
+            margin: 0;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.2px;
+        }
+        
+        .order-modal-title i {
+            margin-right: 12px;
+            font-size: 1.3rem;
+        }
+        
+        .order-modal-close {
+            background: none;
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+            transition: all 0.2s;
+            line-height: 1;
+            opacity: 0.85;
+        }
+        
+        .order-modal-close:hover {
+            opacity: 1;
+            transform: scale(1.08);
+        }
+        
+        .order-modal-body {
+            padding: 26px 28px;
+            overflow-y: auto;
+            flex: 1;
+            max-height: calc(85vh - 80px);
+        }
+        
+        .order-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        
+        .order-info-item {
+            background: #f8fafc;
+            padding: 14px 18px;
+            border-radius: 20px;
+            border: 1px solid #eef2f6;
+        }
+        
+        .order-info-item.full-width {
+            grid-column: span 2;
+        }
+        
+        .order-info-item label {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #5b6e8c;
+            display: block;
+            margin-bottom: 6px;
+            letter-spacing: 0.6px;
+            font-weight: 700;
+        }
+        
+        .order-info-item p {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a2c3e;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        
+        .status-badge.delivered { background: #e0f7e8; color: #1e7e34; }
+        .status-badge.ongoing { background: #e3f2fd; color: #146C94; }
+        .status-badge.processing { background: #fff3e0; color: #c95a0f; }
+        .status-badge.cancelled { background: #ffe8e6; color: #c7362b; }
+        .status-badge.pending { background: #fff0db; color: #b45b0a; }
+        .status-badge.ready { background: #eae5ff; color: #5e3dc6; }
+        .status-badge.shipped { background: #d9f0f5; color: #0b5e6b; }
+        
+        .order-items-section {
+            margin-bottom: 28px;
+        }
+        
+        .order-items-section h6 {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #146C94;
+            margin-bottom: 16px;
+        }
+        
+        .order-items-section h6 i {
+            margin-right: 10px;
+            color: #19A7CE;
+        }
+        
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 20px;
+            border: 1px solid #edf2f7;
+        }
+        
+        .order-items-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            min-width: 340px;
+        }
+        
+        .order-items-table th {
+            text-align: left;
+            padding: 14px 12px;
+            background: #f9fbfd;
+            font-weight: 800;
+            color: #2c4b66;
+            border-bottom: 2px solid #19A7CE;
+        }
+        
+        .order-items-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #eef2f8;
+            color: #2e475c;
+            font-weight: 500;
+        }
+        
+        .order-items-table tfoot {
+            background: #f9fbfe;
+        }
+        
+        .order-items-table tfoot td {
+            padding: 16px 12px;
+            font-weight: 800;
+        }
+        
+        .total-label {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #1e3a4d;
+        }
+        
+        .total-amount {
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: #19A7CE;
+        }
+        
+        .text-center { text-align: center; }
+        .text-end { text-align: right; }
+        
+        .action-buttons {
+            display: flex;
+            gap: 14px;
+            justify-content: flex-end;
+            margin: 20px 0 12px;
+            flex-wrap: wrap;
+        }
+        
+        .action-buttons button {
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-cancel {
+            background: white;
+            color: #dc3545;
+            border: 1px solid #dc3545 !important;
+        }
+        
+        .btn-cancel:hover:not(:disabled) {
+            background: #dc3545;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-cancel:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-track {
+            background: #19A7CE;
+            color: white;
+        }
+        
+        .btn-track:hover {
+            background: #0f7ea0;
+            transform: translateY(-2px);
+        }
+        
+        .btn-update {
+            background: #4a627a;
+            color: white;
+        }
+        
+        .btn-update:hover {
+            background: #2c4a64;
+            transform: translateY(-2px);
+        }
+        
+        .status-update-panel {
+            display: none;
+            margin-top: 20px;
+            padding: 22px;
+            background: #f9fdfe;
+            border-radius: 24px;
+            border: 1px solid #cde3ec;
+        }
+        
+        .status-update-panel.active {
+            display: block;
+            animation: fadeSlide 0.2s ease;
+        }
+        
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(-12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .status-update-panel h6 {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #146C94;
+            margin-bottom: 14px;
+        }
+        
+        .status-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbdbe2;
+            border-radius: 28px;
+            font-size: 0.85rem;
+            margin-bottom: 18px;
+            font-family: inherit;
+            background: white;
+        }
+        
+        .update-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .confirm-update, .cancel-update {
+            flex: 1;
+            padding: 10px;
+            border-radius: 40px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.2s;
+        }
+        
+        .confirm-update {
+            background: #19A7CE;
+            color: white;
+            border: none;
+        }
+        
+        .confirm-update:hover {
+            background: #0d7a9b;
+        }
+        
+        .cancel-update {
+            background: white;
+            border: 1px solid #cbd5e1;
+            color: #5b6e8c;
+        }
+        
+        @media (max-width: 680px) {
+            .order-info-grid {
+                grid-template-columns: 1fr;
+            }
+            .order-info-item.full-width {
+                grid-column: span 1;
+            }
+            .action-buttons {
+                flex-direction: column;
+            }
+            .order-modal-body {
+                padding: 18px;
+            }
+            .orders-table th, .orders-table td {
+                padding: 12px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (Base Design) -->
+    <header class="header-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="Index.html" class="logo">
+                            <img src="aguanacasa_logo_white.png" alt="Agua na Casa">
+                        </a>
+                    
+                        <ul class="nav" id="navbar">
+                            <li><a href="Index.html">Home</a></li>
+                            
+                            <li class="dropdown" id="servicesDropdown">
+                                <a href="javascript:void(0);" onclick="toggleServicesDropdown()">
+                                    Services <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+                                </a>
+                                <div class="dropdown-menu" id="servicesDropdownMenu">
+                                    <a href="instant-delivery.html"><i class="fas fa-bolt"></i> Instant Delivery</a>
+                                    <a href="subscription.html"><i class="fas fa-calendar-alt"></i> Subscription</a>
+                                </div>
+                            </li>
+                            
+                            <li><a href="About.html">About</a></li>
+                            <li><a href="stations.html">Stations</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                            
+                            <li><div class="order-button"><a href="javascript:void(0);" onclick="checkBeforeOrder()">Order Now <i class="fas fa-truck"></i></a></div></li>
+                            
+                            <li>
+                                <a href="cart.html" class="cart-icon">
+                                    <img src="cart.png" alt="Cart">
+                                    <span class="cart-badge">0</span>
+                                </a>
+                            </li>
+                            
+                            <li id="signInLi">
+                                <div class="signin-button">
+                                    <a href="login.html"><i class="fa fa-sign-in-alt"></i> Sign In</a>
+                                </div>
+                            </li>
+                            
+                            <li id="profileLi" style="display: none;">
+                                <div class="profile-button" id="profileButton">
+                                    <a href="javascript:void(0);" onclick="toggleProfileDropdown()">
+                                        <img src="account-25.png" alt="Profile" class="profile-icon">
+                                        <span>Profile</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px;"></i>
+                                    </a>
+                                    <div class="profile-dropdown" id="profileDropdown">
+                                        <a href="account.html"><i class="fas fa-user-circle"></i> Account</a>
+                                        <a href="javascript:void(0);" onclick="logout()" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>        
+                        <a class="menu-trigger">
+                            <span><i class="fa fa-bars"></i></span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT - Orders Page -->
+    <main class="page-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="orders-header">
+                        <h1>My Orders</h1>
+                        <p>View and track your order history • Click any order to see details</p>
+                    </div>
+                    
+                    <div class="orders-table-container">
+                        <table class="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Order Date</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr onclick="viewOrder('#ORD-2024-001')">
+                                    <td>#ORD-2024-001</td>
+                                    <td>March 15, 2024</td>
+                                    <td>3 Gallons (Mineral)</td>
+                                    <td>₱450</td>
+                                    <td><span class="badge-status badge-delivered">Delivered</span></td>
+                                 </tr>
+                                <tr onclick="viewOrder('#ORD-2024-002')">
+                                    <td>#ORD-2024-002</td>
+                                    <td>March 10, 2024</td>
+                                    <td>5 Gallons (Alkaline)</td>
+                                    <td>₱750</td>
+                                    <td><span class="badge-status badge-ongoing">Ongoing</span></td>
+                                 </tr>
+                                <tr onclick="viewOrder('#ORD-2024-003')">
+                                    <td>#ORD-2024-003</td>
+                                    <td>March 5, 2024</td>
+                                    <td>2 Gallons (Distilled)</td>
+                                    <td>₱300</td>
+                                    <td><span class="badge-status badge-processing">Processing</span></td>
+                                 </tr>
+                                <tr onclick="viewOrder('#ORD-2024-004')">
+                                    <td>#ORD-2024-004</td>
+                                    <td>February 28, 2024</td>
+                                    <td>4 Gallons (Purified)</td>
+                                    <td>₱600</td>
+                                    <td><span class="badge-status badge-cancelled">Cancelled</span></td>
+                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (Base Design) -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>Contact Us</h4>
+                        <p>Zamboanga City, Philippines</p>
+                        <p><a href="tel:+63123456789">+63 123 456 789</a></p>
+                        <p><a href="mailto:aguanacasa@gmail.com">aguanacasa@gmail.com</a></p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>About Us</h4>
+                        <div class="footer-lists">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="services.html">Services</a></li>
+                                <li><a href="About.html">About</a></li>
+                                <li><a href="stations.html">Stations</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>Useful Links</h4>
+                        <div class="footer-lists">
+                            <ul>
+                                <li><a href="#">Find Stations</a></li>
+                                <li><a href="#">Delivery Areas</a></li>
+                                <li><a href="#">Support</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="careers.html">Careers</a></li>
+                                <li><a href="#">Partnerships</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>About Agua na Casa</h4>
+                        <div class="logo">
+                            <img src="aguanacasa_logo_white.png" alt="Agua na Casa">
+                        </div>
+                        <p>Bringing clean, safe drinking water to every Filipino home with fast and reliable delivery service.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-12">
+                    <div class="copyright-text">
+                        <p>Copyright © 2023 Agua na Casa. All Rights Reserved. 
+                        <br>Design: <a href="#">Agua na Casa Team</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ORDER DETAILS MODAL POPUP -->
+    <div id="viewOrderModal" class="order-modal">
+        <div class="order-modal-overlay" onclick="closeViewOrderModal()"></div>
+        <div class="order-modal-container">
+            <div class="order-modal-header">
+                <h5 class="order-modal-title">
+                    <i class="fas fa-receipt"></i> Order Details
+                </h5>
+                <button class="order-modal-close" onclick="closeViewOrderModal()">&times;</button>
+            </div>
+            
+            <div class="order-modal-body">
+                <!-- Order Information Grid -->
+                <div class="order-info-grid">
+                    <div class="order-info-item">
+                        <label>Order Date</label>
+                        <p id="modalOrderDate">March 15, 2024</p>
+                    </div>
+                    <div class="order-info-item">
+                        <label>Status</label>
+                        <span class="status-badge" id="modalOrderStatus">Delivered</span>
+                    </div>
+                    <div class="order-info-item">
+                        <label>Station</label>
+                        <p id="modalOrderStation">Agua na Casa - Guiwan Branch</p>
+                    </div>
+                    <div class="order-info-item full-width">
+                        <label>From Subscription or Not</label>
+                        <p id="modalOrderType"><i class="fas fa-shopping-bag"></i> Regular Order</p>
+                    </div>
+                </div>
+
+                <!-- Order Items Table -->
+                <div class="order-items-section">
+                    <h6><i class="fas fa-boxes"></i> Order Item Table</h6>
+                    <div class="table-wrapper">
+                        <table class="order-items-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th class="text-center">Price</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-end">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modalOrderItems">
+                                <!-- Dynamic items will be inserted here -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-end total-label">Total</td>
+                                    <td class="text-end total-amount" id="modalOrderTotal">₱0.00</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn-cancel" id="cancelOrderBtn" onclick="cancelOrder()">
+                        <i class="fas fa-times-circle"></i> Cancel Order
+                    </button>
+                    <button class="btn-track" onclick="trackOrder()">
+                        <i class="fas fa-map-marked-alt"></i> Track Order
+                    </button>
+                    <button class="btn-update" id="updateStatusBtn" onclick="showStatusUpdatePanel()">
+                        <i class="fas fa-sync-alt"></i> Update Order Status
+                    </button>
+                </div>
+
+                <!-- Status Update Panel (Hidden by default) -->
+                <div id="statusUpdatePanel" class="status-update-panel">
+                    <h6><i class="fas fa-truck"></i> Update Order Status</h6>
+                    <select id="orderStatusSelect" class="status-select">
+                        <option value="pending">📋 Pending</option>
+                        <option value="processing">⚙️ Processing</option>
+                        <option value="ongoing">🚚 Ongoing</option>
+                        <option value="ready">✅ Ready for Pickup</option>
+                        <option value="shipped">📦 Shipped</option>
+                        <option value="delivered">🏠 Delivered</option>
+                        <option value="cancelled">❌ Cancelled</option>
+                    </select>
+                    <div class="update-actions">
+                        <button class="confirm-update" onclick="confirmStatusUpdate()">Confirm Update</button>
+                        <button class="cancel-update" onclick="hideStatusUpdatePanel()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Main JavaScript -->
+    <script src="AguaJavaScript.js"></script>
+    
+    <!-- Page Specific JavaScript -->
+    <script>
+        // Header Functions (from base design)
+        function toggleProfileDropdown() { $('#profileDropdown').toggleClass('show'); }
+        function toggleServicesDropdown() { $('#servicesDropdownMenu').toggleClass('show'); }
+        
+        $(document).click(function(event) {
+            if (!$(event.target).closest('.profile-button').length) $('#profileDropdown').removeClass('show');
+            if (!$(event.target).closest('#servicesDropdown').length) $('#servicesDropdownMenu').removeClass('show');
+        });
+
+        function logout() { if (confirm('Are you sure you want to logout?')) window.location.href = 'index.html'; }
+        function checkBeforeOrder() { window.location.href = 'instant-delivery.html'; }
+
+        // Order Data
+        let currentOrderData = null;
+
+        const sampleOrdersData = {
+            '#ORD-2024-001': {
+                id: '#ORD-2024-001', date: 'March 15, 2024', status: 'delivered', statusText: 'Delivered',
+                station: 'Agua na Casa - Guiwan Branch', isSubscription: false,
+                items: [{ name: 'Mineral Water - 5 Gallons', price: 150.00, quantity: 3, subtotal: 450.00 }],
+                total: 450.00
+            },
+            '#ORD-2024-002': {
+                id: '#ORD-2024-002', date: 'March 10, 2024', status: 'ongoing', statusText: 'Ongoing',
+                station: 'Agua na Casa - Tetuan Branch', isSubscription: true,
+                items: [{ name: 'Alkaline Water - 5 Gallons', price: 150.00, quantity: 5, subtotal: 750.00 }],
+                total: 750.00
+            },
+            '#ORD-2024-003': {
+                id: '#ORD-2024-003', date: 'March 5, 2024', status: 'processing', statusText: 'Processing',
+                station: 'Agua na Casa - Sta. Barbara Branch', isSubscription: false,
+                items: [{ name: 'Distilled Water - 5 Gallons', price: 150.00, quantity: 2, subtotal: 300.00 }],
+                total: 300.00
+            },
+            '#ORD-2024-004': {
+                id: '#ORD-2024-004', date: 'February 28, 2024', status: 'cancelled', statusText: 'Cancelled',
+                station: 'Agua na Casa - Tumaga Branch', isSubscription: false,
+                items: [{ name: 'Purified Water - 5 Gallons', price: 150.00, quantity: 4, subtotal: 600.00 }],
+                total: 600.00
+            }
+        };
+
+        // View Order - Opens the modal popup
+        function viewOrder(orderId) {
+            currentOrderData = sampleOrdersData[orderId];
+            if (!currentOrderData) return;
+
+            // Populate modal fields
+            document.getElementById('modalOrderDate').textContent = currentOrderData.date;
+            document.getElementById('modalOrderStation').textContent = currentOrderData.station;
+            document.getElementById('modalOrderTotal').textContent = `₱${currentOrderData.total.toFixed(2)}`;
+
+            // Set subscription type
+            const orderTypeElement = document.getElementById('modalOrderType');
+            if (currentOrderData.isSubscription) {
+                orderTypeElement.innerHTML = '<i class="fas fa-calendar-alt"></i> Subscription Order';
+            } else {
+                orderTypeElement.innerHTML = '<i class="fas fa-shopping-bag"></i> Regular Order';
+            }
+
+            // Set status badge
+            const statusBadge = document.getElementById('modalOrderStatus');
+            statusBadge.textContent = currentOrderData.statusText;
+            statusBadge.className = `status-badge ${currentOrderData.status}`;
+
+            // Populate items table
+            const itemsBody = document.getElementById('modalOrderItems');
+            itemsBody.innerHTML = '';
+            currentOrderData.items.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td class="text-center">₱${item.price.toFixed(2)}</td>
+                    <td class="text-center">${item.quantity}</td>
+                    <td class="text-end">₱${item.subtotal.toFixed(2)}</td>
+                `;
+                itemsBody.appendChild(row);
+            });
+
+            // Disable cancel button if order is delivered or cancelled
+            const cancelBtn = document.getElementById('cancelOrderBtn');
+            if (currentOrderData.status === 'delivered' || currentOrderData.status === 'cancelled') {
+                cancelBtn.disabled = true;
+            } else {
+                cancelBtn.disabled = false;
+            }
+
+            // Hide status panel if visible
+            hideStatusUpdatePanel();
+
+            // Show modal
+            document.getElementById('viewOrderModal').classList.add('active');
+        }
+
+        // Close modal
+        function closeViewOrderModal() {
+            document.getElementById('viewOrderModal').classList.remove('active');
+            hideStatusUpdatePanel();
+        }
+
+        // Cancel Order
+        function cancelOrder() {
+            if (confirm('Are you sure you want to cancel this order? This action cannot be undone.')) {
+                alert(`Order ${currentOrderData?.id} has been cancelled.`);
+                
+                if (currentOrderData) {
+                    currentOrderData.status = 'cancelled';
+                    currentOrderData.statusText = 'Cancelled';
+                    
+                    const statusBadge = document.getElementById('modalOrderStatus');
+                    statusBadge.textContent = 'Cancelled';
+                    statusBadge.className = 'status-badge cancelled';
+                    
+                    const cancelBtn = document.getElementById('cancelOrderBtn');
+                    cancelBtn.disabled = true;
+                }
+            }
+        }
+
+        // Track Order
+        function trackOrder() {
+            alert(`Tracking order ${currentOrderData?.id}\n\nRider location will be shown here.`);
+        }
+
+        // Show Status Update Panel
+        function showStatusUpdatePanel() {
+            const panel = document.getElementById('statusUpdatePanel');
+            const select = document.getElementById('orderStatusSelect');
+            
+            if (currentOrderData) {
+                select.value = currentOrderData.status;
+            }
+            
+            panel.classList.add('active');
+            
+            const updateBtn = document.getElementById('updateStatusBtn');
+            updateBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Hide Panel';
+            updateBtn.setAttribute('onclick', 'hideStatusUpdatePanel()');
+        }
+
+        // Hide Status Update Panel
+        function hideStatusUpdatePanel() {
+            const panel = document.getElementById('statusUpdatePanel');
+            panel.classList.remove('active');
+            
+            const updateBtn = document.getElementById('updateStatusBtn');
+            updateBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Update Order Status';
+            updateBtn.setAttribute('onclick', 'showStatusUpdatePanel()');
+        }
+
+        // Confirm Status Update
+        function confirmStatusUpdate() {
+            const newStatus = document.getElementById('orderStatusSelect').value;
+            const statusTexts = {
+                pending: 'Pending', processing: 'Processing', ongoing: 'Ongoing',
+                ready: 'Ready for Pickup', shipped: 'Shipped', delivered: 'Delivered', cancelled: 'Cancelled'
+            };
+            
+            if (confirm(`Update order status to "${statusTexts[newStatus]}"?`)) {
+                alert(`Order ${currentOrderData?.id} status updated to "${statusTexts[newStatus]}"!`);
+                
+                if (currentOrderData) {
+                    currentOrderData.status = newStatus;
+                    currentOrderData.statusText = statusTexts[newStatus];
+                    
+                    const statusBadge = document.getElementById('modalOrderStatus');
+                    statusBadge.textContent = statusTexts[newStatus];
+                    statusBadge.className = `status-badge ${newStatus}`;
+                    
+                    const cancelBtn = document.getElementById('cancelOrderBtn');
+                    if (newStatus === 'delivered' || newStatus === 'cancelled') {
+                        cancelBtn.disabled = true;
+                    } else {
+                        cancelBtn.disabled = false;
+                    }
+                }
+                
+                hideStatusUpdatePanel();
+            }
+        }
+    </script>
+</body>
+</html>
