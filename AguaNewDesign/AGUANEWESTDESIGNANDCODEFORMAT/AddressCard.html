@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Agua na Casa - Address Management">
+    <title>Agua na Casa - Address Card</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="AguaStyle.css">
+    
+    <style>
+        /* Page-specific styles */
+        .page-content {
+            min-height: 60vh;
+            padding: 120px 0 60px;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #146C94;
+            position: relative;
+            display: inline-block;
+            letter-spacing: -0.3px;
+        }
+
+        .section-header h1:after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 4px;
+            background: #19A7CE;
+            border-radius: 4px;
+        }
+        
+        .section-header p {
+            color: #5f7f9c;
+            margin-top: 16px;
+        }
+
+        /* Address Card Container */
+        .address-card-container {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* ========= ADDRESS CARD COMPONENT ========= */
+        .address-card {
+            background: white;
+            border-radius: 24px;
+            padding: 0;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            border: 1px solid #eef2f8;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .address-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+            border-color: #19A7CE30;
+        }
+
+        /* Card Header */
+        .address-card-header {
+            background: linear-gradient(135deg, #19A7CE, #0e7ea0);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .address-card-header i {
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        .address-card-header h3 {
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        /* Card Body */
+        .address-card-body {
+            padding: 20px;
+        }
+
+        /* Address Display Area */
+        .address-display {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #eef2f6;
+        }
+
+        .address-line {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .address-line:last-child {
+            margin-bottom: 0;
+        }
+
+        .address-icon {
+            color: #19A7CE;
+            font-size: 1rem;
+            margin-top: 2px;
+            min-width: 20px;
+        }
+
+        .address-text {
+            flex: 1;
+            font-size: 0.9rem;
+            color: #2e475c;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        /* Label and Default Badge - stacked vertically */
+        .address-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #eef2f6;
+        }
+
+        .address-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0f7fc;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #146C94;
+            width: fit-content;
+        }
+
+        .address-label i {
+            font-size: 0.7rem;
+        }
+
+        .default-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #e0f7ea;
+            color: #1e7e4a;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            width: fit-content;
+        }
+
+        /* Empty Address State */
+        .empty-address {
+            text-align: center;
+            padding: 32px 20px;
+            background: #f8fafc;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .empty-address i {
+            font-size: 2.5rem;
+            color: #cbd5e1;
+            margin-bottom: 12px;
+        }
+
+        .empty-address p {
+            color: #8ba3bc;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        /* Action Buttons */
+        .address-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .btn-create-address {
+            width: 100%;
+            background: #19A7CE;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-create-address:hover {
+            background: #0f7ea0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(25,167,206,0.3);
+        }
+
+        .btn-edit-address {
+            flex: 1;
+            background: white;
+            color: #19A7CE;
+            border: 1.5px solid #19A7CE;
+            padding: 10px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-edit-address:hover {
+            background: #e9f7fc;
+            transform: translateY(-2px);
+        }
+
+        .btn-set-default {
+            flex: 1;
+            background: white;
+            color: #6c86a0;
+            border: 1.5px solid #e0e6ed;
+            padding: 10px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-set-default:hover {
+            border-color: #19A7CE;
+            color: #19A7CE;
+        }
+
+        /* ========= MODAL STYLES ========= */
+        .address-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .address-modal-overlay.active {
+            display: flex;
+        }
+
+        .address-modal {
+            background: white;
+            border-radius: 28px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header-address {
+            background: linear-gradient(135deg, #19A7CE, #0f7b9c);
+            padding: 20px 24px;
+            color: white;
+            position: sticky;
+            top: 0;
+            border-radius: 28px 28px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header-address h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-modal-address {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal-address:hover {
+            background: rgba(255,255,255,0.35);
+            transform: rotate(90deg);
+        }
+
+        .modal-body-address {
+            padding: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: #6c86a0;
+            margin-bottom: 6px;
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input, 
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e0e6ed;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #19A7CE;
+            box-shadow: 0 0 0 3px rgba(25,167,206,0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+        }
+
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            text-transform: none;
+            font-size: 0.85rem;
+            color: #2e475c;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-save-address {
+            flex: 1;
+            background: #19A7CE;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-save-address:hover {
+            background: #0f7ea0;
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel-address {
+            flex: 1;
+            background: white;
+            color: #6c86a0;
+            border: 1px solid #e0e6ed;
+            padding: 12px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel-address:hover {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+        @media (max-width: 560px) {
+            .address-card-container {
+                max-width: 100%;
+                padding: 0 16px;
+            }
+            .address-actions {
+                flex-direction: column;
+            }
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (Base Design - Unmodified) -->
+    <header class="header-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="Index.html" class="logo">
+                            <img src="aguanacasa_logo_white.png" alt="Agua na Casa">
+                        </a>
+                    
+                        <ul class="nav" id="navbar">
+                            <li><a href="Index.html">Home</a></li>
+                            
+                            <li class="dropdown" id="servicesDropdown">
+                                <a href="javascript:void(0);" onclick="toggleServicesDropdown()">
+                                    Services <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+                                </a>
+                                <div class="dropdown-menu" id="servicesDropdownMenu">
+                                    <a href="instant-delivery.html"><i class="fas fa-bolt"></i> Instant Delivery</a>
+                                    <a href="subscription.html"><i class="fas fa-calendar-alt"></i> Subscription</a>
+                                </div>
+                            </li>
+                            
+                            <li><a href="About.html">About</a></li>
+                            <li><a href="stations.html">Stations</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                            
+                            <li><div class="order-button"><a href="javascript:void(0);" onclick="checkBeforeOrder()">Order Now <i class="fas fa-truck"></i></a></div></li>
+                            
+                            <li>
+                                <a href="cart.html" class="cart-icon">
+                                    <img src="cart.png" alt="Cart">
+                                    <span class="cart-badge">0</span>
+                                </a>
+                            </li>
+                            
+                            <li id="signInLi">
+                                <div class="signin-button">
+                                    <a href="login.html"><i class="fa fa-sign-in-alt"></i> Sign In</a>
+                                </div>
+                            </li>
+                            
+                            <li id="profileLi" style="display: none;">
+                                <div class="profile-button" id="profileButton">
+                                    <a href="javascript:void(0);" onclick="toggleProfileDropdown()">
+                                        <img src="account-25.png" alt="Profile" class="profile-icon">
+                                        <span>Profile</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px;"></i>
+                                    </a>
+                                    <div class="profile-dropdown" id="profileDropdown">
+                                        <a href="account.html"><i class="fas fa-user-circle"></i> Account</a>
+                                        <a href="javascript:void(0);" onclick="logout()" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>        
+                        <a class="menu-trigger">
+                            <span><i class="fa fa-bars"></i></span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT - Address Card Page -->
+    <main class="page-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-header">
+                        <h1>Delivery Address</h1>
+                        <p>Manage your default delivery address</p>
+                    </div>
+                    
+                    <div class="address-card-container">
+                        <div class="address-card" id="addressCard">
+                            <div class="address-card-header">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <h3>Delivery Information</h3>
+                            </div>
+                            <div class="address-card-body" id="addressCardBody">
+                                <!-- Dynamic content will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (Base Design - Unmodified) -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>Contact Us</h4>
+                        <p>Zamboanga City, Philippines</p>
+                        <p><a href="tel:+63123456789">+63 123 456 789</a></p>
+                        <p><a href="mailto:aguanacasa@gmail.com">aguanacasa@gmail.com</a></p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>About Us</h4>
+                        <div class="footer-lists">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="services.html">Services</a></li>
+                                <li><a href="About.html">About</a></li>
+                                <li><a href="stations.html">Stations</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>Useful Links</h4>
+                        <div class="footer-lists">
+                            <ul>
+                                <li><a href="#">Find Stations</a></li>
+                                <li><a href="#">Delivery Areas</a></li>
+                                <li><a href="#">Support</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="careers.html">Careers</a></li>
+                                <li><a href="#">Partnerships</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>About Agua na Casa</h4>
+                        <div class="logo">
+                            <img src="aguanacasa_logo_white.png" alt="Agua na Casa">
+                        </div>
+                        <p>Bringing clean, safe drinking water to every Filipino home with fast and reliable delivery service.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-12">
+                    <div class="copyright-text">
+                        <p>Copyright © 2023 Agua na Casa. All Rights Reserved. 
+                        <br>Design: <a href="#">Agua na Casa Team</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ADDRESS MODAL -->
+    <div id="addressModal" class="address-modal-overlay">
+        <div class="address-modal">
+            <div class="modal-header-address">
+                <h3><i class="fas fa-plus-circle"></i> <span id="modalTitle">Create Address</span></h3>
+                <button class="close-modal-address" onclick="closeAddressModal()">&times;</button>
+            </div>
+            <div class="modal-body-address">
+                <div class="form-group">
+                    <label>Address Label</label>
+                    <input type="text" id="addressLabel" placeholder="e.g., Home, Office, etc." value="Home">
+                </div>
+                <div class="form-group">
+                    <label>Street Address</label>
+                    <textarea id="streetAddress" placeholder="Enter your street address, building, house number"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>City / Barangay</label>
+                    <input type="text" id="city" placeholder="e.g., Zamboanga City">
+                </div>
+                <div class="form-group">
+                    <label>Postal Code</label>
+                    <input type="text" id="postalCode" placeholder="e.g., 7000">
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="isDefault">
+                    <label>Set as default delivery address</label>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-save-address" onclick="saveAddress()">Save Address</button>
+                    <button class="btn-cancel-address" onclick="closeAddressModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Main JavaScript -->
+    <script src="AguaJavaScript.js"></script>
+    
+    <!-- Page Specific JavaScript -->
+    <script>
+        // ======================= HEADER FUNCTIONS =======================
+        function toggleProfileDropdown() { $('#profileDropdown').toggleClass('show'); }
+        function toggleServicesDropdown() { $('#servicesDropdownMenu').toggleClass('show'); }
+        
+        $(document).click(function(event) {
+            if (!$(event.target).closest('.profile-button').length) $('#profileDropdown').removeClass('show');
+            if (!$(event.target).closest('#servicesDropdown').length) $('#servicesDropdownMenu').removeClass('show');
+        });
+
+        function logout() { if (confirm('Are you sure you want to logout?')) window.location.href = 'index.html'; }
+        function checkBeforeOrder() { window.location.href = 'instant-delivery.html'; }
+
+        // ======================= ADDRESS DATA =======================
+        let addressData = {
+            hasAddress: false,
+            label: "",
+            street: "",
+            city: "",
+            postalCode: "",
+            isDefault: false
+        };
+
+        // DOM Elements
+        const addressCardBody = document.getElementById('addressCardBody');
+        
+        // Render address card based on data
+        function renderAddressCard() {
+            if (!addressCardBody) return;
+            
+            if (!addressData.hasAddress) {
+                // Empty state - no address
+                addressCardBody.innerHTML = `
+                    <div class="empty-address">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>No delivery address added yet</p>
+                    </div>
+                    <button class="btn-create-address" onclick="openCreateAddressModal()">
+                        <i class="fas fa-plus-circle"></i> Create Address
+                    </button>
+                `;
+            } else {
+                // Display address
+                const fullAddress = `${addressData.street}, ${addressData.city}${addressData.postalCode ? ', ' + addressData.postalCode : ''}`;
+                const defaultBadge = addressData.isDefault ? '<span class="default-badge">Default Address</span>' : '';
+                
+                addressCardBody.innerHTML = `
+                    <div class="address-display">
+                        <div class="address-line">
+                            <div class="address-icon"><i class="fas fa-location-dot"></i></div>
+                            <div class="address-text">${escapeHtml(fullAddress)}</div>
+                        </div>
+                        <div class="address-meta">
+                            <span class="address-label"><i class="fas fa-tag"></i> ${escapeHtml(addressData.label)}</span>
+                            ${defaultBadge}
+                        </div>
+                    </div>
+                    <div class="address-actions">
+                        <button class="btn-edit-address" onclick="openEditAddressModal()">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        ${!addressData.isDefault ? '<button class="btn-set-default" onclick="setAsDefault()"><i class="fas fa-star"></i> Set as Default</button>' : ''}
+                    </div>
+                `;
+            }
+        }
+        
+        // Open modal for creating new address
+        function openCreateAddressModal() {
+            document.getElementById('modalTitle').innerText = 'Create Address';
+            document.getElementById('addressLabel').value = 'Home';
+            document.getElementById('streetAddress').value = '';
+            document.getElementById('city').value = '';
+            document.getElementById('postalCode').value = '';
+            document.getElementById('isDefault').checked = false;
+            document.getElementById('addressModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Open modal for editing existing address
+        function openEditAddressModal() {
+            document.getElementById('modalTitle').innerText = 'Edit Address';
+            document.getElementById('addressLabel').value = addressData.label;
+            document.getElementById('streetAddress').value = addressData.street;
+            document.getElementById('city').value = addressData.city;
+            document.getElementById('postalCode').value = addressData.postalCode;
+            document.getElementById('isDefault').checked = addressData.isDefault;
+            document.getElementById('addressModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close modal
+        function closeAddressModal() {
+            document.getElementById('addressModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Save address from modal
+        function saveAddress() {
+            const label = document.getElementById('addressLabel').value.trim();
+            const street = document.getElementById('streetAddress').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const postalCode = document.getElementById('postalCode').value.trim();
+            const isDefault = document.getElementById('isDefault').checked;
+            
+            // Validation
+            if (!street) {
+                alert('Please enter your street address.');
+                return;
+            }
+            if (!city) {
+                alert('Please enter your city/barangay.');
+                return;
+            }
+            
+            addressData = {
+                hasAddress: true,
+                label: label || 'Home',
+                street: street,
+                city: city,
+                postalCode: postalCode,
+                isDefault: isDefault
+            };
+            
+            closeAddressModal();
+            renderAddressCard();
+            
+            const message = isDefault ? 'Address saved and set as default!' : 'Address saved successfully!';
+            alert(`✅ ${message}\n\n📍 ${label}\n${street}, ${city}${postalCode ? ', ' + postalCode : ''}`);
+        }
+        
+        // Set current address as default
+        function setAsDefault() {
+            if (addressData.hasAddress && !addressData.isDefault) {
+                addressData.isDefault = true;
+                renderAddressCard();
+                alert(`✅ "${addressData.label}" address is now your default delivery address.`);
+            }
+        }
+        
+        // Close modal on outside click
+        document.getElementById('addressModal')?.addEventListener('click', function(e) {
+            if (e.target === this) closeAddressModal();
+        });
+        
+        // Helper function to escape HTML
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+        
+        // Initialize with no address (shows Create Address button)
+        renderAddressCard();
+        
+        console.log("Address card ready — includes address, label, default indicator below label");
+    </script>
+</body>
+</html>
