@@ -10,7 +10,6 @@ class Station extends Model
         'name',
         'email',
         'contact_number',
-        'business_license',
 
         'email_verified_at',
         'contact_number_verified_at',

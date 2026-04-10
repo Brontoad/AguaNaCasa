@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->uuid('id');
+            
+            $table->string('label');
             $table->double('x');
             $table->double('y');
             $table->string('suburb');

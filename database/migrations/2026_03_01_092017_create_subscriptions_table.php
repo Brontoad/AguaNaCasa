@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->uuid('id');
-            $table->dateTimeTz('estimated_pickup_at');
+            $table->timeTz('estimated_pickup_time');
+            $table->json('pickup_days');
             $table->dateTimeTz('last_paid_at');
 
             $table->foreignUuid('station_id')->constrained()->cascadeOnDelete();

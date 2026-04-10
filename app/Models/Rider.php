@@ -9,7 +9,6 @@ class Rider extends Model
     protected $fillable = [
         'plate_number',
         'vehicle',
-        'license',
 
         'license_verified_at',
 

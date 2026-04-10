@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('riders', function (Blueprint $table) {
             $table->uuid('id');
+
             $table->string('plate_number');
             $table->string('vehicle');
-            $table->string('license');
 
-            $table->timestampTz('license_verified_at')->nullable();
-            $table->timestampTz('last_paid_rider_fee_at')->nullable();
+            $table->dateTimeTz('license_verified_at')->nullable();
+            $table->dateTimeTz('last_paid_rider_fee_at')->nullable();
 
             $table->boolean('is_suspended')->default(false);
 

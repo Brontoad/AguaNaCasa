@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Subscription extends Model
 {
     protected $fillable = [
-        'estimated_pickup_at',
+        'estimated_pickup_time',
+        'pickup_days',
         'last_paid_at',
 
         'payment_due_date',

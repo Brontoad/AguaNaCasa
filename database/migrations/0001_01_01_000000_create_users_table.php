@@ -26,8 +26,8 @@ return new class extends Migration
             
             $table->enum('user_type', UserType::cases());
 
-            $table->timestamp('email_verified_at')->nullable();
-            $table->timestamp('contact_number_verified_at')->nullable();
+            $table->dateTimeTz('email_verified_at')->nullable();
+            $table->dateTimeTz('contact_number_verified_at')->nullable();
 
             $table->boolean('is_suspended')->default(false);
 

@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('stations', function (Blueprint $table) {
             $table->uuid('id');
+
             $table->string('name');
             $table->string('email')->unique();
             $table->string('contact_number')->unique();
-            $table->string('business_license')->unique();
 
-            $table->timestampTz('email_verified_at')->nullable();
-            $table->timestampTz('contact_number_verified_at')->nullable();
-            $table->timestampTz('business_license_verified_at')->nullable();
+            $table->dateTimeTz('email_verified_at')->nullable();
+            $table->dateTimeTz('contact_number_verified_at')->nullable();
+            $table->dateTimeTz('business_license_verified_at')->nullable();
 
-            $table->timestampTz('last_paid_system_fee_at')->nullable();
+            $table->dateTimeTz('last_paid_system_fee_at')->nullable();
 
             $table->boolean('is_suspended')->default(false);
 

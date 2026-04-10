@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid('id');
+            
             $table->enum('status', OrderStatus::cases());
             $table->integer('rating');
 

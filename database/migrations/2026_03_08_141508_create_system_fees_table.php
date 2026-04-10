@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('system_fees', function (Blueprint $table) {
             $table->uuid('id');
             $table->double('amount');
+
             $table->dateTimeTz('due_date');
+            
             $table->boolean('paid')->default(false);
             $table->foreignUuid('station_id')->constrained()->cascadeOnDelete();
 

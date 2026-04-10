@@ -9,7 +9,8 @@ class Order extends Model
 {
     protected $fillable = [
         'status',
-        
+        'rating',
+
         // Foreign Key
         'station_id',
         'client_id',
