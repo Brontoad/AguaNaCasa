@@ -1,0 +1,175 @@
+@import url("./agua_na_casa.css");
+
+.address-card {
+    background: white;
+    border-radius: 24px;
+    padding: 0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    border: 1px solid #eef2f8;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.address-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+    border-color: #19A7CE30;
+}
+
+/* Address Display Area */
+.address-info {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 20px;
+    border: 1px solid #eef2f6;
+}
+
+.address-icon {
+    color: var(--primary);
+    font-size: 1rem;
+    margin-top: 2px;
+    min-width: 20px;
+}
+
+.address-text {
+    flex: 1;
+    font-size: 0.9rem;
+    color: #2e475c;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.address-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eef2f6;
+}
+
+.address-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #f0f7fc;
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    width: fit-content;
+}
+
+.address-label i {
+    font-size: 0.7rem;
+}
+
+.default-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #e0f7ea;
+    color: #1e7e4a;
+    padding: 4px 12px;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: fit-content;
+}
+
+/* Empty Address State */
+.empty-address {
+    text-align: center;
+    padding: 32px 20px;
+    background: #f8fafc;
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+
+.empty-address i {
+    font-size: 2.5rem;
+    color: #cbd5e1;
+    margin-bottom: 12px;
+}
+
+.empty-address p {
+    color: #8ba3bc;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* Action Buttons */
+.address-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.create-address-btn {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.create-address-btn:hover {
+    background: #0f7ea0;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(25,167,206,0.3);
+}
+
+.btn-edit-address {
+    flex: 1;
+    background: white;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+    padding: 10px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.btn-edit-address:hover {
+    background: #e9f7fc;
+    transform: translateY(-2px);
+}
+
+.btn-set-default {
+    flex: 1;
+    background: white;
+    color: #6c86a0;
+    border: 1.5px solid #e0e6ed;
+    padding: 10px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.btn-set-default:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}

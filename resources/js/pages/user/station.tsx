@@ -1,8 +1,20 @@
+import StationCard from "@/components/card/station";
+import Section from "@/components/section";
 import DashboardLayout from "@/layouts/dashboard-layout";
+import { Station as StationModel } from "@agc/model";
 
-export default function Station() {
+export default function Station({stations} : {stations: StationModel[]}) {
     return (
-        <div></div>
+        <div className="container">
+            <div className="row">
+                <div className="col-lg-12">
+                    <Section title="Stations" icon="store"/>
+                    <div className="cards-grid">
+                        {stations.map((station, idx) => (<StationCard key={`station-card-${idx}`} station={station} isSubscribed/>))}
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
 

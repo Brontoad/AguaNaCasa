@@ -1,9 +1,34 @@
-import AuthLayout from "@/layouts/auth-layout";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "@inertiajs/react";
+import { useState } from "react";
 
-export default function Rider() {
+export default function LoginRider() {
+    const [useEmail, setUseEmail] = useState(true);
+
     return (
-        <div></div>
+        <div className="form-layout">
+            <center><img src="aguanacasa_logo_blue.png" width="180px"/></center>
+            <header>Rider Login</header>
+
+            <div className="login-toggle">
+                <div className="toggle-option" onClick={() => setUseEmail(!useEmail)}>
+                    {useEmail ? <><FontAwesomeIcon icon={["fas", "envelope"]} /> Email </>
+                            : <><FontAwesomeIcon icon={["fas", "phone-alt"]} /> Mobile </>}
+                </div>
+            </div>
+
+            <form>
+                <div className="login-field-wrapper">
+                    {useEmail ? <input type="email" name="email" placeholder="Enter your email" />
+                            : <input type="tel" name="contact_number" placeholder="Enter your phone number" />}
+                </div>
+                <input type="password" id="password" placeholder="Enter your password" />
+                <Link href="/login" as={"button"} className="button">Login</Link>
+            </form>
+
+            <span className="signup">
+                Don't have an account? <Link id="signupLabel" href="/account/create/rider" as={"button"}>Signup as Customer</Link>
+            </span>
+        </div>
     );
 }
-
-Rider.layout = (page: any) => <AuthLayout page={page} title="Rider Login | Agua Na Casa" header="Login"></AuthLayout>

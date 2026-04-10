@@ -29,7 +29,7 @@ export default function DashboardLayout({
             <Header></Header>
 
             {/* Main Page */}
-            <main>{page}</main>
+            <main className="page-content">{page}</main>
 
             {/* Footer */}
             <Footer></Footer>

@@ -11,6 +11,7 @@
  * Last Tested at:  N/A
  */
 import Navbar from "./navbar";
+import "resources/css/header.css";
 
 export default function Header() {
     return (

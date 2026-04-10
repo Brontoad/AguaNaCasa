@@ -1,4 +1,15 @@
 import DashboardLayout from "@/layouts/dashboard-layout";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "@inertiajs/react";
+import "resources/css/index.css";
+
+function renderSlideshow(): React.ReactNode[] {
+    let slideShow: React.ReactNode[] = []
+    for (let index = 0; index < 5; index++) {
+        slideShow.push(<img src={`slide_picture_${index + 1}.png`} alt={`Slide ${index + 1}`} />);
+    }
+    return slideShow;
+}
 
 export default function Index() {
     return (
@@ -14,19 +25,13 @@ export default function Index() {
                                         <p>Agua na Casa brings pure, safe drinking water right to your doorstep. Choose from our selection of trusted water refilling stations and enjoy fast, reliable delivery service.</p>
                                         
                                         <div className="button-container">
-                                            <div className="white-button">
-                                                <a href="#services">Our Services <i className="fas fa-tint"></i></a>
-                                            </div>
-                                            <div className="white-button">
-                                                <a href="#directory">Find Stations <i className="fas fa-map-marker-alt"></i></a>
-                                            </div>
+                                            <div className="white-button"><Link href="#services">Our Services <FontAwesomeIcon icon={["fas", "tint"]} /></Link></div>
+                                            <div className="white-button"><Link href="#directory">Find Stations <FontAwesomeIcon icon={["fas", "map-marked-alt"]} /></Link></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-lg-6">
-                                    <div className="right-image">
-                                        <img src="landinglogo.png" alt="Agua na Casa" />
-                                    </div>
+                                    <div className="right-image"><img src="landing_logo.png" alt="Agua na Casa" /></div>
                                 </div>
                             </div>
                         </div>
@@ -53,7 +58,7 @@ export default function Index() {
                                 <h4>Safe Drinking Water</h4>
                                 <p>Certified clean and safe drinking water from trusted refilling stations.</p>
                                 <div className="text-button">
-                                    <a href="#">Read More <i className="fa fa-arrow-right"></i></a>
+                                    <Link href="#">Read More <FontAwesomeIcon icon={["fas", "arrow-right"]} /></Link>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +68,7 @@ export default function Index() {
                                 <h4>Wide Selection</h4>
                                 <p>Choose from multiple water refilling stations near your location.</p>
                                 <div className="text-button">
-                                    <a href="#">Read More <i className="fa fa-arrow-right"></i></a>
+                                    <Link href="#">Read More <FontAwesomeIcon icon={["fas", "arrow-right"]} /></Link>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +78,7 @@ export default function Index() {
                                 <h4>Fast Delivery</h4>
                                 <p>Lightning-fast delivery right to your doorstep when you need it.</p>
                                 <div className="text-button">
-                                    <a href="#">Read More <i className="fa fa-arrow-right"></i></a>
+                                    <Link href="#">Read More <FontAwesomeIcon icon={["fas", "arrow-right"]} /></Link>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +88,7 @@ export default function Index() {
                                 <h4>Easy Access Locations</h4>
                                 <p>Find the nearest water station with our easy-to-use location finder.</p>
                                 <div className="text-button">
-                                    <a href="#">Read More <i className="fa fa-arrow-right"></i></a>
+                                    <Link href="#">Read More <FontAwesomeIcon icon={["fas", "arrow-right"]} /></Link>
                                 </div>
                             </div>
                         </div>
@@ -94,27 +99,11 @@ export default function Index() {
             <div className="container">
                 <div className="row">
                     <div className="col-lg-12">
-                        <div style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center", 
-                            gap: "40px",
-                            flexWrap: "wrap",
-                            margin: "60px 0"
-                        }}>
-                            <div>
-                                <img src="landinglogo.png" id="AguaLogo" alt="Agua na Casa Logo" />
-                            </div>
+                        <div className="main-slideshow-container">
+                            <div><img src="landing_logo.png" id="AguaLogo" alt="Agua na Casa Logo" /></div>
                             <div>
                                 <div className="slideshow-container">
-                                    <div className="slider-wrapper">
-                                        <img src="DIANA (1).png" alt="Slide 1" />
-                                        <img src="DIANA (2).png" alt="Slide 2" />
-                                        <img src="DIANA (3).png" alt="Slide 3" />
-                                        <img src="DIANA (4).png" alt="Slide 4" />
-                                        <img src="DIANA (5).png" alt="Slide 5" />
-                                        <img src="DIANA (6).png" alt="Slide 6" />
-                                    </div>
+                                    <div className="slider-wrapper">{renderSlideshow()}</div>
                                 </div>
                             </div>
                         </div>
