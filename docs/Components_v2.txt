@@ -113,3 +113,26 @@ User
     -station card (refer to above, now with unsubscribe button, and without order now button)
     -view station with subscription
         -orders list from subscription
+    
+Admin
+-Home
+    -total stations
+    -total users
+    -total orders
+    -total earnings
+-Stations
+    -view stations
+    -view orders
+    -view subscribers
+    -suspend station
+    -verify station
+-Users
+    -view users
+    -view subscribed stations
+    -view orders
+    -suspend user
+-Riders
+    -view rider
+    -view orders
+    -suspend rider
+    -verify rider
