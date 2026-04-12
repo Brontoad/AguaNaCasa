@@ -22,7 +22,7 @@ declare module '@agc/model' {
         postal_code: string,
         county: string,
         city: string,
-        country: string,
+        country: string
     }
 
     export interface Station extends Model {

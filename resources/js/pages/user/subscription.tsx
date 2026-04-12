@@ -7,18 +7,21 @@
  * Tested by:   N/A
  * 
  * Created at:      March 13, 2026
- * Last Edited at:  April 6, 2026
+ * Last Edited at:  April 11, 2026
  * Last Tested at:  N/A
  */
 import SubscriptionCard from "@/components/card/subscription";
+import ViewSubscriptionModal from "@/components/modal/view-subscription";
 import Section from "@/components/section";
 import DashboardLayout from "@/layouts/dashboard-layout";
 
 import { Subscription as SubscriptionModel } from "@agc/model";
+import { useState } from "react";
 
 import "resources/css/subscription.css";
 
 export default function Subscription({subscriptions} : {subscriptions: SubscriptionModel[]}) {
+    const [viewSubscriptionModal, setViewSubscriptionModal] = useState<{open: boolean, subscription?: SubscriptionModel}>({open: false, subscription: undefined});
     return (
         <div className="container">
             <div className="row">
@@ -26,11 +29,24 @@ export default function Subscription({subscriptions} : {subscriptions: Subscript
                     <Section title="Subscriptions" icon="truck-droplet" />
                     <div id="subscribe-page" className="page">
                         {subscriptions.map((subscription, idx) => 
-                            <SubscriptionCard key={`subscription-card-${idx}`} subscription={subscription}/>
+                            <SubscriptionCard key={`subscription-card-${idx}`} 
+                                subscription={subscription}
+                                viewSubscription={() => setViewSubscriptionModal({
+                                open: true,
+                                subscription: subscription
+                            })}/>
                         )}
                     </div>
                 </div>
             </div>
+
+            {viewSubscriptionModal.open && viewSubscriptionModal.subscription &&
+                <ViewSubscriptionModal 
+                    subscription={viewSubscriptionModal.subscription}
+                    closeModal={() => setViewSubscriptionModal({
+                        open: false,
+                        subscription: undefined
+                    })}/>}
         </div>
     );
 }

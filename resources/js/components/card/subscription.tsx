@@ -1,9 +1,9 @@
 import { Subscription } from "@agc/model";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function SubscriptionCard({subscription} : {subscription : Subscription}) {
+export default function SubscriptionCard({subscription, viewSubscription}: {subscription: Subscription, viewSubscription(): void}) {
     return (
-        <div className="simple-sub-card">
+        <div className="simple-sub-card" onClick={() => viewSubscription()}>
             <div className="card-header-simple">
                 <div className="station-avatar-small"><FontAwesomeIcon icon={["fas", "tint"]} /></div>
                 <h3 className="station-name-simple">{subscription.station.name}</h3>
@@ -15,8 +15,6 @@ export default function SubscriptionCard({subscription} : {subscription : Subscr
                     <div className="date-value">{subscription.created_at}</div>
                 </div>
             </div>
-            
-            <div className="view-link"> View Subscription Details <FontAwesomeIcon icon={["fas", "arrow-right"]} /></div>
         </div>
     );
 }

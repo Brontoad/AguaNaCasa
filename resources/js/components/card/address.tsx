@@ -38,10 +38,10 @@ export default function AddressCard({defaultAddress}: {defaultAddress?: Address}
                 <div className="address-actions">
                     <FindStationBtn /> 
                     <SelectAddressBtn openEditAddressModal={() => {setAddressModal({
-                            open: true,
-                            addresses: fetchAddresses(),
-                            userId: user.id
-                        })}}/>  
+                        open: true,
+                        addresses: fetchAddresses(),
+                        userId: user.id
+                    })}} />  
                 </div> 
                 : <CreateAddressBtn openCreateAddressModal={() => {setAddressModal({
                     open: true,

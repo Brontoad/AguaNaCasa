@@ -2,13 +2,15 @@ import Section from "@/components/section";
 import OrderTable from "@/components/table/order";
 import DashboardLayout from "@/layouts/dashboard-layout";
 import { Order } from "@agc/model";
-import "resources/css/rider/index.css";
+import "resources/css/supplier/index.css";
 
 export default function Index({pending_orders}: {pending_orders: Order[]}) {
     return (
         <div className="container">
             <div className="row">
                 <div className="col-lg-12">
+                    {/* Create Order Card */}
+                    
                     <Section icon="clock" title="Pending Orders" />
                     <OrderTable orders={pending_orders} title="Pending" partial={true}/>
                 </div>
@@ -17,4 +19,4 @@ export default function Index({pending_orders}: {pending_orders: Order[]}) {
     );
 }
 
-Index.layout = (page: any) => <DashboardLayout page={page} title="Rider | Agua Na Casa"></DashboardLayout>
+Index.layout = (page: any) => <DashboardLayout page={page} title="Agua Na Casa"></DashboardLayout>

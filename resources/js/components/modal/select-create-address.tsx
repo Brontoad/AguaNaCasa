@@ -3,11 +3,13 @@ import ModalLayout from "@/layouts/modal-layout";
 import { BARANGAYS } from "@/pages/config";
 import { Address } from "@agc/model";
 
-export interface CreateAddressModalProps {userId: string, closeModal(): void}
+export interface SelectCreateAddressModalProps {addresses: Address[], userId: string, closeModal(): void}
 
-function createAddress() {}
+function createAddress() {
 
-export default function CreateAddressModal({userId, closeModal} : CreateAddressModalProps) {
+}
+
+export default function SelectCreateAddressModal({addresses, userId, closeModal} : SelectCreateAddressModalProps) {
     return (
         <FormModalLayout
             title="Add Address"
@@ -15,7 +17,8 @@ export default function CreateAddressModal({userId, closeModal} : CreateAddressM
             submitTitle="Add"
             handleClose={() => closeModal()}
             link="/address"
-            method="post">
+            method="post"
+        >
             <input name="user_id" defaultValue={userId} hidden />
 
             <div className="location-search">

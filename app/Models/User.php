@@ -27,8 +27,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'contact_number',
-        'password',
-        'user_type',
+        'password', 
         
         'email_verified_at',
         'contact_number_verified_at',
@@ -61,8 +60,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'two_factor_confirmed_at' => 'datetime',
-            'user_type' => UserType::class
+            'two_factor_confirmed_at' => 'datetime'
         ];
     }
 

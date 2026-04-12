@@ -6,14 +6,14 @@ import AddressCard from "@/components/card/address";
 import Section from "@/components/section";
 import OrderTable from "@/components/table/order";
 import SubscriptionCard from "@/components/card/subscription";
+import { useState } from "react";
+import ViewSubscriptionModal from "@/components/modal/view-subscription";
 
-interface UserIndexProps {
-    default_address: Address,
-    subscriptions: Subscription[],
-    recent_orders: Order[]
-}
+interface UserIndexProps {default_address: Address, subscriptions: Subscription[], recent_orders: Order[]}
 
 export default function Index({default_address, subscriptions, recent_orders}: UserIndexProps) {
+    const [viewSubscriptionModal, setViewSubscriptionModal] = useState<{open: boolean, subscription?: Subscription}>({open: false, subscription: undefined});
+    
     return (
         <div className="container">
             <div className="row">
@@ -26,10 +26,22 @@ export default function Index({default_address, subscriptions, recent_orders}: U
                     <Section icon="calendar-check" title="Active Subscriptions" />
                     {subscriptions.map((subscription, idx) => (
                         <SubscriptionCard 
-                            key={`active-subscription-${idx}}`}
-                            subscription={subscription}/>))}
+                            key={`active-subscription-${idx}`}
+                            subscription={subscription}
+                            viewSubscription={() => setViewSubscriptionModal({
+                                open: true,
+                                subscription: subscription
+                            })}/>))}
                 </div>
             </div>
+
+            {viewSubscriptionModal.open && viewSubscriptionModal.subscription &&
+                <ViewSubscriptionModal 
+                    subscription={viewSubscriptionModal.subscription}
+                    closeModal={() => setViewSubscriptionModal({
+                        open: false,
+                        subscription: undefined
+                    })}/>}
         </div>
     );
 }

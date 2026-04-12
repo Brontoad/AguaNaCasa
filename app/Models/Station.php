@@ -64,7 +64,7 @@ class Station extends Model
 
     public function station_address() {
         return $this->hasOne(
-            Station::class,
+            Address::class,
             'station_id'
         );
     }

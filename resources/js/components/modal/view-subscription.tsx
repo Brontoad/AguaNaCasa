@@ -2,9 +2,7 @@ import ModalLayout from "@/layouts/modal-layout";
 import OrderTable from "../table/order";
 import { Subscription } from "@agc/model";
 
-function closeModal() {}
-
-export default function ViewSubscriptionModal({subscription} : {subscription: Subscription}) {
+export default function ViewSubscriptionModal({subscription, closeModal} : {subscription: Subscription, closeModal(): void}) {
     return (
         <ModalLayout
             title="Subscription Details"
@@ -12,10 +10,10 @@ export default function ViewSubscriptionModal({subscription} : {subscription: Su
         >
             <div className="order-info-grid">
                 <div className="order-info-item">
-                    <label>Date Subscribed</label><p id="modalOrderDate">{subscription.created_at}</p>
+                    <label>Date Subscribed</label><p>{subscription.created_at}</p>
                 </div>
                 <div className="order-info-item">
-                    <label>Station</label><p id="modalOrderStation">{subscription.station.name}</p>
+                    <label>Station</label><p>{subscription.station.name}</p>
                 </div>
             </div>
 

@@ -11,7 +11,7 @@ Authentication
     -number or email
     -password
 -Login Admin
-    -number or email
+    -email
     -password
 -Sign Up (Create User)
     -full name
@@ -23,6 +23,33 @@ Authentication
 -Confirmed Email Verification
 -Phone Number Verification
 -Confirmed Phone Number Verification
+
+Station
+-Home
+    -create order button (for walk in customers)
+    -pending orders table
+-Order
+    -all orders
+    -view order
+    -update order status
+    -cancel
+    -assign order to rider
+    -assign order to be picked up
+-Product
+    -all products
+    -view product
+    -edit product price
+    -edit product availability
+-Sales
+    -view sales by date
+
+Rider
+-Home
+    -on delivery orders
+-Order
+    -all on delivery orders
+    -track order
+        -release payment
 
 User
 -create order button (shown throughout the entire page, redirects the station)
@@ -37,9 +64,12 @@ User
     -orders
     -subscriptions
 -Home
-    -create address button
+    -create address button, select address button
     -latest orders (with tab buttons: pending, completed)
     -active subscriptions
+    -create, select address modal
+    -view order modal
+    -view subscription modal
 -Stations
     -view stations
     -search and filtering

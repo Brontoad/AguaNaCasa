@@ -1,14 +1,11 @@
 import { ORDER_STATUS } from "@/pages/config";
 import { Order } from "@agc/model";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import { Link } from "@inertiajs/react";
+import { useState } from "react";
+import ViewOrderModal from "../modal/view-order";
 
-interface OrderTableProps {
-    orders: Order[],
-    title: string,
-    partial?: boolean
-}
+interface OrderTableProps {orders: Order[], title: string, partial?: boolean}
 
 function renderOrderStatus(orderStatus: string) {
     switch (orderStatus) {
@@ -18,7 +15,10 @@ function renderOrderStatus(orderStatus: string) {
             break;
     }
 }
+
 export default function OrderTable({orders, title, partial = false}: OrderTableProps) {
+    const [viewOrderModal, setViewOrderModal] = useState<{open: boolean, order?: Order}>({open: false, order: undefined});
+
     return (
         <div className="info-card">
             <div className="card-header">
@@ -35,23 +35,25 @@ export default function OrderTable({orders, title, partial = false}: OrderTableP
                     <tr>
                         <th>Date</th>
                         <th>Station</th>
-                        <th>Items</th>
                         <th>Total</th>
                         <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     {orders.map((order, idx) => (
-                        <tr key={`order-table-${idx}`}>
+                        <tr key={`order-table-${idx}`} onClick={() => setViewOrderModal({open: true, order: order})}>
                             <td>{order.created_at}</td>
                             <td>{order.station.name}</td>
-                            <td>5 Gallons</td>
                             <td>{`₱${order.total.toFixed(2)}`}</td>
                             <td>{renderOrderStatus(order.status)}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+            
+            {viewOrderModal.open && viewOrderModal.order && <ViewOrderModal 
+                order={viewOrderModal.order} 
+                closeModal={() => setViewOrderModal({open: true, order: viewOrderModal.order})} />}
         </div>
     );
 }
