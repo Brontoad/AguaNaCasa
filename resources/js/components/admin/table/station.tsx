@@ -10,9 +10,10 @@
  * Last Edited at:  March 14, 2026
  * Last Tested at:  N/A
  */
+import { Station } from "@agc/model";
 import "resources/css/admin/user.css";
 
-export default function StationTable() {
+export default function StationTable({stations}: {stations: Station[]}) {
     return (
         <div className="table-container">
             <table className="station-table" id="station-table">

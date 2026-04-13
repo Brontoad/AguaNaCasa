@@ -7,36 +7,35 @@
  * Tested by:   N/A
  * 
  * Created at:      February 26, 2026
- * Last Edited at:  March 14, 2026
+ * Last Edited at:  April 13, 2026
  * Last Tested at:  N/A
  */
-import SummaryCard from "@/components/admin/summary-card";
 import UserSearchFilter from "@/components/admin/table/search_filter/user";
 import UserTable from "@/components/admin/table/user";
+import Section from "@/components/section";
+import TableFilter from "@/components/table/common/filter";
+import { FilteredTableProvider, useTable } from "@/components/table/common/filter-context";
 import DashboardLayout from "@/layouts/dashboard-layout";
+import { User as UserModel } from "@agc/model";
 
 import "resources/css/admin/user.css";
 
-export default function User() {
+export default function User({users}: {users: UserModel[]}) {
+    const {filteredData} = useTable();
     return (
-        <div className="dashboard-wrapper">
-            <div className="summary-cards">
-                <SummaryCard title="Total Users" id="total-users" quantity={24}></SummaryCard>
-                <SummaryCard title="Active Users" id="total-active-users" quantity={12}></SummaryCard>
-                <SummaryCard title="Suspended Users" id="total-suspended-users" quantity={12}></SummaryCard>
-            </div>
-            
-            <div className="tab-container">
-                <div className="tab-header">
-                    <button className="tab-btn active">Active</button>
-                    <button className="tab-btn">Suspended</button>
+        <div className="container">
+            <div className="row">
+                <div className="col-lg-12">    
+                    <Section title="User" icon="user"/>
+                    <FilteredTableProvider data={users}>    
+                        <TableFilter
+                            canSortByRating={true}
+                            canSortByName={true}
+                            canSortByAsc={true}/>
+                        <UserTable users={filteredData as UserModel[]} />
+                    </FilteredTableProvider>
                 </div>
-                
-                <div id="users-tab" className="tab-content active">
-                    <UserSearchFilter></UserSearchFilter>
-                    <UserTable></UserTable>
-                </div>
-            </div>
+            </div> 
         </div>
     );
 }

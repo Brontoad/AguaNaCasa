@@ -10,9 +10,10 @@
  * Last Edited at:  March 14, 2026
  * Last Tested at:  N/A
  */
+import { User } from "@agc/model";
 import "resources/css/admin/user.css";
 
-export default function UserTable() {
+export default function UserTable({users}: {users: User[]}) {
     return (
         <div className="table-container">
             <table className="user-table" id="user-table">

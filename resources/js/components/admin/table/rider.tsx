@@ -7,47 +7,31 @@
  * Tested by:   N/A
  * 
  * Created at:      March 14, 2026
- * Last Edited at:  March 14, 2026
+ * Last Edited at:  April 13, 2026
  * Last Tested at:  N/A
  */
+import { Rider } from "@agc/model";
 import "resources/css/admin/user.css";
 
-export default function RiderTable() {
+export default function RiderTable({riders}: {riders: Rider[]}) {
     return (
-        <div className="table-container">
-            <table className="rider-table" id="rider-table">
-                <thead>
-                    <tr>
-                        <th>Rider Name</th>
-                        <th>Assigned Barangay</th>
-                        <th>Service Area</th>
-                        <th>Contact Number</th>
-                        <th>Email</th>
-                        <th>Vehicle Type</th>
-                        <th>Plate Number</th>
-                        <th>Status</th>
-                        <th>Current Load</th>
-                        <th>Actions</th>
+        <table className="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Station</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {riders.map((order, idx) => (
+                    <tr key={`order-table-${idx}`}>
+                        <td>{order.created_at}</td>
+                        <td>{order.station.name}</td>
                     </tr>
-                </thead>
-                <tbody id="rider-body">
-                    <tr>
-                        <td className="editable-cell">Andres Bonifacio</td>
-                        <td>Guiwan</td>
-                        <td>Guiwan, San Jose</td>
-                        <td className="editable-cell">09171234501</td>
-                        <td className="editable-cell">andres.bonifacio@rider.com</td>
-                        <td className="editable-cell">Motorcycle</td>
-                        <td className="editable-cell">ABC-1234</td>
-                        <td><span className="status-badge active">Active</span></td>
-                        <td className="editable-cell">2 orders</td>
-                        <td>
-                            <button className="action-btn edit">Edit</button>
-                            <button className="action-btn delete">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                ))}
+            </tbody>
+        </table>
     );
 }
