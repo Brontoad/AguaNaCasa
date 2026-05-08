@@ -3,14 +3,13 @@ import { VEHICLE_TYPES } from "@/pages/config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "@inertiajs/react";
 import { useState } from "react";
-import "resources/css/auth.css";
+import "../../../../css/auth.css";
 
 export default function CreateUser() {
     const [isCheckedTerms, setIsCheckedTerms] = useState(false);
 
     return (
         <div className="registration form" id="registrationForm">
-            <header>Customer Signup</header>
             <div className="role-indicator" id="roleIndicator"><FontAwesomeIcon icon={["fas", "user"]} /> Signing up as Customer</div>
       
             <form>
@@ -40,18 +39,16 @@ export default function CreateUser() {
                 </div>
                 
                 <div className="term">
-                <input type="checkbox" defaultChecked={false} onChange={(e) => setIsCheckedTerms(!isCheckedTerms)}/>
+                <input type="checkbox" defaultChecked={false} onChange={() => setIsCheckedTerms(!isCheckedTerms)}/>
                     <label>I agree with the <a href="terms.html" target="_blank">Terms and Conditions</a></label>
                 </div>
                 
                 <button className="button" type="submit" disabled={!isCheckedTerms}>Sign Up</button>
             </form>
 
-            <div>
-                <center><Link className="login" href="/login">Already have an account? Login</Link></center>
-            </div>
+            <center><Link className="login" href="/login">Already have an account? Login</Link></center>
         </div> 
     );
 }
 
-CreateUser.layout = (page: any) => <AuthLayout page={page} title="Register New User | Agua Na Casa" header="Login"></AuthLayout>
+CreateUser.layout = (page: any) => <AuthLayout page={page} title="Register New User | Agua Na Casa" header="Customer Signup"></AuthLayout>

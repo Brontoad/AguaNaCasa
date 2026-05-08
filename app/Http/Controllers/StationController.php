@@ -3,26 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Station;
+use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class StationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        try {
+            if ($request->user('user')) { return Inertia::render("user/station", ["stations" => Station::all()]); } 
+            elseif ($request->user('admin')) { return Inertia::render("admin/station", ["stations" => Station::all()]); } 
+            else { throw new Exception("Error authenticating user", 1); }
+        } catch (\Throwable $th) {
+            Log::error("Error in showing all stations", ["message" => $th->getTrace()]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Error in showing all stations", false)]);
+        }
     }
 
     /**

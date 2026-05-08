@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Subscription;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class SubscriptionController extends Controller
 {
@@ -12,7 +14,13 @@ class SubscriptionController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return Inertia::render("user/subscription", ["subscriptions" => Subscription::all()]);
+        } catch (\Throwable $th) {
+            Log::error("Error in showing all subscriptions", ["message" => $th->getTrace()]);
+
+            return Inertia::back()->with(["toast" => $this->show_toast("Error in showing all subscriptions", false)]);
+        }
     }
 
     /**

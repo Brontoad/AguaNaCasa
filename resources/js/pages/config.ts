@@ -1,7 +1,9 @@
 export const ACCOUNT_ROLE = {
-    CUSTOMER: "customer",
+    CUSTOMER: "user",
     RIDER: "rider",
-    STATION: "station"
+    STATION: "station",
+    ADMIN: "admin",
+    GUEST: "guest"
 }
 
 export const VEHICLE_TYPES = {

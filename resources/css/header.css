@@ -76,7 +76,7 @@
 }
 
 /* Sign In button */
-.signin-button a {
+.signin-button {
     background: #0b667f;
     padding: 10px 20px;
     border-radius: 5px;
@@ -85,9 +85,10 @@
     transition: all 0.3s;
 }
 
-.signin-button a:hover {
+.signin-button:hover {
     background: #F6F1F1;
     color: var(--primary) !important;
+    cursor: pointer
 }
 
 /* Profile */

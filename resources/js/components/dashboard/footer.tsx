@@ -10,6 +10,7 @@
  * Last Edited at:  March 13, 2026
  * Last Tested at:  N/A
  */
+import "../../../css/footer.css";
 export default function Footer() {
     return (
         <footer id="contact">
@@ -63,7 +64,7 @@ export default function Footer() {
                         <div className="footer-widget">
                             <h4>About Agua na Casa</h4>
                             <div className="logo">
-                                <img src="aguanacasa_logo_white.png" alt="Agua na Casa"/>
+                                <img src="/assets/aguanacasa_logo_white.png" alt="Agua na Casa"/>
                             </div>
                             <p>Bringing clean, safe drinking water to every Filipino home with fast and reliable delivery service.</p>
                         </div>
@@ -73,7 +74,7 @@ export default function Footer() {
                         <div className="copyright-text">
                             <p>
                                 Copyright © 2023 Agua na Casa. All Rights Reserved. 
-                                <br>Design: <a href="#">Agua na Casa Team</a></br>
+                                <br />Design: <a href="#">Agua na Casa Team</a>
                             </p>
                         </div>
                     </div>

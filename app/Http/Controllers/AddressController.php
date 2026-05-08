@@ -66,7 +66,9 @@ class AddressController extends Controller
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            //throw $th;
+            Log::error("Error in creating address", [
+                "message" => $th->getTrace()
+            ]);
         }
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\OrderStatus;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -14,21 +15,17 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $orders = Order::all();
-
-            return Inertia::render("User/Order", [
-                "order" => $orders
-            ]);
+            if ($request->user('user')) { return Inertia::render("user/order", ["orders" => Order::all()]); } 
+            elseif ($request->user('station')) { return Inertia::render("station/order", ["orders" => Order::all()]); } 
+            elseif ($request->user('rider')) { return Inertia::render("rider/order", ["orders" => Order::all()]); } 
+            else { throw new Exception("Error authenticating user", 1); }
         } catch (\Throwable $th) {
-            Log::error("Error in showing all orders", [
-                "message" => $th->getTrace()
-            ]);
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error in showing all orders", false)
-            ]);
+            Log::error("Error in showing all orders", ["message" => $th->getTrace()]);
+
+            return Inertia::back()->with(["toast" => $this->show_toast("Error in showing all orders", false)]);
         }
     }
 

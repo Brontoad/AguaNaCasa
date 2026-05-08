@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('system_fees', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->double('amount');
 
             $table->dateTimeTz('due_date');
             
             $table->boolean('paid')->default(false);
-            $table->foreignUuid('station_id')->constrained()->cascadeOnDelete();
 
             $table->timestampsTz();
+            $table->uuidMorphs('feeable');
         });
     }
 

@@ -21,14 +21,14 @@ export default function OrderTable({orders, title, partial = false}: OrderTableP
 
     return (
         <div className="info-card">
-            <div className="card-header">
+            {/* <div className="card-header">
                 <h3>{title} Orders</h3>
 
                 {partial && <Link
                         className="view-all-btn">
                         View All <FontAwesomeIcon icon={["fas", "arrow-right"]} />
                     </Link>}
-            </div>
+            </div> */}
             
             <table className="table">
                 <thead>

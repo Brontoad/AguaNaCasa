@@ -2,28 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Address extends Model
 {
+    use HasUuids;
     protected $fillable = [
         'label',
         'x',
         'y',
-        'suburb',
-        'postal_code',
-        'county',
-        'city',
-        'country',
-
-        // Foreign Keys
-        'user_id'
+        'location',
+        'is_default'
     ];
 
-    public function user() {
-        return $this->belongsTo(
-            User::class,
-            'user_id'
-        );
-    }
+    public function addressable(): MorphTo { return $this->morphTo(); }
 }

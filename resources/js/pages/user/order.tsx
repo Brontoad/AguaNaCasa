@@ -4,6 +4,8 @@ import { FilteredTableProvider, useTable } from "@/components/table/common/filte
 import OrderTable from "@/components/table/order";
 import DashboardLayout from "@/layouts/dashboard-layout";
 import { Order as OrderModel } from "@agc/model";
+import "../../../css/dashboard.css";
+import "../../../css/table.css";
 
 export default function Order({orders}: {orders: OrderModel[]}) {
     const {filteredData} = useTable();

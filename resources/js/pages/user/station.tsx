@@ -2,7 +2,7 @@ import StationCard from "@/components/card/station";
 import Section from "@/components/section";
 import DashboardLayout from "@/layouts/dashboard-layout";
 import { Station as StationModel } from "@agc/model";
-
+import "../../../css/dashboard.css";
 export default function Station({stations} : {stations: StationModel[]}) {
     return (
         <div className="container">

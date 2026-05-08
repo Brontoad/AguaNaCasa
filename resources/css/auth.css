@@ -14,13 +14,15 @@ body {
 
 .container {
 	margin-bottom: 100px;
-	margin-top: 100px;
-	max-width: 450px;
-	width: 100%;
-	background: #fff;
-	border-radius: 12px;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-	overflow: hidden;
+    margin-top: 100px;
+    max-width: 900px; 
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
 }
 
 /* Role Selection Tabs */
@@ -31,6 +33,7 @@ body {
 }
 
 .role-tab {
+	text-transform: capitalize;
 	flex: 1;
 	text-align: center;
 	padding: 15px 10px;
@@ -108,16 +111,46 @@ input:focus {
 	box-shadow: 0 0 0 3px rgba(25,167,206,0.1);
 }
 
+.remember-me {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 14px;
+}
+
+.remember-me input[type="checkbox"] {
+    width: 18px;
+    height: 18px; /* Overrides the default 50px height */
+    margin-right: 10px;
+    margin-bottom: 0; /* Removes bottom margin to align with text */
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.remember-me label {
+    color: #555;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 500;
+}
+
+.remember-me label:hover {
+    text-decoration: none;
+    color: var(--primary);
+}
+
 .signup {
 	font-size: 15px;
 	text-align: center;
 	margin-top: 15px;
+	display: block;
 }
 
-label {
+.signup-label {
 	color: var(--primary);
 	cursor: pointer;
 	font-weight: 600;
+
 }
 
 label:hover {
@@ -146,8 +179,23 @@ label:hover {
 }
 
 .registration.form {
-	display: none;
 	padding: 20px 30px;
+}
+.input-wrapper {
+    display: flex;
+    gap: 10px;          /* Space between inputs */
+    align-items: center;
+    width: 100%;
+}
+
+.input-wrapper input {
+    flex: 1;            /* Allows inputs to grow and fill space equally */
+    min-width: 0;       /* Prevents inputs from overflowing their container */
+}
+
+/* Optional: Make Middle Initial smaller since it only needs 1-2 characters */
+.input-wrapper input[placeholder="Middle Initial"] {
+    flex: 0 0 100px;    /* Don't grow, don't shrink, stay at 100px */
 }
 
 /* Registration form styles */

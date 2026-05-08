@@ -1,8 +1,8 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\SubscriptionController::index
- * @see app/Http/Controllers/SubscriptionController.php:13
- * @route '/subscription'
+ * @see app/Http/Controllers/SubscriptionController.php:15
+ * @route '/user/subscription'
  */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
@@ -11,13 +11,13 @@ export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 index.definition = {
     methods: ["get","head"],
-    url: '/subscription',
+    url: '/user/subscription',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\SubscriptionController::index
- * @see app/Http/Controllers/SubscriptionController.php:13
- * @route '/subscription'
+ * @see app/Http/Controllers/SubscriptionController.php:15
+ * @route '/user/subscription'
  */
 index.url = (options?: RouteQueryOptions) => {
     return index.definition.url + queryParams(options)
@@ -25,8 +25,8 @@ index.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\SubscriptionController::index
- * @see app/Http/Controllers/SubscriptionController.php:13
- * @route '/subscription'
+ * @see app/Http/Controllers/SubscriptionController.php:15
+ * @route '/user/subscription'
  */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
@@ -34,349 +34,49 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\SubscriptionController::index
- * @see app/Http/Controllers/SubscriptionController.php:13
- * @route '/subscription'
+ * @see app/Http/Controllers/SubscriptionController.php:15
+ * @route '/user/subscription'
  */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: index.url(options),
     method: 'head',
 })
 
-/**
-* @see \App\Http\Controllers\SubscriptionController::create
- * @see app/Http/Controllers/SubscriptionController.php:21
- * @route '/subscription/create'
+    /**
+* @see \App\Http\Controllers\SubscriptionController::index
+ * @see app/Http/Controllers/SubscriptionController.php:15
+ * @route '/user/subscription'
  */
-export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: create.url(options),
-    method: 'get',
-})
+    const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: index.url(options),
+        method: 'get',
+    })
 
-create.definition = {
-    methods: ["get","head"],
-    url: '/subscription/create',
-} satisfies RouteDefinition<["get","head"]>
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::create
- * @see app/Http/Controllers/SubscriptionController.php:21
- * @route '/subscription/create'
+            /**
+* @see \App\Http\Controllers\SubscriptionController::index
+ * @see app/Http/Controllers/SubscriptionController.php:15
+ * @route '/user/subscription'
  */
-create.url = (options?: RouteQueryOptions) => {
-    return create.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::create
- * @see app/Http/Controllers/SubscriptionController.php:21
- * @route '/subscription/create'
+        indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: index.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\SubscriptionController::index
+ * @see app/Http/Controllers/SubscriptionController.php:15
+ * @route '/user/subscription'
  */
-create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: create.url(options),
-    method: 'get',
-})
-/**
-* @see \App\Http\Controllers\SubscriptionController::create
- * @see app/Http/Controllers/SubscriptionController.php:21
- * @route '/subscription/create'
- */
-create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: create.url(options),
-    method: 'head',
-})
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::store
- * @see app/Http/Controllers/SubscriptionController.php:29
- * @route '/subscription'
- */
-export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: store.url(options),
-    method: 'post',
-})
-
-store.definition = {
-    methods: ["post"],
-    url: '/subscription',
-} satisfies RouteDefinition<["post"]>
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::store
- * @see app/Http/Controllers/SubscriptionController.php:29
- * @route '/subscription'
- */
-store.url = (options?: RouteQueryOptions) => {
-    return store.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::store
- * @see app/Http/Controllers/SubscriptionController.php:29
- * @route '/subscription'
- */
-store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: store.url(options),
-    method: 'post',
-})
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::show
- * @see app/Http/Controllers/SubscriptionController.php:37
- * @route '/subscription/{subscription}'
- */
-export const show = (args: { subscription: string | number | { id: string | number } } | [subscription: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: show.url(args, options),
-    method: 'get',
-})
-
-show.definition = {
-    methods: ["get","head"],
-    url: '/subscription/{subscription}',
-} satisfies RouteDefinition<["get","head"]>
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::show
- * @see app/Http/Controllers/SubscriptionController.php:37
- * @route '/subscription/{subscription}'
- */
-show.url = (args: { subscription: string | number | { id: string | number } } | [subscription: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { subscription: args }
-    }
-
-            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-            args = { subscription: args.id }
-        }
+        indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: index.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
     
-    if (Array.isArray(args)) {
-        args = {
-                    subscription: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        subscription: typeof args.subscription === 'object'
-                ? args.subscription.id
-                : args.subscription,
-                }
-
-    return show.definition.url
-            .replace('{subscription}', parsedArgs.subscription.toString())
-            .replace(/\/+$/, '') + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::show
- * @see app/Http/Controllers/SubscriptionController.php:37
- * @route '/subscription/{subscription}'
- */
-show.get = (args: { subscription: string | number | { id: string | number } } | [subscription: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: show.url(args, options),
-    method: 'get',
-})
-/**
-* @see \App\Http\Controllers\SubscriptionController::show
- * @see app/Http/Controllers/SubscriptionController.php:37
- * @route '/subscription/{subscription}'
- */
-show.head = (args: { subscription: string | number | { id: string | number } } | [subscription: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: show.url(args, options),
-    method: 'head',
-})
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::edit
- * @see app/Http/Controllers/SubscriptionController.php:45
- * @route '/subscription/{subscription}/edit'
- */
-export const edit = (args: { subscription: string | number | { id: string | number } } | [subscription: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: edit.url(args, options),
-    method: 'get',
-})
-
-edit.definition = {
-    methods: ["get","head"],
-    url: '/subscription/{subscription}/edit',
-} satisfies RouteDefinition<["get","head"]>
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::edit
- * @see app/Http/Controllers/SubscriptionController.php:45
- * @route '/subscription/{subscription}/edit'
- */
-edit.url = (args: { subscription: string | number | { id: string | number } } | [subscription: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { subscription: args }
-    }
-
-            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-            args = { subscription: args.id }
-        }
-    
-    if (Array.isArray(args)) {
-        args = {
-                    subscription: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        subscription: typeof args.subscription === 'object'
-                ? args.subscription.id
-                : args.subscription,
-                }
-
-    return edit.definition.url
-            .replace('{subscription}', parsedArgs.subscription.toString())
-            .replace(/\/+$/, '') + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::edit
- * @see app/Http/Controllers/SubscriptionController.php:45
- * @route '/subscription/{subscription}/edit'
- */
-edit.get = (args: { subscription: string | number | { id: string | number } } | [subscription: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: edit.url(args, options),
-    method: 'get',
-})
-/**
-* @see \App\Http\Controllers\SubscriptionController::edit
- * @see app/Http/Controllers/SubscriptionController.php:45
- * @route '/subscription/{subscription}/edit'
- */
-edit.head = (args: { subscription: string | number | { id: string | number } } | [subscription: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: edit.url(args, options),
-    method: 'head',
-})
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::update
- * @see app/Http/Controllers/SubscriptionController.php:53
- * @route '/subscription/{subscription}'
- */
-export const update = (args: { subscription: string | number | { id: string | number } } | [subscription: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
-    url: update.url(args, options),
-    method: 'put',
-})
-
-update.definition = {
-    methods: ["put","patch"],
-    url: '/subscription/{subscription}',
-} satisfies RouteDefinition<["put","patch"]>
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::update
- * @see app/Http/Controllers/SubscriptionController.php:53
- * @route '/subscription/{subscription}'
- */
-update.url = (args: { subscription: string | number | { id: string | number } } | [subscription: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { subscription: args }
-    }
-
-            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-            args = { subscription: args.id }
-        }
-    
-    if (Array.isArray(args)) {
-        args = {
-                    subscription: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        subscription: typeof args.subscription === 'object'
-                ? args.subscription.id
-                : args.subscription,
-                }
-
-    return update.definition.url
-            .replace('{subscription}', parsedArgs.subscription.toString())
-            .replace(/\/+$/, '') + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::update
- * @see app/Http/Controllers/SubscriptionController.php:53
- * @route '/subscription/{subscription}'
- */
-update.put = (args: { subscription: string | number | { id: string | number } } | [subscription: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
-    url: update.url(args, options),
-    method: 'put',
-})
-/**
-* @see \App\Http\Controllers\SubscriptionController::update
- * @see app/Http/Controllers/SubscriptionController.php:53
- * @route '/subscription/{subscription}'
- */
-update.patch = (args: { subscription: string | number | { id: string | number } } | [subscription: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
-    url: update.url(args, options),
-    method: 'patch',
-})
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::destroy
- * @see app/Http/Controllers/SubscriptionController.php:61
- * @route '/subscription/{subscription}'
- */
-export const destroy = (args: { subscription: string | number | { id: string | number } } | [subscription: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
-    url: destroy.url(args, options),
-    method: 'delete',
-})
-
-destroy.definition = {
-    methods: ["delete"],
-    url: '/subscription/{subscription}',
-} satisfies RouteDefinition<["delete"]>
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::destroy
- * @see app/Http/Controllers/SubscriptionController.php:61
- * @route '/subscription/{subscription}'
- */
-destroy.url = (args: { subscription: string | number | { id: string | number } } | [subscription: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { subscription: args }
-    }
-
-            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-            args = { subscription: args.id }
-        }
-    
-    if (Array.isArray(args)) {
-        args = {
-                    subscription: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        subscription: typeof args.subscription === 'object'
-                ? args.subscription.id
-                : args.subscription,
-                }
-
-    return destroy.definition.url
-            .replace('{subscription}', parsedArgs.subscription.toString())
-            .replace(/\/+$/, '') + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\SubscriptionController::destroy
- * @see app/Http/Controllers/SubscriptionController.php:61
- * @route '/subscription/{subscription}'
- */
-destroy.delete = (args: { subscription: string | number | { id: string | number } } | [subscription: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
-    url: destroy.url(args, options),
-    method: 'delete',
-})
-const SubscriptionController = { index, create, store, show, edit, update, destroy }
+    index.form = indexForm
+const SubscriptionController = { index }
 
 export default SubscriptionController

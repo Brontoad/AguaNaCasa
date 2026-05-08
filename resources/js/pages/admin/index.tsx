@@ -13,12 +13,14 @@
 import SummaryCard, { SummaryCardProps } from "@/components/card/summary";
 import DashboardLayout from "@/layouts/dashboard-layout";
 
-export default function Index() {
+interface AdminIndexProps {total_stations: number, total_orders: number, total_users: number, total_earnings: number};
+
+export default function Index({total_stations, total_orders, total_users, total_earnings}: AdminIndexProps) {
     const adminStatistics: SummaryCardProps[] = [
-        {label: "Total Stations", icon: "store", value: `100`},
-        {label: "Total Orders", icon: "boxes", value: `1500`},
-        {label: "Total Users", icon: "user", value: `200`},
-        {label: "Total Earnings", icon: "coins", value: `₱100.00`},
+        {label: "Total Stations", icon: "store", value: `${total_stations}`},
+        {label: "Total Orders", icon: "boxes", value: `${total_orders}`},
+        {label: "Total Users", icon: "user", value: `${total_users}`},
+        {label: "Total Earnings", icon: "coins", value: `₱${total_earnings}`},
     ];
 
     return (

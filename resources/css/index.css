@@ -173,10 +173,19 @@
     flex-shrink: 0;
 }
 
-.first-service .icon { background-image: url('gallon_white.png'); }
-.second-service .icon { background-image: url('store_white.png'); }
-.third-service .icon { background-image: url('lightning_white.png'); }
-.fourth-service .icon { background-image: url('maps_white.png'); }
+.main-slideshow-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    gap: 40px; 
+    flex-wrap: wrap; 
+    margin: 60px 0;
+}
+
+.first-service .icon { background-image: url('services/gallon_white.png'); }
+.second-service .icon { background-image: url('services/store_white.png'); }
+.third-service .icon { background-image: url('services/lightning_white.png'); }
+.fourth-service .icon { background-image: url('services/maps_white.png'); }
 
 @keyframes horizontalSlide {
     0%, 20% { transform: translateX(0); }

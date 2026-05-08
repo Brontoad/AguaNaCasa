@@ -1,5 +1,5 @@
+import { USER_PROFILE_SIDEBARS } from "@/config";
 import { ACCOUNT_ROLE } from "@/pages/config";
-import { USER_PROFILE_SIDEBARS } from "@/pages/user/profile";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, usePage } from "@inertiajs/react";
@@ -12,13 +12,13 @@ const profileSidebarBtns: ProfileSidebarBtn[] = [
 ];
 
 export default function ProfileSidebar({changeTab} : {changeTab(tab: string): void}) {
-    const {user} = usePage().props;
+    const {auth} = usePage().props;
 
     return (
         <div className="profile-sidebar">
             <div className="sidebar-nav">
                 {profileSidebarBtns.map((sidebarBtn, idx) => (
-                    !sidebarBtn.notAllowedTypes.includes(user.role) && <button className="sidebar-btn" onClick={() => changeTab(sidebarBtn.tab)} key={`profile-sidebar-${idx}`}>
+                    !sidebarBtn.notAllowedTypes.includes(auth.role) && <button className="sidebar-btn" onClick={() => changeTab(sidebarBtn.tab)} key={`profile-sidebar-${idx}`}>
                         <FontAwesomeIcon icon={["fas", sidebarBtn.icon as IconName]} /> {sidebarBtn.title}
                     </button>
                 ))}

@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
 
             $table->string('username');
             $table->string('first_name');
@@ -23,8 +23,6 @@ return new class extends Migration
             $table->string('email')->nullable()->unique();
             $table->string('contact_number')->nullable()->unique();
             $table->string('password');
-            
-            $table->enum('user_type', UserType::cases());
 
             $table->dateTimeTz('email_verified_at')->nullable();
             $table->dateTimeTz('contact_number_verified_at')->nullable();

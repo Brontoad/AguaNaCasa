@@ -16,15 +16,15 @@ export const RIDER_PROFILE_SIDEBARS = {
 }
 
 export default function Profile() {
-    const {user} = usePage().props;
-    const rider: Rider = user.rider;
+    const {auth} = usePage().props;
+    const rider: Rider = auth.rider!;
     let riderStatistics = [
         {label: "Total Orders", value: `24`},
         {label: "Spent", value: `₱187.2k`},
     ];
 
     const [activeTab, setActiveTab] = useState("");
-    const [updateUserModal, setUpdateUserModal] = useState<{open: boolean, user: User}>({open: true, user: user})
+    const [updateRiderModal, setUpdateRiderModal] = useState<{open: boolean, rider: Rider}>({open: true, rider: rider})
     const [changePasswordModal, setChangePasswordModal] = useState<{open: boolean}>({open: false});
     const [resetEmailModal, setResetEmailModal] = useState<{open: boolean}>({open: false});
     const [resetContactModal, setResetContactNumberModal] = useState<{open: boolean}>({open: false});
@@ -45,14 +45,14 @@ export default function Profile() {
             <div className="profile-header">
                 <div className="row align-items-center">
                     <div className="col-md-8">
-                        <ProfileAvatar image={user.first_name} />
+                        <ProfileAvatar image={rider.vehicle} />
                         
                         <div className="profile-info">
-                            <h1>{user.first_name}</h1>
+                            <h1>{rider.vehicle}</h1>
                             <p><FontAwesomeIcon icon={["fas", "list-numeric"]} /> {rider.plate_number}</p>
                             <p><FontAwesomeIcon icon={["fas", "car"]} /> {rider.vehicle}</p>
-                            <p><FontAwesomeIcon icon={["fas", "envelope"]} /> {user.email}</p>
-                            <p><FontAwesomeIcon icon={["fas", "phone"]} /> {user.contact_number}</p>
+                            <p><FontAwesomeIcon icon={["fas", "envelope"]} /> {rider.contact_number}</p>
+                            <p><FontAwesomeIcon icon={["fas", "phone"]} /> {rider.contact_number}</p>
                             
                             <div className="profile-badges">
                                 <ProfileBadge icon={"check-circle"} label="Verified Rider" />
@@ -77,7 +77,7 @@ export default function Profile() {
                 </div>
             </div>
 
-            {updateUserModal.open && <></>}
+            {updateRiderModal.open && <></>}
             {changePasswordModal.open && <></>}
             {resetEmailModal.open && <></>}
             {resetContactModal.open && <></>}

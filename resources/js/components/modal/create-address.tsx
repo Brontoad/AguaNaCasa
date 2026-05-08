@@ -2,57 +2,45 @@ import FormModalLayout from "@/layouts/form-modal-layout";
 import ModalLayout from "@/layouts/modal-layout";
 import { BARANGAYS } from "@/pages/config";
 import { Address } from "@agc/model";
-
-export interface CreateAddressModalProps {userId: string, closeModal(): void}
+import { createPortal } from "react-dom";
+import LocationPicker from "../location-picker";
+import { useState } from "react";
+export interface CreateAddressModalProps {addresses: Address[], userId: string, closeModal(): void}
 
 function createAddress() {}
 
-export default function CreateAddressModal({userId, closeModal} : CreateAddressModalProps) {
-    return (
+export default function CreateAddressModal({addresses, userId, closeModal} : CreateAddressModalProps) {
+    const [selectedLocation, setSelectedLocation] = useState<{
+        label: string;
+        x: number;
+        y: number;
+        location: string;
+    } | null>(null);
+
+    return createPortal(
         <FormModalLayout
             title="Add Address"
             submit={() => createAddress()}
             submitTitle="Add"
             handleClose={() => closeModal()}
             link="/address"
-            method="post">
+            method="post"
+        >
             <input name="user_id" defaultValue={userId} hidden />
 
-            <div className="location-search">
-                <label>Search Location</label>
-                <input type="text" id="locationSearch" placeholder="Enter address or landmark..."/>
-            </div>
-                
-            <div className="map-container">
-                <div id="map" className="map-placeholder">
-                    <i className="fas fa-map-marked-alt"></i>
-                    <p>Google Maps will load here</p>
-                    <small>Enter your API key to enable maps</small>
-                </div>
-            </div>
-            
+            <div className="form-group"><LocationPicker onAddressSelect={(addr) => setSelectedLocation(addr)}/></div>
+
+            <input name="x" value={selectedLocation?.x ?? ''} hidden readOnly/>
+            <input name="y" value={selectedLocation?.y ?? ''} hidden readOnly/>
+            <input name="location" value={selectedLocation?.location ?? ''} hidden readOnly/>
+
             <div className="form-group">
                 <label>Address Label</label>
-                <input type="text" name="label" placeholder="e.g., Home, Work" />
+                <input type="text" name="label" placeholder="e.g., Home, Work"/>
             </div>
-            
-            <div className="form-group">
-                <label>Barangay</label>
-                <select id="addressBarangay">
-                    {BARANGAYS.map((barangay, idx) => (
-                        <option key={`barangay-${idx}`}>{barangay}</option>
-                    ))}
-                </select>
-            </div>
-            
-            <div className="form-group">
-                <label>Street Address</label>
-                <textarea id="streetAddress" rows={2} placeholder="Enter complete address"></textarea>
-            </div>
-            
-            <div className="form-group">
-                <label><input type="checkbox" name="is_default" /> Set as default address</label>
-            </div>
-        </FormModalLayout>
+
+            <div className="form-group"><label><input type="checkbox" name="is_default" />Set as default address</label></div>
+        </FormModalLayout>,
+        document.body
     )
 }

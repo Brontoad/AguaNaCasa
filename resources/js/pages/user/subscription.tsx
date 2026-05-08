@@ -18,7 +18,7 @@ import DashboardLayout from "@/layouts/dashboard-layout";
 import { Subscription as SubscriptionModel } from "@agc/model";
 import { useState } from "react";
 
-import "resources/css/subscription.css";
+import "../../../css/subscription.css";
 
 export default function Subscription({subscriptions} : {subscriptions: SubscriptionModel[]}) {
     const [viewSubscriptionModal, setViewSubscriptionModal] = useState<{open: boolean, subscription?: SubscriptionModel}>({open: false, subscription: undefined});

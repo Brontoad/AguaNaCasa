@@ -1,27 +1,42 @@
+/* ===== MODAL OVERLAY ===== */
 .modal {
     display: flex;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
+
     background: rgba(0,0,0,0.5);
     backdrop-filter: blur(5px);
+
     z-index: 1000;
+
     align-items: center;
     justify-content: center;
     padding: 20px;
+
+    overflow: hidden; /* prevent full modal scroll */
 }
 
+
+/* ===== MODAL CONTAINER ===== */
 .modal-content {
     background: white;
     border-radius: 20px;
+
     max-width: 500px;
     width: 100%;
-    padding: 30px;
+    max-height: 90vh;
+
+    display: flex;
+    flex-direction: column;
+
     animation: modalSlideIn 0.3s ease;
+
+    overflow: hidden; /* important */
+    min-height: 0;    /* 🔑 allows scrolling inside */
 }
 
+
+/* ===== ANIMATION ===== */
 @keyframes modalSlideIn {
     from {
         opacity: 0;
@@ -33,11 +48,15 @@
     }
 }
 
+
+/* ===== HEADER ===== */
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+
+    padding: 20px 25px;
+    border-bottom: 1px solid #eee;
 }
 
 .modal-header h3 {
@@ -54,6 +73,18 @@
     color: #999;
 }
 
+
+/* ===== BODY (SCROLLABLE) ===== */
+.modal-body {
+    flex: 1;               /* take remaining space */
+    overflow-y: auto;      /* 🔥 this enables scrolling */
+    padding: 20px 25px;
+
+    scroll-behavior: smooth;
+}
+
+
+/* ===== FORM STYLES ===== */
 .modal-body .form-group {
     margin-bottom: 20px;
 }
@@ -71,10 +102,13 @@
 .modal-body textarea {
     width: 100%;
     padding: 12px;
+
     border: 2px solid #e0e0e0;
     border-radius: 10px;
+
     font-size: 14px;
     font-family: 'Nunito Sans', sans-serif;
+
     transition: all 0.3s;
 }
 
@@ -85,19 +119,40 @@
     border-color: var(--primary);
 }
 
+.modal-body input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    margin-right: 10px;
+}
+
+.modal-body label:has(input[type="checkbox"]) {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+/* ===== FOOTER / ACTIONS ===== */
 .modal-actions {
     display: flex;
     gap: 10px;
-    margin-top: 20px;
+
+    padding: 20px 25px;
+    border-top: 1px solid #eee;
 }
 
 .modal-actions button {
     flex: 1;
     padding: 12px;
+
     border: none;
     border-radius: 10px;
+
     font-weight: 600;
     cursor: pointer;
+
     transition: all 0.3s;
 }
 
@@ -120,10 +175,21 @@
     background: #f8f9fa;
 }
 
+
+/* ===== SELECT ===== */
 .form-select {
     padding: 8px 12px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
+
     font-size: 14px;
     font-family: 'Nunito Sans', sans-serif;
+}
+
+
+/* ===== LEAFLET FIX ===== */
+.leaflet-container {
+    width: 100%;
+    height: 300px;
+    border-radius: 12px;
 }

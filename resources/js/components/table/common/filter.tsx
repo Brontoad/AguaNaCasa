@@ -51,17 +51,17 @@ export default function TableFilter({
                 </select>}
             {canFilterByStationStatus && <select className="filter-select" id="statusFilter" onChange={(e) => setFilterByStationStatus(e.target.value)}>
                     <option value="all">All Status</option>
-                    {Object.entries(STATION_STATUS).map((stationStatus, idx) => (
-                        <option value={stationStatus} key={`filter-station-status-${idx}`} className="capitalize">
-                            {stationStatus}
+                    {Object.values(STATION_STATUS).map((stationStatus, idx) => (
+                        <option value={stationStatus} key={`filter-station-status-${idx}`} style={{textTransform: "capitalize"}}>
+                            {stationStatus.replace(/_/g, ' ')}
                         </option>
                     ))}
                 </select>}
             {canFilterByOrderStatus && <select className="filter-select" id="statusFilter" onChange={(e) => setFilterByOrderStatus(e.target.value)}>
-                    <option value="all">All Status</option>
-                    {Object.entries(ORDER_STATUS).map((stationStatus, idx) => (
-                        <option value={stationStatus} key={`filter-station-status-${idx}`} className="capitalize">
-                            {stationStatus}
+                    <option value="all">All Order Status</option>
+                    {Object.values(ORDER_STATUS).map((orderStatus, idx) => (
+                        <option value={orderStatus} key={`filter-order-status-${idx}`} style={{textTransform: "capitalize"}}>
+                            {orderStatus.replace(/_/g, ' ')}
                         </option>
                     ))}
                 </select>}
@@ -76,8 +76,8 @@ export default function TableFilter({
                     {canSortByRating && <option value="rating">Sort by: Rating</option>}
                     {canSortByName && <option value="name">Sort by: Name</option>}
                 </select>}
-            {canSortByAsc && <select className="filter-select" id="sortFilter" onChange={(e) => setSortByAsc(e.target.value === "asc")}>
-                <option value="asc" selected>Sort by: ASC</option>
+            {canSortByAsc && <select className="filter-select" defaultValue={"asc"} id="sortFilter" onChange={(e) => setSortByAsc(e.target.value === "asc")}>
+                <option value="asc">Sort by: ASC</option>
                 <option value="desc">Sort by: DESC</option>
             </select>}
         </div>

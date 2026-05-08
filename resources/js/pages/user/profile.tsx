@@ -11,19 +11,20 @@ import ProfileUserInfo from "@/components/profile/user-info";
 import ProfileAddress from "@/components/profile/address";
 import DashboardLayout from "@/layouts/dashboard-layout";
 
-export const USER_PROFILE_SIDEBARS = {
-    ADDRESS: "profile_info",
-    SETTINGS: "settings"
-}
+import "../../../css/dashboard.css";
+import "../../../css/profile.css";
+import { USER_PROFILE_SIDEBARS } from "@/config";
 
 export default function Profile() {
-    const {user} = usePage().props;
+    const {auth} = usePage().props;
+    if (!auth.user) {throw new Error("User is not authenticated");}
+    const user: User = auth.user;
     let userStatistics = [
         {label: "Total Orders", value: `24`},
         {label: "Spent", value: `₱187.2k`},
     ];
 
-    const [activeTab, setActiveTab] = useState("");
+    const [activeTab, setActiveTab] = useState(USER_PROFILE_SIDEBARS.SETTINGS);
     const [updateUserModal, setUpdateUserModal] = useState<{open: boolean, user: User}>({open: true, user: user})
     const [changePasswordModal, setChangePasswordModal] = useState<{open: boolean}>({open: false});
     const [resetEmailModal, setResetEmailModal] = useState<{open: boolean}>({open: false});
@@ -45,12 +46,16 @@ export default function Profile() {
     return (
         <div className="profile-wrapper">
             <div className="profile-header">
+                <button className="profile-edit-btn" onClick={() => setUpdateUserModal({open: true, user: user})}>
+                    <FontAwesomeIcon icon={["fas", "edit"]} /> Edit
+                </button>
+
                 <div className="row align-items-center">
                     <div className="col-md-8">
-                        <ProfileAvatar image={user.first_name} />
+                        <ProfileAvatar name={user?.first_name ?? "N/A"} changeAvatar={() => {}} />
                         
                         <div className="profile-info">
-                            <h1>{user.first_name}</h1>
+                            <h1 style={{textTransform: "capitalize"}}>{user.first_name} {user.middle_initial}. {user.last_name}</h1>
                             <p><FontAwesomeIcon icon={["fas", "envelope"]} /> {user.email}</p>
                             <p><FontAwesomeIcon icon={["fas", "phone"]} /> {user.contact_number}</p>
                             
@@ -61,11 +66,7 @@ export default function Profile() {
                         </div>
                     </div>
 
-                    <button className="edit-btn" onClick={() => setUpdateUserModal({open: true, user: user})}>
-                        <FontAwesomeIcon icon={["fas", "edit"]} /> Edit
-                    </button>
-
-                    <div className="col-md-4">
+                    <div className="col-md-3">
                         <div className="profile-stats">
                             {userStatistics.map((stats, idx) => (<ProfileStatistics key={idx} {...stats} />))}
                         </div>

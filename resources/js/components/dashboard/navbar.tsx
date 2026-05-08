@@ -1,5 +1,7 @@
 import { ACCOUNT_ROLE } from "@/pages/config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { SharedPageProps } from "@inertiajs/core";
+import { InertiaConfig } from "@inertiajs/core";
 import { Link, usePage } from "@inertiajs/react"
 
 /**
@@ -31,49 +33,75 @@ import { Link, usePage } from "@inertiajs/react"
  *  Manage Addresses
  *  
  */
-interface NavbarTab {
-    name: string,
-    link: string,
-    notAllowedTypes: string[]
-}
+interface NavbarTab {name: string, link: string, notAllowedTypes: string[]}
 
-const navbarTabs: NavbarTab[] = [
-    {name: "Home", link: "/", notAllowedTypes: []},
-    {name: "About", link: "/about", notAllowedTypes: []},
-    {name: "Stations", link: "/station", notAllowedTypes: [ACCOUNT_ROLE.STATION]},
-    {name: "Orders", link: "/order", notAllowedTypes: []},
-    {name: "Subscriptions", link: "/subscription", notAllowedTypes: []},
-    {name: "Products", link: "/product", notAllowedTypes: [ACCOUNT_ROLE.CUSTOMER, ACCOUNT_ROLE.STATION]},
-    {name: "Users", link: "/user", notAllowedTypes: [ACCOUNT_ROLE.CUSTOMER, ACCOUNT_ROLE.RIDER, ACCOUNT_ROLE.RIDER]},
-    {name: "Contact", link: "/contact", notAllowedTypes: []},
-]
 
 export default function Navbar() {
-    const {user} = usePage().props;
-    
+    const {auth} = usePage<SharedPageProps>().props;
+
+    const navbarTabs: NavbarTab[] = [
+        {name: "Home", link: "/", notAllowedTypes: []},
+        {name: "About", link: "/about", notAllowedTypes: []},
+        {name: "Stations", link: "/station", notAllowedTypes: [ACCOUNT_ROLE.GUEST, ACCOUNT_ROLE.STATION, ACCOUNT_ROLE.RIDER]},
+        {name: "Orders", link: "/order", notAllowedTypes: [ACCOUNT_ROLE.GUEST]},
+        {name: "Subscriptions", link: "/subscription", notAllowedTypes: [ACCOUNT_ROLE.GUEST, ACCOUNT_ROLE.STATION, ACCOUNT_ROLE.RIDER]},
+        {name: "Products", link: "/product", notAllowedTypes: [ACCOUNT_ROLE.GUEST, ACCOUNT_ROLE.CUSTOMER, ACCOUNT_ROLE.STATION]},
+        {name: "Users", link: "/user", notAllowedTypes: [ACCOUNT_ROLE.GUEST,ACCOUNT_ROLE.CUSTOMER, ACCOUNT_ROLE.STATION, ACCOUNT_ROLE.RIDER]},
+        {name: "Contact", link: "/contact", notAllowedTypes: [ACCOUNT_ROLE.GUEST]},
+    ];
+
+    function prefix() {
+        switch (auth.role) {
+            case ACCOUNT_ROLE.CUSTOMER:
+                return "/user";
+            case ACCOUNT_ROLE.STATION:
+                return "/station";
+            case ACCOUNT_ROLE.RIDER:
+                return "/rider";
+            case ACCOUNT_ROLE.ADMIN:
+                return "/admin";
+            default:
+                return "";
+        }
+    }
+
+    console.log(auth.role ?? ACCOUNT_ROLE.GUEST);
     return (
         <nav className="main-nav">
-            <Link className="logo" href={"/"}><img src="aguanacasa_logo_white.png" alt="Agua na Casa" /></Link>
+            <Link className="logo" href={"/"}><img src="/assets/aguanacasa_logo_white.png" alt="Agua na Casa" /></Link>
 
             <ul className="nav">
-                {navbarTabs.map((navbarTab, idx) => (
-                    (!navbarTab.notAllowedTypes.includes(user.role) && 
-                        <li key={idx}><Link as={"button"} href={navbarTab.link}>{navbarTab.name}</Link></li>)
-                ))}
+                {navbarTabs.map((navbarTab, idx) => {
+                    if (navbarTab.notAllowedTypes.includes(auth.role && auth.role.length > 0
+        ? auth.role
+        : ACCOUNT_ROLE.GUEST)) return null;
+
+                    const isPublic =
+                        navbarTab.link === "/" ||
+                        navbarTab.link === "/about" ||
+                        navbarTab.link === "/contact_us";
+
+                    const href = isPublic ? navbarTab.link : `${prefix()}${navbarTab.link}`;
+
+                    return (
+                        <li key={idx}>
+                            <Link href={href}>{navbarTab.name}</Link>
+                        </li>
+                    );
+                })}
                 
                 {/* Order Now */}
-                {user.role === ACCOUNT_ROLE.CUSTOMER && 
-                    (<li><Link as={"button"} className={"order-button"} href={"/station"}>Order Now <FontAwesomeIcon icon={["fas", "truck"]} /></Link></li>)}
+                {/* {auth.role === ACCOUNT_ROLE.CUSTOMER && 
+                    (<li><Link className={"order-button"} href={"/user/station"}>Order Now <FontAwesomeIcon icon={["fas", "truck"]} /></Link></li>)} */}
 
                 {/* Sign In/Log Out */}
-                <li>
-                    {!user ? <Link as={"button"} className={"signin-button"} href={"/sign_in"}>
-                        <FontAwesomeIcon icon={["fas", "sign-in-alt"]} /> Sign In</Link>
+                <li id="signInLi">
+                    {auth.role.length <= 0 ? <Link className={"signin-button"} href={"/login"}>
+                            <FontAwesomeIcon icon={["fas", "sign-in-alt"]} /> Sign In</Link>
                         : <div className="profile-button">
-                            <Link as={"button"} className={"signin-button"} href={"/profile"}>
-                                <img src="account-25.png" alt="Profile" className="profile-icon"/>
-                                <span>Profile</span>
-                                <FontAwesomeIcon icon={["fas", "chevron-down"]} style={{fontSize: "12px", marginLeft: "5px"}}/>
+                            <Link className={"signin-button"} href={`${prefix()}/profile`}>
+                                <img src="/assets/account-25.png" alt="Profile" className="profile-icon"/>
+                                <span>{auth.user?.username ?? "N/A"}</span>
                             </Link>
                         </div>}
                 </li>

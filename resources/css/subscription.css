@@ -57,7 +57,7 @@
 }
 
 .card-header {
-    background: var(--dark);
+    /* background: var(--dark); */
     padding: 24px 24px 35px;
     text-align: center;
 }

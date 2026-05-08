@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('stations', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
 
             $table->string('name');
             $table->string('email')->unique();
@@ -28,8 +28,7 @@ return new class extends Migration
 
             $table->string('reset_email_token')->nullable();
             $table->string('reset_contact_number_token')->nullable();
-
-
+            
             $table->foreignUuid('owner_id')->constrained('users')->cascadeOnDelete();
 
             $table->timestampsTz();

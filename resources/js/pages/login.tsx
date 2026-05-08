@@ -7,6 +7,9 @@ import LoginRider from "./auth/login/rider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 
+import "../../css/auth.css";
+import { Head } from "@inertiajs/react";
+
 interface RoleTab {logo: string, role: string};
 
 const roleTabs : Array<RoleTab> = [
@@ -30,16 +33,17 @@ export default function Login() {
 
     return (
         <div className="container">
+            <Head title="Login | Agua na Casa"/>
             <div className="role-tabs">
                 {roleTabs.map((roleTab, i) => (
-                    <div className={`capitalize role-tab ${roleTab.role === activeRoleTab.role ? 'active' : ''}`} 
+                    <div className={`role-tab ${roleTab.role === activeRoleTab.role ? 'active' : ''}`} 
                         onClick={() => setActiveRoleTab(roleTab)} 
                         key={`role-tab-${i}`}>
                         <FontAwesomeIcon icon={["fas", roleTab.logo as IconName]} /> {roleTab.role}
                     </div>
                 ))}
             </div>
-
+            
             {renderLogin(activeRoleTab)}
         </div>
     );

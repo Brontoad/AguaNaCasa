@@ -1,12 +1,14 @@
 import DashboardLayout from "@/layouts/dashboard-layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "@inertiajs/react";
-import "resources/css/index.css";
+
+import "../../css/index.css";
+
 
 function renderSlideshow(): React.ReactNode[] {
     let slideShow: React.ReactNode[] = []
     for (let index = 0; index < 5; index++) {
-        slideShow.push(<img src={`slide_picture_${index + 1}.png`} alt={`Slide ${index + 1}`} />);
+        slideShow.push(<img src={`/assets/slideshow/slideshow_picture_${index + 1}.png`} alt={`Slide ${index + 1}`} key={`slide-${index}`}/>);
     }
     return slideShow;
 }
@@ -26,12 +28,11 @@ export default function Index() {
                                         
                                         <div className="button-container">
                                             <div className="white-button"><Link href="#services">Our Services <FontAwesomeIcon icon={["fas", "tint"]} /></Link></div>
-                                            <div className="white-button"><Link href="#directory">Find Stations <FontAwesomeIcon icon={["fas", "map-marked-alt"]} /></Link></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-lg-6">
-                                    <div className="right-image"><img src="landing_logo.png" alt="Agua na Casa" /></div>
+                                    <div className="right-image"><img src="assets/landing_logo.png" alt="Agua na Casa" /></div>
                                 </div>
                             </div>
                         </div>
@@ -100,7 +101,7 @@ export default function Index() {
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="main-slideshow-container">
-                            <div><img src="landing_logo.png" id="AguaLogo" alt="Agua na Casa Logo" /></div>
+                            <div><img src="/assets/landing_logo.png" id="AguaLogo" alt="Agua na Casa Logo" /></div>
                             <div>
                                 <div className="slideshow-container">
                                     <div className="slider-wrapper">{renderSlideshow()}</div>

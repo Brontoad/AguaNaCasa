@@ -1,370 +1,400 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
-* @see \App\Http\Controllers\UserController::index
- * @see app/Http/Controllers/UserController.php:19
- * @route '/user'
+* @see \App\Http\Controllers\DashboardController::dashboard
+ * @see app/Http/Controllers/DashboardController.php:15
+ * @route '/user/dashboard'
  */
-export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: index.url(options),
+export const dashboard = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: dashboard.url(options),
     method: 'get',
 })
 
-index.definition = {
+dashboard.definition = {
     methods: ["get","head"],
-    url: '/user',
+    url: '/user/dashboard',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\UserController::index
- * @see app/Http/Controllers/UserController.php:19
- * @route '/user'
+* @see \App\Http\Controllers\DashboardController::dashboard
+ * @see app/Http/Controllers/DashboardController.php:15
+ * @route '/user/dashboard'
  */
-index.url = (options?: RouteQueryOptions) => {
-    return index.definition.url + queryParams(options)
+dashboard.url = (options?: RouteQueryOptions) => {
+    return dashboard.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\UserController::index
- * @see app/Http/Controllers/UserController.php:19
- * @route '/user'
+* @see \App\Http\Controllers\DashboardController::dashboard
+ * @see app/Http/Controllers/DashboardController.php:15
+ * @route '/user/dashboard'
  */
-index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: index.url(options),
+dashboard.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: dashboard.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\UserController::index
- * @see app/Http/Controllers/UserController.php:19
- * @route '/user'
+* @see \App\Http\Controllers\DashboardController::dashboard
+ * @see app/Http/Controllers/DashboardController.php:15
+ * @route '/user/dashboard'
  */
-index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: index.url(options),
+dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: dashboard.url(options),
     method: 'head',
 })
 
-/**
-* @see \App\Http\Controllers\UserController::create
- * @see app/Http/Controllers/UserController.php:40
- * @route '/user/create'
+    /**
+* @see \App\Http\Controllers\DashboardController::dashboard
+ * @see app/Http/Controllers/DashboardController.php:15
+ * @route '/user/dashboard'
  */
-export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: create.url(options),
+    const dashboardForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: dashboard.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\DashboardController::dashboard
+ * @see app/Http/Controllers/DashboardController.php:15
+ * @route '/user/dashboard'
+ */
+        dashboardForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: dashboard.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\DashboardController::dashboard
+ * @see app/Http/Controllers/DashboardController.php:15
+ * @route '/user/dashboard'
+ */
+        dashboardForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: dashboard.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    dashboard.form = dashboardForm
+/**
+* @see \App\Http\Controllers\StationController::station
+ * @see app/Http/Controllers/StationController.php:20
+ * @route '/user/station'
+ */
+export const station = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: station.url(options),
     method: 'get',
 })
 
-create.definition = {
+station.definition = {
     methods: ["get","head"],
-    url: '/user/create',
+    url: '/user/station',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\UserController::create
- * @see app/Http/Controllers/UserController.php:40
- * @route '/user/create'
+* @see \App\Http\Controllers\StationController::station
+ * @see app/Http/Controllers/StationController.php:20
+ * @route '/user/station'
  */
-create.url = (options?: RouteQueryOptions) => {
-    return create.definition.url + queryParams(options)
+station.url = (options?: RouteQueryOptions) => {
+    return station.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\UserController::create
- * @see app/Http/Controllers/UserController.php:40
- * @route '/user/create'
+* @see \App\Http\Controllers\StationController::station
+ * @see app/Http/Controllers/StationController.php:20
+ * @route '/user/station'
  */
-create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: create.url(options),
+station.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: station.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\UserController::create
- * @see app/Http/Controllers/UserController.php:40
- * @route '/user/create'
+* @see \App\Http\Controllers\StationController::station
+ * @see app/Http/Controllers/StationController.php:20
+ * @route '/user/station'
  */
-create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: create.url(options),
+station.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: station.url(options),
     method: 'head',
 })
 
-/**
-* @see \App\Http\Controllers\UserController::store
- * @see app/Http/Controllers/UserController.php:60
- * @route '/user'
+    /**
+* @see \App\Http\Controllers\StationController::station
+ * @see app/Http/Controllers/StationController.php:20
+ * @route '/user/station'
  */
-export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: store.url(options),
-    method: 'post',
-})
+    const stationForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: station.url(options),
+        method: 'get',
+    })
 
-store.definition = {
-    methods: ["post"],
-    url: '/user',
-} satisfies RouteDefinition<["post"]>
-
-/**
-* @see \App\Http\Controllers\UserController::store
- * @see app/Http/Controllers/UserController.php:60
- * @route '/user'
+            /**
+* @see \App\Http\Controllers\StationController::station
+ * @see app/Http/Controllers/StationController.php:20
+ * @route '/user/station'
  */
-store.url = (options?: RouteQueryOptions) => {
-    return store.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\UserController::store
- * @see app/Http/Controllers/UserController.php:60
- * @route '/user'
+        stationForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: station.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\StationController::station
+ * @see app/Http/Controllers/StationController.php:20
+ * @route '/user/station'
  */
-store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: store.url(options),
-    method: 'post',
-})
-
+        stationForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: station.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    station.form = stationForm
 /**
-* @see \App\Http\Controllers\UserController::show
- * @see app/Http/Controllers/UserController.php:92
- * @route '/user/{user}'
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:18
+ * @route '/user/order'
  */
-export const show = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: show.url(args, options),
+export const order = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: order.url(options),
     method: 'get',
 })
 
-show.definition = {
+order.definition = {
     methods: ["get","head"],
-    url: '/user/{user}',
+    url: '/user/order',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\UserController::show
- * @see app/Http/Controllers/UserController.php:92
- * @route '/user/{user}'
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:18
+ * @route '/user/order'
  */
-show.url = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { user: args }
-    }
-
-    
-    if (Array.isArray(args)) {
-        args = {
-                    user: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        user: args.user,
-                }
-
-    return show.definition.url
-            .replace('{user}', parsedArgs.user.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+order.url = (options?: RouteQueryOptions) => {
+    return order.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\UserController::show
- * @see app/Http/Controllers/UserController.php:92
- * @route '/user/{user}'
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:18
+ * @route '/user/order'
  */
-show.get = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: show.url(args, options),
+order.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: order.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\UserController::show
- * @see app/Http/Controllers/UserController.php:92
- * @route '/user/{user}'
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:18
+ * @route '/user/order'
  */
-show.head = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: show.url(args, options),
+order.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: order.url(options),
     method: 'head',
 })
 
-/**
-* @see \App\Http\Controllers\UserController::edit
- * @see app/Http/Controllers/UserController.php:118
- * @route '/user/{user}/edit'
+    /**
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:18
+ * @route '/user/order'
  */
-export const edit = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: edit.url(args, options),
+    const orderForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: order.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:18
+ * @route '/user/order'
+ */
+        orderForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: order.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:18
+ * @route '/user/order'
+ */
+        orderForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: order.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    order.form = orderForm
+/**
+* @see \App\Http\Controllers\SubscriptionController::subscription
+ * @see app/Http/Controllers/SubscriptionController.php:15
+ * @route '/user/subscription'
+ */
+export const subscription = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: subscription.url(options),
     method: 'get',
 })
 
-edit.definition = {
+subscription.definition = {
     methods: ["get","head"],
-    url: '/user/{user}/edit',
+    url: '/user/subscription',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\UserController::edit
- * @see app/Http/Controllers/UserController.php:118
- * @route '/user/{user}/edit'
+* @see \App\Http\Controllers\SubscriptionController::subscription
+ * @see app/Http/Controllers/SubscriptionController.php:15
+ * @route '/user/subscription'
  */
-edit.url = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { user: args }
-    }
-
-    
-    if (Array.isArray(args)) {
-        args = {
-                    user: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        user: args.user,
-                }
-
-    return edit.definition.url
-            .replace('{user}', parsedArgs.user.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+subscription.url = (options?: RouteQueryOptions) => {
+    return subscription.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\UserController::edit
- * @see app/Http/Controllers/UserController.php:118
- * @route '/user/{user}/edit'
+* @see \App\Http\Controllers\SubscriptionController::subscription
+ * @see app/Http/Controllers/SubscriptionController.php:15
+ * @route '/user/subscription'
  */
-edit.get = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: edit.url(args, options),
+subscription.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: subscription.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\UserController::edit
- * @see app/Http/Controllers/UserController.php:118
- * @route '/user/{user}/edit'
+* @see \App\Http\Controllers\SubscriptionController::subscription
+ * @see app/Http/Controllers/SubscriptionController.php:15
+ * @route '/user/subscription'
  */
-edit.head = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: edit.url(args, options),
+subscription.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: subscription.url(options),
     method: 'head',
 })
 
-/**
-* @see \App\Http\Controllers\UserController::update
- * @see app/Http/Controllers/UserController.php:143
- * @route '/user/{user}'
+    /**
+* @see \App\Http\Controllers\SubscriptionController::subscription
+ * @see app/Http/Controllers/SubscriptionController.php:15
+ * @route '/user/subscription'
  */
-export const update = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
-    url: update.url(args, options),
-    method: 'put',
+    const subscriptionForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: subscription.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\SubscriptionController::subscription
+ * @see app/Http/Controllers/SubscriptionController.php:15
+ * @route '/user/subscription'
+ */
+        subscriptionForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: subscription.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\SubscriptionController::subscription
+ * @see app/Http/Controllers/SubscriptionController.php:15
+ * @route '/user/subscription'
+ */
+        subscriptionForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: subscription.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    subscription.form = subscriptionForm
+/**
+* @see \App\Http\Controllers\ProfileController::profile
+ * @see app/Http/Controllers/ProfileController.php:11
+ * @route '/user/profile'
+ */
+export const profile = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: profile.url(options),
+    method: 'get',
 })
 
-update.definition = {
-    methods: ["put","patch"],
-    url: '/user/{user}',
-} satisfies RouteDefinition<["put","patch"]>
+profile.definition = {
+    methods: ["get","head"],
+    url: '/user/profile',
+} satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\UserController::update
- * @see app/Http/Controllers/UserController.php:143
- * @route '/user/{user}'
+* @see \App\Http\Controllers\ProfileController::profile
+ * @see app/Http/Controllers/ProfileController.php:11
+ * @route '/user/profile'
  */
-update.url = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { user: args }
-    }
-
-    
-    if (Array.isArray(args)) {
-        args = {
-                    user: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        user: args.user,
-                }
-
-    return update.definition.url
-            .replace('{user}', parsedArgs.user.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+profile.url = (options?: RouteQueryOptions) => {
+    return profile.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\UserController::update
- * @see app/Http/Controllers/UserController.php:143
- * @route '/user/{user}'
+* @see \App\Http\Controllers\ProfileController::profile
+ * @see app/Http/Controllers/ProfileController.php:11
+ * @route '/user/profile'
  */
-update.put = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
-    url: update.url(args, options),
-    method: 'put',
+profile.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: profile.url(options),
+    method: 'get',
 })
 /**
-* @see \App\Http\Controllers\UserController::update
- * @see app/Http/Controllers/UserController.php:143
- * @route '/user/{user}'
+* @see \App\Http\Controllers\ProfileController::profile
+ * @see app/Http/Controllers/ProfileController.php:11
+ * @route '/user/profile'
  */
-update.patch = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
-    url: update.url(args, options),
-    method: 'patch',
+profile.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: profile.url(options),
+    method: 'head',
 })
 
-/**
-* @see \App\Http\Controllers\UserController::destroy
- * @see app/Http/Controllers/UserController.php:338
- * @route '/user/{user}'
+    /**
+* @see \App\Http\Controllers\ProfileController::profile
+ * @see app/Http/Controllers/ProfileController.php:11
+ * @route '/user/profile'
  */
-export const destroy = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
-    url: destroy.url(args, options),
-    method: 'delete',
-})
+    const profileForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: profile.url(options),
+        method: 'get',
+    })
 
-destroy.definition = {
-    methods: ["delete"],
-    url: '/user/{user}',
-} satisfies RouteDefinition<["delete"]>
-
-/**
-* @see \App\Http\Controllers\UserController::destroy
- * @see app/Http/Controllers/UserController.php:338
- * @route '/user/{user}'
+            /**
+* @see \App\Http\Controllers\ProfileController::profile
+ * @see app/Http/Controllers/ProfileController.php:11
+ * @route '/user/profile'
  */
-destroy.url = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { user: args }
-    }
-
+        profileForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: profile.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\ProfileController::profile
+ * @see app/Http/Controllers/ProfileController.php:11
+ * @route '/user/profile'
+ */
+        profileForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: profile.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
     
-    if (Array.isArray(args)) {
-        args = {
-                    user: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        user: args.user,
-                }
-
-    return destroy.definition.url
-            .replace('{user}', parsedArgs.user.toString())
-            .replace(/\/+$/, '') + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\UserController::destroy
- * @see app/Http/Controllers/UserController.php:338
- * @route '/user/{user}'
- */
-destroy.delete = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
-    url: destroy.url(args, options),
-    method: 'delete',
-})
+    profile.form = profileForm
 const user = {
-    index: Object.assign(index, index),
-create: Object.assign(create, create),
-store: Object.assign(store, store),
-show: Object.assign(show, show),
-edit: Object.assign(edit, edit),
-update: Object.assign(update, update),
-destroy: Object.assign(destroy, destroy),
+    dashboard: Object.assign(dashboard, dashboard),
+station: Object.assign(station, station),
+order: Object.assign(order, order),
+subscription: Object.assign(subscription, subscription),
+profile: Object.assign(profile, profile),
 }
 
 export default user

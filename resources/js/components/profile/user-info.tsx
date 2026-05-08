@@ -12,7 +12,7 @@ export default function ProfileUserInfo({openChangePasswordModal, openResetEmail
 
     return (
         <div className="info-card">
-            <div className="card-header"><h3><FontAwesomeIcon icon={["fas", "lock"]} /> Security</h3></div>
+            <div className="card-header"><h3><FontAwesomeIcon icon={["fas", "lock"]} style={{color: "var(--primary)"}}/> Security</h3></div>
             {settingsItem.map((item, idx) => (<SettingsItem {...item} key={`user-profile-settings-${idx}`} />))}
         </div>
     );

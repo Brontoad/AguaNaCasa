@@ -1,390 +1,400 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
-* @see \App\Http\Controllers\StationController::index
- * @see app/Http/Controllers/StationController.php:15
- * @route '/station'
+* @see \App\Http\Controllers\DashboardController::dashboard
+ * @see app/Http/Controllers/DashboardController.php:47
+ * @route '/station/dashboard'
  */
-export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: index.url(options),
+export const dashboard = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: dashboard.url(options),
     method: 'get',
 })
 
-index.definition = {
+dashboard.definition = {
     methods: ["get","head"],
-    url: '/station',
+    url: '/station/dashboard',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\StationController::index
- * @see app/Http/Controllers/StationController.php:15
- * @route '/station'
+* @see \App\Http\Controllers\DashboardController::dashboard
+ * @see app/Http/Controllers/DashboardController.php:47
+ * @route '/station/dashboard'
  */
-index.url = (options?: RouteQueryOptions) => {
-    return index.definition.url + queryParams(options)
+dashboard.url = (options?: RouteQueryOptions) => {
+    return dashboard.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\StationController::index
- * @see app/Http/Controllers/StationController.php:15
- * @route '/station'
+* @see \App\Http\Controllers\DashboardController::dashboard
+ * @see app/Http/Controllers/DashboardController.php:47
+ * @route '/station/dashboard'
  */
-index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: index.url(options),
+dashboard.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: dashboard.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\StationController::index
- * @see app/Http/Controllers/StationController.php:15
- * @route '/station'
+* @see \App\Http\Controllers\DashboardController::dashboard
+ * @see app/Http/Controllers/DashboardController.php:47
+ * @route '/station/dashboard'
  */
-index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: index.url(options),
+dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: dashboard.url(options),
     method: 'head',
 })
 
-/**
-* @see \App\Http\Controllers\StationController::create
- * @see app/Http/Controllers/StationController.php:23
- * @route '/station/create'
+    /**
+* @see \App\Http\Controllers\DashboardController::dashboard
+ * @see app/Http/Controllers/DashboardController.php:47
+ * @route '/station/dashboard'
  */
-export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: create.url(options),
+    const dashboardForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: dashboard.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\DashboardController::dashboard
+ * @see app/Http/Controllers/DashboardController.php:47
+ * @route '/station/dashboard'
+ */
+        dashboardForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: dashboard.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\DashboardController::dashboard
+ * @see app/Http/Controllers/DashboardController.php:47
+ * @route '/station/dashboard'
+ */
+        dashboardForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: dashboard.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    dashboard.form = dashboardForm
+/**
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/station/orders'
+ */
+export const order = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: order.url(options),
     method: 'get',
 })
 
-create.definition = {
+order.definition = {
     methods: ["get","head"],
-    url: '/station/create',
+    url: '/station/orders',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\StationController::create
- * @see app/Http/Controllers/StationController.php:23
- * @route '/station/create'
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/station/orders'
  */
-create.url = (options?: RouteQueryOptions) => {
-    return create.definition.url + queryParams(options)
+order.url = (options?: RouteQueryOptions) => {
+    return order.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\StationController::create
- * @see app/Http/Controllers/StationController.php:23
- * @route '/station/create'
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/station/orders'
  */
-create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: create.url(options),
+order.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: order.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\StationController::create
- * @see app/Http/Controllers/StationController.php:23
- * @route '/station/create'
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/station/orders'
  */
-create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: create.url(options),
+order.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: order.url(options),
     method: 'head',
 })
 
-/**
-* @see \App\Http\Controllers\StationController::store
- * @see app/Http/Controllers/StationController.php:31
- * @route '/station'
+    /**
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/station/orders'
  */
-export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: store.url(options),
-    method: 'post',
-})
+    const orderForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: order.url(options),
+        method: 'get',
+    })
 
-store.definition = {
-    methods: ["post"],
-    url: '/station',
-} satisfies RouteDefinition<["post"]>
-
-/**
-* @see \App\Http\Controllers\StationController::store
- * @see app/Http/Controllers/StationController.php:31
- * @route '/station'
+            /**
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/station/orders'
  */
-store.url = (options?: RouteQueryOptions) => {
-    return store.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\StationController::store
- * @see app/Http/Controllers/StationController.php:31
- * @route '/station'
+        orderForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: order.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/station/orders'
  */
-store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: store.url(options),
-    method: 'post',
-})
-
+        orderForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: order.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    order.form = orderForm
 /**
-* @see \App\Http\Controllers\StationController::show
- * @see app/Http/Controllers/StationController.php:47
- * @route '/station/{station}'
+* @see \App\Http\Controllers\ProductController::product
+ * @see app/Http/Controllers/ProductController.php:0
+ * @route '/station/products'
  */
-export const show = (args: { station: string | number | { id: string | number } } | [station: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: show.url(args, options),
+export const product = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: product.url(options),
     method: 'get',
 })
 
-show.definition = {
+product.definition = {
     methods: ["get","head"],
-    url: '/station/{station}',
+    url: '/station/products',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\StationController::show
- * @see app/Http/Controllers/StationController.php:47
- * @route '/station/{station}'
+* @see \App\Http\Controllers\ProductController::product
+ * @see app/Http/Controllers/ProductController.php:0
+ * @route '/station/products'
  */
-show.url = (args: { station: string | number | { id: string | number } } | [station: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { station: args }
-    }
-
-            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-            args = { station: args.id }
-        }
-    
-    if (Array.isArray(args)) {
-        args = {
-                    station: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        station: typeof args.station === 'object'
-                ? args.station.id
-                : args.station,
-                }
-
-    return show.definition.url
-            .replace('{station}', parsedArgs.station.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+product.url = (options?: RouteQueryOptions) => {
+    return product.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\StationController::show
- * @see app/Http/Controllers/StationController.php:47
- * @route '/station/{station}'
+* @see \App\Http\Controllers\ProductController::product
+ * @see app/Http/Controllers/ProductController.php:0
+ * @route '/station/products'
  */
-show.get = (args: { station: string | number | { id: string | number } } | [station: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: show.url(args, options),
+product.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: product.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\StationController::show
- * @see app/Http/Controllers/StationController.php:47
- * @route '/station/{station}'
+* @see \App\Http\Controllers\ProductController::product
+ * @see app/Http/Controllers/ProductController.php:0
+ * @route '/station/products'
  */
-show.head = (args: { station: string | number | { id: string | number } } | [station: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: show.url(args, options),
+product.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: product.url(options),
     method: 'head',
 })
 
-/**
-* @see \App\Http\Controllers\StationController::edit
- * @see app/Http/Controllers/StationController.php:55
- * @route '/station/{station}/edit'
+    /**
+* @see \App\Http\Controllers\ProductController::product
+ * @see app/Http/Controllers/ProductController.php:0
+ * @route '/station/products'
  */
-export const edit = (args: { station: string | number | { id: string | number } } | [station: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: edit.url(args, options),
+    const productForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: product.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\ProductController::product
+ * @see app/Http/Controllers/ProductController.php:0
+ * @route '/station/products'
+ */
+        productForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: product.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\ProductController::product
+ * @see app/Http/Controllers/ProductController.php:0
+ * @route '/station/products'
+ */
+        productForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: product.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    product.form = productForm
+/**
+* @see \App\Http\Controllers\SaleController::sale
+ * @see app/Http/Controllers/SaleController.php:0
+ * @route '/station/sales'
+ */
+export const sale = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: sale.url(options),
     method: 'get',
 })
 
-edit.definition = {
+sale.definition = {
     methods: ["get","head"],
-    url: '/station/{station}/edit',
+    url: '/station/sales',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\StationController::edit
- * @see app/Http/Controllers/StationController.php:55
- * @route '/station/{station}/edit'
+* @see \App\Http\Controllers\SaleController::sale
+ * @see app/Http/Controllers/SaleController.php:0
+ * @route '/station/sales'
  */
-edit.url = (args: { station: string | number | { id: string | number } } | [station: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { station: args }
-    }
-
-            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-            args = { station: args.id }
-        }
-    
-    if (Array.isArray(args)) {
-        args = {
-                    station: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        station: typeof args.station === 'object'
-                ? args.station.id
-                : args.station,
-                }
-
-    return edit.definition.url
-            .replace('{station}', parsedArgs.station.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+sale.url = (options?: RouteQueryOptions) => {
+    return sale.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\StationController::edit
- * @see app/Http/Controllers/StationController.php:55
- * @route '/station/{station}/edit'
+* @see \App\Http\Controllers\SaleController::sale
+ * @see app/Http/Controllers/SaleController.php:0
+ * @route '/station/sales'
  */
-edit.get = (args: { station: string | number | { id: string | number } } | [station: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: edit.url(args, options),
+sale.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: sale.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\StationController::edit
- * @see app/Http/Controllers/StationController.php:55
- * @route '/station/{station}/edit'
+* @see \App\Http\Controllers\SaleController::sale
+ * @see app/Http/Controllers/SaleController.php:0
+ * @route '/station/sales'
  */
-edit.head = (args: { station: string | number | { id: string | number } } | [station: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: edit.url(args, options),
+sale.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: sale.url(options),
     method: 'head',
 })
 
-/**
-* @see \App\Http\Controllers\StationController::update
- * @see app/Http/Controllers/StationController.php:63
- * @route '/station/{station}'
+    /**
+* @see \App\Http\Controllers\SaleController::sale
+ * @see app/Http/Controllers/SaleController.php:0
+ * @route '/station/sales'
  */
-export const update = (args: { station: string | number | { id: string | number } } | [station: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
-    url: update.url(args, options),
-    method: 'put',
+    const saleForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: sale.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\SaleController::sale
+ * @see app/Http/Controllers/SaleController.php:0
+ * @route '/station/sales'
+ */
+        saleForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: sale.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\SaleController::sale
+ * @see app/Http/Controllers/SaleController.php:0
+ * @route '/station/sales'
+ */
+        saleForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: sale.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    sale.form = saleForm
+/**
+* @see \App\Http\Controllers\ProfileController::profile
+ * @see app/Http/Controllers/ProfileController.php:20
+ * @route '/station/profile'
+ */
+export const profile = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: profile.url(options),
+    method: 'get',
 })
 
-update.definition = {
-    methods: ["put","patch"],
-    url: '/station/{station}',
-} satisfies RouteDefinition<["put","patch"]>
+profile.definition = {
+    methods: ["get","head"],
+    url: '/station/profile',
+} satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\StationController::update
- * @see app/Http/Controllers/StationController.php:63
- * @route '/station/{station}'
+* @see \App\Http\Controllers\ProfileController::profile
+ * @see app/Http/Controllers/ProfileController.php:20
+ * @route '/station/profile'
  */
-update.url = (args: { station: string | number | { id: string | number } } | [station: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { station: args }
-    }
-
-            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-            args = { station: args.id }
-        }
-    
-    if (Array.isArray(args)) {
-        args = {
-                    station: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        station: typeof args.station === 'object'
-                ? args.station.id
-                : args.station,
-                }
-
-    return update.definition.url
-            .replace('{station}', parsedArgs.station.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+profile.url = (options?: RouteQueryOptions) => {
+    return profile.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\StationController::update
- * @see app/Http/Controllers/StationController.php:63
- * @route '/station/{station}'
+* @see \App\Http\Controllers\ProfileController::profile
+ * @see app/Http/Controllers/ProfileController.php:20
+ * @route '/station/profile'
  */
-update.put = (args: { station: string | number | { id: string | number } } | [station: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
-    url: update.url(args, options),
-    method: 'put',
+profile.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: profile.url(options),
+    method: 'get',
 })
 /**
-* @see \App\Http\Controllers\StationController::update
- * @see app/Http/Controllers/StationController.php:63
- * @route '/station/{station}'
+* @see \App\Http\Controllers\ProfileController::profile
+ * @see app/Http/Controllers/ProfileController.php:20
+ * @route '/station/profile'
  */
-update.patch = (args: { station: string | number | { id: string | number } } | [station: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
-    url: update.url(args, options),
-    method: 'patch',
+profile.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: profile.url(options),
+    method: 'head',
 })
 
-/**
-* @see \App\Http\Controllers\StationController::destroy
- * @see app/Http/Controllers/StationController.php:145
- * @route '/station/{station}'
+    /**
+* @see \App\Http\Controllers\ProfileController::profile
+ * @see app/Http/Controllers/ProfileController.php:20
+ * @route '/station/profile'
  */
-export const destroy = (args: { station: string | number | { id: string | number } } | [station: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
-    url: destroy.url(args, options),
-    method: 'delete',
-})
+    const profileForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: profile.url(options),
+        method: 'get',
+    })
 
-destroy.definition = {
-    methods: ["delete"],
-    url: '/station/{station}',
-} satisfies RouteDefinition<["delete"]>
-
-/**
-* @see \App\Http\Controllers\StationController::destroy
- * @see app/Http/Controllers/StationController.php:145
- * @route '/station/{station}'
+            /**
+* @see \App\Http\Controllers\ProfileController::profile
+ * @see app/Http/Controllers/ProfileController.php:20
+ * @route '/station/profile'
  */
-destroy.url = (args: { station: string | number | { id: string | number } } | [station: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { station: args }
-    }
-
-            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-            args = { station: args.id }
-        }
+        profileForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: profile.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\ProfileController::profile
+ * @see app/Http/Controllers/ProfileController.php:20
+ * @route '/station/profile'
+ */
+        profileForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: profile.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
     
-    if (Array.isArray(args)) {
-        args = {
-                    station: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        station: typeof args.station === 'object'
-                ? args.station.id
-                : args.station,
-                }
-
-    return destroy.definition.url
-            .replace('{station}', parsedArgs.station.toString())
-            .replace(/\/+$/, '') + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\StationController::destroy
- * @see app/Http/Controllers/StationController.php:145
- * @route '/station/{station}'
- */
-destroy.delete = (args: { station: string | number | { id: string | number } } | [station: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
-    url: destroy.url(args, options),
-    method: 'delete',
-})
+    profile.form = profileForm
 const station = {
-    index: Object.assign(index, index),
-create: Object.assign(create, create),
-store: Object.assign(store, store),
-show: Object.assign(show, show),
-edit: Object.assign(edit, edit),
-update: Object.assign(update, update),
-destroy: Object.assign(destroy, destroy),
+    dashboard: Object.assign(dashboard, dashboard),
+order: Object.assign(order, order),
+product: Object.assign(product, product),
+sale: Object.assign(sale, sale),
+profile: Object.assign(profile, profile),
 }
 
 export default station

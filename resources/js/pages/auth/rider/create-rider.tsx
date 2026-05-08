@@ -3,10 +3,10 @@ import { VEHICLE_TYPES } from "@/pages/config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
-import "resources/css/auth.css";
+import "../../../../css/auth.css";
 
 export default function CreateRider() {
-    const {user} = usePage().props;
+    const {auth} = usePage().props;
 
     const [isCheckedTerms, setIsCheckedTerms] = useState(false);
 
@@ -16,7 +16,7 @@ export default function CreateRider() {
             <div className="role-indicator"><FontAwesomeIcon icon={["fas", "user"]} /> Signing up as Rider</div>
         
             <form>
-                <input type="hidden" name="user_id" defaultValue={user.id}/>
+                <input type="hidden" name="user_id" defaultValue={auth.user?.id}/>
                 <div className="input-field">
                     <label>Vehicle Type</label>
                     <select name="vehicle">

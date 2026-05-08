@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\UserType;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -35,13 +36,23 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $role = '';
+        if ($request->user()) { $role = UserType::USER; }
+        if ($request->user('station')) { $role = UserType::STATION; }
+        if ($request->user('rider')) { $role = UserType::RIDER; }
+        if ($request->user('admin')) { $role = UserType::ADMIN; }
+        
         return [
             ...parent::share($request),
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),
+                'station' => $request->user('station'),
+                'rider' => $request->user('rider'),
+                'admin' => $request->user('admin'),
+                'role' => $role
             ],
-            'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            "toast" =>  $request->session()->get('toast')
         ];
     }
 }

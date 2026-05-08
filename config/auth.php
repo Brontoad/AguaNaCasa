@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Rider;
+use App\Models\Station;
 use App\Models\User;
 
 return [
@@ -16,7 +18,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => env('AUTH_GUARD', 'web'),
+        'guard' => env('AUTH_GUARD', 'user'),
         'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
     ],
 
@@ -38,9 +40,21 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'admin' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+        'user' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'station' => [
+            'driver' => 'session',
+            'provider' => 'stations',
+        ],
+        'rider' => [
+            'driver' => 'session',
+            'provider' => 'riders',
         ],
     ],
 
@@ -65,6 +79,14 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', User::class),
+        ],
+        'stations' => [
+            'driver' => 'eloquent',
+            'model' => Station::class,
+        ],
+        'riders' => [
+            'driver' => 'eloquent',
+            'model' => Rider::class,
         ],
 
         // 'users' => [

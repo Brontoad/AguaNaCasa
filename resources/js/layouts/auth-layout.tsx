@@ -1,5 +1,5 @@
 import { Head } from "@inertiajs/react";
-import "resources/css/auth.css";
+import "../../css/auth.css";
 
 export default function AuthLayout({
     page, 
@@ -14,7 +14,7 @@ export default function AuthLayout({
         <div className="container">
             <Head title={title}></Head>
             <div className="form">
-                <center> <img src="aguanacasa_logo_blue.png" width="200px" /></center>
+                <center> <img src="/assets/aguanacasa_logo_blue.png" width="200px" /></center>
                 <header>{header}</header>
 
                 {page}

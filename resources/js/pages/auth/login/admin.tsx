@@ -13,7 +13,7 @@ import { Head } from "@inertiajs/react";
  * Last Edited at:  March 14, 2026
  * Last Tested at:  N/A
  */
-export default function Admin() {
+export default function LoginAdmin() {
     return (
         <form id="admin-login-form">
             <input type="text" id="email" placeholder="Email"></input>
@@ -23,6 +23,6 @@ export default function Admin() {
     );
 }
 
-Admin.layout = (page: any) => <AuthLayout title="Admin Login | Agua Na Casa" page={page} header="Login"></AuthLayout>
+LoginAdmin.layout = (page: any) => <AuthLayout title="Admin Login | Agua Na Casa" page={page} header="Login"></AuthLayout>
 
 // Agua Na Casa(c), 2026.

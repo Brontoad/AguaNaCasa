@@ -61,8 +61,11 @@ class UserController extends Controller
     {
         DB::beginTransaction();
         try {
-            User::create([
-                'name' => $request->input('name'),
+            $user = User::create([
+                'username' => $request->input('username'),
+                'first_name' => $request->input('first_name'),
+                'middle_initial' => $request->input('middle_initial'),
+                'last_name' => $request->input('last_name'),
                 'email' => $request->input('email'),
                 'contact_number' => $request->input('contact_number'),
                 'password' => Hash::make($request->input('password')),
@@ -70,6 +73,8 @@ class UserController extends Controller
                 'email_verified_at' => Carbon::now(),
                 'contact_number_verified_at' => Carbon::now()
             ]);
+
+            $user->addresses()->create($request->input('address'));
             
             DB::commit();
             return Inertia::back()->with([
@@ -78,7 +83,7 @@ class UserController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             Log::error("Error in creating user", [
-                "message" => $th->getTrace()
+                "message" => $th->getMessage()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error creating user", false)

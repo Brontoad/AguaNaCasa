@@ -11,7 +11,7 @@
  * Last Tested at:  N/A
  */
 import DashboardLayout from "@/layouts/dashboard-layout";
-import "resources/css/about.css";
+import "../../css/about.css";
 
 export default function About() {
     return (
@@ -23,7 +23,7 @@ export default function About() {
                         <div className="about-card">
                             <div className="about-row left">
                                 <div className="logo-col">
-                                    <img src="aguanacasa_logo_blue.png" id="AguaLogo1" alt="Agua na Casa Logo" />
+                                    <img src="/assets/aguanacasa_logo_blue.png" id="AguaLogo1" alt="Agua na Casa Logo" />
                                 </div>
                                 <div className="text-col">
                                     <p className="description-text">

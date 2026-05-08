@@ -1,8 +1,8 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\OrderController::index
- * @see app/Http/Controllers/OrderController.php:17
- * @route '/order'
+ * @see app/Http/Controllers/OrderController.php:18
+ * @route '/user/order'
  */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
@@ -11,13 +11,13 @@ export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 index.definition = {
     methods: ["get","head"],
-    url: '/order',
+    url: '/user/order',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\OrderController::index
- * @see app/Http/Controllers/OrderController.php:17
- * @route '/order'
+ * @see app/Http/Controllers/OrderController.php:18
+ * @route '/user/order'
  */
 index.url = (options?: RouteQueryOptions) => {
     return index.definition.url + queryParams(options)
@@ -25,8 +25,8 @@ index.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\OrderController::index
- * @see app/Http/Controllers/OrderController.php:17
- * @route '/order'
+ * @see app/Http/Controllers/OrderController.php:18
+ * @route '/user/order'
  */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
@@ -34,349 +34,211 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\OrderController::index
- * @see app/Http/Controllers/OrderController.php:17
- * @route '/order'
+ * @see app/Http/Controllers/OrderController.php:18
+ * @route '/user/order'
  */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: index.url(options),
     method: 'head',
 })
 
-/**
-* @see \App\Http\Controllers\OrderController::create
- * @see app/Http/Controllers/OrderController.php:38
- * @route '/order/create'
+    /**
+* @see \App\Http\Controllers\OrderController::index
+ * @see app/Http/Controllers/OrderController.php:18
+ * @route '/user/order'
  */
-export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: create.url(options),
+    const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: index.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \App\Http\Controllers\OrderController::index
+ * @see app/Http/Controllers/OrderController.php:18
+ * @route '/user/order'
+ */
+        indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: index.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\OrderController::index
+ * @see app/Http/Controllers/OrderController.php:18
+ * @route '/user/order'
+ */
+        indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: index.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    index.form = indexForm
+/**
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/station/orders'
+ */
+const order19aa18b67be288a64532029aeee0a38e = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: order19aa18b67be288a64532029aeee0a38e.url(options),
     method: 'get',
 })
 
-create.definition = {
+order19aa18b67be288a64532029aeee0a38e.definition = {
     methods: ["get","head"],
-    url: '/order/create',
+    url: '/station/orders',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\OrderController::create
- * @see app/Http/Controllers/OrderController.php:38
- * @route '/order/create'
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/station/orders'
  */
-create.url = (options?: RouteQueryOptions) => {
-    return create.definition.url + queryParams(options)
+order19aa18b67be288a64532029aeee0a38e.url = (options?: RouteQueryOptions) => {
+    return order19aa18b67be288a64532029aeee0a38e.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\OrderController::create
- * @see app/Http/Controllers/OrderController.php:38
- * @route '/order/create'
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/station/orders'
  */
-create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: create.url(options),
+order19aa18b67be288a64532029aeee0a38e.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: order19aa18b67be288a64532029aeee0a38e.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\OrderController::create
- * @see app/Http/Controllers/OrderController.php:38
- * @route '/order/create'
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/station/orders'
  */
-create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: create.url(options),
+order19aa18b67be288a64532029aeee0a38e.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: order19aa18b67be288a64532029aeee0a38e.url(options),
     method: 'head',
 })
 
-/**
-* @see \App\Http\Controllers\OrderController::store
- * @see app/Http/Controllers/OrderController.php:69
- * @route '/order'
+    /**
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/station/orders'
  */
-export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: store.url(options),
-    method: 'post',
-})
+    const order19aa18b67be288a64532029aeee0a38eForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: order19aa18b67be288a64532029aeee0a38e.url(options),
+        method: 'get',
+    })
 
-store.definition = {
-    methods: ["post"],
-    url: '/order',
-} satisfies RouteDefinition<["post"]>
-
-/**
-* @see \App\Http\Controllers\OrderController::store
- * @see app/Http/Controllers/OrderController.php:69
- * @route '/order'
+            /**
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/station/orders'
  */
-store.url = (options?: RouteQueryOptions) => {
-    return store.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\OrderController::store
- * @see app/Http/Controllers/OrderController.php:69
- * @route '/order'
+        order19aa18b67be288a64532029aeee0a38eForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: order19aa18b67be288a64532029aeee0a38e.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/station/orders'
  */
-store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: store.url(options),
-    method: 'post',
-})
-
-/**
-* @see \App\Http\Controllers\OrderController::show
- * @see app/Http/Controllers/OrderController.php:110
- * @route '/order/{order}'
+        order19aa18b67be288a64532029aeee0a38eForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: order19aa18b67be288a64532029aeee0a38e.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    order19aa18b67be288a64532029aeee0a38e.form = order19aa18b67be288a64532029aeee0a38eForm
+    /**
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/rider/orders'
  */
-export const show = (args: { order: string | number | { id: string | number } } | [order: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: show.url(args, options),
+const order838dd9d5f1d14b006ac82d8c366dfe7c = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: order838dd9d5f1d14b006ac82d8c366dfe7c.url(options),
     method: 'get',
 })
 
-show.definition = {
+order838dd9d5f1d14b006ac82d8c366dfe7c.definition = {
     methods: ["get","head"],
-    url: '/order/{order}',
+    url: '/rider/orders',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\OrderController::show
- * @see app/Http/Controllers/OrderController.php:110
- * @route '/order/{order}'
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/rider/orders'
  */
-show.url = (args: { order: string | number | { id: string | number } } | [order: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { order: args }
-    }
-
-            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-            args = { order: args.id }
-        }
-    
-    if (Array.isArray(args)) {
-        args = {
-                    order: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        order: typeof args.order === 'object'
-                ? args.order.id
-                : args.order,
-                }
-
-    return show.definition.url
-            .replace('{order}', parsedArgs.order.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+order838dd9d5f1d14b006ac82d8c366dfe7c.url = (options?: RouteQueryOptions) => {
+    return order838dd9d5f1d14b006ac82d8c366dfe7c.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\OrderController::show
- * @see app/Http/Controllers/OrderController.php:110
- * @route '/order/{order}'
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/rider/orders'
  */
-show.get = (args: { order: string | number | { id: string | number } } | [order: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: show.url(args, options),
+order838dd9d5f1d14b006ac82d8c366dfe7c.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: order838dd9d5f1d14b006ac82d8c366dfe7c.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\OrderController::show
- * @see app/Http/Controllers/OrderController.php:110
- * @route '/order/{order}'
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/rider/orders'
  */
-show.head = (args: { order: string | number | { id: string | number } } | [order: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: show.url(args, options),
+order838dd9d5f1d14b006ac82d8c366dfe7c.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: order838dd9d5f1d14b006ac82d8c366dfe7c.url(options),
     method: 'head',
 })
 
-/**
-* @see \App\Http\Controllers\OrderController::edit
- * @see app/Http/Controllers/OrderController.php:134
- * @route '/order/{order}/edit'
+    /**
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/rider/orders'
  */
-export const edit = (args: { order: string | number | { id: string | number } } | [order: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: edit.url(args, options),
-    method: 'get',
-})
+    const order838dd9d5f1d14b006ac82d8c366dfe7cForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: order838dd9d5f1d14b006ac82d8c366dfe7c.url(options),
+        method: 'get',
+    })
 
-edit.definition = {
-    methods: ["get","head"],
-    url: '/order/{order}/edit',
-} satisfies RouteDefinition<["get","head"]>
-
-/**
-* @see \App\Http\Controllers\OrderController::edit
- * @see app/Http/Controllers/OrderController.php:134
- * @route '/order/{order}/edit'
+            /**
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/rider/orders'
  */
-edit.url = (args: { order: string | number | { id: string | number } } | [order: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { order: args }
-    }
-
-            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-            args = { order: args.id }
-        }
+        order838dd9d5f1d14b006ac82d8c366dfe7cForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: order838dd9d5f1d14b006ac82d8c366dfe7c.url(options),
+            method: 'get',
+        })
+            /**
+* @see \App\Http\Controllers\OrderController::order
+ * @see app/Http/Controllers/OrderController.php:0
+ * @route '/rider/orders'
+ */
+        order838dd9d5f1d14b006ac82d8c366dfe7cForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: order838dd9d5f1d14b006ac82d8c366dfe7c.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
     
-    if (Array.isArray(args)) {
-        args = {
-                    order: args[0],
-                }
-    }
+    order838dd9d5f1d14b006ac82d8c366dfe7c.form = order838dd9d5f1d14b006ac82d8c366dfe7cForm
 
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        order: typeof args.order === 'object'
-                ? args.order.id
-                : args.order,
-                }
-
-    return edit.definition.url
-            .replace('{order}', parsedArgs.order.toString())
-            .replace(/\/+$/, '') + queryParams(options)
+export const order = {
+    '/station/orders': order19aa18b67be288a64532029aeee0a38e,
+    '/rider/orders': order838dd9d5f1d14b006ac82d8c366dfe7c,
 }
 
-/**
-* @see \App\Http\Controllers\OrderController::edit
- * @see app/Http/Controllers/OrderController.php:134
- * @route '/order/{order}/edit'
- */
-edit.get = (args: { order: string | number | { id: string | number } } | [order: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: edit.url(args, options),
-    method: 'get',
-})
-/**
-* @see \App\Http\Controllers\OrderController::edit
- * @see app/Http/Controllers/OrderController.php:134
- * @route '/order/{order}/edit'
- */
-edit.head = (args: { order: string | number | { id: string | number } } | [order: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: edit.url(args, options),
-    method: 'head',
-})
-
-/**
-* @see \App\Http\Controllers\OrderController::update
- * @see app/Http/Controllers/OrderController.php:157
- * @route '/order/{order}'
- */
-export const update = (args: { order: string | number | { id: string | number } } | [order: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
-    url: update.url(args, options),
-    method: 'put',
-})
-
-update.definition = {
-    methods: ["put","patch"],
-    url: '/order/{order}',
-} satisfies RouteDefinition<["put","patch"]>
-
-/**
-* @see \App\Http\Controllers\OrderController::update
- * @see app/Http/Controllers/OrderController.php:157
- * @route '/order/{order}'
- */
-update.url = (args: { order: string | number | { id: string | number } } | [order: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { order: args }
-    }
-
-            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-            args = { order: args.id }
-        }
-    
-    if (Array.isArray(args)) {
-        args = {
-                    order: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        order: typeof args.order === 'object'
-                ? args.order.id
-                : args.order,
-                }
-
-    return update.definition.url
-            .replace('{order}', parsedArgs.order.toString())
-            .replace(/\/+$/, '') + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\OrderController::update
- * @see app/Http/Controllers/OrderController.php:157
- * @route '/order/{order}'
- */
-update.put = (args: { order: string | number | { id: string | number } } | [order: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
-    url: update.url(args, options),
-    method: 'put',
-})
-/**
-* @see \App\Http\Controllers\OrderController::update
- * @see app/Http/Controllers/OrderController.php:157
- * @route '/order/{order}'
- */
-update.patch = (args: { order: string | number | { id: string | number } } | [order: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
-    url: update.url(args, options),
-    method: 'patch',
-})
-
-/**
-* @see \App\Http\Controllers\OrderController::destroy
- * @see app/Http/Controllers/OrderController.php:330
- * @route '/order/{order}'
- */
-export const destroy = (args: { order: string | number | { id: string | number } } | [order: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
-    url: destroy.url(args, options),
-    method: 'delete',
-})
-
-destroy.definition = {
-    methods: ["delete"],
-    url: '/order/{order}',
-} satisfies RouteDefinition<["delete"]>
-
-/**
-* @see \App\Http\Controllers\OrderController::destroy
- * @see app/Http/Controllers/OrderController.php:330
- * @route '/order/{order}'
- */
-destroy.url = (args: { order: string | number | { id: string | number } } | [order: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { order: args }
-    }
-
-            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-            args = { order: args.id }
-        }
-    
-    if (Array.isArray(args)) {
-        args = {
-                    order: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        order: typeof args.order === 'object'
-                ? args.order.id
-                : args.order,
-                }
-
-    return destroy.definition.url
-            .replace('{order}', parsedArgs.order.toString())
-            .replace(/\/+$/, '') + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\OrderController::destroy
- * @see app/Http/Controllers/OrderController.php:330
- * @route '/order/{order}'
- */
-destroy.delete = (args: { order: string | number | { id: string | number } } | [order: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
-    url: destroy.url(args, options),
-    method: 'delete',
-})
-const OrderController = { index, create, store, show, edit, update, destroy }
+const OrderController = { index, order }
 
 export default OrderController

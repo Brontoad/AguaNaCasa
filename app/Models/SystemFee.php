@@ -2,23 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class SystemFee extends Model
 {
-    public $fillable = [
-        'amount',
-        'due_date', 
-        'paid',
+    use HasUuids;
+    public $fillable = ['amount', 'due_date', 'paid'];
 
-        // Foreign Keys
-        'station_id'
-    ];
-
-    public function station() {
-        return $this->belongsTO(
-            Station::class,
-            'station_id'
-        );
-    }
+    public function feeable(): MorphTo { return $this->morphTo(); }
 }

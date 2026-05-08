@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { login } from "@/routes";
 import { RouteDefinition } from "@/wayfinder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import "../../css/modal.css";
 interface FormModalLayoutProps extends ModalLayoutProps {
     link: string
     method: "post" | "put",

@@ -1,16 +1,22 @@
+import AuthController from './AuthController'
 import UserController from './UserController'
+import DashboardController from './DashboardController'
 import StationController from './StationController'
-import ProductController from './ProductController'
 import OrderController from './OrderController'
 import SubscriptionController from './SubscriptionController'
-import Settings from './Settings'
+import ProfileController from './ProfileController'
+import ProductController from './ProductController'
+import SaleController from './SaleController'
 const Controllers = {
-    UserController: Object.assign(UserController, UserController),
+    AuthController: Object.assign(AuthController, AuthController),
+UserController: Object.assign(UserController, UserController),
+DashboardController: Object.assign(DashboardController, DashboardController),
 StationController: Object.assign(StationController, StationController),
-ProductController: Object.assign(ProductController, ProductController),
 OrderController: Object.assign(OrderController, OrderController),
 SubscriptionController: Object.assign(SubscriptionController, SubscriptionController),
-Settings: Object.assign(Settings, Settings),
+ProfileController: Object.assign(ProfileController, ProfileController),
+ProductController: Object.assign(ProductController, ProductController),
+SaleController: Object.assign(SaleController, SaleController),
 }
 
 export default Controllers

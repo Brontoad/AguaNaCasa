@@ -7,6 +7,7 @@
     --warning: #ffc107;
     --danger: #dc3545;
     --gray-bg: #f8f9fa;
+    color-scheme: light;
 }
 
 * {
@@ -17,7 +18,7 @@
 html, body {
     overflow-x: hidden;
     width: 100%;
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: 'Nunito Sans', sans-serif !important;
     background-color: #F6F1F1;
 }
 
@@ -115,4 +116,9 @@ html, body {
     .about-header {
         padding: 30px 20px;
     }
+}
+
+.leaflet-container {
+    z-index: 0 !important;
+    border-radius: 8px;
 }

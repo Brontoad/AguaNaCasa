@@ -9,21 +9,38 @@ import SubscriptionCard from "@/components/card/subscription";
 import { useState } from "react";
 import ViewSubscriptionModal from "@/components/modal/view-subscription";
 
+import "../../../css/dashboard.css";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 interface UserIndexProps {default_address: Address, subscriptions: Subscription[], recent_orders: Order[]}
 
 export default function Index({default_address, subscriptions, recent_orders}: UserIndexProps) {
     const [viewSubscriptionModal, setViewSubscriptionModal] = useState<{open: boolean, subscription?: Subscription}>({open: false, subscription: undefined});
-    
+
     return (
         <div className="container">
             <div className="row">
                 <div className="col-lg-12">
                     <AddressCard defaultAddress={default_address}/>
                     
-                    <Section icon="clock" title="Recent Orders" />
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        marginBottom: "24px"
+                    }}>     
+                        <Section icon="clock" title="Recent Orders" />
+                        <button className="edit-btn">View All <FontAwesomeIcon icon={["fas", "arrow-right"]} /></button>
+                    </div>
                     <OrderTable orders={recent_orders} title="Recent" partial={true}/>
                     
-                    <Section icon="calendar-check" title="Active Subscriptions" />
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        marginBottom: "24px"
+                    }}> 
+                        <Section icon="calendar-check" title="Active Subscriptions" />
+                        <button className="edit-btn">View All <FontAwesomeIcon icon={["fas", "arrow-right"]} /></button>
+                    </div>   
                     {subscriptions.map((subscription, idx) => (
                         <SubscriptionCard 
                             key={`active-subscription-${idx}`}
@@ -46,4 +63,4 @@ export default function Index({default_address, subscriptions, recent_orders}: U
     );
 }
 
-Index.layout = (page: any) => <DashboardLayout page={page} title="Agua Na Casa"></DashboardLayout>
+Index.layout = (page: any) => <DashboardLayout page={page} title="Home | Agua Na Casa"></DashboardLayout>
