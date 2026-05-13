@@ -10,7 +10,7 @@
  * Last Edited at:  March 14, 2026
  * Last Tested at:  N/A
  */
-import "resources/css/admin/user.css";
+import "../../../../css/admin/user.css";
 
 const BARANGAYS = [
     'Guiwan',
