@@ -1,0 +1,135 @@
+@import url("./agua_na_casa.css");
+
+/* Header */
+.header-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: var(--primary);
+    box-shadow: -1px 3px 11px -1px rgba(0,159,178,0.75);
+}
+
+/* Navbar */
+/* Container */
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+}
+
+/* Agua na Casa logo */
+.logo img {
+    max-width: 60px;
+    height: auto;
+}
+
+/* Navbar button container */
+.nav {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+/* Navbar buttons */
+.nav li {
+    margin: 0 15px;
+    position: relative;
+}
+
+.nav li a {
+    color: #F6F1F1;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav li a:hover,
+.nav li a.active {
+    color: #0b667f;
+}
+
+/* Order button */
+.order-button a {
+    background: #FF6B6B;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #F6F1F1 !important;
+    display: inline-block;
+    transition: all 0.3s;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.order-button a:hover {
+    background: #ff5252;
+    color: #F6F1F1 !important;
+    transform: scale(1.05);
+}
+
+/* Sign In button */
+.signin-button {
+    background: #0b667f;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #F6F1F1 !important;
+    display: inline-block;
+    transition: all 0.3s;
+}
+
+.signin-button:hover {
+    background: #F6F1F1;
+    color: var(--primary) !important;
+    cursor: pointer
+}
+
+/* Profile */
+.profile-button {
+    position: relative;
+}
+
+.profile-button > a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 18px 8px 15px;
+    border-radius: 30px;
+    color: #F6F1F1 !important;
+    transition: all 0.3s;
+    border: 1px solid rgba(255,255,255,0.3);
+    font-weight: 600;
+}
+
+.profile-button > a:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.02);
+}
+
+.profile-icon {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s;
+}
+
+/* Hamburger button */
+.menu-trigger {
+    display: none;
+    color: #F6F1F1;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+@media (max-width: 991px) {
+    .nav { display: none; }
+    .menu-trigger { display: block; }
+}

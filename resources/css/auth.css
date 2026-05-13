@@ -1,0 +1,463 @@
+body, html {
+	margin: 0;
+	padding: 0;
+	font-family: 'Nunito Sans', sans-serif;
+}
+
+body {
+	min-height: 100vh;
+	background: linear-gradient(135deg, var(--primary-light), var(--primary));
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.container {
+	margin-bottom: 100px;
+    margin-top: 100px;
+    max-width: 900px; 
+    width: 500px;
+	padding: none;
+    margin-left: auto;
+    margin-right: auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+/* Role Selection Tabs */
+.role-tabs {
+	display: flex;
+	background: #f5f5f5;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.role-tab {
+	text-transform: capitalize;
+	flex: 1;
+	text-align: center;
+	padding: 15px 10px;
+	cursor: pointer;
+	font-weight: 600;
+	font-size: 14px;
+	transition: all 0.3s ease;
+	border-bottom: 3px solid transparent;
+	color: #777;
+}
+
+.role-tab i {
+	margin-right: 8px;
+	font-size: 16px;
+}
+
+.role-tab:hover {
+	background: #e8f4f8;
+	color: var(--primary);
+}
+
+.role-tab.active {
+	background: white;
+	color: var(--primary);
+	border-bottom: 3px solid var(--primary);
+	font-weight: 700;
+}
+
+/* Role-specific messages */
+.role-message {
+	padding: 10px 20px;
+	background: #f0f9ff;
+	border-left: 4px solid var(--primary);
+	margin: 15px 20px 0;
+	border-radius: 6px;
+	font-size: 13px;
+	color: var(--primary-dark);
+}
+
+.role-message i {
+	margin-right: 8px;
+}
+
+.form {
+	padding: 2rem;
+}
+
+header {
+	font-size: 1.8rem;
+	font-weight: 700;
+	text-align: center;
+	margin-bottom: 1.5rem;
+	color: #333;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+}
+
+input {
+	height: 50px;
+	padding: 0 15px;
+	font-size: 15px;
+	margin-bottom: 1rem;
+	font-family: 'Nunito Sans', sans-serif;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	outline: none;
+	transition: border 0.3s;
+}
+
+input:focus {
+	border-color: var(--primary);
+	box-shadow: 0 0 0 3px rgba(25,167,206,0.1);
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 14px;
+}
+
+.remember-me input[type="checkbox"] {
+    width: 18px;
+    height: 18px; /* Overrides the default 50px height */
+    margin-right: 10px;
+    margin-bottom: 0; /* Removes bottom margin to align with text */
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.remember-me label {
+    color: #555;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 500;
+}
+
+.remember-me label:hover {
+    text-decoration: none;
+    color: var(--primary);
+}
+
+.signup {
+	font-size: 15px;
+	text-align: center;
+	margin-top: 15px;
+	display: block;
+}
+
+.signup-label {
+	color: var(--primary);
+	cursor: pointer;
+	font-weight: 600;
+
+}
+
+label:hover {
+	text-decoration: underline;
+}
+
+.button {
+	color: #fff;
+	background: var(--primary);
+	font-size: 1.1rem;
+	font-weight: 600;
+	font-family: 'Nunito Sans', sans-serif;
+	letter-spacing: 0.5px;
+	margin-top: 1rem;
+	cursor: pointer;
+	transition: 0.4s;
+	border: none;
+	height: 50px;
+	border-radius: 8px;
+}
+
+.button:hover {
+	background: var(--primary-dark);
+	transform: translateY(-2px);
+	box-shadow: 0 5px 15px rgba(25,167,206,0.3);
+}
+
+.registration.form {
+	padding: 20px 30px;
+}
+.input-wrapper {
+    display: flex;
+    gap: 10px;          /* Space between inputs */
+    align-items: center;
+    width: 100%;
+}
+
+.input-wrapper input {
+    flex: 1;            /* Allows inputs to grow and fill space equally */
+    min-width: 0;       /* Prevents inputs from overflowing their container */
+}
+
+/* Optional: Make Middle Initial smaller since it only needs 1-2 characters */
+.input-wrapper input[placeholder="Middle Initial"] {
+    flex: 0 0 100px;    /* Don't grow, don't shrink, stay at 100px */
+}
+
+/* Registration form styles */
+.registration.form form {
+	margin-top: 10px;
+}
+
+.registration.form .input-field {
+	margin-bottom: 15px;
+}
+
+.registration.form .input-field label {
+	color: #555;
+	font-size: 14px;
+	font-weight: 600;
+	margin-bottom: 5px;
+	display: block;
+}
+
+/* File Upload Styles */
+    .file-upload-group {
+      margin-bottom: 20px;
+    }
+
+    .file-upload-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .file-upload-label i {
+      color: #19A7CE;
+      margin-right: 8px;
+    }
+
+    .file-upload-area {
+      border: 2px dashed #e0e0e0;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      background: #f8f9fa;
+    }
+
+    .file-upload-area:hover {
+      border-color: #19A7CE;
+      background: #f0f9ff;
+    }
+
+    .file-upload-area i {
+      font-size: 30px;
+      color: #19A7CE;
+      margin-bottom: 10px;
+    }
+
+    .file-upload-area p {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .file-upload-area small {
+      color: #999;
+      font-size: 12px;
+    }
+
+    .file-upload-area input[type="file"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .file-preview {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .file-preview.active {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .file-preview i {
+      font-size: 20px;
+      color: #28a745;
+    }
+
+    .file-preview span {
+      font-size: 13px;
+      color: #333;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .file-preview button {
+      background: none;
+      border: none;
+      color: #dc3545;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+.registration.form input[type="text"],
+.registration.form input[type="password"],
+.registration.form input[type="date"],
+.registration.form input[type="number"],
+.registration.form input[type="file"],
+.registration.form input[type="tel"],
+.registration.form select {
+	width: 100%;
+	height: 45px;
+	padding: 0 12px;
+	font-size: 14px;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	outline: none;
+	font-family: 'Nunito Sans', sans-serif;
+	box-sizing: border-box;
+}
+
+.registration.form input[type="file"] {
+	padding-top: 10px;
+	height: auto;
+}
+
+.registration.form select {
+	background: white;
+	cursor: pointer;
+}
+
+.term {
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+	font-size: 13px;
+}
+
+.term input[type="checkbox"] {
+	width: 18px;
+	height: 18px;
+	margin-right: 10px;
+	margin-bottom: 0;
+	cursor: pointer;
+}
+
+.term label {
+	color: #555;
+	font-weight: normal;
+	cursor: pointer;
+}
+
+.term a {
+	color: var(--primary);
+	text-decoration: none;
+}
+
+.term a:hover {
+	text-decoration: underline;
+}
+
+/* Role indicator */
+.role-indicator {
+	background: #e3f2fd;
+	padding: 8px 15px;
+	border-radius: 20px;
+	display: inline-block;
+	margin-bottom: 15px;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--primary-dark);
+}
+
+.role-indicator i {
+	margin-right: 5px;
+}
+
+/* Login Toggle Switch Styles */
+.login-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	margin-bottom: 20px;
+	background: #f8f9fa;
+	padding: 8px;
+	border-radius: 50px;
+	border: 1px solid #e0e0e0;
+}
+
+.toggle-option {
+	flex: 1;
+	text-align: center;
+	padding: 8px 15px;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 600;
+	border-radius: 40px;
+	transition: all 0.3s ease;
+	color: #666;
+}
+
+.toggle-option.active {
+	background: var(--primary);
+	color: white;
+	box-shadow: 0 2px 8px rgba(25,167,206,0.3);
+}
+
+.toggle-option i {
+	margin-right: 6px;
+	font-size: 14px;
+}
+
+.login-field-wrapper {
+	position: relative;
+	margin-bottom: 1rem;
+}
+
+.login-field-wrapper input {
+	width: 100%;
+	box-sizing: border-box;
+	margin-bottom: 0;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+.container {
+	margin: 20px;
+	width: auto;
+}
+
+.role-tab {
+	font-size: 12px;
+	padding: 12px 5px;
+}
+
+.role-tab i {
+	margin-right: 4px;
+	font-size: 14px;
+}
+
+.form {
+	padding: 1.5rem;
+}
+
+.toggle-option {
+	font-size: 12px;
+	padding: 6px 10px;
+}
+}

@@ -1,0 +1,138 @@
+Landing Page (Index)
+
+Authentication
+-Login User
+    -number or email
+    -password
+-Login Rider
+    -number or email
+    -password
+-Login Station
+    -number or email
+    -password
+-Login Admin
+    -email
+    -password
+-Sign Up (Create User)
+    -full name
+    -password
+    -confirm
+    -phone number
+    -email
+-Waiting Email Verification 
+-Confirmed Email Verification
+-Phone Number Verification
+-Confirmed Phone Number Verification
+
+Station
+-Home
+    -create order button (for walk in customers)
+    -pending orders table
+-Order
+    -all orders
+    -view order
+    -update order status
+    -cancel
+    -assign order to rider
+    -assign order to be picked up
+-Product
+    -all products
+    -view product
+    -edit product price
+    -edit product availability
+-Sales
+    -view sales by date
+
+Rider
+-Home
+    -on delivery orders
+-Order
+    -all on delivery orders
+    -track order
+        -release payment
+
+User
+-create order button (shown throughout the entire page, redirects the station)
+-Navbar
+    -logo (home)
+    -home
+    -profile dropdown
+        -manage addresses
+        -settings
+        -logout
+    -stations
+    -orders
+    -subscriptions
+-Home
+    -create address button, select address button
+    -latest orders (with tab buttons: pending, completed)
+    -active subscriptions
+    -create, select address modal
+    -view order modal
+    -view subscription modal
+-Stations
+    -view stations
+    -search and filtering
+    -station card (click to view station)
+        -station name
+        -address
+        -contact number
+        -email
+        -distance from user
+        -rating
+        -create instant order button (Order Now)
+        -subscribe button (shows select order schedule)
+        -select order schedule modal
+            -calendar picker (to pick the days)
+            -time picker (to pick what time of the day to pick up)
+        -create instant order modal
+            -station (already selected when opening the modal)
+            -products selection
+            -address
+            -cart
+-Orders
+    -view orders
+    -search and filtering
+    -tab buttons: pending, completed
+    -order card (click to view order)
+        -order items
+        -station name
+        -date created
+    -view order modal
+        -order items
+        -price
+        -from subscription or not
+        -station name
+        -order history timeline:
+            -description
+            -date created
+        -cancel order button
+        -rate order button
+-Subscriptions
+    -view stations with subscriptions
+    -station card (refer to above, now with unsubscribe button, and without order now button)
+    -view station with subscription
+        -orders list from subscription
+    
+Admin
+-Home
+    -total stations
+    -total users
+    -total orders
+    -total earnings
+-Stations
+    -view stations
+    -view orders
+    -view subscribers
+    -suspend station
+    -verify station
+-Users
+    -view users
+    -view subscribed stations
+    -view orders
+    -suspend user
+-Riders
+    -view rider
+    -view orders
+    -suspend rider
+    -verify rider

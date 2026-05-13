@@ -1,0 +1,41 @@
+.order-items-table {
+    font-size: 0.85rem;
+    min-width: 340px;
+}
+
+.order-items-table th {
+    text-align: left;
+    padding: 14px 12px;
+    background: #f9fbfd;
+    font-weight: 800;
+    color: #2c4b66;
+    border-bottom: 2px solid #19A7CE;
+}
+
+.order-items-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #eef2f8;
+    color: #2e475c;
+    font-weight: 500;
+}
+
+.order-items-table tfoot {
+    background: #f9fbfe;
+}
+
+.order-items-table tfoot td {
+    padding: 16px 12px;
+    font-weight: 800;
+}
+
+.total-label {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #1e3a4d;
+}
+
+.total-amount {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: #19A7CE;
+}

@@ -1,0 +1,19 @@
+.status-delivered {
+    background: #e3fcef;
+    color: var(--success);
+}
+
+.status-processing {
+    background: #fff4e5;
+    color: #b45b0a;
+}
+
+.status-cancelled {
+    background: #fee7e7;
+    color: var(--danger);
+}
+
+.status-ongoing {
+    background: #e3f2fd;
+    color: var(--primary-dark);
+}

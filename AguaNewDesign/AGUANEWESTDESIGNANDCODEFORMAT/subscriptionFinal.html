@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Agua na Casa - Subscribe to Clean Water Delivery">
+    <title>Agua na Casa - Subscription</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="AguaStyle.css">
+    
+    <!-- Page Specific CSS -->
+    <style>
+        .subscription-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .subscription-header {
+            background: #19A7CE;
+            padding: 30px 40px;
+            color: white;
+        }
+
+        .subscription-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .subscription-header p {
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .subscription-body {
+            padding: 30px 40px;
+        }
+
+        /* Form Sections */
+        .form-section {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 25px;
+            border: 1px solid #e5e9f0;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #19A7CE;
+            display: inline-block;
+        }
+
+        .section-title i {
+            color: #19A7CE;
+            margin-right: 8px;
+        }
+
+        /* Address Card */
+        .address-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .address-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .address-header h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #19A7CE;
+            margin: 0;
+        }
+
+        .edit-address-btn {
+            background: none;
+            border: 1px solid #19A7CE;
+            color: #19A7CE;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .edit-address-btn:hover {
+            background: #19A7CE;
+            color: white;
+        }
+
+        .address-content {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .address-content i {
+            color: #19A7CE;
+            width: 20px;
+        }
+
+        /* Product Row */
+        .product-row {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .product-select {
+            flex: 2;
+            min-width: 150px;
+        }
+
+        .product-select select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .qty-input {
+            width: 100px;
+        }
+
+        .qty-input input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .remove-product-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .add-product-btn {
+            background: #19A7CE;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+
+        /* Frequency Selector */
+        .frequency-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .day-btn {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 8px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+        }
+
+        .day-btn.selected {
+            background: #19A7CE;
+            color: white;
+            border-color: #19A7CE;
+        }
+
+        .duration-select {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .start-date {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        /* Station Dropdown */
+        .station-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .station-option {
+            padding: 8px;
+        }
+
+        .nearby-badge {
+            background: #28a745;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 10px;
+            margin-left: 8px;
+        }
+
+        /* Summary Card */
+        .summary-card {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #e5e9f0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .summary-row.total {
+            font-weight: 800;
+            font-size: 18px;
+            color: #19A7CE;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+
+        .subscribe-btn {
+            width: 100%;
+            background: #19A7CE;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .subscribe-btn:hover {
+            background: #146C94;
+            transform: translateY(-2px);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            padding: 25px;
+            animation: modalSlideIn 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #19A7CE;
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #2c3e50;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e7ed;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .confirm-btn {
+            flex: 1;
+            background: #19A7CE;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            flex: 1;
+            background: #ecf0f1;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .payment-method {
+            background: #e8f4f8;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            color: #19A7CE;
+            font-weight: 600;
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            z-index: 1001;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .subscription-body {
+                padding: 20px;
+            }
+            .product-row {
+                flex-direction: column;
+            }
+            .product-select, .qty-input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="Index.html" class="logo">
+                            <img src="aguanacasa_logo_white.png" alt="Agua na Casa">
+                        </a>
+                        <ul class="nav" id="navbar">
+                            <li><a href="Index.html">Home</a></li>
+                            <li class="dropdown" id="servicesDropdown">
+                                <a href="javascript:void(0);" onclick="toggleServicesDropdown()">
+                                    Services <i class="fas fa-chevron-down" style="font-size:12px;"></i>
+                                </a>
+                                <div class="dropdown-menu" id="servicesDropdownMenu">
+                                    <a href="instant-delivery.html"><i class="fas fa-bolt"></i> Instant Delivery</a>
+                                    <a href="subscription.html"><i class="fas fa-calendar-alt"></i> Subscription</a>
+                                </div>
+                            </li>
+                            <li><a href="About.html">About</a></li>
+                            <li><a href="stations.html">Stations</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                            <li><div class="order-button"><a href="javascript:void(0);" onclick="checkBeforeOrder()">Order Now <i class="fas fa-truck"></i></a></div></li>
+                            <li><a href="cart.html" class="cart-icon"><img src="cart.png" alt="Cart"><span class="cart-badge">0</span></a></li>
+                            <li id="signInLi"><div class="signin-button"><a href="login.html"><i class="fa fa-sign-in-alt"></i> Sign In</a></div></li>
+                            <li id="profileLi" style="display:none;">
+                                <div class="profile-button" id="profileButton">
+                                    <a href="javascript:void(0);" onclick="toggleProfileDropdown()">
+                                        <img src="account-25.png" alt="Profile" class="profile-icon">
+                                        <span>Profile</span>
+                                        <i class="fas fa-chevron-down" style="font-size:12px;margin-left:5px;"></i>
+                                    </a>
+                                    <div class="profile-dropdown" id="profileDropdown">
+                                        <a href="account.html"><i class="fas fa-user-circle"></i> Account</a>
+                                        <a href="javascript:void(0);" onclick="logout()" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <a class="menu-trigger"><span><i class="fa fa-bars"></i></span></a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="page-content" style="min-height: 60vh; padding: 120px 0 60px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="subscription-wrapper">
+                        <div class="subscription-header">
+                            <h1><i class="fas fa-calendar-alt"></i> Subscribe to Agua na Casa</h1>
+                            <p>Set up your regular water delivery schedule</p>
+                        </div>
+                        
+                        <div class="subscription-body">
+                            <!-- User Information Section -->
+                            <div class="form-section">
+                                <h3 class="section-title"><i class="fas fa-user"></i> User Information</h3>
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="text" class="form-control" id="userName" placeholder="Enter your name" value="John Dela Cruz">
+                                </div>
+                            </div>
+
+                            <!-- Address Section -->
+                            <div class="form-section">
+                                <h3 class="section-title"><i class="fas fa-map-marker-alt"></i> Delivery Address</h3>
+                                <div class="address-card">
+                                    <div class="address-header">
+                                        <h4><i class="fas fa-location-dot"></i> Default Address</h4>
+                                        <button class="edit-address-btn" onclick="openAddressModal()">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                    </div>
+                                    <div class="address-content" id="addressDisplay">
+                                        <i class="fas fa-user"></i> John Dela Cruz<br>
+                                        <i class="fas fa-location-dot"></i> 123 Mabini Street, Barangay Guiwan<br>
+                                        <i class="fas fa-phone-alt"></i> 09171234567
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Station Selection -->
+                            <div class="form-section">
+                                <h3 class="section-title"><i class="fas fa-store"></i> Water Station</h3>
+                                <select class="station-select" id="stationSelect" onchange="updateStationPrice()">
+                                    <option value="">Select a station</option>
+                                </select>
+                            </div>
+
+                            <!-- Products Section -->
+                            <div class="form-section">
+                                <h3 class="section-title"><i class="fas fa-water"></i> Products to Deliver</h3>
+                                <div id="productsContainer">
+                                    <div class="product-row" data-product-idx="0">
+                                        <div class="product-select">
+                                            <select class="product-type">
+                                                <option value="">Select Product</option>
+                                                <option value="Mineral">Mineral Water - ₱35/gal</option>
+                                                <option value="Alkaline">Alkaline Water - ₱35/gal</option>
+                                                <option value="Distilled">Distilled Water - ₱35/gal</option>
+                                                <option value="Purified">Purified Water - ₱35/gal</option>
+                                                <option value="Spring">Spring Water - ₱35/gal</option>
+                                            </select>
+                                        </div>
+                                        <div class="qty-input">
+                                            <input type="number" class="product-qty" value="1" min="0" onchange="updateTotal()">
+                                        </div>
+                                        <button class="remove-product-btn" onclick="removeProductRow(this)">Remove</button>
+                                    </div>
+                                </div>
+                                <button class="add-product-btn" onclick="addProductRow()">
+                                    <i class="fas fa-plus"></i> Add Another Product
+                                </button>
+                            </div>
+
+                            <!-- Delivery Schedule -->
+                            <div class="form-section">
+                                <h3 class="section-title"><i class="fas fa-calendar-week"></i> Delivery Schedule</h3>
+                                <div class="form-group">
+                                    <label>Select Delivery Days</label>
+                                    <div class="frequency-buttons" id="dayButtons">
+                                        <button class="day-btn" data-day="Monday">Monday</button>
+                                        <button class="day-btn" data-day="Tuesday">Tuesday</button>
+                                        <button class="day-btn" data-day="Wednesday">Wednesday</button>
+                                        <button class="day-btn" data-day="Thursday">Thursday</button>
+                                        <button class="day-btn" data-day="Friday">Friday</button>
+                                        <button class="day-btn" data-day="Saturday">Saturday</button>
+                                        <button class="day-btn" data-day="Sunday">Sunday</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Duration (months)</label>
+                                    <select class="duration-select" id="durationSelect" onchange="updateTotal()">
+                                        <option value="1">1 Month</option>
+                                        <option value="3">3 Months (Save 5%)</option>
+                                        <option value="6">6 Months (Save 10%)</option>
+                                        <option value="12">12 Months (Save 15%)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Start Date</label>
+                                    <input type="date" class="start-date" id="startDate">
+                                </div>
+                            </div>
+
+                            <!-- Order Summary -->
+                            <div class="summary-card">
+                                <h4 style="margin-bottom: 15px;"><i class="fas fa-receipt"></i> Subscription Summary</h4>
+                                <div class="summary-row">
+                                    <span>Products Total (per delivery)</span>
+                                    <span id="perDeliveryTotal">₱0</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Delivery Fee (₱5 per gallon)</span>
+                                    <span id="deliveryFee">₱0</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Total per Delivery</span>
+                                    <span id="totalPerDelivery">₱0</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Delivery Frequency</span>
+                                    <span id="frequencyDisplay">0 days per month</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Number of Deliveries</span>
+                                    <span id="deliveryCount">0</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Discount</span>
+                                    <span id="discountAmount">₱0</span>
+                                </div>
+                                <div class="summary-row total">
+                                    <span>Total Subscription Cost</span>
+                                    <span id="subscriptionTotal">₱0</span>
+                                </div>
+                            </div>
+
+                            <button class="subscribe-btn" onclick="openCheckoutModal()">
+                                <i class="fas fa-check-circle"></i> Subscribe Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Address Edit Modal -->
+    <div class="modal" id="addressModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Delivery Address</h3>
+                <button class="close-modal" onclick="closeModal('addressModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Recipient Name</label>
+                    <input type="text" id="editRecipientName" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Barangay</label>
+                    <select id="editBarangay" class="form-control">
+                        <option value="Guiwan">Guiwan</option>
+                        <option value="Tetuan">Tetuan</option>
+                        <option value="San Jose">San Jose</option>
+                        <option value="Tumaga">Tumaga</option>
+                        <option value="Sta. Maria">Sta. Maria</option>
+                        <option value="San Roque">San Roque</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Street / House No.</label>
+                    <input type="text" id="editStreet" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="tel" id="editContact" class="form-control">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="confirm-btn" onclick="saveAddress()">Save Address</button>
+                <button class="cancel-btn" onclick="closeModal('addressModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirm Subscription</h3>
+                <button class="close-modal" onclick="closeModal('checkoutModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="checkoutContent"></div>
+            <div class="modal-actions">
+                <button class="confirm-btn" onclick="confirmSubscription()">Confirm Subscription</button>
+                <button class="cancel-btn" onclick="closeModal('checkoutModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-check-circle" style="color: #28a745;"></i> Subscription Confirmed!</h3>
+                <button class="close-modal" onclick="closeModal('successModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="successContent"></div>
+            <div class="modal-actions">
+                <button class="confirm-btn" onclick="closeModal('successModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toastNotification"></div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>Contact Us</h4>
+                        <p>Zamboanga City, Philippines</p>
+                        <p><a href="tel:+63123456789">+63 123 456 789</a></p>
+                        <p><a href="mailto:aguanacasa@gmail.com">aguanacasa@gmail.com</a></p>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>About Us</h4>
+                        <div class="footer-lists">
+                            <ul><li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="About.html">About</a></li><li><a href="stations.html">Stations</a></li></ul>
+                            <ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>Useful Links</h4>
+                        <div class="footer-lists">
+                            <ul><li><a href="#">Find Stations</a></li><li><a href="#">Delivery Areas</a></li><li><a href="#">Support</a></li></ul>
+                            <ul><li><a href="careers.html">Careers</a></li><li><a href="#">Partnerships</a></li></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>About Agua na Casa</h4>
+                        <div class="logo"><img src="aguanacasa_logo_white.png" alt="Agua na Casa"></div>
+                        <p>Bringing clean, safe drinking water to every Filipino home with fast and reliable delivery service.</p>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="copyright-text">
+                        <p>Copyright © 2023 Agua na Casa. All Rights Reserved. <br>Design: <a href="#">Agua na Casa Team</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Product prices
+        const productPrices = { Mineral: 35, Alkaline: 35, Distilled: 35, Purified: 35, Spring: 35 };
+        
+        // Stations with barangays
+        const stations = [
+            { id: 1, name: "AquaPure Guiwan", barangay: "Guiwan" },
+            { id: 2, name: "CleanH2O Tetuan", barangay: "Tetuan" },
+            { id: 3, name: "WaterZone San Jose", barangay: "San Jose" },
+            { id: 4, name: "AquaVida Tumaga", barangay: "Tumaga" },
+            { id: 5, name: "BlueSpring Sta. Maria", barangay: "Sta. Maria" },
+            { id: 6, name: "PureFlow San Roque", barangay: "San Roque" }
+        ];
+
+        // User address
+        let userAddress = {
+            recipientName: "John Dela Cruz",
+            barangay: "Guiwan",
+            street: "123 Mabini Street",
+            contact: "09171234567"
+        };
+
+        let selectedDays = [];
+        let discountRates = { 1: 0, 3: 5, 6: 10, 12: 15 };
+
+        // Initialize
+        function init() {
+            loadUserAddress();
+            renderStations();
+            setMinDate();
+            setupDayButtons();
+            updateTotal();
+        }
+
+        function loadUserAddress() {
+            const saved = localStorage.getItem('subscriptionAddress');
+            if (saved) userAddress = JSON.parse(saved);
+            updateAddressDisplay();
+            document.getElementById('userName').value = userAddress.recipientName;
+        }
+
+        function saveUserAddress() {
+            localStorage.setItem('subscriptionAddress', JSON.stringify(userAddress));
+        }
+
+        function updateAddressDisplay() {
+            document.getElementById('addressDisplay').innerHTML = `
+                <i class="fas fa-user"></i> ${userAddress.recipientName}<br>
+                <i class="fas fa-location-dot"></i> ${userAddress.street}, Barangay ${userAddress.barangay}<br>
+                <i class="fas fa-phone-alt"></i> ${userAddress.contact}
+            `;
+        }
+
+        function renderStations() {
+            const select = document.getElementById('stationSelect');
+            select.innerHTML = '<option value="">Select a station</option>';
+            stations.forEach(station => {
+                const isNearby = station.barangay === userAddress.barangay;
+                const nearbyText = isNearby ? ' (Nearby - ₱35/gal)' : ' (Distant - ₱45/gal)';
+                const price = isNearby ? 35 : 45;
+                select.innerHTML += `<option value='${JSON.stringify(station)}' data-price="${price}">${station.name}${nearbyText}</option>`;
+            });
+        }
+
+        function updateStationPrice() {
+            updateTotal();
+        }
+
+        function addProductRow() {
+            const container = document.getElementById('productsContainer');
+            const idx = container.children.length;
+            const newRow = document.createElement('div');
+            newRow.className = 'product-row';
+            newRow.setAttribute('data-product-idx', idx);
+            newRow.innerHTML = `
+                <div class="product-select">
+                    <select class="product-type">
+                        <option value="">Select Product</option>
+                        <option value="Mineral">Mineral Water - ₱35/gal</option>
+                        <option value="Alkaline">Alkaline Water - ₱35/gal</option>
+                        <option value="Distilled">Distilled Water - ₱35/gal</option>
+                        <option value="Purified">Purified Water - ₱35/gal</option>
+                        <option value="Spring">Spring Water - ₱35/gal</option>
+                    </select>
+                </div>
+                <div class="qty-input">
+                    <input type="number" class="product-qty" value="1" min="0" onchange="updateTotal()">
+                </div>
+                <button class="remove-product-btn" onclick="removeProductRow(this)">Remove</button>
+            `;
+            container.appendChild(newRow);
+        }
+
+        function removeProductRow(btn) {
+            const row = btn.closest('.product-row');
+            if (document.querySelectorAll('.product-row').length > 1) {
+                row.remove();
+                updateTotal();
+            } else {
+                showToast('At least one product is required', true);
+            }
+        }
+
+        function getProductsTotal() {
+            let total = 0;
+            let totalGallons = 0;
+            const stationSelect = document.getElementById('stationSelect');
+            const selectedStation = stationSelect.value ? JSON.parse(stationSelect.value) : null;
+            const pricePerGallon = selectedStation ? (selectedStation.barangay === userAddress.barangay ? 35 : 45) : 35;
+
+            document.querySelectorAll('.product-row').forEach(row => {
+                const product = row.querySelector('.product-type').value;
+                const qty = parseInt(row.querySelector('.product-qty').value) || 0;
+                if (product && qty > 0) {
+                    total += pricePerGallon * qty;
+                    totalGallons += qty;
+                }
+            });
+            return { total, totalGallons };
+        }
+
+        function getDeliveryCount() {
+            const daysCount = selectedDays.length;
+            if (daysCount === 0) return 0;
+            const months = parseInt(document.getElementById('durationSelect').value);
+            const weeksPerMonth = 4.33;
+            return Math.round(daysCount * weeksPerMonth * months);
+        }
+
+        function updateTotal() {
+            const { total, totalGallons } = getProductsTotal();
+            const deliveryFee = totalGallons * 5;
+            const perDelivery = total + deliveryFee;
+            
+            document.getElementById('perDeliveryTotal').innerText = `₱${total}`;
+            document.getElementById('deliveryFee').innerText = `₱${deliveryFee}`;
+            document.getElementById('totalPerDelivery').innerText = `₱${perDelivery}`;
+            
+            const deliveryCount = getDeliveryCount();
+            const months = parseInt(document.getElementById('durationSelect').value);
+            const discount = discountRates[months];
+            const daysText = selectedDays.length === 0 ? 'No days selected' : `${selectedDays.length} day(s) per week`;
+            document.getElementById('frequencyDisplay').innerText = daysText;
+            document.getElementById('deliveryCount').innerText = deliveryCount;
+            
+            let subscriptionTotal = perDelivery * deliveryCount;
+            const discountAmount = subscriptionTotal * (discount / 100);
+            subscriptionTotal -= discountAmount;
+            
+            document.getElementById('discountAmount').innerText = `₱${Math.round(discountAmount)}`;
+            document.getElementById('subscriptionTotal').innerText = `₱${Math.round(subscriptionTotal)}`;
+        }
+
+        function setupDayButtons() {
+            document.querySelectorAll('.day-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btn.classList.toggle('selected');
+                    selectedDays = Array.from(document.querySelectorAll('.day-btn.selected')).map(b => b.dataset.day);
+                    updateTotal();
+                });
+            });
+        }
+
+        function setMinDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('startDate').value = today;
+            document.getElementById('startDate').min = today;
+        }
+
+        function openAddressModal() {
+            document.getElementById('editRecipientName').value = userAddress.recipientName;
+            document.getElementById('editBarangay').value = userAddress.barangay;
+            document.getElementById('editStreet').value = userAddress.street;
+            document.getElementById('editContact').value = userAddress.contact;
+            document.getElementById('addressModal').classList.add('active');
+        }
+
+        function saveAddress() {
+            userAddress.recipientName = document.getElementById('editRecipientName').value;
+            userAddress.barangay = document.getElementById('editBarangay').value;
+            userAddress.street = document.getElementById('editStreet').value;
+            userAddress.contact = document.getElementById('editContact').value;
+            saveUserAddress();
+            updateAddressDisplay();
+            renderStations();
+            updateTotal();
+            closeModal('addressModal');
+            showToast('Address updated successfully!');
+        }
+
+        function openCheckoutModal() {
+            const userName = document.getElementById('userName').value;
+            const stationSelect = document.getElementById('stationSelect');
+            const selectedStation = stationSelect.value ? JSON.parse(stationSelect.value) : null;
+            
+            if (!userName) { showToast('Please enter your name', true); return; }
+            if (!selectedStation) { showToast('Please select a station', true); return; }
+            if (selectedDays.length === 0) { showToast('Please select delivery days', true); return; }
+            
+            let products = [];
+            let hasProduct = false;
+            document.querySelectorAll('.product-row').forEach(row => {
+                const product = row.querySelector('.product-type').value;
+                const qty = parseInt(row.querySelector('.product-qty').value) || 0;
+                if (product && qty > 0) {
+                    hasProduct = true;
+                    products.push(`${product} x${qty}`);
+                }
+            });
+            if (!hasProduct) { showToast('Please add at least one product', true); return; }
+            
+            const startDate = document.getElementById('startDate').value;
+            const months = parseInt(document.getElementById('durationSelect').value);
+            const discount = discountRates[months];
+            const subscriptionTotal = document.getElementById('subscriptionTotal').innerText;
+            const deliveryCount = getDeliveryCount();
+            const pricePerGallon = selectedStation.barangay === userAddress.barangay ? 35 : 45;
+            
+            const content = `
+                <div class="form-group">
+                    <label>Recipient</label>
+                    <div class="form-control" style="background:#f8f9fa;">${userName}</div>
+                </div>
+                <div class="form-group">
+                    <label>Delivery Address</label>
+                    <div class="form-control" style="background:#f8f9fa;">${userAddress.street}, Barangay ${userAddress.barangay}</div>
+                </div>
+                <div class="form-group">
+                    <label>Water Station</label>
+                    <div class="form-control" style="background:#f8f9fa;">${selectedStation.name} (${pricePerGallon === 35 ? 'Nearby - ₱35/gal' : 'Distant - ₱45/gal'})</div>
+                </div>
+                <div class="form-group">
+                    <label>Products</label>
+                    <div class="form-control" style="background:#f8f9fa;">${products.join(', ') || 'None'}</div>
+                </div>
+                <div class="form-group">
+                    <label>Delivery Schedule</label>
+                    <div class="form-control" style="background:#f8f9fa;">Every ${selectedDays.join(', ')} | Starts: ${startDate}</div>
+                </div>
+                <div class="form-group">
+                    <label>Duration</label>
+                    <div class="form-control" style="background:#f8f9fa;">${months} month(s) ${discount > 0 ? `(${discount}% discount)` : ''}</div>
+                </div>
+                <div class="form-group">
+                    <label>Total Deliveries</label>
+                    <div class="form-control" style="background:#f8f9fa;">${deliveryCount} deliveries</div>
+                </div>
+                <div class="form-group">
+                    <label>Total Cost</label>
+                    <div class="form-control" style="background:#f8f9fa; font-weight:700; color:#19A7CE;">${subscriptionTotal}</div>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <div class="payment-method"><i class="fas fa-money-bill-wave"></i> Cash on Delivery (per delivery)</div>
+                </div>
+            `;
+            document.getElementById('checkoutContent').innerHTML = content;
+            document.getElementById('checkoutModal').classList.add('active');
+        }
+
+        function confirmSubscription() {
+            const subscriptionId = 'SUB-' + Date.now().toString().slice(-8);
+            const userName = document.getElementById('userName').value;
+            const startDate = document.getElementById('startDate').value;
+            const months = parseInt(document.getElementById('durationSelect').value);
+            const endDate = new Date(startDate);
+            endDate.setMonth(endDate.getMonth() + months);
+            
+            const successContent = `
+                <div style="text-align:center; padding:10px;">
+                    <i class="fas fa-check-circle" style="font-size:48px; color:#28a745; margin-bottom:15px;"></i>
+                    <h4>Subscription Confirmed!</h4>
+                    <p><strong>Subscription ID:</strong> ${subscriptionId}</p>
+                    <p><strong>Recipient:</strong> ${userName}</p>
+                    <p><strong>Start Date:</strong> ${startDate}</p>
+                    <p><strong>End Date:</strong> ${endDate.toLocaleDateString()}</p>
+                    <p><strong>Delivery Days:</strong> ${selectedDays.join(', ')}</p>
+                    <p><strong>Payment:</strong> Cash on Delivery per delivery</p>
+                    <hr>
+                    <p>A confirmation email has been sent to your registered email.</p>
+                    <p>Your first delivery will be on your next selected day.</p>
+                </div>
+            `;
+            document.getElementById('successContent').innerHTML = successContent;
+            closeModal('checkoutModal');
+            document.getElementById('successModal').classList.add('active');
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toastNotification');
+            toast.textContent = message;
+            toast.style.backgroundColor = isError ? '#dc3545' : '#28a745';
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Header functions
+        function toggleProfileDropdown() { $('#profileDropdown').toggleClass('show'); }
+        function toggleServicesDropdown() { $('#servicesDropdownMenu').toggleClass('show'); }
+        $(document).click(function(e) {
+            if (!$(e.target).closest('.profile-button').length) $('#profileDropdown').removeClass('show');
+            if (!$(e.target).closest('#servicesDropdown').length) $('#servicesDropdownMenu').removeClass('show');
+        });
+        function logout() { if(confirm('Logout?')) window.location.href = 'index.html'; }
+        function checkBeforeOrder() { window.location.href = 'order.html'; }
+
+        init();
+    </script>
+</body>
+</html>

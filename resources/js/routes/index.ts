@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults, validateParameters } from './../wayfinder'
 /**
 * @see \Laravel\Fortify\Http\Controllers\AuthenticatedSessionController::login
  * @see vendor/laravel/fortify/src/Http/Controllers/AuthenticatedSessionController.php:47
@@ -68,6 +68,100 @@ login.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
  */
         loginForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: login.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    login.form = loginForm
+/**
+ * @see routes/web.php:55
+ * @route '/login/{default_active_role_tab?}'
+ */
+export const login = (args?: { default_active_role_tab?: string | number } | [default_active_role_tab: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: login.url(args, options),
+    method: 'get',
+})
+
+login.definition = {
+    methods: ["get","head"],
+    url: '/login/{default_active_role_tab?}',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+ * @see routes/web.php:55
+ * @route '/login/{default_active_role_tab?}'
+ */
+login.url = (args?: { default_active_role_tab?: string | number } | [default_active_role_tab: string | number ] | string | number, options?: RouteQueryOptions) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { default_active_role_tab: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    default_active_role_tab: args[0],
+                }
+    }
+
+    args = applyUrlDefaults(args)
+
+    validateParameters(args, [
+            "default_active_role_tab",
+        ])
+
+    const parsedArgs = {
+                        default_active_role_tab: args?.default_active_role_tab,
+                }
+
+    return login.definition.url
+            .replace('{default_active_role_tab?}', parsedArgs.default_active_role_tab?.toString() ?? '')
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+ * @see routes/web.php:55
+ * @route '/login/{default_active_role_tab?}'
+ */
+login.get = (args?: { default_active_role_tab?: string | number } | [default_active_role_tab: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: login.url(args, options),
+    method: 'get',
+})
+/**
+ * @see routes/web.php:55
+ * @route '/login/{default_active_role_tab?}'
+ */
+login.head = (args?: { default_active_role_tab?: string | number } | [default_active_role_tab: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: login.url(args, options),
+    method: 'head',
+})
+
+    /**
+ * @see routes/web.php:55
+ * @route '/login/{default_active_role_tab?}'
+ */
+    const loginForm = (args?: { default_active_role_tab?: string | number } | [default_active_role_tab: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: login.url(args, options),
+        method: 'get',
+    })
+
+            /**
+ * @see routes/web.php:55
+ * @route '/login/{default_active_role_tab?}'
+ */
+        loginForm.get = (args?: { default_active_role_tab?: string | number } | [default_active_role_tab: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: login.url(args, options),
+            method: 'get',
+        })
+            /**
+ * @see routes/web.php:55
+ * @route '/login/{default_active_role_tab?}'
+ */
+        loginForm.head = (args?: { default_active_role_tab?: string | number } | [default_active_role_tab: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: login.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
                             ...(options?.query ?? options?.mergeQuery ?? {}),
@@ -210,159 +304,3 @@ register.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
     
     register.form = registerForm
-/**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
- * @route '/'
- */
-export const home = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: home.url(options),
-    method: 'get',
-})
-
-home.definition = {
-    methods: ["get","head"],
-    url: '/',
-} satisfies RouteDefinition<["get","head"]>
-
-/**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
- * @route '/'
- */
-home.url = (options?: RouteQueryOptions) => {
-    return home.definition.url + queryParams(options)
-}
-
-/**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
- * @route '/'
- */
-home.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: home.url(options),
-    method: 'get',
-})
-/**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
- * @route '/'
- */
-home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: home.url(options),
-    method: 'head',
-})
-
-    /**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
- * @route '/'
- */
-    const homeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: home.url(options),
-        method: 'get',
-    })
-
-            /**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
- * @route '/'
- */
-        homeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: home.url(options),
-            method: 'get',
-        })
-            /**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
- * @route '/'
- */
-        homeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: home.url({
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'HEAD',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'get',
-        })
-    
-    home.form = homeForm
-/**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
- * @route '/dashboard'
- */
-export const dashboard = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: dashboard.url(options),
-    method: 'get',
-})
-
-dashboard.definition = {
-    methods: ["get","head"],
-    url: '/dashboard',
-} satisfies RouteDefinition<["get","head"]>
-
-/**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
- * @route '/dashboard'
- */
-dashboard.url = (options?: RouteQueryOptions) => {
-    return dashboard.definition.url + queryParams(options)
-}
-
-/**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
- * @route '/dashboard'
- */
-dashboard.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: dashboard.url(options),
-    method: 'get',
-})
-/**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
- * @route '/dashboard'
- */
-dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: dashboard.url(options),
-    method: 'head',
-})
-
-    /**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
- * @route '/dashboard'
- */
-    const dashboardForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: dashboard.url(options),
-        method: 'get',
-    })
-
-            /**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
- * @route '/dashboard'
- */
-        dashboardForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: dashboard.url(options),
-            method: 'get',
-        })
-            /**
-* @see \Inertia\Controller::__invoke
- * @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
- * @route '/dashboard'
- */
-        dashboardForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: dashboard.url({
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'HEAD',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'get',
-        })
-    
-    dashboard.form = dashboardForm

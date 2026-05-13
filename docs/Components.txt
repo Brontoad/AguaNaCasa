@@ -12,6 +12,7 @@
     -create account in backend
 -create rider
     -rider form (plate number, vehicle type, vehicle model, license)
+    -upload documents such as OR/CR, license, and plate number
     -verification of the license and the account
     -create rider in the backend
 -create station
@@ -27,6 +28,30 @@
     -let user move the pin to determine location
     -update the location
     -save as new address of user to the backend
+
+**User Management
+-user table
+    -display all information (name, email, contact)
+    -actions (suspend, view addresses)
+-station table
+    -display all information (name, email, contact)
+    -actions (suspend, verify license, view orders, view subscriptions, view system fees, view riders)
+-rider table
+    -display all information (name, plate number, vehicle, station)
+    -actions (suspend, verify license, view rider fees)
+-order table
+    -display all information (order date last updated, station name, destination address, client, rider, total, order status)
+    -action (view station, view rider, view client, view order items, view order histories)
+-subscription table
+    -display all information (station, subscriber, estimated pickup at, last paid at)
+    -action (view station, view subscriber, view orders, view payment history)
+-product table
+    -display all information (name)
+    -actions (edit)
+
+**Sale Management
+-system sales
+-station sales
 
 Instant Ordering
 -user select station

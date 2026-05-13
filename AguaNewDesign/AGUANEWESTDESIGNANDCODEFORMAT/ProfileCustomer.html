@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Agua na Casa - Clean Water Delivered to Your Home">
+    <title>Agua na Casa - My Profile</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="AguaStyle.css">
+    
+    <!-- Page Specific CSS -->
+    <style>
+        /* Profile Page Styles */
+        :root {
+            --primary: #19A7CE;
+            --primary-light: #91C8E4;
+            --primary-dark: #146C94;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --gray-bg: #f8f9fa;
+        }
+
+        .profile-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Profile Header - Solid color instead of gradient */
+        .profile-header {
+            background: var(--primary);
+            padding: 40px;
+            color: white;
+            position: relative;
+        }
+
+        .profile-cover {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border: 4px solid rgba(255,255,255,0.3);
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-upload {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            text-align: center;
+            padding: 5px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+
+        .profile-avatar:hover .avatar-upload {
+            opacity: 1;
+        }
+
+        .profile-info h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .profile-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .badge-verified {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge-verified i {
+            color: var(--success);
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 800;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* Main Content Area with Sidebar */
+        .profile-main {
+            display: flex;
+            min-height: 500px;
+        }
+
+        /* Left Sidebar Navigation */
+        .profile-sidebar {
+            width: 260px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            padding: 20px 0;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 24px;
+            background: none;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            width: 100%;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-btn i {
+            width: 22px;
+            font-size: 18px;
+            color: #999;
+            transition: all 0.3s;
+        }
+
+        .sidebar-btn:hover {
+            background: #f0f9ff;
+            color: var(--primary);
+        }
+
+        .sidebar-btn:hover i {
+            color: var(--primary);
+        }
+
+        .sidebar-btn.active {
+            background: #f0f9ff;
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .sidebar-btn.active i {
+            color: var(--primary);
+        }
+
+        /* Logout Button in Sidebar */
+        .sidebar-logout {
+            margin: 20px;
+            margin-top: auto;
+        }
+
+        .logout-sidebar-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--danger);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            width: 100%;
+        }
+
+        .logout-sidebar-btn i {
+            width: 22px;
+            font-size: 18px;
+            color: var(--danger);
+        }
+
+        .logout-sidebar-btn:hover {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .logout-sidebar-btn:hover i {
+            color: white;
+        }
+
+        /* Right Content Area */
+        .profile-content {
+            flex: 1;
+            padding: 30px;
+            background: #fafafa;
+            overflow-y: auto;
+        }
+
+        /* Tab Content */
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cards */
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .card-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+
+        .card-header h3 i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .edit-btn {
+            background: none;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .edit-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-item .label {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        .info-item .value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .verified-badge {
+            background: #e3fcef;
+            color: var(--success);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Address Cards */
+        .addresses-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .address-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .address-card:hover {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .address-card.default {
+            border-color: var(--primary);
+            background: #f0f9ff;
+        }
+
+        .address-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .address-label h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .default-badge {
+            background: var(--primary);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .address-details {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .address-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .address-actions button {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s;
+            font-size: 14px;
+        }
+
+        .address-actions button:hover {
+            color: var(--primary);
+        }
+
+        .address-actions button.delete:hover {
+            color: var(--danger);
+        }
+
+        .add-address-card {
+            background: white;
+            border: 2px dashed #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 180px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-address-card:hover {
+            border-color: var(--primary);
+            background: #f0f9ff;
+        }
+
+        .add-address-card i {
+            font-size: 40px;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .add-address-card span {
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        /* Orders Table (kept for ongoing orders in profile tab) */
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .orders-table th {
+            text-align: left;
+            padding: 15px 10px;
+            font-weight: 600;
+            color: #666;
+            font-size: 14px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .orders-table td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #e0e0e0;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .order-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-delivered {
+            background: #e3fcef;
+            color: var(--success);
+        }
+
+        .status-processing {
+            background: #fff4e5;
+            color: #b45b0a;
+        }
+
+        .status-cancelled {
+            background: #fee7e7;
+            color: var(--danger);
+        }
+
+        .status-ongoing {
+            background: #e3f2fd;
+            color: var(--primary-dark);
+        }
+
+        .reorder-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .reorder-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Address Modal Specific Styles */
+        .address-modal-content {
+            max-width: 700px !important;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 250px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #e0e0e0;
+            position: relative;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            background: #f0f9ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            border-radius: 8px;
+        }
+
+        .map-placeholder i {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .location-search {
+            margin-bottom: 15px;
+        }
+
+        .location-search input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .location-search input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .coordinates-info {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: #666;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        /* Sketch Upload Styles */
+        .sketch-upload-area {
+            border: 2px dashed #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+        }
+
+        .sketch-upload-area:hover {
+            border-color: var(--primary);
+            background: #f0f9ff;
+        }
+
+        .sketch-upload-area i {
+            font-size: 30px;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .sketch-upload-area p {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .sketch-upload-area small {
+            color: #999;
+            font-size: 11px;
+        }
+
+        .sketch-preview {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sketch-preview.active {
+            display: flex;
+        }
+
+        .sketch-preview img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .sketch-preview span {
+            font-size: 13px;
+            color: #333;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .sketch-preview button {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+        }
+
+        /* Delete Confirmation Modal */
+        .delete-modal-content {
+            max-width: 400px !important;
+            text-align: center;
+        }
+
+        .delete-icon {
+            width: 70px;
+            height: 70px;
+            background: #fee7e7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--danger);
+            font-size: 30px;
+        }
+
+        .delete-modal-content h4 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .delete-modal-content p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .delete-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .delete-confirm-btn {
+            flex: 1;
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .delete-cancel-btn {
+            flex: 1;
+            background: white;
+            border: 1px solid #e0e0e0;
+            color: #666;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .modal-body .form-group {
+            margin-bottom: 20px;
+        }
+
+        .modal-body label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .modal-body input,
+        .modal-body select,
+        .modal-body textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Nunito Sans', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .modal-body input:focus,
+        .modal-body select:focus,
+        .modal-body textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .save-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .cancel-btn {
+            background: white;
+            border: 1px solid #e0e0e0;
+            color: #666;
+        }
+
+        .cancel-btn:hover {
+            background: #f8f9fa;
+        }
+
+        .form-select {
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .profile-header {
+                padding: 20px;
+            }
+
+            .profile-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .profile-main {
+                flex-direction: column;
+            }
+
+            .profile-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+                overflow-x: auto;
+                padding: 10px 0;
+            }
+
+            .sidebar-nav {
+                flex-direction: row;
+                padding: 0 10px;
+            }
+
+            .sidebar-btn {
+                flex-direction: column;
+                text-align: center;
+                padding: 10px;
+                min-width: 80px;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+
+            .sidebar-btn.active {
+                border-left-color: transparent;
+                border-bottom-color: var(--primary);
+            }
+
+            .sidebar-btn i {
+                width: auto;
+            }
+
+            .sidebar-logout {
+                display: none;
+            }
+
+            .profile-content {
+                padding: 20px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .addresses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .orders-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .address-modal-content {
+                max-width: 100% !important;
+            }
+            
+            .map-container {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="Index.html" class="logo">
+                            <img src="aguanacasa_logo_white.png" alt="Agua na Casa">
+                        </a>
+                       
+                        <ul class="nav" id="navbar">
+                            <li><a href="Index.html">Home</a></li>
+                            
+                            <li class="dropdown" id="servicesDropdown">
+                                <a href="javascript:void(0);" onclick="toggleServicesDropdown()">
+                                    Services <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+                                </a>
+                                <div class="dropdown-menu" id="servicesDropdownMenu">
+                                    <a href="instant-delivery.html"><i class="fas fa-bolt"></i> Instant Delivery</a>
+                                    <a href="subscription.html"><i class="fas fa-calendar-alt"></i> Subscription</a>
+                                </div>
+                            </li>
+                            
+                            <li><a href="About.html">About</a></li>
+                            <li><a href="stations.html">Stations</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                            
+                            <li><div class="order-button"><a href="javascript:void(0);" onclick="checkBeforeOrder()">Order Now <i class="fas fa-truck"></i></a></div></li>
+                            
+                            <li>
+                                <a href="cart.html" class="cart-icon">
+                                    <img src="cart.png" alt="Cart">
+                                    <span class="cart-badge">0</span>
+                                </a>
+                            </li>
+                            
+                            <li id="signInLi" style="display: none;">
+                                <div class="signin-button">
+                                    <a href="login.html"><i class="fa fa-sign-in-alt"></i> Sign In</a>
+                                </div>
+                            </li>
+                            
+                            <li id="profileLi">
+                                <div class="profile-button" id="profileButton">
+                                    <a href="javascript:void(0);" onclick="toggleProfileDropdown()">
+                                        <img src="account-25.png" alt="Profile" class="profile-icon">
+                                        <span>Profile</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px;"></i>
+                                    </a>
+                                    <div class="profile-dropdown" id="profileDropdown">
+                                        <a href="account.html" class="active"><i class="fas fa-user-circle"></i> My Profile</a>
+                                        <a href="javascript:void(0);" onclick="logout()" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>        
+                        <a class="menu-trigger">
+                            <span><i class="fa fa-bars"></i></span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+  
+    <!-- MAIN CONTENT -->
+    <main class="page-content" style="min-height: 60vh; padding: 120px 0 60px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    
+                    <div class="profile-wrapper">
+                        <!-- Profile Header -->
+                        <div class="profile-header">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <div class="profile-avatar" onclick="document.getElementById('avatarUpload').click()">
+                                        <img src="https://ui-avatars.com/api/?name=Juan+Dela+Cruz&size=120&background=19A7CE&color=fff" alt="Profile">
+                                        <div class="avatar-upload">
+                                            <i class="fas fa-camera"></i> Change Photo
+                                        </div>
+                                        <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+                                    </div>
+                                    
+                                    <div class="profile-info">
+                                        <h1>Juan Dela Cruz</h1>
+                                        <p><i class="fas fa-envelope"></i> juan.delacruz@email.com</p>
+                                        <p><i class="fas fa-phone"></i> +63 912 345 6789</p>
+                                        
+                                        <div class="profile-badges">
+                                            <span class="badge-verified">
+                                                <i class="fas fa-check-circle"></i> Verified Customer
+                                            </span>
+                                            <span class="badge-verified">
+                                                <i class="fas fa-calendar-alt"></i> Member since Jan 2024
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="profile-stats">
+                                        <div class="stat-item">
+                                            <span class="stat-value">24</span>
+                                            <span class="stat-label">Orders</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-value">₱12.5k</span>
+                                            <span class="stat-label">Spent</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Main Content with Sidebar -->
+                        <div class="profile-main">
+                            <!-- Left Sidebar Navigation -->
+                            <div class="profile-sidebar">
+                                <div class="sidebar-nav">
+                                    <button class="sidebar-btn active" onclick="switchTab('profile', event)">
+                                        <i class="fas fa-user-circle"></i> Profile
+                                    </button>
+                                    <button class="sidebar-btn" onclick="switchTab('addresses', event)">
+                                        <i class="fas fa-map-marker-alt"></i> Addresses
+                                    </button>
+                                    
+                                    <!-- Hidden tabs for future use (commented out, can be enabled later) -->
+                                    <!--
+                                    <button class="sidebar-btn" onclick="switchTab('orders', event)">
+                                        <i class="fas fa-shopping-bag"></i> Orders
+                                    </button>
+                                    <button class="sidebar-btn" onclick="switchTab('verification', event)">
+                                        <i class="fas fa-id-card"></i> Verification
+                                    </button>
+                                    <button class="sidebar-btn" onclick="switchTab('settings', event)">
+                                        <i class="fas fa-cog"></i> Settings
+                                    </button>
+                                    -->
+                                </div>
+                                
+                                <!-- Logout Button at bottom of sidebar -->
+                                <div class="sidebar-logout">
+                                    <button class="logout-sidebar-btn" onclick="logout()">
+                                        <i class="fas fa-sign-out-alt"></i> Logout
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Right Content Area -->
+                            <div class="profile-content">
+                                <!-- Profile Tab -->
+                                <div class="tab-pane active" id="profile">
+                                    <!-- Personal Information Card -->
+                                    <div class="info-card">
+                                        <div class="card-header">
+                                            <h3><i class="fas fa-user"></i> Personal Information</h3>
+                                            <button class="edit-btn" onclick="openEditModal('personal')">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="info-grid">
+                                            <div class="info-item">
+                                                <span class="label">Full Name</span>
+                                                <span class="value">Juan Dela Cruz</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Email Address</span>
+                                                <span class="value">
+                                                    juan.delacruz@email.com
+                                                    <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>
+                                                </span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Mobile Number</span>
+                                                <span class="value">
+                                                    +63 912 345 6789
+                                                    <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified</span>
+                                                </span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Date of Birth</span>
+                                                <span class="value">January 15, 1995</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Gender</span>
+                                                <span class="value">Male</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Occupation</span>
+                                                <span class="value">Software Developer</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Account Statistics Card -->
+                                    <div class="info-card">
+                                        <div class="card-header">
+                                            <h3><i class="fas fa-chart-line"></i> Account Statistics</h3>
+                                        </div>
+                                        
+                                        <div class="info-grid">
+                                            <div class="info-item">
+                                                <span class="label">Total Orders</span>
+                                                <span class="value">24 Orders</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Total Spent</span>
+                                                <span class="value">₱12,500</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Completed Deliveries</span>
+                                                <span class="value">22 Deliveries</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <span class="label">Cancelled Orders</span>
+                                                <span class="value">2 Orders</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Ongoing Orders Summary Card -->
+                                    <div class="info-card">
+                                        <div class="card-header">
+                                            <h3><i class="fas fa-spinner"></i> Ongoing Orders</h3>
+                                            <button class="edit-btn" onclick="viewAllOrders()">
+                                                View All <i class="fas fa-arrow-right"></i>
+                                            </button>
+                                        </div>
+                                        
+                                        <table class="orders-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Order ID</th>
+                                                    <th>Date</th>
+                                                    <th>Items</th>
+                                                    <th>Total</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>#ORD-2024-002</td>
+                                                    <td>Mar 10, 2024</td>
+                                                    <td>5 Gallons</td>
+                                                    <td>₱750</td>
+                                                    <td><span class="order-status status-ongoing">Ongoing</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>#ORD-2024-005</td>
+                                                    <td>Mar 18, 2024</td>
+                                                    <td>2 Gallons</td>
+                                                    <td>₱300</td>
+                                                    <td><span class="order-status status-ongoing">Ongoing</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Addresses Tab -->
+                                <div class="tab-pane" id="addresses">
+                                    <div class="info-card">
+                                        <div class="card-header">
+                                            <h3><i class="fas fa-map-marker-alt"></i> Saved Addresses</h3>
+                                            <button class="edit-btn" onclick="openAddressModal('add')">
+                                                <i class="fas fa-plus"></i> Add New
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="addresses-grid">
+                                            <div class="address-card default">
+                                                <div class="address-label">
+                                                    <h4>Home</h4>
+                                                    <span class="default-badge">Default</span>
+                                                </div>
+                                                <div class="address-details">
+                                                    123 Mabini Street, Barangay Guiwan,<br>
+                                                    Zamboanga City, 7000
+                                                </div>
+                                                <div class="address-actions">
+                                                    <button onclick="openAddressModal('edit', 'home')"><i class="fas fa-edit"></i> Edit</button>
+                                                    <button class="delete" onclick="openDeleteModal('home')"><i class="fas fa-trash"></i> Delete</button>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="address-card">
+                                                <div class="address-label">
+                                                    <h4>Work</h4>
+                                                </div>
+                                                <div class="address-details">
+                                                    456 Rizal Avenue, Barangay Tetuan,<br>
+                                                    Zamboanga City, 7000
+                                                </div>
+                                                <div class="address-actions">
+                                                    <button onclick="openAddressModal('edit', 'work')"><i class="fas fa-edit"></i> Edit</button>
+                                                    <button class="delete" onclick="openDeleteModal('work')"><i class="fas fa-trash"></i> Delete</button>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="add-address-card" onclick="openAddressModal('add')">
+                                                <i class="fas fa-plus-circle"></i>
+                                                <span>Add New Address</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Hidden Tabs for Future Use (kept but hidden) -->
+                                <!-- Orders Tab (hidden - for future use) -->
+                                <div class="tab-pane" id="orders" style="display: none;">
+                                    <div class="info-card">
+                                        <div class="card-header">
+                                            <h3><i class="fas fa-spinner"></i> Ongoing Orders</h3>
+                                        </div>
+                                        <table class="orders-table">
+                                            <thead>
+                                                <tr><th>Order ID</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th>Action</th></tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr><td>#ORD-2024-002</td><td>Mar 10, 2024</td><td>5 Gallons (Alkaline)</td><td>₱750</td><td><span class="order-status status-ongoing">Ongoing</span></td><td><button class="reorder-btn">Track</button></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Verification Tab (hidden - for future use) -->
+                                <div class="tab-pane" id="verification" style="display: none;">
+                                    <div class="info-card">
+                                        <div class="card-header"><h3><i class="fas fa-id-card"></i> Identity Verification</h3></div>
+                                        <div class="verification-grid">
+                                            <div class="verification-item"><div class="verification-icon"><i class="fas fa-id-card"></i></div><div class="verification-info"><h4>Government ID</h4><p>Upload a valid government ID</p><span class="verification-status status-pending">Not Uploaded</span></div><button class="upload-btn">Upload</button></div>
+                                            <div class="verification-item"><div class="verification-icon"><i class="fas fa-selfie"></i></div><div class="verification-info"><h4>Selfie with ID</h4><p>Take a selfie holding your ID</p><span class="verification-status status-pending">Not Uploaded</span></div><button class="upload-btn">Upload</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Settings Tab (hidden - for future use) -->
+                                <div class="tab-pane" id="settings" style="display: none;">
+                                    <div class="info-card">
+                                        <div class="card-header"><h3><i class="fas fa-lock"></i> Security</h3></div>
+                                        <div class="settings-item"><div class="settings-info"><h4>Change Password</h4><p>Update your password regularly</p></div><button class="edit-btn" onclick="openChangePasswordModal()">Change</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Address Modal (with Google Maps and Sketch Upload) -->
+    <div class="modal" id="addressModal">
+        <div class="modal-content address-modal-content">
+            <div class="modal-header">
+                <h3 id="addressModalTitle">Add New Address</h3>
+                <button class="close-modal" onclick="closeModal('addressModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="location-search">
+                    <label>Search Location</label>
+                    <input type="text" id="locationSearch" placeholder="Enter address or landmark...">
+                </div>
+                
+                <div class="map-container">
+                    <div id="map" class="map-placeholder">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <p>Google Maps will load here</p>
+                        <small>Enter your API key to enable maps</small>
+                    </div>
+                </div>
+                
+                <div class="coordinates-info">
+                    <span><i class="fas fa-map-pin"></i> Lat: <span id="latitude">6.9214</span></span>
+                    <span><i class="fas fa-map-pin"></i> Lng: <span id="longitude">122.0790</span></span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Address Label</label>
+                    <input type="text" id="addressLabel" placeholder="e.g., Home, Work">
+                </div>
+                
+                <div class="form-group">
+                    <label>Barangay</label>
+                    <select id="addressBarangay">
+                        <option>Select Barangay</option>
+                        <option>Guiwan</option>
+                        <option>Tetuan</option>
+                        <option>Sta. Barbara</option>
+                        <option>Divisoria</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Street Address</label>
+                    <textarea id="streetAddress" rows="2" placeholder="Enter complete address"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Location Sketch / Map (Optional)</label>
+                    <div class="sketch-upload-area" id="sketchUploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload location sketch</p>
+                        <small>Supported: JPG, PNG, PDF (Max 5MB)</small>
+                        <input type="file" id="sketchFile" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
+                    </div>
+                    <div class="sketch-preview" id="sketchPreview">
+                        <img src="" alt="Sketch preview">
+                        <span id="sketchFileName">No file chosen</span>
+                        <button type="button" onclick="removeSketch()"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="setDefaultAddress"> Set as default address
+                    </label>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="save-btn" onclick="saveAddress()">Save Address</button>
+                <button class="cancel-btn" onclick="closeModal('addressModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteConfirmModal">
+        <div class="modal-content delete-modal-content">
+            <div class="delete-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h4>Delete Address?</h4>
+            <p id="deleteAddressMessage">Are you sure you want to delete your Home address? This action cannot be undone.</p>
+            <div class="delete-actions">
+                <button class="delete-confirm-btn" onclick="confirmDelete()">Yes, Delete</button>
+                <button class="delete-cancel-btn" onclick="closeModal('deleteConfirmModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Personal Info Modal -->
+    <div class="modal" id="editPersonalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Personal Information</h3>
+                <button class="close-modal" onclick="closeModal('editPersonalModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" value="Juan Dela Cruz">
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" value="1995-01-15">
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Prefer not to say</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Occupation</label>
+                    <input type="text" value="Software Developer">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="save-btn" onclick="savePersonalInfo()">Save Changes</button>
+                <button class="cancel-btn" onclick="closeModal('editPersonalModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal" id="changePasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Change Password</h3>
+                <button class="close-modal" onclick="closeModal('changePasswordModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Current Password</label>
+                    <input type="password" placeholder="Enter current password">
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" placeholder="Enter new password">
+                </div>
+                <div class="form-group">
+                    <label>Confirm New Password</label>
+                    <input type="password" placeholder="Confirm new password">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="save-btn">Update Password</button>
+                <button class="cancel-btn" onclick="closeModal('changePasswordModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>Contact Us</h4>
+                        <p>Zamboanga City, Philippines</p>
+                        <p><a href="tel:+63123456789">+63 123 456 789</a></p>
+                        <p><a href="mailto:aguanacasa@gmail.com">aguanacasa@gmail.com</a></p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>About Us</h4>
+                        <div class="footer-lists">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="services.html">Services</a></li>
+                                <li><a href="About.html">About</a></li>
+                                <li><a href="stations.html">Stations</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>Useful Links</h4>
+                        <div class="footer-lists">
+                            <ul>
+                                <li><a href="#">Find Stations</a></li>
+                                <li><a href="#">Delivery Areas</a></li>
+                                <li><a href="#">Support</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="careers.html">Careers</a></li>
+                                <li><a href="#">Partnerships</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>About Agua na Casa</h4>
+                        <div class="logo">
+                            <img src="aguanacasa_logo_white.png" alt="Agua na Casa">
+                        </div>
+                        <p>Bringing clean, safe drinking water to every Filipino home with fast and reliable delivery service.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-12">
+                    <div class="copyright-text">
+                        <p>Copyright © 2023 Agua na Casa. All Rights Reserved. 
+                        <br>Design: <a href="#">Agua na Casa Team</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+   
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Main JavaScript -->
+    <script src="AguaJavaScript.js"></script>
+    
+    <!-- Page Specific JavaScript -->
+    <script>
+        // Toggle profile dropdown
+        function toggleProfileDropdown() {
+            $('#profileDropdown').toggleClass('show');
+        }
+
+        // Toggle services dropdown
+        function toggleServicesDropdown() {
+            $('#servicesDropdownMenu').toggleClass('show');
+        }
+
+        // Close dropdowns when clicking outside
+        $(document).click(function(event) {
+            if (!$(event.target).closest('.profile-button').length) {
+                $('#profileDropdown').removeClass('show');
+            }
+            if (!$(event.target).closest('#servicesDropdown').length) {
+                $('#servicesDropdownMenu').removeClass('show');
+            }
+        });
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Check before order
+        function checkBeforeOrder() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (isLoggedIn) {
+                window.location.href = 'order.html';
+            } else {
+                window.location.href = 'login.html?redirect=order.html';
+            }
+        }
+
+        // View all orders (for future use)
+        function viewAllOrders() {
+            alert('This feature will be available soon!');
+        }
+
+        // Tab switching with animation
+        function switchTab(tabId, event) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-pane').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Update active sidebar button
+            document.querySelectorAll('.sidebar-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (event && event.target) {
+                if (event.target.classList.contains('sidebar-btn')) {
+                    event.target.classList.add('active');
+                } else if (event.target.closest('.sidebar-btn')) {
+                    event.target.closest('.sidebar-btn').classList.add('active');
+                }
+            } else {
+                document.querySelectorAll('.sidebar-btn').forEach(btn => {
+                    if (btn.textContent.trim().toLowerCase().includes(tabId)) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+        }
+
+        // Address variables
+        let currentAddressType = null;
+        let currentAction = 'add';
+
+        // Open Address Modal
+        function openAddressModal(action, type) {
+            currentAction = action;
+            currentAddressType = type || null;
+            
+            const title = document.getElementById('addressModalTitle');
+            if (action === 'add') {
+                title.textContent = 'Add New Address';
+                document.getElementById('addressLabel').value = '';
+                document.getElementById('streetAddress').value = '';
+                document.getElementById('setDefaultAddress').checked = false;
+                document.getElementById('sketchPreview').classList.remove('active');
+            } else {
+                title.textContent = 'Edit Address';
+                if (type === 'home') {
+                    document.getElementById('addressLabel').value = 'Home';
+                    document.getElementById('streetAddress').value = '123 Mabini Street, Barangay Guiwan, Zamboanga City, 7000';
+                } else if (type === 'work') {
+                    document.getElementById('addressLabel').value = 'Work';
+                    document.getElementById('streetAddress').value = '456 Rizal Avenue, Barangay Tetuan, Zamboanga City, 7000';
+                }
+            }
+            
+            document.getElementById('addressModal').classList.add('active');
+            
+            setTimeout(() => {
+                initMap();
+            }, 100);
+        }
+
+        // Google Maps initialization (simulated)
+        function initMap() {
+            const mapContainer = document.getElementById('map');
+            mapContainer.innerHTML = `
+                <div class="map-placeholder">
+                    <i class="fas fa-map-marked-alt" style="font-size: 48px; color: #19A7CE;"></i>
+                    <p style="margin-top: 10px;">Map ready for: Zamboanga City</p>
+                    <small style="color: #666;">Lat: 6.9214, Lng: 122.0790</small>
+                </div>
+            `;
+        }
+
+        // Sketch upload handling
+        document.getElementById('sketchUploadArea').addEventListener('click', function() {
+            document.getElementById('sketchFile').click();
+        });
+
+        document.getElementById('sketchFile').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const file = e.target.files[0];
+                
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size must be less than 5MB');
+                    return;
+                }
+                
+                const preview = document.getElementById('sketchPreview');
+                const fileName = document.getElementById('sketchFileName');
+                const previewImg = preview.querySelector('img');
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+                
+                fileName.textContent = file.name;
+                preview.classList.add('active');
+            }
+        });
+
+        function removeSketch() {
+            document.getElementById('sketchFile').value = '';
+            document.getElementById('sketchPreview').classList.remove('active');
+        }
+
+        // Save address
+        function saveAddress() {
+            const label = document.getElementById('addressLabel').value;
+            const barangay = document.getElementById('addressBarangay').value;
+            const street = document.getElementById('streetAddress').value;
+            
+            if (!label || !barangay || !street) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            alert(`Address ${currentAction === 'add' ? 'added' : 'updated'} successfully!`);
+            closeModal('addressModal');
+        }
+
+        // Delete confirmation
+        let addressToDelete = null;
+
+        function openDeleteModal(type) {
+            addressToDelete = type;
+            const message = document.getElementById('deleteAddressMessage');
+            message.textContent = `Are you sure you want to delete your ${type} address? This action cannot be undone.`;
+            document.getElementById('deleteConfirmModal').classList.add('active');
+        }
+
+        function confirmDelete() {
+            alert(`${addressToDelete} address deleted successfully!`);
+            closeModal('deleteConfirmModal');
+            addressToDelete = null;
+        }
+
+        // Modal functions
+        function openEditModal(type) {
+            document.getElementById('editPersonalModal').classList.add('active');
+        }
+
+        function openChangePasswordModal() {
+            document.getElementById('changePasswordModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function savePersonalInfo() {
+            alert('Personal information saved!');
+            closeModal('editPersonalModal');
+        }
+
+        // Avatar upload
+        document.getElementById('avatarUpload').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.querySelector('.profile-avatar img').src = e.target.result;
+                    alert('Profile picture updated!');
+                }
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+
+        // Location search simulation
+        document.getElementById('locationSearch').addEventListener('input', function(e) {
+            console.log('Searching for:', e.target.value);
+        });
+    </script>
+</body>
+</html>

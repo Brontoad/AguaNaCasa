@@ -1,10 +1,39 @@
-import Navbar from "./dashboard/navbar";
+/**
+ * Dashboard Layout
+ * 
+ * Created by:  Calulut, Joshua Miguel C.
+ *              Jamalul, Mohammad Hud A.
+ *              Sueño, Diana S.
+ * Tested by:   N/A
+ * 
+ * Created at:      February 26, 2026
+ * Last Edited at:  May 2, 2026
+ * Last Tested at:  N/A
+ */
+import Footer from "@/components/dashboard/footer";
+import Header from "@/components/dashboard/header";
+import { Head } from "@inertiajs/react";
 
-export default function DashboardLayout() {
+import "../../css/agua_na_casa.css";
+
+export default function DashboardLayout({
+    page,
+    title
+}: {
+    page: any,
+    title: string
+}) {
     return (
         <div className="flex">
-            <a href="index.html"><img src="aguanacasa_logo_white.png" className="h-60 w-60" id="agua-na-casa-logo-white"></img></a>
-            <Navbar></Navbar>
+            <Head title={title}></Head>
+            {/* Header */}
+            <Header />
+
+            {/* Main Page */}
+            <main className="page-content">{page}</main>
+
+            {/* Footer */}
+            <Footer />
         </div>
-    )
+    );
 }

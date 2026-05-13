@@ -1,18 +1,24 @@
-import AuthLayoutTemplate from '@/layouts/auth/auth-simple-layout';
+import { Head } from "@inertiajs/react";
+import "../../css/auth.css";
 
 export default function AuthLayout({
-    children,
-    title,
-    description,
-    ...props
+    page, 
+    header,
+    title
 }: {
-    children: React.ReactNode;
-    title: string;
-    description: string;
+    page: any,
+    header: string,
+    title: string
 }) {
     return (
-        <AuthLayoutTemplate title={title} description={description} {...props}>
-            {children}
-        </AuthLayoutTemplate>
+        <div className="container">
+            <Head title={title}></Head>
+            <div className="form">
+                <center> <img src="/assets/aguanacasa_logo_blue.png" width="200px" /></center>
+                <header>{header}</header>
+
+                {page}
+            </div>
+        </div>
     );
 }

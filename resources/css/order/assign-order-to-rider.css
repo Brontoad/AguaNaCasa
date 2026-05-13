@@ -1,0 +1,101 @@
+.rider-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.rider-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    padding: 16px;
+
+    border: 1px solid #e5e5e5;
+    border-radius: 14px;
+
+    background: white;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.rider-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.selected-rider {
+    border-color: var(--primary);
+    background: rgba(0, 123, 255, 0.06);
+}
+
+.rider-avatar {
+    width: 60px;
+    height: 60px;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    padding: 8px;
+
+    flex-shrink: 0;
+}
+
+.rider-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.rider-info h4 {
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    color: #333;
+}
+
+.rider-info p {
+    margin: 5px 0 0;
+
+    font-size: 14px;
+    color: #777;
+}
+
+.rider-select-indicator {
+    min-width: 80px;
+
+    text-align: right;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    color: var(--primary);
+}
+
+.empty-riders {
+    text-align: center;
+
+    padding: 30px;
+
+    border: 1px dashed #dcdcdc;
+    border-radius: 14px;
+
+    color: #888;
+    font-size: 15px;
+}

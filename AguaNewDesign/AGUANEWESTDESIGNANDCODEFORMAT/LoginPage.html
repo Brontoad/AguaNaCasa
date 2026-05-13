@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap" rel="stylesheet">
+  <title>AguaNaCasa - Choose Your Portal</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<style>
+  /* Reset some default styles */
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+  }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #91C8E4, #19A7CE);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container {
+    margin-bottom: 100px;
+    margin-top: 100px;
+    max-width: 450px;
+    width: 100%;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+
+  /* Role Selection Tabs */
+  .role-tabs {
+    display: flex;
+    background: #f5f5f5;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .role-tab {
+    flex: 1;
+    text-align: center;
+    padding: 15px 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+    color: #777;
+  }
+
+  .role-tab i {
+    margin-right: 8px;
+    font-size: 16px;
+  }
+
+  .role-tab:hover {
+    background: #e8f4f8;
+    color: #19A7CE;
+  }
+
+  .role-tab.active {
+    background: white;
+    color: #19A7CE;
+    border-bottom: 3px solid #19A7CE;
+    font-weight: 700;
+  }
+
+  /* Role-specific messages */
+  .role-message {
+    padding: 10px 20px;
+    background: #f0f9ff;
+    border-left: 4px solid #19A7CE;
+    margin: 15px 20px 0;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #146C94;
+  }
+
+  .role-message i {
+    margin-right: 8px;
+  }
+
+  .form {
+    padding: 2rem;
+  }
+
+  header {
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input {
+    height: 50px;
+    padding: 0 15px;
+    font-size: 15px;
+    margin-bottom: 1rem;
+    font-family: 'Nunito Sans', sans-serif;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border 0.3s;
+  }
+
+  input:focus {
+    border-color: #19A7CE;
+    box-shadow: 0 0 0 3px rgba(25,167,206,0.1);
+  }
+
+  .signup {
+    font-size: 15px;
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  label {
+    color: #19A7CE;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  label:hover {
+    text-decoration: underline;
+  }
+
+  .button {
+    color: #fff;
+    background: #19A7CE;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Nunito Sans', sans-serif;
+    letter-spacing: 0.5px;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: 0.4s;
+    border: none;
+    height: 50px;
+    border-radius: 8px;
+  }
+
+  .button:hover {
+    background: #146C94;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(25,167,206,0.3);
+  }
+
+  .registration.form {
+    display: none;
+    padding: 20px 30px;
+  }
+
+  /* Registration form styles */
+  .registration.form form {
+    margin-top: 10px;
+  }
+
+  .registration.form .input-field {
+    margin-bottom: 15px;
+  }
+
+  .registration.form .input-field label {
+    color: #555;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  .registration.form input[type="text"],
+  .registration.form input[type="password"],
+  .registration.form input[type="date"],
+  .registration.form input[type="number"],
+  .registration.form input[type="file"],
+  .registration.form input[type="tel"],
+  .registration.form select {
+    width: 100%;
+    height: 45px;
+    padding: 0 12px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    font-family: 'Nunito Sans', sans-serif;
+    box-sizing: border-box;
+  }
+
+  .registration.form input[type="file"] {
+    padding-top: 10px;
+    height: auto;
+  }
+
+  .registration.form select {
+    background: white;
+    cursor: pointer;
+  }
+
+  .term {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 13px;
+  }
+
+  .term input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    margin-bottom: 0;
+    cursor: pointer;
+  }
+
+  .term label {
+    color: #555;
+    font-weight: normal;
+    cursor: pointer;
+  }
+
+  .term a {
+    color: #19A7CE;
+    text-decoration: none;
+  }
+
+  .term a:hover {
+    text-decoration: underline;
+  }
+
+  /* Role indicator */
+  .role-indicator {
+    background: #e3f2fd;
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 15px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #146C94;
+  }
+
+  .role-indicator i {
+    margin-right: 5px;
+  }
+
+  /* Login Toggle Switch Styles */
+  .login-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: #f8f9fa;
+    padding: 8px;
+    border-radius: 50px;
+    border: 1px solid #e0e0e0;
+  }
+
+  .toggle-option {
+    flex: 1;
+    text-align: center;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 40px;
+    transition: all 0.3s ease;
+    color: #666;
+  }
+
+  .toggle-option.active {
+    background: #19A7CE;
+    color: white;
+    box-shadow: 0 2px 8px rgba(25,167,206,0.3);
+  }
+
+  .toggle-option i {
+    margin-right: 6px;
+    font-size: 14px;
+  }
+
+  .login-field-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .login-field-wrapper input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .container {
+      margin: 20px;
+      width: auto;
+    }
+    
+    .role-tab {
+      font-size: 12px;
+      padding: 12px 5px;
+    }
+    
+    .role-tab i {
+      margin-right: 4px;
+      font-size: 14px;
+    }
+    
+    .form {
+      padding: 1.5rem;
+    }
+    
+    .toggle-option {
+      font-size: 12px;
+      padding: 6px 10px;
+    }
+  }
+</style>
+
+<body>
+  <div class="container">
+    <!-- Role Selection Tabs -->
+    <div class="role-tabs">
+      <div class="role-tab active" onclick="switchRole('customer')" id="customerTab">
+        <i class="fas fa-user"></i> Customer
+      </div>
+      <div class="role-tab" onclick="switchRole('rider')" id="riderTab">
+        <i class="fas fa-motorcycle"></i> Rider
+      </div>
+      <div class="role-tab" onclick="switchRole('station')" id="stationTab">
+        <i class="fas fa-store"></i> Water Station
+      </div>
+    </div>
+
+    <!-- Role-specific message -->
+    <div class="role-message" id="roleMessage">
+      <i class="fas fa-info-circle"></i> 
+      <span id="roleMessageText">Login as a customer to order water delivery to your home</span>
+    </div>
+    
+    <!-- Login Form (same for all roles) -->
+    <div class="login form" id="loginForm">
+      <center> <img src="aguanacasa_logo_blue.png" width="180px"></center>
+      <header id="loginHeader">Customer Login</header>
+      
+      <!-- Login Toggle Switch -->
+      <div class="login-toggle">
+        <div class="toggle-option active" id="emailToggle" onclick="switchLoginMethod('email')">
+          <i class="fas fa-envelope"></i> Email
+        </div>
+        <div class="toggle-option" id="mobileToggle" onclick="switchLoginMethod('mobile')">
+          <i class="fas fa-phone-alt"></i> Mobile
+        </div>
+      </div>
+      
+      <!-- Hidden role field -->
+      <input type="hidden" id="loginRole" value="customer">
+      <!-- Hidden login method field -->
+      <input type="hidden" id="loginMethod" value="email">
+      
+      <form id="loginFormElement">
+        <div class="login-field-wrapper">
+          <input type="text" id="loginIdentifier" placeholder="Enter your email">
+        </div>
+        <input type="password" id="password" placeholder="Enter your password">
+        <input type="button" class="button" value="Login" onclick="login()">
+      </form>
+      <div class="signup">
+        <span class="signup">Don't have an account?
+          <label for="check" id="signupLabel">Signup as <span id="signupRoleText">Customer</span></label>
+        </span>
+      </div>
+    </div>
+
+    <!-- Registration Form (changes based on role) -->
+    <div class="registration form" id="registrationForm">
+      <header id="signupHeader">Customer Signup</header>
+      
+      <!-- Role indicator badge -->
+      <div class="role-indicator" id="roleIndicator">
+        <i class="fas fa-user"></i> Signing up as Customer
+      </div>
+      
+      <form id="signupForm">
+        <!-- Hidden role field -->
+        <input type="hidden" id="signupRole" value="customer">
+        
+        <!-- Common fields for all roles -->
+        <div class="input-field">
+          <label>Email</label>
+          <input type="email" id="signupEmail" placeholder="Enter your email" required>
+        </div>
+        <div class="input-field">
+          <label>Mobile Number</label>
+          <input type="tel" id="signupMobile" placeholder="Enter your mobile number" required>
+        </div>
+        <div class="input-field">
+          <label>Password</label>
+          <input type="password" id="signupPass" placeholder="Enter your password" required>
+        </div>
+        <div class="input-field">
+          <label>Full Name</label>
+          <input type="text" id="fullName" placeholder="Enter your full name" required>
+        </div>
+        
+        <!-- Customer-specific fields (shown only for customer) -->
+        <div class="customer-fields">
+          <div class="input-field">
+            <label>Date of Birth</label>
+            <input type="date" id="dateOfBirth">
+          </div>
+          <div class="input-field">
+            <label>Gender</label>
+            <select id="gender">
+              <option value="">Select gender (optional)</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+          <div class="input-field">
+            <label>Home Address</label>
+            <input type="text" id="homeAddress" placeholder="Enter your home address">
+          </div>
+        </div>
+        
+        <!-- Rider-specific fields (shown only for rider) -->
+        <div class="rider-fields" style="display: none;">
+          <div class="input-field">
+            <label>Vehicle Type</label>
+            <select id="vehicleType">
+              <option value="">Select vehicle type</option>
+              <option>Motorcycle</option>
+              <option>Scooter</option>
+              <option>Bicycle</option>
+              <option>Car</option>
+            </select>
+          </div>
+          <div class="input-field">
+            <label>License Number</label>
+            <input type="text" id="licenseNumber" placeholder="Enter driver's license number">
+          </div>
+          <div class="input-field">
+            <label>Service Areas</label>
+            <input type="text" id="serviceAreas" placeholder="e.g., Guiwan, Tetuan, Baliwasan">
+          </div>
+          <div class="input-field">
+            <label>Vehicle Photo</label>
+            <input type="file" id="vehiclePhoto" accept="image/*">
+          </div>
+        </div>
+        
+        <!-- Station-specific fields (shown only for station) -->
+        <div class="station-fields" style="display: none;">
+          <div class="input-field">
+            <label>Business Name</label>
+            <input type="text" id="businessName" placeholder="Enter water station name">
+          </div>
+          <div class="input-field">
+            <label>Business Address</label>
+            <input type="text" id="businessAddress" placeholder="Enter station address">
+          </div>
+          <div class="input-field">
+            <label>DTI/BIR Permit</label>
+            <input type="text" id="businessPermit" placeholder="Enter permit number">
+          </div>
+          <div class="input-field">
+            <label>Station Contact Number</label>
+            <input type="tel" id="stationContact" placeholder="Enter contact number">
+          </div>
+          <div class="input-field">
+            <label>Business Permit Photo</label>
+            <input type="file" id="permitPhoto" accept="image/*">
+          </div>
+        </div>
+        
+        <!-- Terms and Conditions -->
+        <div class="term">
+          <input type="checkbox" id="termbox" required>
+          <label>I agree with the <a href="terms.html" target="_blank">Terms and Conditions</a></label>
+        </div>
+        
+        <input type="button" class="button" value="Sign Up" onclick="signup()">
+      </form>
+      <div>
+        <center>
+          <span class="login">Already have an account?
+            <label id="loginLabel">Login</label>
+          </span>
+        </center>
+      </div>
+    </div> 
+  </div>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <script>
+    // Initialize Firebase with your own configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAzStYODU-4-Vp1leWyKN9GmNhPu8219Xg",
+      authDomain: "aguanacasa-74ba1.firebaseapp.com",
+      databaseURL: "https://aguanacasa-74ba1-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "aguanacasa-74ba1",
+      storageBucket: "aguanacasa-74ba1.appspot.com",
+      messagingSenderId: "994613822213",
+      appId: "1:994613822213:web:cce7bb901241d564b36d6c",
+      measurementId: "G-3HYBS92MND"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const database = firebase.database();
+    const storage = firebase.storage();
+
+    // Current role (customer, rider, station)
+    let currentRole = 'customer';
+    // Current login method (email or mobile)
+    let currentLoginMethod = 'email';
+
+    // DOM Elements
+    const loginForm = document.querySelector(".login.form");
+    const registrationForm = document.querySelector(".registration.form");
+    const loginLabel = document.getElementById("loginLabel");
+    const signupLabel = document.getElementById("signupLabel");
+    const loginHeader = document.getElementById("loginHeader");
+    const signupHeader = document.getElementById("signupHeader");
+    const signupRoleText = document.getElementById("signupRoleText");
+    const roleIndicator = document.getElementById("roleIndicator");
+    const roleMessageText = document.getElementById("roleMessageText");
+    const loginRole = document.getElementById("loginRole");
+    const signupRole = document.getElementById("signupRole");
+    const loginIdentifier = document.getElementById("loginIdentifier");
+    const emailToggle = document.getElementById("emailToggle");
+    const mobileToggle = document.getElementById("mobileToggle");
+    const loginMethodInput = document.getElementById("loginMethod");
+
+    // Role-specific field containers
+    const customerFields = document.querySelector('.customer-fields');
+    const riderFields = document.querySelector('.rider-fields');
+    const stationFields = document.querySelector('.station-fields');
+
+    // Tab elements
+    const customerTab = document.getElementById('customerTab');
+    const riderTab = document.getElementById('riderTab');
+    const stationTab = document.getElementById('stationTab');
+
+    // Switch login method between email and mobile
+    function switchLoginMethod(method) {
+      currentLoginMethod = method;
+      loginMethodInput.value = method;
+      
+      // Update toggle UI
+      if (method === 'email') {
+        emailToggle.classList.add('active');
+        mobileToggle.classList.remove('active');
+        loginIdentifier.placeholder = 'Enter your email';
+        loginIdentifier.type = 'email';
+      } else {
+        emailToggle.classList.remove('active');
+        mobileToggle.classList.add('active');
+        loginIdentifier.placeholder = 'Enter your mobile number (e.g., 09123456789)';
+        loginIdentifier.type = 'tel';
+      }
+    }
+
+    // Switch role function
+    function switchRole(role) {
+      currentRole = role;
+      
+      // Update active tab
+      customerTab.classList.remove('active');
+      riderTab.classList.remove('active');
+      stationTab.classList.remove('active');
+      
+      if (role === 'customer') {
+        customerTab.classList.add('active');
+        loginHeader.textContent = 'Customer Login';
+        signupHeader.textContent = 'Customer Signup';
+        signupRoleText.textContent = 'Customer';
+        roleIndicator.innerHTML = '<i class="fas fa-user"></i> Signing up as Customer';
+        roleMessageText.textContent = 'Login as a customer to order water delivery to your home';
+        
+        // Show customer fields, hide others
+        customerFields.style.display = 'block';
+        riderFields.style.display = 'none';
+        stationFields.style.display = 'none';
+        
+        // Make customer fields required (optional)
+        document.getElementById('dateOfBirth').required = true;
+        document.getElementById('homeAddress').required = true;
+        
+      } else if (role === 'rider') {
+        riderTab.classList.add('active');
+        loginHeader.textContent = 'Rider Login';
+        signupHeader.textContent = 'Rider Signup';
+        signupRoleText.textContent = 'Rider';
+        roleIndicator.innerHTML = '<i class="fas fa-motorcycle"></i> Signing up as Rider';
+        roleMessageText.textContent = 'Login as a rider to accept delivery requests and earn';
+        
+        // Show rider fields, hide others
+        customerFields.style.display = 'none';
+        riderFields.style.display = 'block';
+        stationFields.style.display = 'none';
+        
+        // Make customer fields not required
+        document.getElementById('dateOfBirth').required = false;
+        document.getElementById('homeAddress').required = false;
+        
+      } else if (role === 'station') {
+        stationTab.classList.add('active');
+        loginHeader.textContent = 'Water Station Login';
+        signupHeader.textContent = 'Water Station Signup';
+        signupRoleText.textContent = 'Water Station';
+        roleIndicator.innerHTML = '<i class="fas fa-store"></i> Signing up as Water Station';
+        roleMessageText.textContent = 'Login as a water station to manage orders and deliveries';
+        
+        // Show station fields, hide others
+        customerFields.style.display = 'none';
+        riderFields.style.display = 'none';
+        stationFields.style.display = 'block';
+        
+        // Make customer fields not required
+        document.getElementById('dateOfBirth').required = false;
+        document.getElementById('homeAddress').required = false;
+      }
+      
+      // Update hidden role inputs
+      loginRole.value = role;
+      signupRole.value = role;
+    }
+
+    // Toggle between login and registration forms
+    loginLabel.addEventListener("click", () => {
+      loginForm.style.display = "block";
+      registrationForm.style.display = "none";
+    });
+
+    signupLabel.addEventListener("click", () => {
+      loginForm.style.display = "none";
+      registrationForm.style.display = "block";
+    });
+
+    // Function to get user by email or mobile number
+    function getUserByIdentifier(identifier, role, type) {
+      return new Promise((resolve, reject) => {
+        if (type === 'email') {
+          // If logging in with email, use Firebase auth
+          resolve({ type: 'email', value: identifier });
+        } else {
+          // If logging in with mobile, search in database by mobile number
+          database.ref("users").orderByChild("mobileNumber").equalTo(identifier).once("value")
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                let userId = null;
+                let userData = null;
+                snapshot.forEach((childSnapshot) => {
+                  userId = childSnapshot.key;
+                  userData = childSnapshot.val();
+                });
+                resolve({ type: 'mobile', value: identifier, userId: userId, userData: userData });
+              } else {
+                reject(new Error("No account found with this mobile number"));
+              }
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        }
+      });
+    }
+
+    // Login function
+    function login() {
+      const identifier = loginIdentifier.value.trim();
+      const password = document.getElementById('password').value;
+      const role = document.getElementById('loginRole').value;
+      const method = document.getElementById('loginMethod').value;
+
+      if (!identifier || !password) {
+        alert("Please enter your login details and password");
+        return;
+      }
+
+      if (method === 'email') {
+        // Login with email using Firebase Auth
+        firebase.auth().signInWithEmailAndPassword(identifier, password)
+          .then((userCredential) => {
+            const userId = userCredential.user.uid;
+            
+            // Check user role from database
+            database.ref("users/" + userId).once('value')
+              .then((snapshot) => {
+                const userData = snapshot.val();
+                
+                if (!userData) {
+                  alert("User data not found");
+                  return;
+                }
+                
+                // Verify role matches
+                if (userData.role !== role) {
+                  alert(`This account is registered as a ${userData.role}. Please use the correct login tab.`);
+                  auth.signOut();
+                  return;
+                }
+                
+                // Check if account is approved (for riders and stations)
+                if (userData.status === 'pending') {
+                  alert("Your account is pending approval. Please wait for admin verification.");
+                  auth.signOut();
+                  return;
+                }
+                
+                console.log('Login successful');
+                
+                // Redirect based on role
+                if (role === 'customer') {
+                  window.location.href = 'index.html';
+                } else if (role === 'rider') {
+                  window.location.href = 'rider-dashboard.html';
+                } else if (role === 'station') {
+                  window.location.href = 'station-dashboard.html';
+                }
+              });
+          })
+          .catch((error) => {
+            alert(`Login failed: ${error.message}`);
+          });
+      } else {
+        // Login with mobile number - find user by mobile number in database
+        database.ref("users").orderByChild("mobileNumber").equalTo(identifier).once("value")
+          .then((snapshot) => {
+            if (!snapshot.exists()) {
+              alert("No account found with this mobile number");
+              return;
+            }
+            
+            let userId = null;
+            let userData = null;
+            snapshot.forEach((childSnapshot) => {
+              userId = childSnapshot.key;
+              userData = childSnapshot.val();
+            });
+            
+            if (!userData) {
+              alert("User data not found");
+              return;
+            }
+            
+            // Verify role matches
+            if (userData.role !== role) {
+              alert(`This account is registered as a ${userData.role}. Please use the correct login tab.`);
+              return;
+            }
+            
+            // Check if account is approved (for riders and stations)
+            if (userData.status === 'pending') {
+              alert("Your account is pending approval. Please wait for admin verification.");
+              return;
+            }
+            
+            // Since Firebase Auth doesn't support mobile number login without phone auth,
+            // we need to verify password by checking against stored hash or using email login
+            // For now, we'll get the email from userData and attempt email login
+            if (userData.email) {
+              firebase.auth().signInWithEmailAndPassword(userData.email, password)
+                .then((userCredential) => {
+                  console.log('Login successful via mobile number');
+                  
+                  // Redirect based on role
+                  if (role === 'customer') {
+                    window.location.href = 'index.html';
+                  } else if (role === 'rider') {
+                    window.location.href = 'rider-dashboard.html';
+                  } else if (role === 'station') {
+                    window.location.href = 'station-dashboard.html';
+                  }
+                })
+                .catch((error) => {
+                  alert(`Login failed: Invalid password. ${error.message}`);
+                });
+            } else {
+              alert("Account email not found. Please login with email instead.");
+            }
+          })
+          .catch((error) => {
+            alert(`Login failed: ${error.message}`);
+          });
+      }
+    }
+
+    // Signup function
+    function signup() {
+      const signupEmail = document.getElementById("signupEmail").value;
+      const signupMobile = document.getElementById("signupMobile").value;
+      const signupPassword = document.getElementById("signupPass").value;
+      const fullName = document.getElementById("fullName").value;
+      const role = document.getElementById("signupRole").value;
+
+      // Check terms agreement
+      const termboxChecked = document.getElementById("termbox").checked;
+      if (!termboxChecked) {
+        alert("Please accept the terms and conditions before signing up.");
+        return;
+      }
+
+      // Basic validation
+      if (!signupEmail || !signupMobile || !signupPassword || !fullName) {
+        alert("Please fill in all required fields (Email, Mobile Number, Password, Full Name)");
+        return;
+      }
+
+      // Validate mobile number format (basic validation)
+      const mobileRegex = /^[\+]?[0-9]{10,15}$/;
+      if (!mobileRegex.test(signupMobile.replace(/\s/g, ''))) {
+        alert("Please enter a valid mobile number (10-15 digits, optional + prefix)");
+        return;
+      }
+
+      // Perform Firebase authentication
+      auth.createUserWithEmailAndPassword(signupEmail, signupPassword)
+        .then((userCredential) => {
+          const userId = userCredential.user.uid;
+
+          // Base user data
+          const userData = {
+            email: signupEmail,
+            mobileNumber: signupMobile,
+            fullName: fullName,
+            role: role, // 'customer', 'rider', or 'station'
+            status: role === 'customer' ? 'verified' : 'pending', // Customers auto-verified, others need approval
+            createdAt: new Date().toISOString(),
+          };
+
+          // Add role-specific data
+          if (role === 'customer') {
+            userData.dateOfBirth = document.getElementById("dateOfBirth").value;
+            userData.gender = document.getElementById("gender").value;
+            userData.homeAddress = document.getElementById("homeAddress").value;
+            userData.status = 'verified'; // Customers auto-verified
+            
+          } else if (role === 'rider') {
+            userData.vehicleType = document.getElementById("vehicleType").value;
+            userData.licenseNumber = document.getElementById("licenseNumber").value;
+            userData.serviceAreas = document.getElementById("serviceAreas").value;
+            userData.isAvailable = true;
+            userData.completedDeliveries = 0;
+            userData.rating = 5.0;
+            
+            // Handle vehicle photo upload
+            const vehiclePhotoFile = document.getElementById("vehiclePhoto").files[0];
+            if (vehiclePhotoFile) {
+              const storageRef = storage.ref();
+              const vehiclePhotoRef = storageRef.child(`rider_photos/${userId}_vehicle_${Date.now()}`);
+              
+              vehiclePhotoRef.put(vehiclePhotoFile).then((snapshot) => {
+                return snapshot.ref.getDownloadURL();
+              }).then((downloadURL) => {
+                userData.vehiclePhoto = downloadURL;
+                // Save to database after photo upload
+                return database.ref("users/" + userId).set(userData);
+              }).then(() => {
+                alert("Rider registration successful! Your account is pending approval.");
+                console.log("Rider registration successful");
+                document.getElementById("signupForm").reset();
+                loginForm.style.display = "block";
+                registrationForm.style.display = "none";
+              }).catch((error) => {
+                alert("Error uploading photo: " + error.message);
+              });
+              return; // Exit early, data saved in callback
+            }
+            
+          } else if (role === 'station') {
+            userData.businessName = document.getElementById("businessName").value;
+            userData.businessAddress = document.getElementById("businessAddress").value;
+            userData.businessPermit = document.getElementById("businessPermit").value;
+            userData.stationContact = document.getElementById("stationContact").value;
+            userData.isActive = true;
+            userData.totalOrders = 0;
+            userData.rating = 5.0;
+            
+            // Handle permit photo upload
+            const permitPhotoFile = document.getElementById("permitPhoto").files[0];
+            if (permitPhotoFile) {
+              const storageRef = storage.ref();
+              const permitPhotoRef = storageRef.child(`station_photos/${userId}_permit_${Date.now()}`);
+              
+              permitPhotoRef.put(permitPhotoFile).then((snapshot) => {
+                return snapshot.ref.getDownloadURL();
+              }).then((downloadURL) => {
+                userData.permitPhoto = downloadURL;
+                // Save to database after photo upload
+                return database.ref("users/" + userId).set(userData);
+              }).then(() => {
+                alert("Water station registration successful! Your account is pending approval.");
+                console.log("Station registration successful");
+                document.getElementById("signupForm").reset();
+                loginForm.style.display = "block";
+                registrationForm.style.display = "none";
+              }).catch((error) => {
+                alert("Error uploading photo: " + error.message);
+              });
+              return; // Exit early, data saved in callback
+            }
+          }
+
+          // For customers or roles without file uploads, save directly
+          database.ref("users/" + userId).set(userData)
+            .then(() => {
+              alert("Registration successful! Please login.");
+              console.log("Registration successful");
+              document.getElementById("signupForm").reset();
+              loginForm.style.display = "block";
+              registrationForm.style.display = "none";
+            })
+            .catch((error) => {
+              alert("Error saving data: " + error.message);
+            });
+        })
+        .catch((error) => {
+          alert("Registration error: " + error.message);
+        });
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Start with customer role
+      switchRole('customer');
+      // Start with email login method
+      switchLoginMethod('email');
+    });
+  </script>
+</body>
+</html>

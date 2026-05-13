@@ -1,20 +1,19 @@
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import '../css/app.css';
-import { initializeTheme } from './hooks/use-appearance';
-
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+import { Container, createRoot } from 'react-dom/client';
+import '../css/agua_na_casa.css';
+// import { initializeTheme } from './hooks/use-appearance';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 
 createInertiaApp({
-    title: (title) => (title ? `${title} - ${appName}` : appName),
-    resolve: (name) =>
+    resolve: (name: string) =>
         resolvePageComponent(
             `./pages/${name}.tsx`,
-            import.meta.glob('./pages/**/*.tsx'),
+            (import.meta as any).glob('./pages/**/*.tsx'),
         ),
-    setup({ el, App, props }) {
+    setup({ el, App, props }: {el: Container, App: any, props: any}) {
         const root = createRoot(el);
 
         root.render(
@@ -28,5 +27,4 @@ createInertiaApp({
     },
 });
 
-// This will set light / dark mode on load...
-initializeTheme();
+library.add(fas);

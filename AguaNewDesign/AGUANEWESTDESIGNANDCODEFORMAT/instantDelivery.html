@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Agua na Casa - Instant Order">
+    <title>Agua na Casa - Instant Order</title>
+    <link rel="icon" href="aguanacasa_logo_white.png" type="image/icon type">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="AguaStyle.css">
+
+    <style>
+        /* ── PAGE WRAPPER ── */
+        .instant-wrapper {
+            background: #F4FBFD;
+            min-height: 60vh;
+            padding: 100px 20px 60px;
+        }
+
+        .page-title {
+            text-align: center;
+            font-family: 'Nunito', sans-serif;
+            font-size: 22px;
+            font-weight: 900;
+            color: #0F8EA8;
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+        }
+
+        /* ── LAYOUT WITH CART ── */
+        .content-with-cart {
+            display: flex;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .products-grid {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* ── CARDS GRID ── */
+        .cards-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* ── SINGLE CARD ── */
+        .order-card {
+            background: #19A7CE;
+            border-radius: 16px;
+            width: 280px;
+            padding: 15px;
+            color: white;
+            font-family: 'Nunito Sans', sans-serif;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .card-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-header-row span {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 18px;
+        }
+
+        .card-price {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .price-note {
+            font-size: 10px;
+            text-align: center;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .card-img {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 10px;
+        }
+
+        .card-img img {
+            width: 160px;
+            height: 160px;
+            object-fit: contain;
+        }
+
+        .card-select {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
+        .card-select select {
+            width: 100%;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: none;
+            padding: 8px;
+            font-size: 12px;
+            background: white;
+            color: #333;
+        }
+
+        .card-select select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.5);
+        }
+
+        .station-price {
+            font-size: 11px;
+            text-align: center;
+            margin-top: 5px;
+            padding: 4px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 6px;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            background: white;
+            color: #19A7CE;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 8px;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #146C94;
+            color: white;
+            transform: scale(1.02);
+        }
+
+        /* ── ADDRESS CARD ── */
+        .address-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .address-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .address-header h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #19A7CE;
+            margin: 0;
+        }
+
+        .edit-address-btn {
+            background: none;
+            border: 1px solid #19A7CE;
+            color: #19A7CE;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .edit-address-btn:hover {
+            background: #19A7CE;
+            color: white;
+        }
+
+        .address-content {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .address-content i {
+            color: #19A7CE;
+            width: 20px;
+        }
+
+        /* ── CART PANEL ── */
+        .cart-panel {
+            width: 380px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-header {
+            background: #19A7CE;
+            color: white;
+            padding: 18px 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .cart-badge {
+            background: white;
+            color: #19A7CE;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-weight: 700;
+            font-size: 13px;
+            margin-left: auto;
+            margin-right: 0;
+            min-width: 30px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .cart-items {
+            flex: 1;
+            padding: 15px;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 700;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .cart-item-details {
+            font-size: 10px;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        .cart-item-price {
+            font-weight: 700;
+            color: #19A7CE;
+            font-size: 13px;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cart-qty-btn {
+            background: #f0f0f0;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .cart-qty-btn:hover {
+            background: #19A7CE;
+            color: white;
+        }
+
+        .cart-qty {
+            min-width: 28px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        .cart-summary {
+            padding: 15px 20px;
+            border-top: 2px solid #e0e0e0;
+            background: #f8f9fa;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .summary-row.total {
+            font-weight: 800;
+            font-size: 18px;
+            color: #19A7CE;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 10px;
+            margin-top: 5px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: #19A7CE;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .checkout-btn:hover {
+            background: #146C94;
+            transform: translateY(-2px);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        /* ── MODAL ── */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            padding: 25px;
+            animation: modalSlideIn 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #19A7CE;
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #2c3e50;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e7ed;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .payment-method {
+            background: #e8f4f8;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            color: #19A7CE;
+            font-weight: 600;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .confirm-btn {
+            flex: 1;
+            background: #19A7CE;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            flex: 1;
+            background: #ecf0f1;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            z-index: 1001;
+            animation: slideInRight 0.3s ease;
+            display: none;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 992px) {
+            .content-with-cart {
+                flex-direction: column;
+            }
+            .cart-panel {
+                width: 100%;
+                position: static;
+                margin-top: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .instant-wrapper {
+                padding: 80px 15px 40px;
+            }
+            .order-card {
+                width: 100%;
+                max-width: 300px;
+            }
+            .modal-content {
+                max-width: 95%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ══ HEADER ══ -->
+    <header class="header-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="Index.html" class="logo">
+                            <img src="aguanacasa_logo_white.png" alt="Agua na Casa">
+                        </a>
+
+                        <ul class="nav" id="navbar">
+                            <li><a href="Index.html">Home</a></li>
+                            <li class="dropdown" id="servicesDropdown">
+                                <a href="javascript:void(0);" onclick="toggleServicesDropdown()">
+                                    Services <i class="fas fa-chevron-down" style="font-size:12px;"></i>
+                                </a>
+                                <div class="dropdown-menu" id="servicesDropdownMenu">
+                                    <a href="instant-delivery.html"><i class="fas fa-bolt"></i> Instant Delivery</a>
+                                    <a href="subscription.html"><i class="fas fa-calendar-alt"></i> Subscription</a>
+                                </div>
+                            </li>
+                            <li><a href="About.html">About</a></li>
+                            <li><a href="stations.html">Stations</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                            <li><div class="order-button"><a href="javascript:void(0);" onclick="checkBeforeOrder()">Order Now <i class="fas fa-truck"></i></a></div></li>
+                            <li>
+                                <a href="cart.html" class="cart-icon">
+                                    <img src="cart.png" alt="Cart">
+                                    <span class="cart-badge" id="cartIconBadge">0</span>
+                                </a>
+                            </li>
+                            <li id="signInLi">
+                                <div class="signin-button">
+                                    <a href="login.html"><i class="fa fa-sign-in-alt"></i> Sign In</a>
+                                </div>
+                            </li>
+                            <li id="profileLi" style="display:none;">
+                                <div class="profile-button" id="profileButton">
+                                    <a href="javascript:void(0);" onclick="toggleProfileDropdown()">
+                                        <img src="account-25.png" alt="Profile" class="profile-icon">
+                                        <span>Profile</span>
+                                        <i class="fas fa-chevron-down" style="font-size:12px;margin-left:5px;"></i>
+                                    </a>
+                                    <div class="profile-dropdown" id="profileDropdown">
+                                        <a href="account.html"><i class="fas fa-user-circle"></i> Account</a>
+                                        <a href="javascript:void(0);" onclick="logout()" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <a class="menu-trigger">
+                            <span><i class="fa fa-bars"></i></span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ══ MAIN CONTENT ══ -->
+    <main class="instant-wrapper">
+        <p class="page-title">INSTANT ORDER</p>
+
+        <div class="content-with-cart">
+            <!-- Products Grid with Address Card -->
+            <div class="products-grid">
+                <!-- Address Card -->
+                <div class="address-card">
+                    <div class="address-header">
+                        <h4><i class="fas fa-map-marker-alt"></i> Delivery Address</h4>
+                        <button class="edit-address-btn" onclick="openAddressModal()">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </div>
+                    <div class="address-content" id="deliveryAddressDisplay">
+                        <i class="fas fa-location-dot"></i> Loading address...
+                    </div>
+                </div>
+
+                <div class="cards-grid" id="cardsGrid">
+                    <!-- Cards will be dynamically populated -->
+                </div>
+            </div>
+
+            <!-- Cart Panel -->
+            <div class="cart-panel">
+                <div class="cart-header">
+                    <h3><i class="fas fa-shopping-cart"></i> Your Order</h3>
+                    <span class="cart-badge" id="cartItemCount">0</span>
+                </div>
+                <div class="cart-items" id="cartItems">
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-bag" style="font-size: 48px; opacity: 0.5;"></i>
+                        <p>Your cart is empty</p>
+                        <small>Add items from the menu</small>
+                    </div>
+                </div>
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="cartSubtotal">₱0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery Fee (₱5/gal)</span>
+                        <span id="cartDeliveryFee">₱0</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="cartTotal">₱0</span>
+                    </div>
+                    <button class="checkout-btn" onclick="openCheckoutModal()">
+                        <i class="fas fa-credit-card"></i> Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Address Edit Modal -->
+    <div class="modal" id="addressModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Edit Delivery Details</h3>
+                <button class="close-modal" onclick="closeModal('addressModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Recipient Name</label>
+                    <input type="text" class="form-control" id="editRecipientName" placeholder="Enter recipient name">
+                    <small style="color: #666; font-size: 11px;">If different from account holder</small>
+                </div>
+                <div class="form-group">
+                    <label>Barangay</label>
+                    <select class="form-control" id="editBarangay">
+                        <option value="Guiwan">Guiwan</option>
+                        <option value="Tetuan">Tetuan</option>
+                        <option value="San Jose">San Jose</option>
+                        <option value="Tumaga">Tumaga</option>
+                        <option value="Sta. Maria">Sta. Maria</option>
+                        <option value="San Roque">San Roque</option>
+                        <option value="Divisoria">Divisoria</option>
+                        <option value="Baliwasan">Baliwasan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Street / House No.</label>
+                    <input type="text" class="form-control" id="editStreet" placeholder="Enter street name or house number">
+                </div>
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="tel" class="form-control" id="editContact" placeholder="Enter contact number">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="confirm-btn" onclick="saveAddress()">Save Details</button>
+                <button class="cancel-btn" onclick="closeModal('addressModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-check-circle"></i> Confirm Order</h3>
+                <button class="close-modal" onclick="closeModal('checkoutModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Recipient Name</label>
+                    <div class="form-control" id="checkoutRecipientName" style="background: #f8f9fa; word-wrap: break-word;"></div>
+                </div>
+                <div class="form-group">
+                    <label>Delivery Address</label>
+                    <div class="form-control" id="checkoutAddress" style="background: #f8f9fa; word-wrap: break-word;"></div>
+                </div>
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <div class="form-control" id="checkoutContact" style="background: #f8f9fa; word-wrap: break-word;"></div>
+                </div>
+                <div class="form-group">
+                    <label>Special Instructions (Optional)</label>
+                    <textarea class="form-control" id="orderNotes" rows="2" placeholder="Gate code, landmark, etc."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <div class="payment-method">
+                        <i class="fas fa-money-bill-wave"></i> Cash on Delivery
+                    </div>
+                </div>
+                <div id="orderSummaryModal" style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 10px; word-wrap: break-word;">
+                    <!-- Order summary will be inserted here -->
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="confirm-btn" onclick="placeOrder()">Confirm Order</button>
+                <button class="cancel-btn" onclick="closeModal('checkoutModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toastNotification">
+        <i class="fas fa-check-circle"></i> <span id="toastMessage">Item added to cart!</span>
+    </div>
+
+    <!-- ══ FOOTER ══ -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>Contact Us</h4>
+                        <p>Zamboanga City, Philippines</p>
+                        <p><a href="tel:+63123456789">+63 123 456 789</a></p>
+                        <p><a href="mailto:aguanacasa@gmail.com">aguanacasa@gmail.com</a></p>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>About Us</h4>
+                        <div class="footer-lists">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="services.html">Services</a></li>
+                                <li><a href="About.html">About</a></li>
+                                <li><a href="stations.html">Stations</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>Useful Links</h4>
+                        <div class="footer-lists">
+                            <ul>
+                                <li><a href="#">Find Stations</a></li>
+                                <li><a href="#">Delivery Areas</a></li>
+                                <li><a href="#">Support</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="careers.html">Careers</a></li>
+                                <li><a href="#">Partnerships</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h4>About Agua na Casa</h4>
+                        <div class="logo">
+                            <img src="aguanacasa_logo_white.png" alt="Agua na Casa">
+                        </div>
+                        <p>Bringing clean, safe drinking water to every Filipino home with fast and reliable delivery service.</p>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="copyright-text">
+                        <p>Copyright © 2023 Agua na Casa. All Rights Reserved.
+                        <br>Design: <a href="#">Agua na Casa Team</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Product Data - All at base price (will be adjusted by station distance)
+        const products = [
+            { id: 1, name: 'MINERAL', basePrice: 35, image: 'MineralIcon.png' },
+            { id: 2, name: 'DISTILLED', basePrice: 35, image: 'DistilledIcon.png' },
+            { id: 3, name: 'ALKALINE', basePrice: 35, image: 'AlkalineIcon.png' },
+            { id: 4, name: 'PURIFIED', basePrice: 35, image: 'PurifiedIcon.png' },
+            { id: 5, name: 'SPRING', basePrice: 35, image: 'SpringIcon.png' }
+        ];
+
+        // Stations with their barangay locations
+        const stations = [
+            { id: 1, name: "AquaPure Guiwan", barangay: "Guiwan", nearbyPrice: 35, distantPrice: 45 },
+            { id: 2, name: "CleanH2O Tetuan", barangay: "Tetuan", nearbyPrice: 35, distantPrice: 45 },
+            { id: 3, name: "WaterZone San Jose", barangay: "San Jose", nearbyPrice: 35, distantPrice: 45 },
+            { id: 4, name: "AquaVida Tumaga", barangay: "Tumaga", nearbyPrice: 35, distantPrice: 45 },
+            { id: 5, name: "BlueSpring Sta. Maria", barangay: "Sta. Maria", nearbyPrice: 35, distantPrice: 45 },
+            { id: 6, name: "PureFlow San Roque", barangay: "San Roque", nearbyPrice: 35, distantPrice: 45 }
+        ];
+
+        // User address data (with recipient name)
+        let userAddress = {
+            recipientName: "John Dela Cruz",
+            barangay: "Guiwan",
+            street: "123 Mabini Street",
+            contact: "09171234567"
+        };
+
+        // Store pre-selected station ID from URL
+        let preselectedStationId = null;
+        let preselectedStationName = null;
+
+        // Cart data
+        let cart = [];
+
+        // Get station ID from URL parameter
+        function getStationFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const stationId = urlParams.get('station');
+            if (stationId) {
+                const stationIdNum = parseInt(stationId);
+                const station = stations.find(s => s.id === stationIdNum);
+                if (station) {
+                    preselectedStationId = stationIdNum;
+                    preselectedStationName = station.name;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Load user address from localStorage
+        function loadUserAddress() {
+            const savedAddress = localStorage.getItem('userDeliveryAddress');
+            if (savedAddress) {
+                userAddress = JSON.parse(savedAddress);
+            }
+            updateAddressDisplay();
+        }
+
+        // Save user address to localStorage
+        function saveUserAddress() {
+            localStorage.setItem('userDeliveryAddress', JSON.stringify(userAddress));
+            updateAddressDisplay();
+        }
+
+        // Update address display
+        function updateAddressDisplay() {
+            const addressDisplay = document.getElementById('deliveryAddressDisplay');
+            addressDisplay.innerHTML = `
+                <i class="fas fa-user"></i> ${userAddress.recipientName}<br>
+                <i class="fas fa-location-dot"></i> ${userAddress.street}, Barangay ${userAddress.barangay}<br>
+                <i class="fas fa-phone-alt"></i> ${userAddress.contact}
+            `;
+        }
+
+        // Get price based on station barangay vs user barangay
+        function getStationPrice(stationBarangay) {
+            if (stationBarangay === userAddress.barangay) {
+                return 35; // Nearby station - standard price
+            } else {
+                return 45; // Distant station - higher price
+            }
+        }
+
+        // Load cart from localStorage
+        function loadCart() {
+            const savedCart = localStorage.getItem('instantOrderCart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+            }
+            renderCart();
+            renderCards();
+            
+            // After rendering cards, apply preselected station if exists
+            if (preselectedStationId) {
+                setTimeout(() => {
+                    applyPreselectedStation();
+                }, 100);
+            }
+        }
+
+        // Apply preselected station to all product cards
+        function applyPreselectedStation() {
+            if (!preselectedStationId) return;
+            
+            const station = stations.find(s => s.id === preselectedStationId);
+            if (!station) return;
+            
+            // Convert station to JSON string for select value
+            const stationJson = JSON.stringify(station);
+            
+            // Apply to all product cards
+            products.forEach(product => {
+                const selectElement = document.getElementById(`station-${product.id}`);
+                if (selectElement) {
+                    // Check if the station exists in the dropdown options
+                    let optionExists = false;
+                    for (let i = 0; i < selectElement.options.length; i++) {
+                        if (selectElement.options[i].value === stationJson) {
+                            optionExists = true;
+                            break;
+                        }
+                    }
+                    
+                    if (optionExists) {
+                        selectElement.value = stationJson;
+                        // Trigger the change event to update price
+                        updateStationPrice(product.id, stationJson);
+                    }
+                }
+            });
+            
+            // Show notification
+            showToast(`📍 Station pre-selected: ${preselectedStationName}`, false);
+        }
+
+        // Save cart to localStorage
+        function saveCart() {
+            localStorage.setItem('instantOrderCart', JSON.stringify(cart));
+        }
+
+        // Show toast notification
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            toastMsg.innerText = message;
+            toast.style.backgroundColor = isError ? '#dc3545' : '#28a745';
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2000);
+        }
+
+        // Add to cart
+        function addToCart(productId, stationId, stationName, stationBarangay) {
+            const product = products.find(p => p.id === productId);
+            const station = stations.find(s => s.id === stationId);
+            const pricePerGallon = getStationPrice(stationBarangay);
+            
+            const existingItem = cart.find(item => item.productId === productId && item.stationId === stationId);
+            
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    productId: product.id,
+                    productName: product.name,
+                    stationId: station.id,
+                    stationName: station.name,
+                    stationBarangay: station.barangay,
+                    price: pricePerGallon,
+                    quantity: 1
+                });
+            }
+            
+            saveCart();
+            renderCart();
+            showToast(`${product.name} added to cart (${pricePerGallon === 35 ? 'Nearby' : 'Distant'} station)!`);
+            updateCartBadge();
+        }
+
+        // Update quantity
+        function updateQuantity(index, delta) {
+            const newQuantity = cart[index].quantity + delta;
+            if (newQuantity <= 0) {
+                cart.splice(index, 1);
+            } else {
+                cart[index].quantity = newQuantity;
+            }
+            saveCart();
+            renderCart();
+            updateCartBadge();
+        }
+
+        // Remove item
+        function removeItem(index) {
+            cart.splice(index, 1);
+            saveCart();
+            renderCart();
+            updateCartBadge();
+            showToast('Item removed from cart');
+        }
+
+        // Render cart
+        function renderCart() {
+            const cartContainer = document.getElementById('cartItems');
+            const cartCount = document.getElementById('cartItemCount');
+            const cartSubtotal = document.getElementById('cartSubtotal');
+            const cartDelivery = document.getElementById('cartDeliveryFee');
+            const cartTotal = document.getElementById('cartTotal');
+            const cartIconBadge = document.getElementById('cartIconBadge');
+            
+            if (cart.length === 0) {
+                cartContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-bag" style="font-size: 48px; opacity: 0.5;"></i>
+                        <p>Your cart is empty</p>
+                        <small>Add items from the menu</small>
+                    </div>
+                `;
+                cartCount.innerText = '0';
+                cartSubtotal.innerText = '₱0';
+                cartDelivery.innerText = '₱0';
+                cartTotal.innerText = '₱0';
+                if (cartIconBadge) cartIconBadge.innerText = '0';
+                return;
+            }
+            
+            let html = '';
+            let subtotal = 0;
+            let totalGallons = 0;
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                totalGallons += item.quantity;
+                
+                html += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.productName}</div>
+                            <div class="cart-item-details">
+                                ${item.stationName}<br>
+                                ₱${item.price}/gal
+                            </div>
+                        </div>
+                        <div class="cart-item-price">₱${itemTotal}</div>
+                        <div class="cart-item-actions">
+                            <button class="cart-qty-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                            <span class="cart-qty">${item.quantity}</span>
+                            <button class="cart-qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                            <button class="remove-item" onclick="removeItem(${index})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            const deliveryFee = totalGallons * 5;
+            const total = subtotal + deliveryFee;
+            
+            cartContainer.innerHTML = html;
+            cartCount.innerText = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartSubtotal.innerText = `₱${subtotal}`;
+            cartDelivery.innerText = `₱${deliveryFee}`;
+            cartTotal.innerText = `₱${total}`;
+            if (cartIconBadge) cartIconBadge.innerText = cart.reduce((sum, item) => sum + item.quantity, 0);
+        }
+
+        // Update cart badge in header
+        function updateCartBadge() {
+            const badge = document.getElementById('cartIconBadge');
+            if (badge) {
+                badge.innerText = cart.reduce((sum, item) => sum + item.quantity, 0);
+            }
+        }
+
+        // Render product cards with station dropdown
+        function renderCards() {
+            const container = document.getElementById('cardsGrid');
+            let html = '';
+            
+            products.forEach(product => {
+                html += `
+                    <div class="order-card" data-product-id="${product.id}">
+                        <div class="card-header-row">
+                            <span>${product.name}</span>
+                            <span class="card-price">₱35-45/gal</span>
+                        </div>
+                        <div class="card-img">
+                            <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/160x160?text=${product.name}'">
+                        </div>
+                        <div class="card-select">
+                            Select Station
+                            <select class="station-select" id="station-${product.id}" onchange="updateStationPrice(${product.id}, this.value)">
+                                <option value="">Select Station</option>
+                                ${stations.map(station => {
+                                    const isNearby = station.barangay === userAddress.barangay;
+                                    const price = isNearby ? 35 : 45;
+                                    const nearbyTag = isNearby ? ' (Nearby - ₱35/gal)' : ' (Distant - ₱45/gal)';
+                                    return `<option value='${JSON.stringify(station)}'>${station.name}${nearbyTag}</option>`;
+                                }).join('')}
+                            </select>
+                        </div>
+                        <div class="station-price" id="price-${product.id}">Select a station to see price</div>
+                        <button class="add-to-cart-btn" onclick="addFromCard(${product.id})">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Update station price display
+        function updateStationPrice(productId, stationJson) {
+            if (stationJson) {
+                const station = JSON.parse(stationJson);
+                const price = getStationPrice(station.barangay);
+                const priceDisplay = document.getElementById(`price-${productId}`);
+                if (priceDisplay) {
+                    priceDisplay.innerHTML = `💰 ₱${price}/gallon ${price === 35 ? '(Nearby Station)' : '(Distant Station)'}`;
+                    priceDisplay.style.background = price === 35 ? 'rgba(40,167,69,0.3)' : 'rgba(255,193,7,0.3)';
+                }
+            }
+        }
+
+        // Add from card with selected station
+        function addFromCard(productId) {
+            const stationSelect = document.getElementById(`station-${productId}`);
+            const selectedValue = stationSelect.value;
+            
+            if (!selectedValue) {
+                showToast('Please select a station first', true);
+                return;
+            }
+            
+            const station = JSON.parse(selectedValue);
+            addToCart(productId, station.id, station.name, station.barangay);
+        }
+
+        // Open address edit modal
+        function openAddressModal() {
+            document.getElementById('editRecipientName').value = userAddress.recipientName;
+            document.getElementById('editBarangay').value = userAddress.barangay;
+            document.getElementById('editStreet').value = userAddress.street;
+            document.getElementById('editContact').value = userAddress.contact;
+            document.getElementById('addressModal').classList.add('active');
+        }
+
+        // Save address
+        function saveAddress() {
+            userAddress.recipientName = document.getElementById('editRecipientName').value;
+            userAddress.barangay = document.getElementById('editBarangay').value;
+            userAddress.street = document.getElementById('editStreet').value;
+            userAddress.contact = document.getElementById('editContact').value;
+            saveUserAddress();
+            closeModal('addressModal');
+            showToast('Delivery details updated successfully!');
+            // Re-render cards to update station prices based on new barangay
+            renderCards();
+            
+            // Re-apply preselected station after re-render
+            if (preselectedStationId) {
+                setTimeout(() => {
+                    applyPreselectedStation();
+                }, 100);
+            }
+        }
+
+        // Open checkout modal
+        function openCheckoutModal() {
+            if (cart.length === 0) {
+                showToast('Your cart is empty. Please add items first.', true);
+                return;
+            }
+            
+            document.getElementById('checkoutRecipientName').innerHTML = userAddress.recipientName;
+            document.getElementById('checkoutAddress').innerHTML = `${userAddress.street}, Barangay ${userAddress.barangay}`;
+            document.getElementById('checkoutContact').innerHTML = userAddress.contact;
+            
+            // Update order summary in modal
+            const summaryDiv = document.getElementById('orderSummaryModal');
+            let subtotal = 0;
+            let totalGallons = 0;
+            let summaryHtml = '<h6 style="margin-bottom: 10px; font-weight: 700;">Order Summary:</h6>';
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                totalGallons += item.quantity;
+                summaryHtml += `<div style="font-size: 13px; margin-bottom: 5px;">• ${item.productName} x${item.quantity} (${item.stationName}) = ₱${itemTotal}</div>`;
+            });
+            
+            const deliveryFee = totalGallons * 5;
+            const total = subtotal + deliveryFee;
+            
+            summaryHtml += `<hr style="margin: 10px 0;">`;
+            summaryHtml += `<div style="font-size: 13px;">Subtotal: ₱${subtotal}</div>`;
+            summaryHtml += `<div style="font-size: 13px;">Delivery Fee: ₱${deliveryFee}</div>`;
+            summaryHtml += `<div style="font-size: 16px; font-weight: 700; color: #19A7CE; margin-top: 8px;">Total: ₱${total}</div>`;
+            
+            summaryDiv.innerHTML = summaryHtml;
+            
+            document.getElementById('checkoutModal').classList.add('active');
+        }
+
+        // Place order
+        function placeOrder() {
+            const orderId = 'ORD-' + Date.now().toString().slice(-8);
+            const orderDate = new Date().toLocaleString();
+            let subtotal = 0;
+            let totalGallons = 0;
+            
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+                totalGallons += item.quantity;
+            });
+            const deliveryFee = totalGallons * 5;
+            const total = subtotal + deliveryFee;
+            
+            const orderDetails = `
+🆔 ORDER ID: ${orderId}
+📅 Date: ${orderDate}
+━━━━━━━━━━━━━━━━━━━━
+👤 Recipient: ${userAddress.recipientName}
+📦 ITEMS:
+${cart.map(item => `   • ${item.productName} x${item.quantity} gal (${item.stationName}) = ₱${item.price * item.quantity}`).join('\n')}
+━━━━━━━━━━━━━━━━━━━━
+📍 Delivery Address: ${userAddress.street}, Barangay ${userAddress.barangay}
+📞 Contact: ${userAddress.contact}
+🚚 Delivery Fee: ₱${deliveryFee}
+💰 TOTAL: ₱${total}
+💵 Payment: Cash on Delivery
+━━━━━━━━━━━━━━━━━━━━
+Thank you for your order! A rider will be assigned shortly.
+            `;
+            
+            alert(orderDetails);
+            
+            // Clear cart and close modal
+            cart = [];
+            saveCart();
+            renderCart();
+            closeModal('checkoutModal');
+            showToast('Order placed successfully!');
+        }
+
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Header functions
+        function toggleProfileDropdown() {
+            $('#profileDropdown').toggleClass('show');
+        }
+
+        function toggleServicesDropdown() {
+            $('#servicesDropdownMenu').toggleClass('show');
+        }
+
+        $(document).click(function(event) {
+            if (!$(event.target).closest('.profile-button').length) {
+                $('#profileDropdown').removeClass('show');
+            }
+            if (!$(event.target).closest('#servicesDropdown').length) {
+                $('#servicesDropdownMenu').removeClass('show');
+            }
+        });
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        function checkBeforeOrder() {
+            window.location.href = 'instant-delivery.html';
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for station from URL first
+            getStationFromURL();
+            loadUserAddress();
+            loadCart();
+        });
+    </script>
+</body>
+</html>
