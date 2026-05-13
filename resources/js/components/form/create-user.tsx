@@ -6,6 +6,7 @@ import ConfirmCreateUser from "./form-steps/confirm-create-user";
 import AccountCredentialsForm from "./form-steps/user-account-credentials";
 import VerifyEmail from "./form-steps/verify-email";
 import { LeafletAddress } from "../location-picker";
+import { usePage } from "@inertiajs/react";
 
 type CreateUserFormStep = string;
 

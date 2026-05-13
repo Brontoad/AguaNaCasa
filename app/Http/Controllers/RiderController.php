@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
@@ -25,7 +26,7 @@ class RiderController extends Controller
             ]);
         } catch (\Throwable $th) {
             Log::error("Error in showing all riders", [
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in showing all riders", false)
@@ -45,7 +46,7 @@ class RiderController extends Controller
             
         } catch (\Throwable $th) {
             Log::error("Error in showing create rider form", [
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in showing create rider form", false)
@@ -58,28 +59,26 @@ class RiderController extends Controller
      */
     public function store(Request $request)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             Rider::create([
                 'plate_number' => $request->input('plate_number'),
                 'vehicle' => $request->input('vehicle'),
-                'license' => $request->input('license'),
-                'station_id' => $request->input('name'),
-                'user_id' => $request->input('name')
+                'contact_number' => $request->input('contact_number'),
+                'password' => Hash::make($request->input('password')),
+                'user_id' => $request->input('user_id'),
+                'license_verified_at' => now(),
+                'last_paid_rider_fee_at'  => now(),
+                'is_suspended' => false,
+                'reset_rider_token' => ""
             ]);
             
             DB::commit();
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Rider created successfully")
-            ]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Rider created successfully")]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error("Error in creating rider", [
-                "message" => $th->getTrace()
-            ]);
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error creating rider", false)
-            ]);
+            Log::error("Error in creating rider", ["message" => $th->getMessage()]);
+            return Inertia::back()->with([ "toast" => $this->show_toast("Error creating rider", false)]);
         }
     }
 
@@ -99,7 +98,7 @@ class RiderController extends Controller
             DB::rollBack();
             Log::error("Error showing rider", [
                 "rider_id" => $rider->id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error showing rider", false)
@@ -122,7 +121,7 @@ class RiderController extends Controller
         } catch (\Throwable $th) {
             Log::error("Error in showing update rider form", [
                 "rider_id" => $rider->id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error showing rider", false)
@@ -153,7 +152,7 @@ class RiderController extends Controller
             DB::rollBack();
             Log::error("Error updating rider", [
                 "rider_id" => $rider->id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error updating rider", false)
@@ -177,7 +176,7 @@ class RiderController extends Controller
             DB::rollBack();
             Log::error("Error in updating rider's license", [
                 "rider_id" => $rider->id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in updating rider's license", false)
@@ -206,7 +205,7 @@ class RiderController extends Controller
             DB::rollBack();
             Log::error("Error in updating rider's plate number", [
                 "rider_id" => $rider->id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in updating rider's plate number", false)
@@ -228,7 +227,7 @@ class RiderController extends Controller
             DB::rollBack();
             Log::error("Error in suspending rider", [
                 "rider_id" => $rider->id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in suspending rider", false)
@@ -253,7 +252,7 @@ class RiderController extends Controller
             DB::rollBack();
             Log::error("Error in verifying license", [
                 "user_id" => $id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in verifying license", false)
@@ -278,7 +277,7 @@ class RiderController extends Controller
             DB::rollBack();
             Log::error("Error in deleting rider", [
                 "rider_id" => $rider->id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in deleting rider", false)

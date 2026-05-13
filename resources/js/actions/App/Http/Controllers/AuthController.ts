@@ -55,8 +55,63 @@ login.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     
     login.form = loginForm
 /**
+* @see \App\Http\Controllers\AuthController::login_admin
+ * @see app/Http/Controllers/AuthController.php:52
+ * @route '/login/admin'
+ */
+export const login_admin = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: login_admin.url(options),
+    method: 'post',
+})
+
+login_admin.definition = {
+    methods: ["post"],
+    url: '/login/admin',
+} satisfies RouteDefinition<["post"]>
+
+/**
+* @see \App\Http\Controllers\AuthController::login_admin
+ * @see app/Http/Controllers/AuthController.php:52
+ * @route '/login/admin'
+ */
+login_admin.url = (options?: RouteQueryOptions) => {
+    return login_admin.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\AuthController::login_admin
+ * @see app/Http/Controllers/AuthController.php:52
+ * @route '/login/admin'
+ */
+login_admin.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: login_admin.url(options),
+    method: 'post',
+})
+
+    /**
+* @see \App\Http\Controllers\AuthController::login_admin
+ * @see app/Http/Controllers/AuthController.php:52
+ * @route '/login/admin'
+ */
+    const login_adminForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: login_admin.url(options),
+        method: 'post',
+    })
+
+            /**
+* @see \App\Http\Controllers\AuthController::login_admin
+ * @see app/Http/Controllers/AuthController.php:52
+ * @route '/login/admin'
+ */
+        login_adminForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: login_admin.url(options),
+            method: 'post',
+        })
+    
+    login_admin.form = login_adminForm
+/**
 * @see \App\Http\Controllers\AuthController::logout
- * @see app/Http/Controllers/AuthController.php:56
+ * @see app/Http/Controllers/AuthController.php:74
  * @route '/logout'
  */
 export const logout = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -71,7 +126,7 @@ logout.definition = {
 
 /**
 * @see \App\Http\Controllers\AuthController::logout
- * @see app/Http/Controllers/AuthController.php:56
+ * @see app/Http/Controllers/AuthController.php:74
  * @route '/logout'
  */
 logout.url = (options?: RouteQueryOptions) => {
@@ -80,7 +135,7 @@ logout.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\AuthController::logout
- * @see app/Http/Controllers/AuthController.php:56
+ * @see app/Http/Controllers/AuthController.php:74
  * @route '/logout'
  */
 logout.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -89,7 +144,7 @@ logout.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\AuthController::logout
- * @see app/Http/Controllers/AuthController.php:56
+ * @see app/Http/Controllers/AuthController.php:74
  * @route '/logout'
  */
 logout.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -99,7 +154,7 @@ logout.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
     /**
 * @see \App\Http\Controllers\AuthController::logout
- * @see app/Http/Controllers/AuthController.php:56
+ * @see app/Http/Controllers/AuthController.php:74
  * @route '/logout'
  */
     const logoutForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -109,7 +164,7 @@ logout.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
             /**
 * @see \App\Http\Controllers\AuthController::logout
- * @see app/Http/Controllers/AuthController.php:56
+ * @see app/Http/Controllers/AuthController.php:74
  * @route '/logout'
  */
         logoutForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -118,7 +173,7 @@ logout.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
             /**
 * @see \App\Http\Controllers\AuthController::logout
- * @see app/Http/Controllers/AuthController.php:56
+ * @see app/Http/Controllers/AuthController.php:74
  * @route '/logout'
  */
         logoutForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -132,6 +187,6 @@ logout.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
     
     logout.form = logoutForm
-const AuthController = { login, logout }
+const AuthController = { login, login_admin, logout }
 
 export default AuthController

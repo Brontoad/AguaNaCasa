@@ -1,14 +1,19 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RiderController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\StationController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\Rider;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -47,14 +52,22 @@ Route::inertia('/contact_us', 'contact-us');
 |--------------------------------------------------------------------------
 */
 
-Route::inertia('/login', 'login')->name('login');
+Route::get('/login/{default_active_role_tab?}', function ($default_active_role_tab = null) {
+    return Inertia::render('login', ["default_active_role_tab" => $default_active_role_tab]);
+})->name('login');
+
+Route::inertia('/login_admin', 'auth/login/admin');
+
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login/admin', [AuthController::class, 'login_admin']);
 
 Route::inertia('/signup/user', 'auth/signup/user');
 Route::inertia('/signup/station', 'auth/signup/station');
 Route::inertia('/signup/rider', 'auth/signup/rider');
 
 Route::post('/user', [UserController::class, 'store']);
+Route::post('/station', [StationController::class, 'store']);
+Route::post('/rider', [RiderController::class, 'store']);
 
 /*
 |--------------------------------------------------------------------------
@@ -62,9 +75,7 @@ Route::post('/user', [UserController::class, 'store']);
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -80,6 +91,20 @@ Route::middleware(['auth:user'])->prefix('user')->name('user.')->group(function 
     Route::get('/profile', [ProfileController::class, 'user'])->name('profile');
 });
 
+// Address
+Route::post('/address', [AddressController::class, 'store']);
+
+Route::post('/order', [OrderController::class, 'store']);
+// Order
+Route::middleware(['auth:station'])->prefix('order')->name('order.')->group(function () {
+    // Route::post('/', [OrderController::class, 'store']);
+    Route::put('/confirm/{id}', [OrderController::class, 'confirm'])->name('confirm');
+    Route::put('/pick_up/{id}', [OrderController::class, 'pick_up'])->name('pick_up');
+    Route::put('/refill/{id}', [OrderController::class, 'refill'])->name('refill');
+    Route::put('/deliver/{id}', [OrderController::class, 'deliver'])->name('deliver');
+    Route::put('/cancel/{id}', [OrderController::class, 'cancel'])->name('cancel');
+});
+
 /*
 |--------------------------------------------------------------------------
 | STATION ROUTES
@@ -88,10 +113,13 @@ Route::middleware(['auth:user'])->prefix('user')->name('user.')->group(function 
 
 Route::middleware(['auth:station'])->prefix('station')->name('station.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'station'])->name('dashboard');
-    Route::get('/orders', [OrderController::class, 'order'])->name('order');
-    Route::get('/products', [ProductController::class, 'product'])->name('product');
+    Route::get('/order', [OrderController::class, 'index'])->name('order');
+    Route::get('/product', [ProductController::class, 'index'])->name('product');
     Route::get('/sales', [SaleController::class, 'station'])->name('sale');
     Route::get('/profile', [ProfileController::class, 'station'])->name('profile');
+
+    Route::put('/product/price', [ProductController::class, 'update_price']);
+    Route::put('/product/is_available', [ProductController::class, 'update_is_available']);
 });
 
 /*
@@ -99,6 +127,8 @@ Route::middleware(['auth:station'])->prefix('station')->name('station.')->group(
 | RIDER ROUTES
 |--------------------------------------------------------------------------
 */
+
+Route::get('/rider/all', function () { return response()->json(['riders' => Rider::all()]);});
 
 Route::middleware(['auth:rider'])->prefix('rider')->name('rider.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'rider'])->name('dashboard');

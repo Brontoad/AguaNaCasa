@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\DashboardController::dashboard
- * @see app/Http/Controllers/DashboardController.php:15
+ * @see app/Http/Controllers/DashboardController.php:16
  * @route '/user/dashboard'
  */
 export const dashboard = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ dashboard.definition = {
 
 /**
 * @see \App\Http\Controllers\DashboardController::dashboard
- * @see app/Http/Controllers/DashboardController.php:15
+ * @see app/Http/Controllers/DashboardController.php:16
  * @route '/user/dashboard'
  */
 dashboard.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ dashboard.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\DashboardController::dashboard
- * @see app/Http/Controllers/DashboardController.php:15
+ * @see app/Http/Controllers/DashboardController.php:16
  * @route '/user/dashboard'
  */
 dashboard.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -34,7 +34,7 @@ dashboard.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\DashboardController::dashboard
- * @see app/Http/Controllers/DashboardController.php:15
+ * @see app/Http/Controllers/DashboardController.php:16
  * @route '/user/dashboard'
  */
 dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -44,7 +44,7 @@ dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
     /**
 * @see \App\Http\Controllers\DashboardController::dashboard
- * @see app/Http/Controllers/DashboardController.php:15
+ * @see app/Http/Controllers/DashboardController.php:16
  * @route '/user/dashboard'
  */
     const dashboardForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -54,7 +54,7 @@ dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
             /**
 * @see \App\Http\Controllers\DashboardController::dashboard
- * @see app/Http/Controllers/DashboardController.php:15
+ * @see app/Http/Controllers/DashboardController.php:16
  * @route '/user/dashboard'
  */
         dashboardForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -63,7 +63,7 @@ dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
             /**
 * @see \App\Http\Controllers\DashboardController::dashboard
- * @see app/Http/Controllers/DashboardController.php:15
+ * @see app/Http/Controllers/DashboardController.php:16
  * @route '/user/dashboard'
  */
         dashboardForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -79,7 +79,7 @@ dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     dashboard.form = dashboardForm
 /**
 * @see \App\Http\Controllers\StationController::station
- * @see app/Http/Controllers/StationController.php:20
+ * @see app/Http/Controllers/StationController.php:34
  * @route '/user/station'
  */
 export const station = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -94,7 +94,7 @@ station.definition = {
 
 /**
 * @see \App\Http\Controllers\StationController::station
- * @see app/Http/Controllers/StationController.php:20
+ * @see app/Http/Controllers/StationController.php:34
  * @route '/user/station'
  */
 station.url = (options?: RouteQueryOptions) => {
@@ -103,7 +103,7 @@ station.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\StationController::station
- * @see app/Http/Controllers/StationController.php:20
+ * @see app/Http/Controllers/StationController.php:34
  * @route '/user/station'
  */
 station.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -112,7 +112,7 @@ station.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\StationController::station
- * @see app/Http/Controllers/StationController.php:20
+ * @see app/Http/Controllers/StationController.php:34
  * @route '/user/station'
  */
 station.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -122,7 +122,7 @@ station.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
     /**
 * @see \App\Http\Controllers\StationController::station
- * @see app/Http/Controllers/StationController.php:20
+ * @see app/Http/Controllers/StationController.php:34
  * @route '/user/station'
  */
     const stationForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -132,7 +132,7 @@ station.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
             /**
 * @see \App\Http\Controllers\StationController::station
- * @see app/Http/Controllers/StationController.php:20
+ * @see app/Http/Controllers/StationController.php:34
  * @route '/user/station'
  */
         stationForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -141,7 +141,7 @@ station.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
             /**
 * @see \App\Http\Controllers\StationController::station
- * @see app/Http/Controllers/StationController.php:20
+ * @see app/Http/Controllers/StationController.php:34
  * @route '/user/station'
  */
         stationForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -157,7 +157,7 @@ station.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     station.form = stationForm
 /**
 * @see \App\Http\Controllers\OrderController::order
- * @see app/Http/Controllers/OrderController.php:18
+ * @see app/Http/Controllers/OrderController.php:21
  * @route '/user/order'
  */
 export const order = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -172,7 +172,7 @@ order.definition = {
 
 /**
 * @see \App\Http\Controllers\OrderController::order
- * @see app/Http/Controllers/OrderController.php:18
+ * @see app/Http/Controllers/OrderController.php:21
  * @route '/user/order'
  */
 order.url = (options?: RouteQueryOptions) => {
@@ -181,7 +181,7 @@ order.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\OrderController::order
- * @see app/Http/Controllers/OrderController.php:18
+ * @see app/Http/Controllers/OrderController.php:21
  * @route '/user/order'
  */
 order.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -190,7 +190,7 @@ order.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\OrderController::order
- * @see app/Http/Controllers/OrderController.php:18
+ * @see app/Http/Controllers/OrderController.php:21
  * @route '/user/order'
  */
 order.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -200,7 +200,7 @@ order.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
     /**
 * @see \App\Http\Controllers\OrderController::order
- * @see app/Http/Controllers/OrderController.php:18
+ * @see app/Http/Controllers/OrderController.php:21
  * @route '/user/order'
  */
     const orderForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -210,7 +210,7 @@ order.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
             /**
 * @see \App\Http\Controllers\OrderController::order
- * @see app/Http/Controllers/OrderController.php:18
+ * @see app/Http/Controllers/OrderController.php:21
  * @route '/user/order'
  */
         orderForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -219,7 +219,7 @@ order.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
             /**
 * @see \App\Http\Controllers\OrderController::order
- * @see app/Http/Controllers/OrderController.php:18
+ * @see app/Http/Controllers/OrderController.php:21
  * @route '/user/order'
  */
         orderForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

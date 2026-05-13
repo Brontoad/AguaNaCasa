@@ -13,6 +13,9 @@
 import SummaryCard, { SummaryCardProps } from "@/components/card/summary";
 import DashboardLayout from "@/layouts/dashboard-layout";
 
+import "../../../css/dashboard.css";
+import "../../../css/admin/index.css";
+
 interface AdminIndexProps {total_stations: number, total_orders: number, total_users: number, total_earnings: number};
 
 export default function Index({total_stations, total_orders, total_users, total_earnings}: AdminIndexProps) {

@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function ProfileAddress() {
     const {auth} = usePage().props;
     if (!auth.user) {throw new Error("User is not authenticated");}
-        const user: User = auth.user;
+    const user: User = auth.user;
 
     const [addresses, setAddresses] = useState<Address[]>([]);
 

@@ -14,6 +14,8 @@ import DashboardLayout from "@/layouts/dashboard-layout";
 import "../../../css/dashboard.css";
 import "../../../css/profile.css";
 import { USER_PROFILE_SIDEBARS } from "@/config";
+import ProfileChangeRider from "@/components/profile/change-rider";
+import ProfileChangeStation from "@/components/profile/change-station";
 
 export default function Profile() {
     const {auth} = usePage().props;
@@ -35,6 +37,10 @@ export default function Profile() {
         switch (activeTab) {
             case USER_PROFILE_SIDEBARS.ADDRESS:
                 return <ProfileAddress />;
+            case USER_PROFILE_SIDEBARS.CHANGE_STATION:
+                return <ProfileChangeStation hasStation={false} />;
+            case USER_PROFILE_SIDEBARS.CHANGE_RIDER:
+                return <ProfileChangeRider hasRider={false} />;
             default:
                 return <ProfileUserInfo 
                     openChangePasswordModal={() => setChangePasswordModal({open: true})}
@@ -61,7 +67,7 @@ export default function Profile() {
                             
                             <div className="profile-badges">
                                 <ProfileBadge icon={"check-circle"} label="Verified User" />
-                                <ProfileBadge icon={"calendar-alt"} label="Account since Jan 2024" />
+                                <ProfileBadge icon={"calendar-alt"} label="Account since May 2026" />
                             </div>
                         </div>
                     </div>
@@ -76,7 +82,6 @@ export default function Profile() {
 
             <div className="profile-main">
                 <ProfileSidebar changeTab={(tab: string) => setActiveTab(tab)}/>
-
                 <div className="profile-content">{renderProfileSettings()}</div>
             </div>
 

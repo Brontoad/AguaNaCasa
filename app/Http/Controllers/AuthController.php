@@ -14,6 +14,7 @@ class AuthController extends Controller
          * email, contact number
          * password
          */
+        
         $use_email = $request->boolean('use_email');
         $role = $request->input('role');
         $request->validate([
@@ -24,14 +25,28 @@ class AuthController extends Controller
 
         $credentials = $use_email ? $request->only('email', 'password') : $request->only('contact_number', 'password');
         $remember = $request->boolean('remember');
-        if (Auth::guard($role)->attempt($credentials, $remember)) {
-            $request->session()->regenerate();
-            return redirect()->route($role.'.dashboard');
-        } else {
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error in logging in", false)
-            ]);
-        }
+
+        try {
+    if (Auth::guard($role)->attempt($credentials, $remember)) {
+        $request->session()->regenerate();
+
+        return redirect()->route($role . '.dashboard');
+    }
+
+    return Inertia::back()->with([
+        "toast" => $this->show_toast("Invalid credentials", false)
+    ]);
+
+} catch (\Throwable $th) {
+    Log::error("Login error", [
+        "message" => $th->getMessage(),
+        "trace" => $th->getTraceAsString()
+    ]);
+
+    return Inertia::back()->with([
+        "toast" => $this->show_toast("Error in logging in", false)
+    ]);
+}
     }
 
     public function login_admin(Request $request) {
@@ -47,6 +62,9 @@ class AuthController extends Controller
 
             return redirect()->intended("admin/dashboard");
         } else {
+            // Log::error("Error in creating order", [
+            //     "message" => $th->getMessage()
+            // ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in logging in", false)
             ]);
@@ -58,6 +76,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+        
         return redirect('/');
     }
 }

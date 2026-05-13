@@ -10,7 +10,8 @@ import ProfileSidebar from "@/components/profile/sidebar";
 import ProfileUserInfo from "@/components/profile/user-info";
 import ProfileAddress from "@/components/profile/address";
 import DashboardLayout from "@/layouts/dashboard-layout";
-
+import "../../../css/dashboard.css";
+import "../../../css/profile.css";
 export const RIDER_PROFILE_SIDEBARS = {
     SETTINGS: "settings"
 }
@@ -45,7 +46,7 @@ export default function Profile() {
             <div className="profile-header">
                 <div className="row align-items-center">
                     <div className="col-md-8">
-                        <ProfileAvatar image={rider.vehicle} />
+                        <ProfileAvatar name={rider.plate_number ?? "N/A"} changeAvatar={() => {}} />
                         
                         <div className="profile-info">
                             <h1>{rider.vehicle}</h1>

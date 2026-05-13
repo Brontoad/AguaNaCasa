@@ -73,7 +73,7 @@ export default function Footer() {
                     <div className="col-lg-12">
                         <div className="copyright-text">
                             <p>
-                                Copyright © 2023 Agua na Casa. All Rights Reserved. 
+                                Copyright © 2026 Agua na Casa. All Rights Reserved. 
                                 <br />Design: <a href="#">Agua na Casa Team</a>
                             </p>
                         </div>

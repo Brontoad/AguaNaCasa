@@ -57,7 +57,7 @@ export default function TableFilter({
                         </option>
                     ))}
                 </select>}
-            {canFilterByOrderStatus && <select className="filter-select" id="statusFilter" onChange={(e) => setFilterByOrderStatus(e.target.value)}>
+            {canFilterByOrderStatus && <select className="filter-select" id="statusFilter" style={{textTransform: "capitalize"}} onChange={(e) => setFilterByOrderStatus(e.target.value)}>
                     <option value="all">All Order Status</option>
                     {Object.values(ORDER_STATUS).map((orderStatus, idx) => (
                         <option value={orderStatus} key={`filter-order-status-${idx}`} style={{textTransform: "capitalize"}}>

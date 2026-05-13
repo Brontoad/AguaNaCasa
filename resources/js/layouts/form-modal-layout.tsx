@@ -23,7 +23,7 @@ export default function FormModalLayout({
     actionButtons = []
 }: FormModalLayoutProps) {
     return (
-        <form action={link} method={method}>
+        <form method={method} onSubmit={(e) => { if (submit) e.preventDefault(); submit(e); }} >
             <div className="modal">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -34,7 +34,8 @@ export default function FormModalLayout({
                     <div className="modal-actions">
                         {actionButtons}
                         {submit && submitTitle &&
-                            <button className="save-btn" onClick={submit}>{submitTitle}</button>}
+                            <button type="submit" className="save-btn"> {submitTitle}
+                            </button>}
                         <button className="cancel-btn" onClick={handleClose}>Close</button>
                     </div>
                 </div>

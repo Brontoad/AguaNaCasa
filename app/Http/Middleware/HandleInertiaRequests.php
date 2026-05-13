@@ -42,12 +42,31 @@ class HandleInertiaRequests extends Middleware
         if ($request->user('rider')) { $role = UserType::RIDER; }
         if ($request->user('admin')) { $role = UserType::ADMIN; }
         
+        $user = $request->user('user');
+
+if ($user) {
+    $user->setAttribute(
+    'default_address',
+    $user->addresses()
+        ->where('is_default', true)
+        ->first()
+);;
+}
+
+    $station = $request->user('station');
+
+    if ($station) {
+        $station->load('address');
+    }
+
+    $station = $request->user('station');
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
             'auth' => [
-                'user' => $request->user(),
-                'station' => $request->user('station'),
+                'user' => $user,
+                'station' => $request->user('station')?->load('address'),
                 'rider' => $request->user('rider'),
                 'admin' => $request->user('admin'),
                 'role' => $role

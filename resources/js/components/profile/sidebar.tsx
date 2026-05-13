@@ -9,6 +9,8 @@ interface ProfileSidebarBtn {tab: string, icon: IconName, title: string, notAllo
 const profileSidebarBtns: ProfileSidebarBtn[] = [
     {tab: USER_PROFILE_SIDEBARS.SETTINGS, icon: "user-circle", title: "Profile", notAllowedTypes: []},
     {tab: USER_PROFILE_SIDEBARS.ADDRESS, icon: "map-marked-alt", title: "Addresses", notAllowedTypes: [ACCOUNT_ROLE.STATION, ACCOUNT_ROLE.RIDER]},
+    {tab: USER_PROFILE_SIDEBARS.CHANGE_STATION, icon: "store", title: "Station Account", notAllowedTypes: [ACCOUNT_ROLE.STATION, ACCOUNT_ROLE.RIDER]},
+    {tab: USER_PROFILE_SIDEBARS.CHANGE_RIDER, icon: "motorcycle", title: "Rider Account", notAllowedTypes: [ACCOUNT_ROLE.STATION, ACCOUNT_ROLE.RIDER]}
 ];
 
 export default function ProfileSidebar({changeTab} : {changeTab(tab: string): void}) {

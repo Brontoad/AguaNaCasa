@@ -1,7 +1,9 @@
 import { STATION_STATUS } from "@/pages/config";
-import { Station } from "@agc/model";
+import { Station, UserStation } from "@agc/model";
 import CreateOrderBtn from "../button/create-order";
 import ViewCreateSubscriptionFormBtn from "../button/view-create-subscription";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 function renderStationStatus(status: string) {
     switch (status) {
@@ -14,35 +16,31 @@ function renderStationStatus(status: string) {
     }
 }
 
-export default function StationCard({station, isSubscribed} : {station: Station, isSubscribed: boolean}) {
+export default function StationCard({station, createOrder, subscribe} : {station: UserStation, createOrder(station: UserStation): void, subscribe(station: UserStation): void}) {
     return (
         <div className="station-card">
             <div className="card-header-station">
-                <div className="station-picture">
-                    <i className={station.name}></i>
-                </div>
+                <div className="station-picture"><i className={station.name}></i></div>
                 <div className="station-name-section">
                     <h3>{station.name}</h3>
                     <div className="station-location">
-                        <i className="fas fa-map-marker-alt"></i> {station.address.city}
-                        <span className="distance-badge"><i className="fas fa-walking"></i> 0.8 km</span>
+                        <FontAwesomeIcon icon={["fas", "map-marker-alt"]} /> {station.address.location}
+                        <span className="distance-badge"><FontAwesomeIcon icon={["fas", "walking"]} /> {station.distance.toFixed(2)} km</span>
                     </div>
                 </div>
             </div>
             <div className="card-body-station">
                 <div className="station-meta">
-                    <div className="status-badge-station ${statusInfo.className}">
-                        {renderStationStatus(station.status)}
-                    </div>
+                    <div className="status-badge-station ${statusInfo.className}">{renderStationStatus(station.status)}</div>
                 </div>
                 <div className="rating-chip">
-                    <i className="fas fa-star"></i> ${station.rating}
-                    <span style={{marginLeft: "4px", fontWeight: "400"}}>(${station.reviews} reviews)</span>
+                    <FontAwesomeIcon icon={["fas", "star"]} /> {station.rating}
+                    <span style={{marginLeft: "4px", fontWeight: "400"}}>({station.reviews} reviews)</span>
                 </div>
             </div>
             <div className="card-actions">
-                <CreateOrderBtn station={station} />
-                <ViewCreateSubscriptionFormBtn station={station} isSubscribed={isSubscribed} />
+                <CreateOrderBtn station={station} createOrder={() => createOrder(station)}/>
+                <ViewCreateSubscriptionFormBtn station={station} subscribe={() => subscribe(station)}/>
             </div>
         </div>
     );

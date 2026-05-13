@@ -13,7 +13,8 @@ declare module '@agc/model' {
         role: string,
         email: string,
         contact_number: string,
-        addresses: Address[]
+        addresses: Address[],
+        default_address?: Address
     }
 
     export interface Address extends Model {
@@ -35,6 +36,11 @@ declare module '@agc/model' {
         products: Product[]
     }
 
+    export interface UserStation extends Station {
+        distance: number,
+        is_subscribed: boolean
+    }
+
     export interface Subscription extends Model {
         estimated_time_of_delivery: string,
         delivery_days: string[],
@@ -53,15 +59,19 @@ declare module '@agc/model' {
 
     export interface Order extends Model {
         station: Station,
+        client: User,
+        rider: Rider,
         rating: integer,
         status: string,
         total: number,
+        is_subscription: boolean,
+        delivery_fee: number,
         subscription: Subscription?,
         order_items: OrderItem[],
         order_histories: OrderHistory[]
     }
 
-    export interface OrderItem extends Model {product: Product, quantity: number}
+    export interface OrderItem extends Model {product: Product, product_name: string, price: number, quantity: number}
 
     export interface OrderHistory extends Model {description: string}
 

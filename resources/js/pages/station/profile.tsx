@@ -10,15 +10,18 @@ import ProfileSidebar from "@/components/profile/sidebar";
 import ProfileUserInfo from "@/components/profile/user-info";
 import ProfileAddress from "@/components/profile/address";
 import DashboardLayout from "@/layouts/dashboard-layout";
-
+import "../../../css/dashboard.css";
+import "../../../css/profile.css";
 const STATION_PROFILE_SIDEBARS = {
     ADDRESS: "profile_info",
     SETTINGS: "settings"
 }
 
 export default function Profile() {
-    const {user} = usePage().props;
-    const station: Station = user.station;
+    const {auth} = usePage().props;
+    if (!auth.station) {throw new Error("User is not authenticated");}
+
+    const station: Station = auth.station;
 
     let stationStatistics = [
         {label: "Total Orders", value: `0`},
@@ -27,7 +30,7 @@ export default function Profile() {
     ];
 
     const [activeTab, setActiveTab] = useState("");
-    const [updateStationModal, setUpdateStationModal] = useState<{open: boolean, user: User}>({open: true, user: user})
+    const [updateStationModal, setUpdateStationModal] = useState<{open: boolean, station: Station}>({open: true, station: station})
     const [changePasswordModal, setChangePasswordModal] = useState<{open: boolean}>({open: false});
     const [resetEmailModal, setResetEmailModal] = useState<{open: boolean}>({open: false});
     const [resetContactModal, setResetContactNumberModal] = useState<{open: boolean}>({open: false});
@@ -55,13 +58,17 @@ export default function Profile() {
                     <button className="status-toggle-btn" onClick={() => changeStationStatus()}>Change</button>
                 </div>
 
+                <button className="profile-edit-btn" onClick={() => setUpdateStationModal({open: true, station: station})}>
+                    <FontAwesomeIcon icon={["fas", "edit"]} /> Edit
+                </button>
+
                 <div className="row align-items-center">
                     <div className="col-md-8">
-                        <ProfileAvatar image={station.name} />
+                        <ProfileAvatar name={station.name ?? "N/A"} changeAvatar={() => {}} />
                         
                         <div className="profile-info">
-                            <h1>{user.first_name}</h1>
-                            <p><FontAwesomeIcon icon={["fas", "map-marker-alt"]} /> {station.address.city}</p>
+                            <h1>{station.name}</h1>
+                            <p><FontAwesomeIcon icon={["fas", "map-marker-alt"]} /> {station.address.location}</p>
                             <p><FontAwesomeIcon icon={["fas", "envelope"]} /> {station.email}</p>
                             <p><FontAwesomeIcon icon={["fas", "phone"]} /> {station.contact_number}</p>
                             
@@ -71,10 +78,6 @@ export default function Profile() {
                             </div>
                         </div>
                     </div>
-
-                    <button className="edit-btn" onClick={() => setUpdateStationModal({open: true, user: user})}>
-                        <FontAwesomeIcon icon={["fas", "edit"]} /> Edit
-                    </button>
 
                     <div className="col-md-4">
                         <div className="profile-stats">

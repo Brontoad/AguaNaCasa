@@ -11,6 +11,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
+/**
+ * @method Address|null default_address()
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -36,7 +39,8 @@ class User extends Authenticatable
         'reset_contact_number_token',
         'reset_email_token',
 
-        'is_suspended'
+        'is_suspended',
+        'is_admin'
     ];
 
     /**
@@ -66,4 +70,9 @@ class User extends Authenticatable
     }
 
     public function addresses() { return $this->morphMany(Address::class, 'addressable'); }
+
+    /**
+     * @return Address|null
+     */
+    public function default_address() {return $this->addresses()->where('is_default', true)->first();}
 }

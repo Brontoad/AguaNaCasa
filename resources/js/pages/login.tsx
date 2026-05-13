@@ -8,14 +8,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 
 import "../../css/auth.css";
-import { Head } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 
 interface RoleTab {logo: string, role: string};
 
 const roleTabs : Array<RoleTab> = [
     {logo: "user", role: ACCOUNT_ROLE.CUSTOMER},
-    {logo: "motorcycle", role: ACCOUNT_ROLE.RIDER},
     {logo: "store", role: ACCOUNT_ROLE.STATION},
+    {logo: "motorcycle", role: ACCOUNT_ROLE.RIDER}
 ];
 
 function renderLogin(roleTab: RoleTab) {
@@ -28,9 +28,9 @@ function renderLogin(roleTab: RoleTab) {
             return <LoginUser></LoginUser>;
     }
 }
-export default function Login() {
-    const [activeRoleTab, setActiveRoleTab] = useState<RoleTab>(roleTabs[0]);
-
+export default function Login({default_active_role_tab}: {default_active_role_tab?: string}) {
+    const {toast} = usePage().props;
+    const [activeRoleTab, setActiveRoleTab] = useState<RoleTab>(roleTabs.find((tab) => tab.role === default_active_role_tab) ?? roleTabs[0]);
     return (
         <div className="container">
             <Head title="Login | Agua na Casa"/>

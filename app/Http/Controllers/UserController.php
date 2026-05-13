@@ -26,7 +26,7 @@ class UserController extends Controller
             ]);
         } catch (\Throwable $th) {
             Log::error("Error in showing all users", [
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in showing all users", false)
@@ -46,7 +46,7 @@ class UserController extends Controller
             
         } catch (\Throwable $th) {
             Log::error("Error in showing create user form", [
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in showing create user form", false)
@@ -109,7 +109,7 @@ class UserController extends Controller
             DB::rollBack();
             Log::error("Error showing user", [
                 "user_id" => $id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error showing user", false)
@@ -134,7 +134,7 @@ class UserController extends Controller
         } catch (\Throwable $th) {
             Log::error("Error in showing update user form", [
                 "user_id" => $id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error showing user", false)
@@ -163,7 +163,7 @@ class UserController extends Controller
             DB::rollBack();
             Log::error("Error updating user", [
                 "user_id" => $user->id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error updating user", false)
@@ -189,7 +189,7 @@ class UserController extends Controller
             DB::rollBack();
             Log::error("Error in suspending user", [
                 "user_id" => $id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in suspending user", false)
@@ -214,7 +214,7 @@ class UserController extends Controller
             DB::rollBack();
             Log::error("Error in verifying contact number", [
                 "user_id" => $id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in verifying contact number", false)
@@ -239,7 +239,7 @@ class UserController extends Controller
             DB::rollBack();
             Log::error("Error in verifying email", [
                 "user_id" => $id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in verifying email", false)
@@ -269,7 +269,7 @@ class UserController extends Controller
             DB::rollBack();
             Log::error("Error in updating password", [
                 "user_id" => $id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in updating password", false)
@@ -299,7 +299,7 @@ class UserController extends Controller
             DB::rollBack();
             Log::error("Error in updating email", [
                 "user_id" => $id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in updating email", false)
@@ -329,7 +329,7 @@ class UserController extends Controller
             DB::rollBack();
             Log::error("Error in updating contact number", [
                 "user_id" => $id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in updating contact number", false)
@@ -355,7 +355,7 @@ class UserController extends Controller
             DB::rollBack();
             Log::error("Error in deleting user", [
                 "user_id" => $id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in deleting user", false)

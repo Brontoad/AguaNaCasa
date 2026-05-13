@@ -17,7 +17,7 @@ class SubscriptionController extends Controller
         try {
             return Inertia::render("user/subscription", ["subscriptions" => Subscription::all()]);
         } catch (\Throwable $th) {
-            Log::error("Error in showing all subscriptions", ["message" => $th->getTrace()]);
+            Log::error("Error in showing all subscriptions", ["message" => $th->getTraceAsString()]);
 
             return Inertia::back()->with(["toast" => $this->show_toast("Error in showing all subscriptions", false)]);
         }

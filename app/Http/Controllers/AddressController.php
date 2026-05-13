@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -23,7 +24,7 @@ class AddressController extends Controller
             ]);
         } catch (\Throwable $th) {
             Log::error("Error in showing all addresses", [
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in showing all addresses", false)
@@ -43,7 +44,7 @@ class AddressController extends Controller
             
         } catch (\Throwable $th) {
             Log::error("Error in showing create address form", [
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in showing create address form", false)
@@ -56,18 +57,30 @@ class AddressController extends Controller
      */
     public function store(Request $request)
     {
-        DB::beginTransaction();
         try {
-            Address::create($request);
-            
+            DB::beginTransaction();
+
+            $user = User::findOrFail($request->input('user_id'));
+            $user->addresses()->create([
+                'label' => $request->input('label'),
+                'x' => $request->input('x'),
+                'y' => $request->input('y'),
+                'location' => $request->input('location'),
+                'is_default' => $request->boolean('is_default')
+            ]);
+
             DB::commit();
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Address created successfully")
             ]);
+
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error("Error in creating address", [
-                "message" => $th->getTrace()
+            Log::error("Error creating address", [
+                "message" => $th->getTraceAsString()
+            ]);
+            return Inertia::back()->with([
+                "toast" => $this->show_toast("Error creating address", false)
             ]);
         }
     }
@@ -90,7 +103,7 @@ class AddressController extends Controller
             DB::rollBack();
             Log::error("Error showing address", [
                 "address_id" => $id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error showing address", false)
@@ -115,7 +128,7 @@ class AddressController extends Controller
         } catch (\Throwable $th) {
             Log::error("Error in showing update address form", [
                 "address_id" => $id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error showing address", false)
@@ -150,7 +163,7 @@ class AddressController extends Controller
             DB::rollBack();
             Log::error("Error updating address", [
                 "address_id" => $address->id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error updating address", false)
@@ -177,7 +190,7 @@ class AddressController extends Controller
             DB::rollBack();
             Log::error("Error deleting address", [
                 "address_id" => $id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error deleting address", false)

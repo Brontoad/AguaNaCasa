@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,20 +15,9 @@ class DashboardController extends Controller
 {
     public function user() {
         try {
-            $user = Auth::user();
-            $default_address = Address::where('addressable_id', Auth::id())
-    ->where('is_default', 1)
-    ->first();
-
-$recent_orders = Order::where('client_id', Auth::id())
-    ->latest()
-    ->take(5)
-    ->get();
-
-$subscriptions = Subscription::where('subscriber_id', Auth::id())
-    ->latest()
-    ->take(4)
-    ->get();
+            $default_address = Address::where('addressable_id', Auth::id())->where('is_default', 1)->first();
+            $recent_orders = Order::with(['station', 'order_items', 'order_histories'])->where('client_id', Auth::id())->latest()->take(5)->get();
+            $subscriptions = Subscription::where('subscriber_id', Auth::id())->latest()->take(4)->get();
 
             return Inertia::render("user/index", [
                 "default_address" => $default_address,
@@ -35,23 +25,30 @@ $subscriptions = Subscription::where('subscriber_id', Auth::id())
                 "subscriptions" => $subscriptions
             ]);
         } catch (\Throwable $th) {
-            Log::error("Error in showing user dashboard", [
-                "message" => $th->getTraceAsString()
-            ]);
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error in showing user dashboard", false)
-            ]);
+            Log::error("Error in showing user dashboard", ["message" => $th->getMessage()]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Error in showing user dashboard", false)]);
         }
     }
 
-    public function station() {
+    public function station(Request $request) {
         try {
-            $pending_orders = [];
-
-            return Inertia::render("Station/Index", ["pending_orders" => $pending_orders]);
+            $pending_orders = Order::with(['client', 'order_items', 'order_histories'])->where('station_id', Auth::id())->latest()->take(5)->get();
+            $products = [];
+            if ($request->station_id) {
+                $station_id = $request->station_id;
+                $products = Product::whereHas('stations', function ($query) use ($station_id) { $query->where('station_id', $station_id); })
+                    ->with(['stations' => function ($query) use ($station_id) { $query->where('station_id', $station_id); }])
+                    ->get()->map(function ($product) {
+                        $product->is_available = $product->stations[0]->pivot->is_available;
+                        $product->price = $product->stations[0]->pivot->price;
+                        unset($product->stations);
+                        return $product;
+                    });
+            }
+            return Inertia::render("station/index", ["pending_orders" => $pending_orders, 'products' => $products]);
         } catch (\Throwable $th) {
             Log::error("Error in showing station dashboard", [
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in showing station dashboard", false)
@@ -63,12 +60,12 @@ $subscriptions = Subscription::where('subscriber_id', Auth::id())
         try {
             $pending_orders = [];
 
-            return Inertia::render("Rider/Index", [
+            return Inertia::render("rider/index", [
                 "pending_orders" => $pending_orders
             ]);
         } catch (\Throwable $th) {
             Log::error("Error in showing rider dashboard", [
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in showing rider dashboard", false)
@@ -83,7 +80,7 @@ $subscriptions = Subscription::where('subscriber_id', Auth::id())
             $total_users = 0;
             $total_earnings = 0;
 
-            return Inertia::render("Admin/Index", [
+            return Inertia::render("admin/index", [
                 "total_stations" => $total_stations,
                 "total_orders" => $total_orders,
                 "total_users" => $total_users,
@@ -91,7 +88,7 @@ $subscriptions = Subscription::where('subscriber_id', Auth::id())
             ]);
         } catch (\Throwable $th) {
             Log::error("Error in showing admin dashboard", [
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error in showing admin dashboard", false)

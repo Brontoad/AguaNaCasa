@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Rider;
+use App\Models\User;
 use App\OrderStatus;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -18,34 +21,24 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         try {
-            if ($request->user('user')) { return Inertia::render("user/order", ["orders" => Order::all()]); } 
-            elseif ($request->user('station')) { return Inertia::render("station/order", ["orders" => Order::all()]); } 
-            elseif ($request->user('rider')) { return Inertia::render("rider/order", ["orders" => Order::all()]); } 
-            else { throw new Exception("Error authenticating user", 1); }
+            if (Auth::guard('user')->check()) { 
+                $user = Auth::guard('user')->user();
+                $orders = Order::with(['station', 'order_items', 'order_histories'])->where('client_id', $user->id)->get();
+                return Inertia::render("user/order", ["orders" => $orders]);
+            } elseif (Auth::guard('station')->check()) { 
+                $station = Auth::guard('station')->user();
+                $riders = Rider::all();
+                $orders = Order::with(['client', 'order_items', 'order_histories'])->where('station_id', $station->id)->get();
+                return Inertia::render("station/order", ["orders" => $orders, "riders" => $riders]);
+            } elseif (Auth::guard('rider')->check()) { 
+                $rider = Auth::guard('rder')->user();
+                $orders = Order::with(['rider', 'order_items', 'order_histories'])->where('rider_id', $rider->id)->get();
+                return Inertia::render("rider/order", ["orders" => $orders]); 
+            }
+            throw new Exception("Error authenticating user");
         } catch (\Throwable $th) {
-            Log::error("Error in showing all orders", ["message" => $th->getTrace()]);
-
+            Log::error("Error in showing all orders", ["message" => $th->getMessage()]);
             return Inertia::back()->with(["toast" => $this->show_toast("Error in showing all orders", false)]);
-        }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        try {
-            return Inertia::render("User/Order", [
-                "show_create_order_form" => true
-            ]);
-            
-        } catch (\Throwable $th) {
-            Log::error("Error in showing create order form", [
-                "message" => $th->getTrace()
-            ]);
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error in showing create order form", false)
-            ]);
         }
     }
 
@@ -65,89 +58,45 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
+
+            $is_walk_in = $request->boolean('is_walk_in');
+            $is_subscription = $request->boolean('is_subscription');
+
+            $client_id = $is_walk_in ? User::where('username', 'WALK-IN')->get()->first()->id : $request->input('client_id');
             $order = Order::create([
-                'status' => OrderStatus::WAITING_FOR_CONFIRMATION,
+                'rating' => 0.0,
+                'status' => $is_walk_in || $is_subscription ? OrderStatus::REFILLING : OrderStatus::WAITING_FOR_CONFIRMATION,
+                'is_subscription' => $is_subscription,
+                'delivery_fee' => $request->input('delivery_fee'),
+                'client_id' => $client_id,
                 'station_id' => $request->input('station_id'),
-                'client_id' => $request->input('client_id'),
-                'destination_address_id' => $request->input('destination_address_id'),
+                'destination_address_id' => $request->input('destination_address_id') ?? null,
+                'rider_id' => $request->input('rider_id') ?? null
             ]);
 
             foreach ($request->array('order_items') as $order_item) {        
                 $order->order_items()->create([
                     'quantity' => $order_item['quantity'],
                     'price' => $order_item['price'],
-                    'product_id' => $order_item['product_id']
+                    'product_id' => $order_item['product_id'],
+                    'product_name' => $order_item['product_name']
                 ]);
             }
 
-            $order->order_histories()->create([
-                'description' => 'Placed order, and waiting for confirmation by the station.'
-            ]);
+            if ($is_walk_in) { $order->order_histories()->create(['description' => 'Placed walk-in order.']); } 
+            else if ($is_subscription) { $order->order_histories()->create(['description' => 'Placed order from subscription.']); } 
+            else { $order->order_histories()->create(['description' => 'Placed order, and waiting for confirmation by the station.']); }
 
             DB::commit();
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Order created successfully")
-            ]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Order created successfully")]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error("Error in creating order", [
-                "message" => $th->getTrace()
-            ]);
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error creating order", false)
-            ]);
+            Log::error("Error in creating order", ["message" => $th->getMessage()]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Error creating order", false)]);
         }
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Order $order)
-    {
-        try {
-            return Inertia::render("User/Order", [
-                "view_order_modal" => [
-                    "show" => true,
-                    "order" => $order
-                ]
-            ]);
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            Log::error("Error showing order", [
-                "order_id" => $order->id,
-                "message" => $th->getTrace()
-            ]);
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error showing order", false)
-            ]);
-        }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Order $order)
-    {
-        try {
-            return Inertia::render("User/Order", [
-                "update_order_form" => [
-                    "show" => true,
-                    "order" => $order
-                ]
-            ]);
-        } catch (\Throwable $th) {
-            Log::error("Error in showing update order form", [
-                "order_id" => $order->id,
-                "message" => $th->getTrace()
-            ]);
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error showing update order form", false)
-            ]);
-        }
-    }
-
     /**
      * Update the specified resource in storage.
      */
@@ -171,7 +120,7 @@ class OrderController extends Controller
             DB::rollBack();
             Log::error("Error updating order", [
                 "order_id" => $order->id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error updating order", false)
@@ -185,44 +134,38 @@ class OrderController extends Controller
      */
     public function confirm(Request $request, string $id)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $order = Order::findOrFail($id);
             $order->status = OrderStatus::TO_PICK_UP;
+            $order->save();
 
             // Assign rider for pick up
             $order->rider_id = $request->input('rider_id');
 
-            $order->order_histories()->create([
-                'description' => 'Order confirmed by station. Waiting for rider to pick-up order.'
-            ]);
+            $order->order_histories()->create(['description' => 'Order confirmed by station. Waiting for rider to pick-up order.']);
 
             DB::commit();
-            return Inertia::back()->with([
-                "toast" => "Order confirmed for pick-up successfully"
-            ]);
+            return Inertia::back()->with(["toast" => "Order confirmed for pick-up successfully"]);
         } catch (\Throwable $th) {
             DB::rollBack();
             Log::error("Error confirming order for pick-up", [
                 "order_id" => $order->id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error confirming order for pick-up", false)
-            ]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Error confirming order for pick-up", false)]);
         }
     }
 
     public function pick_up(Request $request, string $id)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $order = Order::findOrFail($id);
             $order->status = OrderStatus::REFILLING;
+            $order->save();
 
-            $order->order_histories()->create([
-                'description' => 'Order picked up by the station. Currently refilling order.'
-            ]);
+            $order->order_histories()->create(['description' => 'Order picked up by the station. Currently refilling order.']);
 
             DB::commit();
             return Inertia::back()->with([
@@ -232,7 +175,7 @@ class OrderController extends Controller
             DB::rollBack();
             Log::error("Error picking up order", [
                 "order_id" => $order->id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error picking up order", false)
@@ -242,37 +185,30 @@ class OrderController extends Controller
 
     public function refill(Request $request, string $id)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction(); 
             $order = Order::findOrFail($id);
             $order->status = OrderStatus::ON_DELIVERY;
+            $order->save();
 
-            $order->order_histories()->create([
-                'description' => 'Order finished refilling by the station. Order under delivery.'
-            ]);
+            $order->order_histories()->create(['description' => 'Order finished refilling by the station. Order under delivery.']);
 
             DB::commit();
-            return Inertia::back()->with([
-                "toast" => "Order refilled successfully"
-            ]);
+            return Inertia::back()->with(["toast" => "Order refilled successfully"]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error("Error refilling order", [
-                "order_id" => $order->id,
-                "message" => $th->getTrace()
-            ]);
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error refilling order", false)
-            ]);
+            Log::error("Error refilling order", ["order_id" => $order->id, "message" => $th->getTraceAsString()]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Error refilling order", false)]);
         }
     }
 
     public function complete(Request $request, string $id)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $order = Order::findOrFail($id);
             $order->status = OrderStatus::COMPLETED;
+            $order->save();
 
             $order->order_histories()->create([
                 'description' => 'Order completed.'
@@ -286,7 +222,7 @@ class OrderController extends Controller
             DB::rollBack();
             Log::error("Error completing order", [
                 "order_id" => $order->id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error completing order", false)
@@ -296,24 +232,21 @@ class OrderController extends Controller
 
     public function cancel(Request $request, string $id)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $order = Order::findOrFail($id);
             $order->status = OrderStatus::CANCELLED;
+            $order->save();
 
-            $order->order_histories()->create([
-                'description' => 'Order cancelled. Reason: '.$request->input('reason')
-            ]);
+            $order->order_histories()->create(['description' => 'Order cancelled. Reason: '.$request->input('reason')]);
 
             DB::commit();
-            return Inertia::back()->with([
-                "toast" => "Order cancelled successfully"
-            ]);
+            return Inertia::back()->with(["toast" => "Order cancelled successfully"]);
         } catch (\Throwable $th) {
             DB::rollBack();
             Log::error("Error cancelling order", [
                 "order_id" => $order->id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error cancelling order", false)
@@ -326,20 +259,18 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $order->delete();
 
             DB::commit();
             
-            return Inertia::back()->with([
-                "toast" => "Order deleted successfully"
-            ]);
+            return Inertia::back()->with(["toast" => "Order deleted successfully"]);
         } catch (\Throwable $th) {
             DB::rollBack();
             Log::error("Error deleting order", [
                 "order_id" => $order->id,
-                "message" => $th->getTrace()
+                "message" => $th->getTraceAsString()
             ]);
             return Inertia::back()->with([
                 "toast" => $this->show_toast("Error deleting order", false)

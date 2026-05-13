@@ -12,6 +12,7 @@ import ViewSubscriptionModal from "@/components/modal/view-subscription";
 import "../../../css/dashboard.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "@inertiajs/react";
 interface UserIndexProps {default_address: Address, subscriptions: Subscription[], recent_orders: Order[]}
 
 export default function Index({default_address, subscriptions, recent_orders}: UserIndexProps) {
@@ -23,21 +24,13 @@ export default function Index({default_address, subscriptions, recent_orders}: U
                 <div className="col-lg-12">
                     <AddressCard defaultAddress={default_address}/>
                     
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginBottom: "24px"
-                    }}>     
+                    <div style={{display: "flex", justifyContent: "space-between", marginBottom: "24px"}}>     
                         <Section icon="clock" title="Recent Orders" />
-                        <button className="edit-btn">View All <FontAwesomeIcon icon={["fas", "arrow-right"]} /></button>
+                        <Link className="edit-btn" as={"button"} href={"/user/order"}>View All <FontAwesomeIcon icon={["fas", "arrow-right"]} /></Link>
                     </div>
                     <OrderTable orders={recent_orders} title="Recent" partial={true}/>
                     
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginBottom: "24px"
-                    }}> 
+                    <div style={{display: "flex", justifyContent: "space-between", marginBottom: "24px"}}> 
                         <Section icon="calendar-check" title="Active Subscriptions" />
                         <button className="edit-btn">View All <FontAwesomeIcon icon={["fas", "arrow-right"]} /></button>
                     </div>   
@@ -45,10 +38,8 @@ export default function Index({default_address, subscriptions, recent_orders}: U
                         <SubscriptionCard 
                             key={`active-subscription-${idx}`}
                             subscription={subscription}
-                            viewSubscription={() => setViewSubscriptionModal({
-                                open: true,
-                                subscription: subscription
-                            })}/>))}
+                            viewSubscription={() => setViewSubscriptionModal({open: true, subscription: subscription})}/>
+                        ))}
                 </div>
             </div>
 

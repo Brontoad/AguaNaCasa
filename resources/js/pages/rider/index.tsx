@@ -2,7 +2,8 @@ import Section from "@/components/section";
 import OrderTable from "@/components/table/order";
 import DashboardLayout from "@/layouts/dashboard-layout";
 import { Order } from "@agc/model";
-import "resources/css/rider/index.css";
+import "../../../css/rider/index.css";
+import "../../../css/dashboard.css";
 
 export default function Index({pending_orders}: {pending_orders: Order[]}) {
     return (

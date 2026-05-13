@@ -49,7 +49,6 @@ const TableFilterContext = createContext<TableFilterContextType>({
 
 export function FilteredTableProvider({children, data} : {children: React.ReactNode, data: Model[]}) {
     const [filteredData, setFilteredData] = useState<Model[]>([]);
-
     const [searchQuery, setSearchQuery] = useState("");
     const [filterByProduct, setFilterByProduct] = useState("");
     const [filterByStationStatus, setFilterByStationStatus] = useState("");
@@ -60,9 +59,7 @@ export function FilteredTableProvider({children, data} : {children: React.ReactN
     const [sortByAsc, setSortByAsc] = useState(false);
 
     function filterData () {
-        let newFilteredData: Model[] = [];
-
-        newFilteredData = data.filter((model) => {
+        let newFilteredData: Model[] = data.filter((model) => {
             let inSearch = model.id.includes(searchQuery);
             let hasProduct = true;
             let hasStationStatus = true;
@@ -82,8 +79,8 @@ export function FilteredTableProvider({children, data} : {children: React.ReactN
             }
 
             if (filterByBarangay.length > 0) {
-                if ((model as Station).address !== undefined) {hasBarangay = (model as Station).address.county === filterByBarangay}
-                else if ((model as User).addresses !== undefined) {hasBarangay = (model as User).addresses.some((address) => address.county === filterByBarangay)}
+                if ((model as Station).address !== undefined) {hasBarangay = (model as Station).address.label === filterByBarangay}
+                else if ((model as User).addresses !== undefined) {hasBarangay = (model as User).addresses.some((address) => address.label === filterByBarangay)}
             }
 
             return inSearch && hasProduct && hasStationStatus && hasOrderStatus && hasBarangay;
@@ -102,11 +99,20 @@ export function FilteredTableProvider({children, data} : {children: React.ReactN
             }
             return 0;
         });
-
         setFilteredData(newFilteredData);
     }
 
-    useEffect(() => filterData(), []);
+    useEffect(() => {filterData();}, [
+        data,
+        searchQuery,
+        filterByProduct,
+        filterByStationStatus,
+        filterByOrderStatus,
+        filterByBarangay,
+        sortByRating,
+        sortByName,
+        sortByAsc
+    ]);
     
     return (
         <TableFilterContext.Provider value={{

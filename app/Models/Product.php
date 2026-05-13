@@ -11,7 +11,8 @@ class Product extends Model
     protected $fillable = ['name'];
 
     public function stations() {
-        return $this->belongsToMany(Station::class, 'station_product', 'station_id', 'product_id')
-            ->withPivot('is_available');
+        return $this->belongsToMany(Station::class, 'station_product', 'product_id', 'station_id')
+            ->using(StationProduct::class)
+            ->withPivot('is_available', 'price');
     }
 }

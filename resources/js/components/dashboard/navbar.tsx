@@ -41,13 +41,14 @@ export default function Navbar() {
 
     const navbarTabs: NavbarTab[] = [
         {name: "Home", link: "/", notAllowedTypes: []},
-        {name: "About", link: "/about", notAllowedTypes: []},
         {name: "Stations", link: "/station", notAllowedTypes: [ACCOUNT_ROLE.GUEST, ACCOUNT_ROLE.STATION, ACCOUNT_ROLE.RIDER]},
         {name: "Orders", link: "/order", notAllowedTypes: [ACCOUNT_ROLE.GUEST]},
         {name: "Subscriptions", link: "/subscription", notAllowedTypes: [ACCOUNT_ROLE.GUEST, ACCOUNT_ROLE.STATION, ACCOUNT_ROLE.RIDER]},
-        {name: "Products", link: "/product", notAllowedTypes: [ACCOUNT_ROLE.GUEST, ACCOUNT_ROLE.CUSTOMER, ACCOUNT_ROLE.STATION]},
+        {name: "Sales", link: "/sale", notAllowedTypes: [ACCOUNT_ROLE.GUEST, ACCOUNT_ROLE.RIDER]},
+        {name: "Products", link: "/product", notAllowedTypes: [ACCOUNT_ROLE.GUEST, ACCOUNT_ROLE.CUSTOMER, ACCOUNT_ROLE.RIDER]},
         {name: "Users", link: "/user", notAllowedTypes: [ACCOUNT_ROLE.GUEST,ACCOUNT_ROLE.CUSTOMER, ACCOUNT_ROLE.STATION, ACCOUNT_ROLE.RIDER]},
         {name: "Contact", link: "/contact", notAllowedTypes: [ACCOUNT_ROLE.GUEST]},
+        {name: "About", link: "/about", notAllowedTypes: []},
     ];
 
     function prefix() {
@@ -64,8 +65,7 @@ export default function Navbar() {
                 return "";
         }
     }
-
-    console.log(auth.role ?? ACCOUNT_ROLE.GUEST);
+    
     return (
         <nav className="main-nav">
             <Link className="logo" href={"/"}><img src="/assets/aguanacasa_logo_white.png" alt="Agua na Casa" /></Link>
@@ -96,12 +96,12 @@ export default function Navbar() {
 
                 {/* Sign In/Log Out */}
                 <li id="signInLi">
-                    {auth.role.length <= 0 ? <Link className={"signin-button"} href={"/login"}>
+                    {auth.role.length <= 0 ? <Link className={"signin-button"} href={"/login/user"}>
                             <FontAwesomeIcon icon={["fas", "sign-in-alt"]} /> Sign In</Link>
                         : <div className="profile-button">
                             <Link className={"signin-button"} href={`${prefix()}/profile`}>
                                 <img src="/assets/account-25.png" alt="Profile" className="profile-icon"/>
-                                <span>{auth.user?.username ?? "N/A"}</span>
+                                <span>Profile</span>
                             </Link>
                         </div>}
                 </li>
