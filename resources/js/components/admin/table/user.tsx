@@ -11,7 +11,7 @@
  * Last Tested at:  N/A
  */
 import { User } from "@agc/model";
-import "resources/css/admin/user.css";
+import "../../../../css/admin/user.css";
 
 export default function UserTable({users}: {users: User[]}) {
     return (

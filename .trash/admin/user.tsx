@@ -18,7 +18,7 @@ import { FilteredTableProvider, useTable } from "@/components/table/common/filte
 import DashboardLayout from "@/layouts/dashboard-layout";
 import { User as UserModel } from "@agc/model";
 
-import "resources/css/admin/user.css";
+import "../../../css/admin/user.css";
 
 export default function User({users}: {users: UserModel[]}) {
     const {filteredData} = useTable();

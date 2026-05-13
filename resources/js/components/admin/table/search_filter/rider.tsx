@@ -1,4 +1,4 @@
-import "resources/css/admin/user.css";
+import "../../../../css/admin/user.css";
 
 export default function RiderSearchFilter() {
     return (
