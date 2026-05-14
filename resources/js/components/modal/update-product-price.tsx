@@ -12,19 +12,24 @@ export default function UpdateProductPriceModal({
 }) {
     const {auth} = usePage().props;
     const station: Station = auth.station!;
-    const { data, setData, put, processing } = useForm({
+    const { data, setData, put, processing, transform } = useForm({
         station_id: station.id,
         product_id: product.id,
-        price: Number(product.price)
+        price: String(product.price)
     });
 
     function updateProductPrice(e: any) {
-        e.preventDefault();
+    e.preventDefault();
 
-        put("/station/product/price", {
-            onSuccess: () => closeModal()
-        });
-    }
+    transform((data) => ({
+        ...data,
+        price: Number(data.price)
+    }));
+
+    put("/station/product/price", {
+        onSuccess: () => closeModal()
+    });
+}
 
     return (
         <FormModalLayout
@@ -39,7 +44,7 @@ export default function UpdateProductPriceModal({
 
             <div className="form-group">
                 <label>Price (₱)</label>
-                <input type="number" value={data.price} onChange={(e) => setData("price", Number(e.target.value))} step="0.01"/>
+                <input type="number" value={data.price} onChange={(e) => setData("price", String(e.target.value))}/>
             </div>
         </FormModalLayout>
     );

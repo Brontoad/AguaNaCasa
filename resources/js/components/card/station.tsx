@@ -33,10 +33,10 @@ export default function StationCard({station, createOrder, subscribe} : {station
                 <div className="station-meta">
                     <div className="status-badge-station ${statusInfo.className}">{renderStationStatus(station.status)}</div>
                 </div>
-                <div className="rating-chip">
+                {/* <div className="rating-chip">
                     <FontAwesomeIcon icon={["fas", "star"]} /> {station.rating}
                     <span style={{marginLeft: "4px", fontWeight: "400"}}>({station.reviews} reviews)</span>
-                </div>
+                </div> */}
             </div>
             <div className="card-actions">
                 <CreateOrderBtn station={station} createOrder={() => createOrder(station)}/>

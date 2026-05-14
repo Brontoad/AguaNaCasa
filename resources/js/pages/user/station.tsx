@@ -38,7 +38,7 @@ export default function Station({stations, products} : {stations: UserStation[],
             </div>
 
             {createOrderModal.open && createOrderModal.station && <CreateOrderModal 
-                station={createOrderModal.station} products={createOrderModal.products} 
+                station={createOrderModal.station} products={createOrderModal.products} fromSubscription={false}
                 closeModal={() => setCreateOrderModal({open: false, station: undefined, products: []})}/>}
             {createSubscriptionModal.open && createSubscriptionModal.station && <CreateSubscriptionModal 
                 station={createSubscriptionModal.station}

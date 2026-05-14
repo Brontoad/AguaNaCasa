@@ -15,19 +15,20 @@ import { router } from "@inertiajs/react";
 import { formatTimestamp } from "@/datetime";
 import AssignOrderToRiderModal from "./assign-order-to-rider";
 import CancelOrderModal from "./cancel-order";
+import TrackOrderModal from "./track-order";
 
 export default function ViewOrderModal({order, closeModal} : {order: Order, closeModal(): void}) {
     const {auth} = usePage().props;
     const [assignOrderToRiderModal, setAssignOrderToRiderModal] = useState<{open: boolean, orderId: string, riderId: string}>({open: false, orderId: "", riderId: ""})
     const [cancelOrderModal, setCancelOrderModal] = useState<{open: boolean, orderId: string}>({open: false, orderId: ""});
+    const [trackOrderModal, setTrackOrderModal] = useState<{open: boolean, order?: Order}>({open: false, order: undefined});
 
     function updateOrderStatus(action: "confirm" | "pick_up" | "refill" | "deliver") { router.put(`/order/${action}/${order.id}`); }
     function cancelOrder(reason: string) {router.put(`/order/cancel/${cancelOrderModal.orderId}`, {reason: reason})}
-    function assignOrderToRider() {router.put(`/order/confirm/${assignOrderToRiderModal.orderId}`, {rider_id: assignOrderToRiderModal.riderId});}
+    function assignOrderToRider(riderId: string) {router.put(`/order/confirm/${assignOrderToRiderModal.orderId}`, {rider_id: riderId});}
     function renderUpdateOrderStatusBtn(order: Order): React.ReactNode {
         switch (order.status) {
             case ORDER_STATUS.WAITING_FOR_CONFIRMATION: return <button className="save-btn waiting" key={"save-btn"} onClick={() => setAssignOrderToRiderModal({open: true, orderId: order.id, riderId: ""})}>Confirm Order</button>
-            case ORDER_STATUS.TO_PICK_UP: return <button className="save-btn to-pick-up" key={"pick-btn"} onClick={() => updateOrderStatus("pick_up")}>Pick-up Order</button>
             case ORDER_STATUS.REFILLING: return <button className="save-btn refilling" key={"refill-btn"} onClick={() => updateOrderStatus("refill")}>Finish Refilling</button>
             case ORDER_STATUS.ON_DELIVERY: return <button className="save-btn delivery" key={"deliver-btn"} onClick={() => updateOrderStatus("deliver")}>Deliver Order</button>
             default: return <></>
@@ -40,8 +41,8 @@ export default function ViewOrderModal({order, closeModal} : {order: Order, clos
             handleClose={() => closeModal()}    
             actionButtons={[
                 auth.role === ACCOUNT_ROLE.STATION && renderUpdateOrderStatusBtn(order),
-                auth.role === ACCOUNT_ROLE.RIDER && <button className="save-btn" key={"track-btn"} onClick={() => {<></>}}>Track Order</button>,
-                order.status === ORDER_STATUS.CANCELLED || ORDER_STATUS.COMPLETED &&
+                auth.role === ACCOUNT_ROLE.RIDER && <button className="save-btn" key={"track-btn"} onClick={() => setTrackOrderModal({order: order, open: true})}>Track Order</button>,
+                order.status === ORDER_STATUS.WAITING_FOR_CONFIRMATION &&
                     <button className="btn-cancel" key={"cancel-btn"} onClick={() => setCancelOrderModal({open: true, orderId: order.id})}>Cancel Order</button>
             ]}
         >
@@ -68,13 +69,15 @@ export default function ViewOrderModal({order, closeModal} : {order: Order, clos
 
             {assignOrderToRiderModal.open && <AssignOrderToRiderModal 
                 orderId={assignOrderToRiderModal.orderId}
-                confirmOrder={() => assignOrderToRider()} 
+                confirmOrder={(riderId: string) => assignOrderToRider(riderId)} 
                 closeModal={() => setAssignOrderToRiderModal({open: false, orderId:"", riderId: ""})}/>}
-
             {cancelOrderModal.open && <CancelOrderModal 
                 orderId={cancelOrderModal.orderId} 
                 cancelOrder={(reason: string) => cancelOrder(reason)} 
                 closeModal={() => setCancelOrderModal({open: false, orderId: ""})} />}
+            {trackOrderModal.open && trackOrderModal.order && <TrackOrderModal
+                order={trackOrderModal.order}
+                closeModal={() => setTrackOrderModal({open: false, order: undefined})} />}
         </ModalLayout>, document.body
     );
 }

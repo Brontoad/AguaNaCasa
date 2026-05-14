@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Rider;
+use App\Models\Subscription;
 use App\Models\User;
 use App\OrderStatus;
 use Exception;
@@ -34,8 +35,7 @@ class OrderController extends Controller
                 $rider = Auth::guard('rder')->user();
                 $orders = Order::with(['rider', 'order_items', 'order_histories'])->where('rider_id', $rider->id)->get();
                 return Inertia::render("rider/order", ["orders" => $orders]); 
-            }
-            throw new Exception("Error authenticating user");
+            } throw new Exception("Error authenticating user");
         } catch (\Throwable $th) {
             Log::error("Error in showing all orders", ["message" => $th->getMessage()]);
             return Inertia::back()->with(["toast" => $this->show_toast("Error in showing all orders", false)]);
@@ -73,8 +73,14 @@ class OrderController extends Controller
                 'client_id' => $client_id,
                 'station_id' => $request->input('station_id'),
                 'destination_address_id' => $request->input('destination_address_id') ?? null,
-                'rider_id' => $request->input('rider_id') ?? null
+                'rider_id' => $request->input('rider_id') ?? null,
+                'subscription_id' => $is_subscription ? $request->input('subscription_id') : null
             ]);
+
+            if ($is_subscription) { 
+                $order->update(['subscription_id' => $request->input('subscription_id')]);
+                $order->save();
+            }
 
             foreach ($request->array('order_items') as $order_item) {        
                 $order->order_items()->create([
@@ -138,10 +144,10 @@ class OrderController extends Controller
             DB::beginTransaction();
             $order = Order::findOrFail($id);
             $order->status = OrderStatus::TO_PICK_UP;
-            $order->save();
 
             // Assign rider for pick up
             $order->rider_id = $request->input('rider_id');
+            $order->save();
 
             $order->order_histories()->create(['description' => 'Order confirmed by station. Waiting for rider to pick-up order.']);
 

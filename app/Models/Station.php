@@ -31,6 +31,8 @@ class Station extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'subscriptions',
+        'orders'
     ];
 
     /**

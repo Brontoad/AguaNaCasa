@@ -91,17 +91,22 @@ Route::middleware(['auth:user'])->prefix('user')->name('user.')->group(function 
     Route::get('/profile', [ProfileController::class, 'user'])->name('profile');
 });
 
+Route::middleware(['auth:user'])->group(function () {
+    Route::post('/subscription', [SubscriptionController::class, 'store'])->name('subscription.create');
+    Route::put('/subscription/pay', [SubscriptionController::class, 'pay'])->name('subscription.pay');
+});
+
 // Address
 Route::post('/address', [AddressController::class, 'store']);
 
 Route::post('/order', [OrderController::class, 'store']);
 // Order
-Route::middleware(['auth:station'])->prefix('order')->name('order.')->group(function () {
+Route::middleware(['auth:station,rider'])->prefix('order')->name('order.')->group(function () {
     // Route::post('/', [OrderController::class, 'store']);
     Route::put('/confirm/{id}', [OrderController::class, 'confirm'])->name('confirm');
     Route::put('/pick_up/{id}', [OrderController::class, 'pick_up'])->name('pick_up');
     Route::put('/refill/{id}', [OrderController::class, 'refill'])->name('refill');
-    Route::put('/deliver/{id}', [OrderController::class, 'deliver'])->name('deliver');
+    Route::put('/deliver/{id}', [OrderController::class, 'complete'])->name('deliver');
     Route::put('/cancel/{id}', [OrderController::class, 'cancel'])->name('cancel');
 });
 
@@ -116,11 +121,14 @@ Route::middleware(['auth:station'])->prefix('station')->name('station.')->group(
     Route::get('/order', [OrderController::class, 'index'])->name('order');
     Route::get('/product', [ProductController::class, 'index'])->name('product');
     Route::get('/sales', [SaleController::class, 'station'])->name('sale');
+    Route::get('/subscription', [SubscriptionController::class, 'index'])->name('subscription');
     Route::get('/profile', [ProfileController::class, 'station'])->name('profile');
 
     Route::put('/product/price', [ProductController::class, 'update_price']);
     Route::put('/product/is_available', [ProductController::class, 'update_is_available']);
 });
+
+Route::get('/station/products', [DashboardController::class, 'fetch_station_products']);
 
 /*
 |--------------------------------------------------------------------------

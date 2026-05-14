@@ -65,18 +65,18 @@ export default function Profile() {
                             <p><FontAwesomeIcon icon={["fas", "envelope"]} /> {user.email}</p>
                             <p><FontAwesomeIcon icon={["fas", "phone"]} /> {user.contact_number}</p>
                             
-                            <div className="profile-badges">
+                            {/* <div className="profile-badges">
                                 <ProfileBadge icon={"check-circle"} label="Verified User" />
                                 <ProfileBadge icon={"calendar-alt"} label="Account since May 2026" />
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
-                    <div className="col-md-3">
+                    {/* <div className="col-md-3">
                         <div className="profile-stats">
                             {userStatistics.map((stats, idx) => (<ProfileStatistics key={idx} {...stats} />))}
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

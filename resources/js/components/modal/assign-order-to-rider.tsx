@@ -5,7 +5,7 @@ import FormModalLayout from "@/layouts/form-modal-layout";
 import "../../../css/order/assign-order-to-rider.css";
 import { useEffect, useState } from "react";
 
-interface AssignOrderToRiderModalProps {orderId: string, confirmOrder(orderId: string, riderId: string): void, closeModal(): void}
+interface AssignOrderToRiderModalProps {orderId: string, confirmOrder(riderId: string): void, closeModal(): void}
 
 export default function AssignOrderToRiderModal({orderId, confirmOrder, closeModal}: AssignOrderToRiderModalProps) {
     const [selectedRider, setSelectedRider] = useState<Rider | undefined>();
@@ -17,7 +17,7 @@ export default function AssignOrderToRiderModal({orderId, confirmOrder, closeMod
             return;
         }
 
-        confirmOrder(orderId, selectedRider.id);
+        confirmOrder(selectedRider.id);
         closeModal();
     }   
 

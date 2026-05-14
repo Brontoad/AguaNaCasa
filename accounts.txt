@@ -1,0 +1,15 @@
+Admin:
+admin@gmail.com
+12345678
+
+User:
+joshua@gmail.com
+qwerty
+
+Station:
+joshuawater@gmail.com
+qwerty
+
+Rider:
+09123456789
+qwerty

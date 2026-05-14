@@ -12,10 +12,17 @@ class Subscription extends Model
         'estimated_pickup_time',
         'pickup_days',
         'last_paid_at',
-        'payment_due_date'
+        'payment_due_date',
+        'station_id',
+        'subscriber_id',
+        'destination_address_id'
     ];
+    protected $casts = [
+    'pickup_days' => 'array',
+];
 
-    public function station() { return $this->hasOne(Station::class, 'station_id'); }
-    public function subscriber() { return $this->hasOne(User::class, 'subscriber_id'); }
-    public function orders() { return $this->hasMany(Order::class, 'order_id'); }
+    public function station() { return $this->belongsTo(Station::class, 'station_id'); }
+    public function subscriber() { return $this->belongsTo(User::class, 'subscriber_id'); }
+    public function destination_address() { return $this->belongsTo(Address::class, 'destination_address_id'); }
+    public function orders() { return $this->hasMany(Order::class, 'subscription_id'); }
 }

@@ -3,6 +3,7 @@ import { WEEKDAYS } from "@/pages/config";
 import { Station, User } from "@agc/model";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useForm, usePage } from "@inertiajs/react";
+import "../../../css/subscription/create-subscription.css";
 
 export default function CreateSubscriptionModal({station, closeModal}: {station: Station, closeModal(): void}) {
     const {auth} = usePage().props;
@@ -18,16 +19,12 @@ export default function CreateSubscriptionModal({station, closeModal}: {station:
     });
 
     function toggleDay(day: string) {
-        setData("days",
-            data.days.includes(day)
-                ? data.days.filter(d => d !== day)
-                : [...data.days, day]
-        );
+        setData("days", data.days.includes(day) ? data.days.filter(d => d !== day) : [...data.days, day]);
     }
 
     function createSubscription(e: any) {
         e.preventDefault();
-        post("/subscription");
+        post("/subscription", {onSuccess: () => closeModal()});
     }
 
     return (
@@ -56,7 +53,7 @@ export default function CreateSubscriptionModal({station, closeModal}: {station:
                 <label>Select Delivery Days</label>
                 <div className="frequency-buttons" id="dayButtons">
                     {WEEKDAYS.map((day, idx) => (
-                        <button type="button" className={`day-btn ${data.days.includes(day) ? "active" : ""}`} 
+                        <button type="button" className={`day-btn ${data.days.includes(day) ? "selected" : ""}`} 
                             onClick={() => toggleDay(day)} key={`subscription-delivery-day-${idx}`}>{day}</button>
                     ))}
                 </div>
@@ -64,7 +61,7 @@ export default function CreateSubscriptionModal({station, closeModal}: {station:
 
             <div className="form-group">
                 <label>Select Estimated Time to Order</label>
-                <input type="time"  className="start-date" value={data.time} onChange={(e) => setData("time", e.target.value)} />
+                <input type="time"  className="start-date" step={600} value={data.time} onChange={(e) => setData("time", e.target.value)} />
             </div>
         </div>
         </FormModalLayout>

@@ -26,6 +26,7 @@ export default function Index({pending_orders, products}: {pending_orders: Order
             onSuccess: (page: any) => { setCreateOrderModal(prev => ({ ...prev, products: page.props.products })); }
         });
     }
+    
     return (
         <div className="container">
             <div className="row">

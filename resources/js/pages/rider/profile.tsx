@@ -62,11 +62,11 @@ export default function Profile() {
                         </div>
                     </div>
 
-                    <div className="col-md-4">
+                    {/* <div className="col-md-4">
                         <div className="profile-stats">
                             {riderStatistics.map((stats, idx) => (<ProfileStatistics key={idx} {...stats} />))}
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

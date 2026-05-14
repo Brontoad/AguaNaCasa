@@ -53,10 +53,10 @@ export default function Profile() {
     return (
         <div className="profile-wrapper">
             <div className="profile-header">
-                <div className="station-status-toggle">
+                {/* <div className="station-status-toggle">
                     <span className="status-indicator"></span><span>{station.status}</span>
                     <button className="status-toggle-btn" onClick={() => changeStationStatus()}>Change</button>
-                </div>
+                </div> */}
 
                 <button className="profile-edit-btn" onClick={() => setUpdateStationModal({open: true, station: station})}>
                     <FontAwesomeIcon icon={["fas", "edit"]} /> Edit
@@ -72,18 +72,18 @@ export default function Profile() {
                             <p><FontAwesomeIcon icon={["fas", "envelope"]} /> {station.email}</p>
                             <p><FontAwesomeIcon icon={["fas", "phone"]} /> {station.contact_number}</p>
                             
-                            <div className="profile-badges">
+                            {/* <div className="profile-badges">
                                 <ProfileBadge icon={"check-circle"} label="Verified Station" />
                                 <ProfileBadge icon={"calendar-alt"} label="Partner since Jan 2024" />
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
-                    <div className="col-md-4">
+                    {/* <div className="col-md-4">
                         <div className="profile-stats">
                             {stationStatistics.map((stats, idx) => (<ProfileStatistics key={idx} {...stats} />))}
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

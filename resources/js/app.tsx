@@ -7,7 +7,6 @@ import '../css/agua_na_casa.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
-console.log("KLSAKLSKAS");
 createInertiaApp({
     resolve: (name: string) =>
         resolvePageComponent(

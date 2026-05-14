@@ -22,16 +22,16 @@ export default function RiderProfile({rider} : {rider: Rider}) {
             
             <div className="row align-items-center">
                 <div className="col-md-8">
-                    <ProfileAvatar image={rider.name} />
+                    <ProfileAvatar name={rider.name} changeAvatar={() => {}}/>
                     
                     <div className="profile-info">
                         <h1>{rider.name}</h1>
                         <p><i className="fas fa-phone"></i> {rider.contact_number}</p>
                         
-                        <div className="profile-badges">
+                        {/* <div className="profile-badges">
                             <ProfileBadge icon={<i className="fas fa-check-circle"></i>} label="Verified Rider" />
                             <ProfileBadge icon={<i className="fas fa-calendar-alt"></i>} label="Partner since Jan 2024" />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 

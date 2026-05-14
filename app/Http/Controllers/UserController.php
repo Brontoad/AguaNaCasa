@@ -74,7 +74,12 @@ class UserController extends Controller
                 'contact_number_verified_at' => Carbon::now()
             ]);
 
-            $user->addresses()->create($request->input('address'));
+            $address = $request->input('address');
+            
+            $user->addresses()->create([
+                'label' => 'Home', 'x' => $address['x'], 'y' => $address['y'],
+                'location' => $address['location'], 'is_default' => true
+            ]);
             
             DB::commit();
             return Inertia::back()->with([

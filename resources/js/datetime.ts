@@ -11,3 +11,13 @@ export function formatTimestamp(timestamp: string) {
         hour12: true
     });
 }
+
+export function formatTimestampWithoutTime(timestamp: string) {
+    const date = new Date(timestamp);
+
+    return date.toLocaleString("en-PH", {
+        month: "long",
+        day: "numeric",
+        year: "numeric"
+    });
+}

@@ -128,7 +128,7 @@ export default function StationCredentialsForm({
                     <div className="input-wrapper">
                         <input type="password" placeholder="Create password"
                             onChange={(e) => {
-                                setData("password", e.target.value);
+                                setPassword(e.target.value);
                                 checkPasswordStrength(e.target.value);
                             }}
                             required/>

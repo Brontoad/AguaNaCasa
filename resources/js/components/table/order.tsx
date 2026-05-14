@@ -28,7 +28,7 @@ function computeTotal(orderItems: OrderItem[], deliveryFee: number) {
 
 export default function OrderTable({orders, title, partial = false}: OrderTableProps) {
     const {auth} = usePage().props;
-    console.log(auth);
+    
     const [viewOrderModal, setViewOrderModal] = useState<{open: boolean, order?: Order}>({open: false, order: undefined});
     return (
         <div className="info-card">

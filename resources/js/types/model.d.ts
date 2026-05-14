@@ -42,8 +42,10 @@ declare module '@agc/model' {
     }
 
     export interface Subscription extends Model {
+        subscriber: User,
+        destination_address: Address,
         estimated_time_of_delivery: string,
-        delivery_days: string[],
+        pickup_days: string[],
         orders: Order[],
         station: Station
     }
@@ -64,6 +66,7 @@ declare module '@agc/model' {
         rating: integer,
         status: string,
         total: number,
+        destination_address: Address,
         is_subscription: boolean,
         delivery_fee: number,
         subscription: Subscription?,
