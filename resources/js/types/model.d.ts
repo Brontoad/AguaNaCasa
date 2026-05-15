@@ -33,12 +33,18 @@ declare module '@agc/model' {
         reviews: number,
         address: Address,
         status: string,
+        is_approved: boolean,
+        is_suspended: boolean,
         products: Product[]
     }
 
     export interface UserStation extends Station {
         distance: number,
         is_subscribed: boolean
+    }
+
+    export interface StationWithSystemFee extends Station {
+        last_paid_at: string
     }
 
     export interface Subscription extends Model {
@@ -55,8 +61,10 @@ declare module '@agc/model' {
         plate_number: string,
         contact_number: string,
         vehicle: string,
-        license: string
-        station: Station
+        license: string,
+        station: Station,
+        is_approved: boolean,
+        is_suspended: boolean
     }
 
     export interface Order extends Model {
@@ -79,4 +87,6 @@ declare module '@agc/model' {
     export interface OrderHistory extends Model {description: string}
 
     export interface Product extends Model {name: string, price: number, is_available: boolean}
+
+    export interface SystemFee extends Model {amount: number, due_date: string, paid: boolean}
 }

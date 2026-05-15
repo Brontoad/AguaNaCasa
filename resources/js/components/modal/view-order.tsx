@@ -23,9 +23,9 @@ export default function ViewOrderModal({order, closeModal} : {order: Order, clos
     const [cancelOrderModal, setCancelOrderModal] = useState<{open: boolean, orderId: string}>({open: false, orderId: ""});
     const [trackOrderModal, setTrackOrderModal] = useState<{open: boolean, order?: Order}>({open: false, order: undefined});
 
-    function updateOrderStatus(action: "confirm" | "pick_up" | "refill" | "deliver") { router.put(`/order/${action}/${order.id}`); }
-    function cancelOrder(reason: string) {router.put(`/order/cancel/${cancelOrderModal.orderId}`, {reason: reason})}
-    function assignOrderToRider(riderId: string) {router.put(`/order/confirm/${assignOrderToRiderModal.orderId}`, {rider_id: riderId});}
+    function updateOrderStatus(action: "confirm" | "pick_up" | "refill" | "deliver") { router.put(`/order/${action}/${order.id}`, {}, {onSuccess: () => closeModal()}); }
+    function cancelOrder(reason: string) {router.put(`/order/cancel/${cancelOrderModal.orderId}`, {reason: reason}, {onSuccess: () => closeModal()})}
+    function assignOrderToRider(riderId: string) {router.put(`/order/confirm/${assignOrderToRiderModal.orderId}`, {rider_id: riderId}, {onSuccess: () => closeModal()});}
     function renderUpdateOrderStatusBtn(order: Order): React.ReactNode {
         switch (order.status) {
             case ORDER_STATUS.WAITING_FOR_CONFIRMATION: return <button className="save-btn waiting" key={"save-btn"} onClick={() => setAssignOrderToRiderModal({open: true, orderId: order.id, riderId: ""})}>Confirm Order</button>

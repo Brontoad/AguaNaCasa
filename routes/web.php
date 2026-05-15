@@ -10,10 +10,13 @@ use App\Http\Controllers\RiderController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\StationController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\SystemFeeController;
 use App\Http\Controllers\UserController;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Rider;
+use App\Models\SystemFee;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -75,7 +78,7 @@ Route::post('/rider', [RiderController::class, 'store']);
 |--------------------------------------------------------------------------
 */
 
-    Route::get('/logout', [AuthController::class, 'logout']);
+Route::get('/logout', [AuthController::class, 'logout']);
 
 /*
 |--------------------------------------------------------------------------
@@ -120,7 +123,7 @@ Route::middleware(['auth:station'])->prefix('station')->name('station.')->group(
     Route::get('/dashboard', [DashboardController::class, 'station'])->name('dashboard');
     Route::get('/order', [OrderController::class, 'index'])->name('order');
     Route::get('/product', [ProductController::class, 'index'])->name('product');
-    Route::get('/sales', [SaleController::class, 'station'])->name('sale');
+    Route::get('/sale', [SaleController::class, 'index'])->name('sale');
     Route::get('/subscription', [SubscriptionController::class, 'index'])->name('subscription');
     Route::get('/profile', [ProfileController::class, 'station'])->name('profile');
 
@@ -130,6 +133,23 @@ Route::middleware(['auth:station'])->prefix('station')->name('station.')->group(
 
 Route::get('/station/products', [DashboardController::class, 'fetch_station_products']);
 
+Route::get('/system_fee', function () {
+    $system_fees = SystemFee::where('feeable_id', Auth::guard('station')->id())
+        ->latest()
+        ->get();
+
+    $latest_system_fee = SystemFee::where('feeable_id', Auth::guard('station')->id())
+        ->where('paid', true)
+        ->latest()
+        ->first();
+
+    return response()->json([
+        'system_fees' => $system_fees,
+        'latest_system_fee' => $latest_system_fee
+    ]);
+});
+
+Route::put('/system_fee/pay', [SystemFeeController::class, 'pay']);
 /*
 |--------------------------------------------------------------------------
 | RIDER ROUTES
@@ -152,5 +172,24 @@ Route::middleware(['auth:rider'])->prefix('rider')->name('rider.')->group(functi
 
 Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'admin'])->name('dashboard');
-    Route::get('/stations', [StationController::class, 'index'])->name('station');
+    Route::get('/station', [StationController::class, 'index'])->name('station');
+    Route::get('/rider', [RiderController::class, 'index'])->name('rider');
+    Route::get('/product', [ProductController::class, 'index'])->name('product');
+    Route::get('/sale', [SaleController::class, 'index'])->name('sale');
+    Route::get('/user', [UserController::class, 'index'])->name('user');
+});
+
+Route::middleware(['auth:admin'])->name('admin.')->group(function () {
+    Route::put('/station/approve', [StationController::class, 'approve'])->name('station.approve');
+    Route::put('/station/suspend', [StationController::class, 'suspend'])->name('station.suspend');
+
+    Route::put('/rider/approve', [RiderController::class, 'approve'])->name('rider.approve');
+    Route::put('/rider/suspend', [RiderController::class, 'suspend'])->name('rider.suspend');
+
+    Route::put('/user/suspend', [UserController::class, 'suspend'])->name('user.suspend');
+
+    Route::post('/product', [ProductController::class, 'store'])->name('product.store');
+    Route::put('/product', [ProductController::class, 'update'])->name('product.update');
+
+    Route::post('/system_fee', [SystemFeeController::class, 'store'])->name('system_fee.store');
 });

@@ -75,22 +75,15 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             Product::create($request);
-
             DB::commit();
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Product created successfully")
-            ]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Product created successfully")]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error("Error in creating product", [
-                "message" => $th->getTraceAsString()
-            ]);
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error creating product", false)
-            ]);
+            Log::error("Error in creating product", ["message" => $th->getMessage(), "trace" => $th->getTraceAsString()]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Error creating product", false)]);
         }
     }
 
@@ -149,20 +142,12 @@ class ProductController extends Controller
         try {
             DB::beginTransaction();
             $product->name = $request->input('name');
-
             DB::commit();
-            return Inertia::back()->with([
-                "toast" => "Product edited successfully"
-            ]);
+            return Inertia::back()->with(["toast" => "Product edited successfully"]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error("Error updating product", [
-                "product_id" => $product->id,
-                "message" => $th->getTraceAsString()
-            ]);
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error updating product", false)
-            ]);
+            Log::error("Error updating product", ["product_id" => $product->id, "message" => $th->getMessage(), "trace" => $th->getTraceAsString()]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Error updating product", false)]);
         }
     }
 
@@ -172,15 +157,13 @@ class ProductController extends Controller
             DB::beginTransaction();
 
             $station = Station::findOrFail($request->station_id);
-            $station->products()->syncWithoutDetaching([
-                $request->product_id => ['price' => doubleval($request->input("price"))]
-            ]);
+            $station->products()->syncWithoutDetaching([$request->product_id => ['price' => doubleval($request->input("price"))]]);
 
             DB::commit();
             return Inertia::back()->with(["toast" => "Product price updated successfully"]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error("Error updating product price", ["message" => $th->getMessage()]);
+            Log::error("Error updating product price", ["message" => $th->getMessage(), "trace" => $th->getTraceAsString()]);
             return Inertia::back()->with(["toast" => $this->show_toast("Error updating product price", false)]);
         }
     }

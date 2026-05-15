@@ -18,6 +18,7 @@ class Rider extends Authenticatable
         'license_verified_at',
         'last_paid_rider_fee_at',
         'is_suspended',
+        'is_approved',
         'reset_rider_token'
     ];
 

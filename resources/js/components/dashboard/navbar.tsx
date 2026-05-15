@@ -42,27 +42,23 @@ export default function Navbar() {
     const navbarTabs: NavbarTab[] = [
         {name: "Home", link: "/", notAllowedTypes: []},
         {name: "Stations", link: "/station", notAllowedTypes: [ACCOUNT_ROLE.GUEST, ACCOUNT_ROLE.STATION, ACCOUNT_ROLE.RIDER]},
-        {name: "Orders", link: "/order", notAllowedTypes: [ACCOUNT_ROLE.GUEST]},
-        {name: "Subscriptions", link: "/subscription", notAllowedTypes: [ACCOUNT_ROLE.GUEST, ACCOUNT_ROLE.RIDER]},
+        {name: "Riders", link: "/rider", notAllowedTypes: [ACCOUNT_ROLE.GUEST, ACCOUNT_ROLE.STATION, ACCOUNT_ROLE.RIDER]},
+        {name: "Orders", link: "/order", notAllowedTypes: [ACCOUNT_ROLE.GUEST, ACCOUNT_ROLE.ADMIN]},
+        {name: "Subscriptions", link: "/subscription", notAllowedTypes: [ACCOUNT_ROLE.GUEST, ACCOUNT_ROLE.RIDER, ACCOUNT_ROLE.ADMIN]},
         {name: "Sales", link: "/sale", notAllowedTypes: [ACCOUNT_ROLE.GUEST, ACCOUNT_ROLE.CUSTOMER, ACCOUNT_ROLE.RIDER]},
         {name: "Products", link: "/product", notAllowedTypes: [ACCOUNT_ROLE.GUEST, ACCOUNT_ROLE.CUSTOMER, ACCOUNT_ROLE.RIDER]},
         {name: "Users", link: "/user", notAllowedTypes: [ACCOUNT_ROLE.GUEST,ACCOUNT_ROLE.CUSTOMER, ACCOUNT_ROLE.STATION, ACCOUNT_ROLE.RIDER]},
-        {name: "Contact", link: "/contact", notAllowedTypes: [ACCOUNT_ROLE.GUEST]},
+        {name: "Contact", link: "/contact", notAllowedTypes: []},
         {name: "About", link: "/about", notAllowedTypes: []},
     ];
 
     function prefix() {
         switch (auth.role) {
-            case ACCOUNT_ROLE.CUSTOMER:
-                return "/user";
-            case ACCOUNT_ROLE.STATION:
-                return "/station";
-            case ACCOUNT_ROLE.RIDER:
-                return "/rider";
-            case ACCOUNT_ROLE.ADMIN:
-                return "/admin";
-            default:
-                return "";
+            case ACCOUNT_ROLE.CUSTOMER: return "/user";
+            case ACCOUNT_ROLE.STATION: return "/station";
+            case ACCOUNT_ROLE.RIDER: return "/rider";
+            case ACCOUNT_ROLE.ADMIN: return "/admin";
+            default: return "";
         }
     }
     
@@ -72,22 +68,10 @@ export default function Navbar() {
 
             <ul className="nav">
                 {navbarTabs.map((navbarTab, idx) => {
-                    if (navbarTab.notAllowedTypes.includes(auth.role && auth.role.length > 0
-        ? auth.role
-        : ACCOUNT_ROLE.GUEST)) return null;
-
-                    const isPublic =
-                        navbarTab.link === "/" ||
-                        navbarTab.link === "/about" ||
-                        navbarTab.link === "/contact_us";
-
+                    if (navbarTab.notAllowedTypes.includes(auth.role && auth.role.length > 0 ? auth.role : ACCOUNT_ROLE.GUEST)) return null;
+                    const isPublic = navbarTab.link === "/" || navbarTab.link === "/about" || navbarTab.link === "/contact_us";
                     const href = isPublic ? navbarTab.link : `${prefix()}${navbarTab.link}`;
-
-                    return (
-                        <li key={idx}>
-                            <Link href={href}>{navbarTab.name}</Link>
-                        </li>
-                    );
+                    return (<li key={idx}><Link href={href}>{navbarTab.name}</Link></li>);
                 })}
                 
                 {/* Order Now */}
@@ -96,10 +80,9 @@ export default function Navbar() {
 
                 {/* Sign In/Log Out */}
                 <li id="signInLi">
-                    {auth.role.length <= 0 ? <Link className={"signin-button"} href={"/login/user"}>
-                            <FontAwesomeIcon icon={["fas", "sign-in-alt"]} /> Sign In</Link>
-                        : <div className="profile-button">
-                            <Link className={"signin-button"} href={`${prefix()}/profile`}>
+                    {auth.role.length <= 0 ? <Link className={"signin-button"} href={"/login/user"}><FontAwesomeIcon icon={["fas", "sign-in-alt"]} /> Sign In</Link>
+                        : auth.role === ACCOUNT_ROLE.ADMIN ? <Link className={"signin-button"} href={"/logout"}><FontAwesomeIcon icon={["fas", "sign-out-alt"]} /> Logout</Link> 
+                            :<div className="profile-button"><Link className={"signin-button"} href={`${prefix()}/profile`}>
                                 <img src="/assets/account-25.png" alt="Profile" className="profile-icon"/>
                                 <span>Profile</span>
                             </Link>

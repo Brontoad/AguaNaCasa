@@ -17,5 +17,9 @@ class Address extends Model
         'is_default'
     ];
 
+    protected $hidden = [
+        'addressable',
+    ];
+
     public function addressable(): MorphTo { return $this->morphTo(); }
 }

@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Address;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Rider;
+use App\Models\Station;
 use App\Models\Subscription;
+use App\Models\SystemFee;
+use App\Models\User;
 use App\OrderStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -112,25 +116,44 @@ class DashboardController extends Controller
     }
 
     public function admin() {
-        try {
-            $total_stations = 0;
-            $total_orders = 0;
-            $total_users = 0;
-            $total_earnings = 0;
+    try {
+        $total_stations = Station::count();
+        $total_riders = Rider::count();
+        $total_users = User::count();
 
-            return Inertia::render("admin/index", [
-                "total_stations" => $total_stations,
-                "total_orders" => $total_orders,
-                "total_users" => $total_users,
-                "total_earnings" => $total_earnings
-            ]);
-        } catch (\Throwable $th) {
-            Log::error("Error in showing admin dashboard", [
-                "message" => $th->getTraceAsString()
-            ]);
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error in showing admin dashboard", false)
-            ]);
-        }
+        // revenue from system fees (paid only)
+        $revenue = doubleval(SystemFee::where('paid', true)->sum('amount'));
+
+        // subscriptions count
+        $total_subscriptions = Subscription::count();
+
+        $pending_riders = Rider::where('is_approved', false)->get();
+        $pending_stations = Station::with(["address"])->get()->where('is_approved', false);
+
+        $pending_stations = $pending_stations->map(function ($station) {
+            $latest_paid_fee = $station->system_fees()->where('paid', true)->latest()->first();
+            $station->last_paid_at = $latest_paid_fee?->updated_at;
+            return $station;
+        });
+
+        return Inertia::render("admin/index", [
+            "total_stations" => $total_stations,
+            "total_riders" => $total_riders,
+            "total_users" => $total_users,
+            "total_subscriptions" => $total_subscriptions,
+            "revenue" => $revenue,
+            "pending_riders" => $pending_riders,
+            "pending_stations" => $pending_stations
+        ]);
+
+    } catch (\Throwable $th) {
+        Log::error("Error in showing admin dashboard", [
+            "message" => $th->getTraceAsString()
+        ]);
+
+        return Inertia::back()->with([
+            "toast" => $this->show_toast("Error in showing admin dashboard", false)
+        ]);
     }
+}
 }

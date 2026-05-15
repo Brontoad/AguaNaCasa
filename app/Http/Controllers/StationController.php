@@ -34,7 +34,7 @@ class StationController extends Controller
     public function index(Request $request)
     {
         try {
-            $stations = Station::all();
+            $stations = Station::with(["address"])->get();
             if ($request->user('user')) { 
                 /** @var User $user */
                 $user = Auth::user();
@@ -63,9 +63,14 @@ class StationController extends Controller
                 }
 
                 return Inertia::render("user/station", ["stations" => $stations, "products" => $products]);
-            } 
-            elseif ($request->user('admin')) { return Inertia::render("admin/station", ["stations" => $stations]); } 
-            else { throw new Exception("Error authenticating user", 1); }
+            } elseif ($request->user('admin')) {
+                $stations = $stations->map(function ($station) {
+                    $latest_paid_fee = $station->system_fees()->where('paid', true)->latest()->first();
+                    $station->last_paid_at = $latest_paid_fee?->updated_at;
+                    return $station;
+                });
+                return Inertia::render("admin/station", ["stations" => $stations]);
+            } else { throw new Exception("Error authenticating user", 1); }
         } catch (\Throwable $th) {
             Log::error("Error in showing all stations", ["message" => $th->getTraceAsString()]);
             return Inertia::back()->with(["toast" => $this->show_toast("Error in showing all stations", false)]);
@@ -144,22 +149,37 @@ class StationController extends Controller
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            //throw $th;
+            //throw $th; 
         }
     }
 
-    public function suspend(Request $request, string $id)
+    public function approve(Request $request)
     {
-        DB::beginTransaction();
         try {
-            $station = Station::findOrFail($id);
+            DB::beginTransaction();
+            $station = Station::findOrFail($request->input('station_id'));
+            $station->is_approved = true;
+            $station->save();
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Log::error("Error in approving station", ["message" => $th->getMessage(), "trace" => $th->getTraceAsString()]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Error approving station", false)]);
+        }
+    }
 
+    public function suspend(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $station = Station::findOrFail($request->input('station_id'));
             $station->is_suspended = $request->boolean("is_suspended");
             $station->save();
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            //throw $th;
+            Log::error("Error in suspending station", ["message" => $th->getMessage(), "trace" => $th->getTraceAsString()]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Error suspending station", false)]);
         }
     }
 

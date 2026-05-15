@@ -178,8 +178,8 @@ class UserController extends Controller
 
     public function suspend(Request $request, string $id)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $user = User::findOrFail($id);
 
             $user->is_suspended = $request->boolean("is_suspended");
@@ -187,18 +187,11 @@ class UserController extends Controller
             $user->save();
             DB::commit();
 
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("User suspended successfully")
-            ]);
+            return Inertia::back()->with(["toast" => $this->show_toast("User suspended successfully")]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error("Error in suspending user", [
-                "user_id" => $id,
-                "message" => $th->getTraceAsString()
-            ]);
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error in suspending user", false)
-            ]);
+            Log::error("Error in suspending user", ["user_id" => $id, "message" => $th->getMessage(), "trace" => $th->getTraceAsString()]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Error in suspending user", false)]);
         }
     }
 

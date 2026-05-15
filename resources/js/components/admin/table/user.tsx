@@ -16,25 +16,22 @@ import "../../../../css/admin/user.css";
 export default function UserTable({users}: {users: User[]}) {
     return (
         <div className="table-container">
-            <table className="user-table" id="user-table">
+            <table className="user-table">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Contact Number</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody id="user-body">
-                    <tr>
-                        <td>Juan Dela Cruz</td>
-                        <td>Guiwan</td>
-                        <td>09171234567</td>
-                        <td>
-                            <button className="action-btn edit">Edit</button>
-                            <button className="action-btn delete">Delete</button>
-                        </td>
-                    </tr>
+                <tbody>
+                    {users.map((user, idx) => (
+                        <tr key={`user-table-${idx}`}>
+                            <td>{`${user.last_name}, ${user.first_name} ${user.middle_initial}.`}</td>
+                            <td>{user.email}</td>
+                            <td>{user.contact_number}</td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>

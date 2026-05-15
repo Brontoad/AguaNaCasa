@@ -78,7 +78,7 @@ login.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     login.form = loginForm
 /**
- * @see routes/web.php:55
+ * @see routes/web.php:58
  * @route '/login/{default_active_role_tab?}'
  */
 export const login = (args?: { default_active_role_tab?: string | number } | [default_active_role_tab: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -92,7 +92,7 @@ login.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
- * @see routes/web.php:55
+ * @see routes/web.php:58
  * @route '/login/{default_active_role_tab?}'
  */
 login.url = (args?: { default_active_role_tab?: string | number } | [default_active_role_tab: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -123,7 +123,7 @@ login.url = (args?: { default_active_role_tab?: string | number } | [default_act
 }
 
 /**
- * @see routes/web.php:55
+ * @see routes/web.php:58
  * @route '/login/{default_active_role_tab?}'
  */
 login.get = (args?: { default_active_role_tab?: string | number } | [default_active_role_tab: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -131,7 +131,7 @@ login.get = (args?: { default_active_role_tab?: string | number } | [default_act
     method: 'get',
 })
 /**
- * @see routes/web.php:55
+ * @see routes/web.php:58
  * @route '/login/{default_active_role_tab?}'
  */
 login.head = (args?: { default_active_role_tab?: string | number } | [default_active_role_tab: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -140,7 +140,7 @@ login.head = (args?: { default_active_role_tab?: string | number } | [default_ac
 })
 
     /**
- * @see routes/web.php:55
+ * @see routes/web.php:58
  * @route '/login/{default_active_role_tab?}'
  */
     const loginForm = (args?: { default_active_role_tab?: string | number } | [default_active_role_tab: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -149,7 +149,7 @@ login.head = (args?: { default_active_role_tab?: string | number } | [default_ac
     })
 
             /**
- * @see routes/web.php:55
+ * @see routes/web.php:58
  * @route '/login/{default_active_role_tab?}'
  */
         loginForm.get = (args?: { default_active_role_tab?: string | number } | [default_active_role_tab: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -157,7 +157,7 @@ login.head = (args?: { default_active_role_tab?: string | number } | [default_ac
             method: 'get',
         })
             /**
- * @see routes/web.php:55
+ * @see routes/web.php:58
  * @route '/login/{default_active_role_tab?}'
  */
         loginForm.head = (args?: { default_active_role_tab?: string | number } | [default_active_role_tab: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

@@ -10,36 +10,40 @@
  * Last Edited at:  March 14, 2026
  * Last Tested at:  N/A
  */
-import { Station } from "@agc/model";
+import { Station, StationWithSystemFee } from "@agc/model";
 import "../../../../css/admin/user.css";
+import { formatTimestamp } from "@/datetime";
+import { useState } from "react";
+import ViewStationModal from "@/components/modal/view-station";
 
-export default function StationTable({stations}: {stations: Station[]}) {
+export default function StationTable({stations}: {stations: StationWithSystemFee[]}) {
+    const [viewStationModal, setViewStationModal] = useState<{open: boolean, station?: Station}>({open: false, station: undefined});
     return (
-        <div className="table-container">
-            <table className="station-table" id="station-table">
-                <thead>
-                    <tr>
-                        <th>Station Name</th>
-                        <th>Address</th>
-                        <th>Contact Number</th>
-                        <th>Email</th>
-                        <th>Actions</th>
+        <div className="info-card">
+        <table className="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Contact Number</th>
+                    <th>Email</th>
+                    <th>Last Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                {stations.map((station, idx) => (
+                    <tr key={`station-table-${idx}`} onClick={() => setViewStationModal({open: true, station: station})}>
+                        <td>{station.name}</td>
+                        <td>{station.address.location}</td>
+                        <td>{station.contact_number}</td>
+                        <td>{station.email}</td>
+                        <td>{formatTimestamp(station.last_paid_at)}</td>
                     </tr>
-                </thead>
-                <tbody id="station-body">
-                    <tr>
-                        <td className="editable-cell">Estasyon 1 - Guiwan</td>
-                        <td>Guiwan</td>
-                        <td className="editable-cell">123 Mabini St., Guiwan, Zamboanga City</td>
-                        <td className="editable-cell">09171234567</td>
-                        <td className="editable-cell">guiwan.station@aguanacasa.com</td>
-                        <td>
-                            <button className="action-btn edit">Edit</button>
-                            <button className="action-btn delete">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                ))}
+            </tbody>
+        </table>
+
+        {viewStationModal.open && viewStationModal.station && <ViewStationModal station={viewStationModal.station} closeModal={() => setViewStationModal({open: false, station: undefined})}/>}
         </div>
     );
 }

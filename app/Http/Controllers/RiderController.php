@@ -20,17 +20,10 @@ class RiderController extends Controller
     {
         try {
             $riders = Rider::all();
-
-            return Inertia::render("Admin/Rider", [
-                "riders" => $riders
-            ]);
+            return Inertia::render("admin/rider", ["riders" => $riders]);
         } catch (\Throwable $th) {
-            Log::error("Error in showing all riders", [
-                "message" => $th->getTraceAsString()
-            ]);
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error in showing all riders", false)
-            ]);
+            Log::error("Error in showing all riders", ["message" => $th->getMessage(), "trace" => $th->getTraceAsString()]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Error in showing all riders", false)]);
         }
     }
 
@@ -213,25 +206,39 @@ class RiderController extends Controller
         }
     }
 
-    public function suspend(Request $request, Rider $rider)
+    public function suspend(Request $request)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
+            
+            $rider = Rider::findOrFail($request->input('rider_id'));
             $rider->is_suspended = $request->boolean('is_suspended');
             $rider->save();
+
             DB::commit();
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Rider suspended successfully")
-            ]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Rider suspended successfully")]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error("Error in suspending rider", [
-                "rider_id" => $rider->id,
-                "message" => $th->getTraceAsString()
-            ]);
-            return Inertia::back()->with([
-                "toast" => $this->show_toast("Error in suspending rider", false)
-            ]);
+            Log::error("Error in suspending rider", ["message" => $th->getMessage(), "trace" => $th->getTraceAsString()]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Error in suspending rider", false)]);
+        }
+    }
+
+    public function approve(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $rider = Rider::findOrFail($request->input('rider_id'));
+            $rider->is_approved = true;
+            $rider->save();
+
+            DB::commit();
+            return Inertia::back()->with(["toast" => $this->show_toast("Rider approved successfully")]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Log::error("Error in approving rider", ["message" => $th->getMessage(), "trace" => $th->getTraceAsString()]);
+            return Inertia::back()->with(["toast" => $this->show_toast("Error in approving rider", false)]);
         }
     }
 

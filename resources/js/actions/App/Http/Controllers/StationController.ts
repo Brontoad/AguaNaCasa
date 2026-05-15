@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\StationController::store
- * @see app/Http/Controllers/StationController.php:78
+ * @see app/Http/Controllers/StationController.php:83
  * @route '/station'
  */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -16,7 +16,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\StationController::store
- * @see app/Http/Controllers/StationController.php:78
+ * @see app/Http/Controllers/StationController.php:83
  * @route '/station'
  */
 store.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\StationController::store
- * @see app/Http/Controllers/StationController.php:78
+ * @see app/Http/Controllers/StationController.php:83
  * @route '/station'
  */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -35,7 +35,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
     /**
 * @see \App\Http\Controllers\StationController::store
- * @see app/Http/Controllers/StationController.php:78
+ * @see app/Http/Controllers/StationController.php:83
  * @route '/station'
  */
     const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -45,7 +45,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
             /**
 * @see \App\Http\Controllers\StationController::store
- * @see app/Http/Controllers/StationController.php:78
+ * @see app/Http/Controllers/StationController.php:83
  * @route '/station'
  */
         storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -135,72 +135,72 @@ indexe612bfb895298d3425ac8f746e39bb97.head = (options?: RouteQueryOptions): Rout
     /**
 * @see \App\Http\Controllers\StationController::index
  * @see app/Http/Controllers/StationController.php:34
- * @route '/admin/stations'
+ * @route '/admin/station'
  */
-const index4a702cfca5cdc8227be88a584b2c4e16 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: index4a702cfca5cdc8227be88a584b2c4e16.url(options),
+const indexc4c8014ff1ae79815ca9f8950eef604b = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: indexc4c8014ff1ae79815ca9f8950eef604b.url(options),
     method: 'get',
 })
 
-index4a702cfca5cdc8227be88a584b2c4e16.definition = {
+indexc4c8014ff1ae79815ca9f8950eef604b.definition = {
     methods: ["get","head"],
-    url: '/admin/stations',
+    url: '/admin/station',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\StationController::index
  * @see app/Http/Controllers/StationController.php:34
- * @route '/admin/stations'
+ * @route '/admin/station'
  */
-index4a702cfca5cdc8227be88a584b2c4e16.url = (options?: RouteQueryOptions) => {
-    return index4a702cfca5cdc8227be88a584b2c4e16.definition.url + queryParams(options)
+indexc4c8014ff1ae79815ca9f8950eef604b.url = (options?: RouteQueryOptions) => {
+    return indexc4c8014ff1ae79815ca9f8950eef604b.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\StationController::index
  * @see app/Http/Controllers/StationController.php:34
- * @route '/admin/stations'
+ * @route '/admin/station'
  */
-index4a702cfca5cdc8227be88a584b2c4e16.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: index4a702cfca5cdc8227be88a584b2c4e16.url(options),
+indexc4c8014ff1ae79815ca9f8950eef604b.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: indexc4c8014ff1ae79815ca9f8950eef604b.url(options),
     method: 'get',
 })
 /**
 * @see \App\Http\Controllers\StationController::index
  * @see app/Http/Controllers/StationController.php:34
- * @route '/admin/stations'
+ * @route '/admin/station'
  */
-index4a702cfca5cdc8227be88a584b2c4e16.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: index4a702cfca5cdc8227be88a584b2c4e16.url(options),
+indexc4c8014ff1ae79815ca9f8950eef604b.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: indexc4c8014ff1ae79815ca9f8950eef604b.url(options),
     method: 'head',
 })
 
     /**
 * @see \App\Http\Controllers\StationController::index
  * @see app/Http/Controllers/StationController.php:34
- * @route '/admin/stations'
+ * @route '/admin/station'
  */
-    const index4a702cfca5cdc8227be88a584b2c4e16Form = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: index4a702cfca5cdc8227be88a584b2c4e16.url(options),
+    const indexc4c8014ff1ae79815ca9f8950eef604bForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: indexc4c8014ff1ae79815ca9f8950eef604b.url(options),
         method: 'get',
     })
 
             /**
 * @see \App\Http\Controllers\StationController::index
  * @see app/Http/Controllers/StationController.php:34
- * @route '/admin/stations'
+ * @route '/admin/station'
  */
-        index4a702cfca5cdc8227be88a584b2c4e16Form.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: index4a702cfca5cdc8227be88a584b2c4e16.url(options),
+        indexc4c8014ff1ae79815ca9f8950eef604bForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: indexc4c8014ff1ae79815ca9f8950eef604b.url(options),
             method: 'get',
         })
             /**
 * @see \App\Http\Controllers\StationController::index
  * @see app/Http/Controllers/StationController.php:34
- * @route '/admin/stations'
+ * @route '/admin/station'
  */
-        index4a702cfca5cdc8227be88a584b2c4e16Form.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: index4a702cfca5cdc8227be88a584b2c4e16.url({
+        indexc4c8014ff1ae79815ca9f8950eef604bForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: indexc4c8014ff1ae79815ca9f8950eef604b.url({
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
                             ...(options?.query ?? options?.mergeQuery ?? {}),
@@ -209,13 +209,143 @@ index4a702cfca5cdc8227be88a584b2c4e16.head = (options?: RouteQueryOptions): Rout
             method: 'get',
         })
     
-    index4a702cfca5cdc8227be88a584b2c4e16.form = index4a702cfca5cdc8227be88a584b2c4e16Form
+    indexc4c8014ff1ae79815ca9f8950eef604b.form = indexc4c8014ff1ae79815ca9f8950eef604bForm
 
 export const index = {
     '/user/station': indexe612bfb895298d3425ac8f746e39bb97,
-    '/admin/stations': index4a702cfca5cdc8227be88a584b2c4e16,
+    '/admin/station': indexc4c8014ff1ae79815ca9f8950eef604b,
 }
 
-const StationController = { store, index }
+/**
+* @see \App\Http\Controllers\StationController::approve
+ * @see app/Http/Controllers/StationController.php:156
+ * @route '/station/approve'
+ */
+export const approve = (options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+    url: approve.url(options),
+    method: 'put',
+})
+
+approve.definition = {
+    methods: ["put"],
+    url: '/station/approve',
+} satisfies RouteDefinition<["put"]>
+
+/**
+* @see \App\Http\Controllers\StationController::approve
+ * @see app/Http/Controllers/StationController.php:156
+ * @route '/station/approve'
+ */
+approve.url = (options?: RouteQueryOptions) => {
+    return approve.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\StationController::approve
+ * @see app/Http/Controllers/StationController.php:156
+ * @route '/station/approve'
+ */
+approve.put = (options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+    url: approve.url(options),
+    method: 'put',
+})
+
+    /**
+* @see \App\Http\Controllers\StationController::approve
+ * @see app/Http/Controllers/StationController.php:156
+ * @route '/station/approve'
+ */
+    const approveForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: approve.url({
+                    [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                        _method: 'PUT',
+                        ...(options?.query ?? options?.mergeQuery ?? {}),
+                    }
+                }),
+        method: 'post',
+    })
+
+            /**
+* @see \App\Http\Controllers\StationController::approve
+ * @see app/Http/Controllers/StationController.php:156
+ * @route '/station/approve'
+ */
+        approveForm.put = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: approve.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'PUT',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'post',
+        })
+    
+    approve.form = approveForm
+/**
+* @see \App\Http\Controllers\StationController::suspend
+ * @see app/Http/Controllers/StationController.php:171
+ * @route '/station/suspend'
+ */
+export const suspend = (options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+    url: suspend.url(options),
+    method: 'put',
+})
+
+suspend.definition = {
+    methods: ["put"],
+    url: '/station/suspend',
+} satisfies RouteDefinition<["put"]>
+
+/**
+* @see \App\Http\Controllers\StationController::suspend
+ * @see app/Http/Controllers/StationController.php:171
+ * @route '/station/suspend'
+ */
+suspend.url = (options?: RouteQueryOptions) => {
+    return suspend.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\StationController::suspend
+ * @see app/Http/Controllers/StationController.php:171
+ * @route '/station/suspend'
+ */
+suspend.put = (options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+    url: suspend.url(options),
+    method: 'put',
+})
+
+    /**
+* @see \App\Http\Controllers\StationController::suspend
+ * @see app/Http/Controllers/StationController.php:171
+ * @route '/station/suspend'
+ */
+    const suspendForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: suspend.url({
+                    [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                        _method: 'PUT',
+                        ...(options?.query ?? options?.mergeQuery ?? {}),
+                    }
+                }),
+        method: 'post',
+    })
+
+            /**
+* @see \App\Http\Controllers\StationController::suspend
+ * @see app/Http/Controllers/StationController.php:171
+ * @route '/station/suspend'
+ */
+        suspendForm.put = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: suspend.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'PUT',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'post',
+        })
+    
+    suspend.form = suspendForm
+const StationController = { store, index, approve, suspend }
 
 export default StationController

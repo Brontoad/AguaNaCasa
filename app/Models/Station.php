@@ -20,6 +20,7 @@ class Station extends Authenticatable
         'is_suspended',
         'reset_email_token',
         'reset_contact_number_token',
+        'is_approved',
         'owner_id'
     ];
 

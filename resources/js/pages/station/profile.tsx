@@ -12,9 +12,11 @@ import ProfileAddress from "@/components/profile/address";
 import DashboardLayout from "@/layouts/dashboard-layout";
 import "../../../css/dashboard.css";
 import "../../../css/profile.css";
+import ProfileSystemFees from "@/components/profile/system-fees";
 const STATION_PROFILE_SIDEBARS = {
     ADDRESS: "profile_info",
-    SETTINGS: "settings"
+    SETTINGS: "settings",
+    SYSTEM_FEES: "system_fees"
 }
 
 export default function Profile() {
@@ -40,6 +42,8 @@ export default function Profile() {
         switch (activeTab) {
             case STATION_PROFILE_SIDEBARS.ADDRESS:
                 return <ProfileAddress />;
+            case STATION_PROFILE_SIDEBARS.SYSTEM_FEES:
+                return <ProfileSystemFees />
             default:
                 return <ProfileUserInfo 
                     openChangePasswordModal={() => setChangePasswordModal({open: true})}

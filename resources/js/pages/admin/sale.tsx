@@ -7,11 +7,16 @@ import DashboardLayout from "@/layouts/dashboard-layout";
 
 import "../../../css/dashboard.css";
 import "../../../css/sale/chart.css";
-export interface SaleProps {total_orders: number, revenue: number, sales: SalesChartData, product_breakdown: ProductBreakdown}
-
-export default function Sale({total_orders, revenue, sales, product_breakdown}: SaleProps) {
+export interface SaleProps {
+    total_orders: number,
+    total_subscriptions: number,
+    revenue: number,
+    sales: SalesChartData
+}
+export default function Sale({total_orders, total_subscriptions, revenue, sales}: SaleProps) {
     const salesStatistics: SummaryCardProps[] = [
         {icon: "shopping-cart", label: "Total Orders", value: `${total_orders}`},
+        {icon: "shopping-cart", label: "Total Subscriptions", value: `${total_orders}`},
         {icon: "peso-sign", label: "Gross Revenue", value: `₱${revenue.toFixed(2)}`},
         // {icon: "chart-line", label: "Average Order", value: `₱143`},
     ];
@@ -20,18 +25,10 @@ export default function Sale({total_orders, revenue, sales, product_breakdown}: 
         <div className="container">
             <div className="row">
                 <div className="col-lg-12">
-                    {/* <Section icon="coins" title="Pending Orders" />
-                    <DateFilter />
-                    <div className="summary-cards">
-                        {salesStatistics.map((stats, idx) => (<SummaryCard {...stats} key={`station-summary-card-${idx}`}/>))}
-                    </div> */}
-                    <div style={{display: "flex", justifyContent: "space-between", marginBottom: "24px"}}>     
-                                            <Section icon="coins" title="Sales" />
-                    </div>
-                    <div className="charts-row">
-                        <SalesChart title="Daily Sales" sales={sales}/>
-                        <ProductBreakdownChart title="Product Breakdown" breakdown={product_breakdown}/>
-                    </div>
+                    <Section icon="coins" title="Sales" />
+                    {/* <DateFilter /> */}
+                    <div className="summary-cards">{salesStatistics.map((stats, idx) => (<SummaryCard {...stats} key={`station-summary-card-${idx}`}/>))}</div>
+                    <div className="charts-row"><SalesChart title="Total Sales" sales={sales}/></div>
                 </div>
             </div>
         </div>

@@ -9,6 +9,7 @@ import ProfileController from './ProfileController'
 import AddressController from './AddressController'
 import ProductController from './ProductController'
 import SaleController from './SaleController'
+import SystemFeeController from './SystemFeeController'
 const Controllers = {
     AuthController: Object.assign(AuthController, AuthController),
 UserController: Object.assign(UserController, UserController),
@@ -21,6 +22,7 @@ ProfileController: Object.assign(ProfileController, ProfileController),
 AddressController: Object.assign(AddressController, AddressController),
 ProductController: Object.assign(ProductController, ProductController),
 SaleController: Object.assign(SaleController, SaleController),
+SystemFeeController: Object.assign(SystemFeeController, SystemFeeController),
 }
 
 export default Controllers
