@@ -21,7 +21,7 @@ class UserController extends Controller
         try {
             $users = User::all();
 
-            return Inertia::render("Admin/User", [
+            return Inertia::render("admin/user", [
                 "users" => $users
             ]);
         } catch (\Throwable $th) {
